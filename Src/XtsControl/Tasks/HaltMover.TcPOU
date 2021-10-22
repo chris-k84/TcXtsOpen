@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <POU Name="HaltMover" Id="{5e16f656-97ee-4391-96b9-fb1d24ff82ad}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'hide_all_locals'}
+FUNCTION_BLOCK HaltMover IMPLEMENTS ITask
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	haltMover : Tc3_McCollisionAvoidance.MC_HaltCA;
+	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
+	state : INT;
+	_HaltMover : BOOL;
+	_busy : BOOL;
+	_error : BOOL;
+	_done : BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE State OF
+	0:
+		IF _HaltMover THEN
+			_done := FALSE;
+			_error := FALSE;
+			_busy := TRUE;
+			haltMover.Execute := TRUE;
+			IF haltMover.Busy THEN
+				State := 10;
+				_HaltMover := FALSE;
+			END_IF
+		END_IF
+	
+	10:
+		IF NOT haltMover.Busy THEN
+			IF haltMover.Done THEN
+				_done := TRUE;
+			ELSIF haltMover.Error THEN
+				_error := TRUE;
+			END_IF
+			_busy := FALSE;
+			haltMover.Execute := FALSE;
+			State := 0;
+		END_IF
+END_CASE
+
+haltMover(Axis := _axis);]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{f69b4fe1-38a5-4078-941d-4d491f1587ae}">
+      <Declaration><![CDATA[{warning 'add method implementation '}
+METHOD Abort : BOOL
+
+VAR
+	Position: INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[haltMover.Execute := FALSE;
+_busy := FALSE;
+_HaltMover := FALSE;
+Abort := TRUE;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Busy" Id="{d58d13e4-27b1-4398-a2b2-85f972edbcb8}">
+      <Declaration><![CDATA[PROPERTY Busy : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{926e484f-fb58-45ba-b2e7-ebc79c8e4496}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Busy := _busy;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Done" Id="{bcad271f-e2ab-41dc-9338-a4c65d3f42df}">
+      <Declaration><![CDATA[PROPERTY Done : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{47510195-111c-4e7f-b411-3075dea97802}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Done := _done;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Error" Id="{b91c58ec-ed1c-4758-91ff-23039261d8ca}">
+      <Declaration><![CDATA[
+PROPERTY Error : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{c4421906-7b21-4370-ab3d-09d6277a4ee2}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Error := _error;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Execute" Id="{671d0ba5-9f92-4fc7-84aa-e5d4dbbeaa24}">
+      <Declaration><![CDATA[METHOD Execute : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Execute := _HaltMover := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{41479c9c-6cc0-4c29-b41a-fb9449cfb9dd}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	axis : reference TO AXIS_REF;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_axis REF= axis;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="HaltMover">
+      <LineId Id="17" Count="5" />
+      <LineId Id="58" Count="2" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="24" Count="2" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="32" Count="11" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="HaltMover.Abort">
+      <LineId Id="5" Count="0" />
+      <LineId Id="13" Count="1" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="HaltMover.Busy.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="HaltMover.Done.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="HaltMover.Error.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="HaltMover.Execute">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="HaltMover.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

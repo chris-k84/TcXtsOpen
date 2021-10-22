@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <POU Name="ResetGroup" Id="{c21d861d-7057-4a32-9917-b2f2f1a5c489}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'hide_all_locals'}
+FUNCTION_BLOCK ResetGroup IMPLEMENTS ITask
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	groupReset			: MC_GroupReset;
+	_caGroup			: REFERENCE TO AXES_GROUP_REF;
+	State: INT;
+	_resetGroup : BOOL;
+	_busy : BOOL;
+	_error : BOOL;
+	_done : BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE State OF
+	0:
+		IF _resetGroup THEN
+			_done := FALSE;
+			_error := FALSE;
+			_busy := TRUE;
+			groupReset.Execute := TRUE;
+			IF groupReset.Busy THEN
+				State := 10;
+				_resetGroup := FALSE;
+			END_IF
+		END_IF
+	
+	10:
+		IF NOT groupReset.Busy THEN
+			IF groupReset.Done THEN
+				_done := TRUE;
+			ELSIF groupReset.Error THEN
+				_error := TRUE;
+			END_IF
+			_busy := FALSE;
+			groupReset.Execute := false;
+			State := 0;
+		END_IF
+END_CASE
+
+
+groupReset(AxesGroup := _caGroup);]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{6df41d98-0ac8-4a32-bfbe-e6164194489d}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[groupReset.Execute := FALSE;
+State := 0;
+Abort := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Busy" Id="{40717454-2de9-4a99-99e8-2688c5d1093b}">
+      <Declaration><![CDATA[PROPERTY Busy : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{36e751d1-cd0d-4140-9d13-7fc8dd926ebe}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Busy := _busy;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Done" Id="{75a96548-58e1-486c-abce-7d1b8fe5bee0}">
+      <Declaration><![CDATA[PROPERTY Done : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{3f1084b4-4ce2-44c2-8a35-b900f7991a43}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Done := _done;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Error" Id="{c6c02998-cc81-4d92-a0b0-f7eadd404146}">
+      <Declaration><![CDATA[PROPERTY Error : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{6dd03e4f-22bd-42a0-ad4c-5237d668c988}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Error := _error;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Execute" Id="{4246d386-cbbc-455d-868d-690bdbd269ef}">
+      <Declaration><![CDATA[METHOD Execute : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Execute := _resetGroup := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{56320f66-2e0e-4d3d-8693-c73b3dde8a23}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	CAGroup : Reference TO AXES_GROUP_REF;	
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_caGroup REF= CAGroup;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="ResetGroup">
+      <LineId Id="102" Count="5" />
+      <LineId Id="145" Count="3" />
+      <LineId Id="109" Count="2" />
+      <LineId Id="149" Count="0" />
+      <LineId Id="117" Count="12" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="ResetGroup.Abort">
+      <LineId Id="4" Count="2" />
+    </LineIds>
+    <LineIds Name="ResetGroup.Busy.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ResetGroup.Done.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ResetGroup.Error.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="ResetGroup.Execute">
+      <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="ResetGroup.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

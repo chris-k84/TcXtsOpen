@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <Itf Name="IMover" Id="{0e30beea-f524-44e1-ae12-0e02166014dd}">
+    <Declaration><![CDATA[INTERFACE IMover
+]]></Declaration>
+    <Property Name="AxisRef" Id="{32f17bdd-a939-4d9e-98cc-91a8a53a6910}">
+      <Declaration><![CDATA[PROPERTY AxisRef : reference to axis_ref]]></Declaration>
+      <Get Name="Get" Id="{69e35166-9a24-48e6-815a-1166e16ded53}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Method Name="DisableAxis" Id="{689f2355-5608-4781-bf9f-baf702db6fd8}">
+      <Declaration><![CDATA[METHOD DisableAxis : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="EnableAxis" Id="{e787a67b-7883-495a-9a3a-341e1daf5c57}">
+      <Declaration><![CDATA[METHOD EnableAxis : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="HaltAxis" Id="{ebcb5f64-4a36-49eb-91f7-3a5c2f6ad022}">
+      <Declaration><![CDATA[METHOD HaltAxis : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="IdentInGroup" Id="{3957605a-f901-42a3-a167-84d75e8b2803}">
+      <Declaration><![CDATA[PROPERTY IdentInGroup : int]]></Declaration>
+      <Get Name="Get" Id="{0cec0afa-43ba-4ae0-9403-f6ae41b75c8f}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{1acbbc53-227d-4433-984f-d50b20a1b1d3}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Method Name="isAtPosition" Id="{94cda122-57e0-415e-a76d-4df809bff294}">
+      <Declaration><![CDATA[METHOD isAtPosition : BOOL
+VAR_INPUT
+	position : MC_LREAL;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="isDetected" Id="{5b28002b-408a-49b8-8a2d-6fa82833fceb}">
+      <Declaration><![CDATA[METHOD isDetected : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="isEnabled" Id="{aedc5d49-1b43-4d77-a9fc-9b26bd3b8a96}">
+      <Declaration><![CDATA[METHOD isEnabled : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="MoveTo" Id="{ad2ef999-10e1-4863-90d6-0a9a5ca633ef}">
+      <Declaration><![CDATA[METHOD MoveTo : BOOL
+VAR_INPUT
+	Position : MC_LREAL;
+	Velocity : MC_LREAL;
+	BackwardMove : BOOL;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="ResetAxis" Id="{73269db4-aebb-4b1b-91e1-629b242c142c}">
+      <Declaration><![CDATA[METHOD ResetAxis : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>
