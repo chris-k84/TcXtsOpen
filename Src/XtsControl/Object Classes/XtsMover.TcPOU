@@ -7,13 +7,50 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	Axis : Tc2_MC2.AXIS_REF;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="DisableMover" Id="{f8d21f39-2266-4f86-ae65-a39d7ea2a87a}">
+      <Declaration><![CDATA[METHOD DisableMover : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="EnableMover" Id="{375395e6-9653-437f-9ffa-c1e73f99bce2}">
+      <Declaration><![CDATA[METHOD EnableMover : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ResetMover" Id="{c9547e2c-4379-4fd0-96da-e64aa907a41a}">
+      <Declaration><![CDATA[METHOD ResetMover : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="XtsMover">
       <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.DisableMover">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.EnableMover">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.ResetMover">
+      <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
