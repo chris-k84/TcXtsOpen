@@ -1,56 +1,730 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
-  <POU Name="XtsMover" Id="{685c76f7-4dc2-4b6a-8a2f-28de7d2e22ba}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK XtsMover
+  <POU Name="XtsMover" Id="{203ccb09-708b-4f54-b5b6-0f120d67335b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsMover IMPLEMENTS IMover
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	Axis : Tc2_MC2.AXIS_REF;
+	_axis 			: AXIS_REF;
+	axesEnable		: MC_Power;
+	axesReset		: AxesReset(_axis);
+	axesMoveTo 		: MoveMoverToPositionZoned(_axis) := (Gap := 213.0);
+	axesHalt 		: HaltMover(_axis);
+	_identInGroup : INT;
+	_trackLength : REAL := 11000.0;
+	_targetPos : LREAL;
+	_MoverState : XtsMoverStates := XtsMoverStates.Idle;
+	_MoverErrorId : DWORD;
+	axesReadError : Tc2_MC2.MC_ReadAxisError;
+	ErrorTrigger : Tc2_Standard.R_TRIG;
+	ClearCommand : BOOL;
+	arrZones : ARRAY[1..4] OF DINT;
+	arrVelocities : ARRAY[1..4] OF mc_LREAL;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[SetStatus();
+axesMoveTo(arrPositions := arrZones, arrVelos := arrVelocities);
+axesHalt();
+axesReset();
+_axis.ReadStatus();
+axesEnable(Axis := _axis);
+axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _MoverErrorId);
+]]></ST>
     </Implementation>
-    <Method Name="DisableMover" Id="{f8d21f39-2266-4f86-ae65-a39d7ea2a87a}">
-      <Declaration><![CDATA[METHOD DisableMover : BOOL
+    <Folder Name="Methods" Id="{bc3bf09c-c7d7-4024-96a7-671bf690c24c}" />
+    <Folder Name="Properties" Id="{62e911ec-7686-46c6-839c-cb7436ba3335}" />
+    <Property Name="Acceleration" Id="{4e5a89d0-785e-4c3f-b801-4d01ed56f986}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC Acceleration : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{a063cc41-5faf-4d0c-b1e5-75c373e5685c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Acceleration := axesMoveTo.Acceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{16a025f3-6684-4a8e-94ea-54a03cd581c6}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[axesMoveTo.Acceleration := Acceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="AxisModuloPosition" Id="{1607f262-8017-4db0-8df7-26815469f5c2}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY AxisModuloPosition : lreal]]></Declaration>
+      <Get Name="Get" Id="{87df890b-cb2c-4f53-8c8a-15125326a7e2}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[AxisModuloPosition := _axis.NcToPlc.ModuloActPos;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{fce2d0e7-6d7e-471a-a68f-79a774b83a8d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[//_axis.NcToPlc.ModuloActPos := AxisModuloPosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="AxisRef" Id="{9b58505a-2998-4f2c-b04d-fff116217974}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC AxisRef : reference to AXIS_REF]]></Declaration>
+      <Get Name="Get" Id="{d9e4a655-8a01-4876-94ff-b6745986fc39}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[AxisRef REF= THIS^._axis;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="AxisState" Id="{3e417d0b-4647-4853-82a8-5de58de0d161}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY AxisState : XtsMoverStates]]></Declaration>
+      <Get Name="Get" Id="{7337afc2-0af7-4ddf-8f98-cd020f44cbad}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[AxisState := _MoverState;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{e75bf356-d976-473e-892e-6ee903f9ccaa}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_MoverState := AxisState;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="ClearState" Id="{a836235b-88fd-4a29-b023-93bff8c050ce}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD ClearState : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[ClearCommand := TRUE;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="EnableMover" Id="{375395e6-9653-437f-9ffa-c1e73f99bce2}">
-      <Declaration><![CDATA[METHOD EnableMover : BOOL
+    <Property Name="Deceleration" Id="{2da8c65a-ea43-4ee7-b0b8-dd1d445fda83}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC Deceleration : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{5d613a9f-9c38-4460-bdcb-fbb36f5d571e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Deceleration := axesMoveTo.Deceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{0f6bce91-7c89-451e-a5b3-554db1d234e8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[axesMoveTo.Deceleration := Deceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="DisableAxis" Id="{d1142462-06a0-4086-877d-bf769eaaeb65}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PUBLIC DisableAxis : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[axesEnable.Enable := false;
+IF _MoverState = XtsMoverStates.ForwardMove OR 
+	_MoverState = XtsMoverStates.ForwardStationary THEN
+	_MoverState := XtsMoverStates.ForwardFailed;
+	axesMoveTo.Abort();
+ELSIF _MoverState = XtsMoverStates.ReverseMove OR
+		_MoverState = XtsMoverStates.ReverseStationary THEN
+	_MoverState := XtsMoverStates.ReverseFailed;
+	axesMoveTo.Abort();
+ELSIF _MoverState = XtsMoverStates.ForwardFailed OR
+		_MoverState = XtsMoverStates.ReverseFailed THEN
+	;	
+ELSE
+	_MoverState := XtsMoverStates.Idle;
+END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="ResetMover" Id="{c9547e2c-4379-4fd0-96da-e64aa907a41a}">
-      <Declaration><![CDATA[METHOD ResetMover : BOOL
+    <Method Name="EnableAxis" Id="{98c94290-90b2-404d-90db-c6c3a781b1ed}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PUBLIC EnableAxis : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[axesEnable.Enable := axesEnable.Enable_Negative := axesEnable.Enable_Positive := TRUE;
+axesEnable.Override := 100;
+_MoverState := XtsMoverStates.Available;]]></ST>
       </Implementation>
     </Method>
+    <Property Name="Gap" Id="{30f92ef9-8876-4a21-9385-112c82c14c10}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC Gap : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{8bf691ac-11b3-468f-bd60-47c1a98bb6f6}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Gap := axesMoveTo.Gap;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{ed2230ca-9b27-40f6-a0a6-89da0bd85186}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[axesMoveTo.Gap := Gap;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="HaltAxis" Id="{46252ae4-f527-4552-9d65-581a4a2179e1}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PUBLIC HaltAxis : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT axesHalt.Busy THEN
+	axesHalt.Execute();
+	HaltAxis := TRUE;
+END_IF
+
+IF _MoverState = XtsMoverStates.ForwardMove OR
+		_MoverState = XtsMoverStates.ForwardStationary THEN
+	_MoverState := XtsMoverStates.ForwardAborted;
+	axesMoveTo.Abort();	
+END_IF
+IF _MoverState = XtsMoverStates.ReverseMove OR
+		_MoverState = XtsMoverStates.ReverseStationary THEN
+	_MoverState := XtsMoverStates.ReverseAborted;
+	axesMoveTo.Abort();	
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="hasError" Id="{6a2c6507-492c-4ada-a24d-ccb9597917f5}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD hasError : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[hasError := _axis.Status.Error;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="IdentInGroup" Id="{cec3e36d-fd9f-4a09-8f93-73f82a502874}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC IdentInGroup : int]]></Declaration>
+      <Get Name="Get" Id="{18684a3b-73b2-42c3-bf7c-d412f63c526e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IdentInGroup := _identInGroup;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{1dceadc0-b86b-4bcf-a0f9-102e0cec8ef8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_identInGroup := IdentInGroup;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="isAtPosition" Id="{a096a07e-dab0-4256-a3b3-e56e1c2d96f7}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD isAtPosition : BOOL
+VAR_INPUT
+	position : MC_LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF position > 1 THEN
+	IF _axis.NcToPlc.ModuloActPos < position + 1 AND _axis.NcToPlc.ModuloActPos > position - 1 THEN
+		isAtPosition := TRUE;
+	END_IF  
+ELSE
+	IF _axis.NcToPlc.ModuloActPos < position + 1 AND _axis.NcToPlc.ModuloActPos > 0.0  
+		OR _axis.NcToPlc.ModuloActPos < _trackLength AND _axis.NcToPlc.ModuloActPos > _trackLength - 1 THEN
+		isAtPosition := TRUE;
+	END_IF
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="isDetected" Id="{93d0b88b-b65a-4881-bf5d-1938b7f668bf}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PUBLIC isDetected : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _axis.NcToPlc.AxisId = 0 THEN
+	RETURN;
+END_IF
+isDetected := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="isEnabled" Id="{349e6766-2db0-4f6c-8069-dc9579f83c27}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD isEnabled : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[isEnabled := not _axis.Status.Disabled;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Jerk" Id="{8dbc2563-ca56-48eb-bdb2-972740f27e21}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC Jerk : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{a6c375d2-6153-4e85-a1a3-18b06e9113be}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Jerk := axesMoveTo.Jerk;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{eacd414b-102d-4797-8934-580093cdc6ca}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[axesMoveTo.Jerk := Jerk;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="ModuloToAbs" Id="{b920ad30-7e5c-4a74-b883-c04a36c8b0f9}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PRIVATE ModuloToAbs : mc_lreal
+VAR_INPUT
+	moduloPositionDemand: MC_LREAL;
+	_backwardsAllowed : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[//---------code to set actual position from modulo command----------------------
+IF NOT _backwardsAllowed THEN
+	//--------if you want to go forward-------------------------------------------------------------
+	//---------if SetPos is greater than current actual then move to that position--------------------
+	//---------else current position is greater, increase moduloturn count by 1 before set---------------
+	IF moduloPositionDemand > _axis.NcToPlc.ModuloActPos THEN
+		ModuloToAbs := (_Axis.NcToPlc.ModuloActTurns*_trackLength) + moduloPositionDemand;
+	ELSE
+		ModuloToAbs := ((_Axis.NcToPlc.ModuloActTurns + 1)*_trackLength) + moduloPositionDemand;
+	END_IF
+ELSE
+	//--------if you want to go backwards--------------------------------
+	//--------if setPos is less than current actual then move to that position---------------------
+	//---------else current position is less, decrease moduloturn count by 1 before set------------
+	IF moduloPositionDemand < _axis.NcToPlc.ModuloActPos THEN
+		ModuloToAbs := (_Axis.NcToPlc.ModuloActTurns*_trackLength) + moduloPositionDemand;
+	ELSE
+		ModuloToAbs := ((_Axis.NcToPlc.ModuloActTurns-1)*_trackLength) + moduloPositionDemand;
+		//ModuloToAbsolute := ((_Axis.NcToPlc.ModuloActTurns - 1)*GVLAxesRefs.iXTSTrackLength) + moduloPositionDemand;
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="MoverErrorId" Id="{fa6a010c-2b2c-487f-8a34-7485c92b0387}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY MoverErrorId : dword]]></Declaration>
+      <Get Name="Get" Id="{fe3cb620-7c11-4f42-a3c1-8fdaebb297ac}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MoverErrorId := _MoverErrorId;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{b27ba25f-cedc-4b1b-a21c-51101e941d22}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_MoverErrorId := MoverErrorId;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="MoveTo" Id="{1a78ba9e-748f-4851-bb07-1880a777b968}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PUBLIC MoveTo : BOOL
+VAR_INPUT
+	Position : MC_LREAL;
+	Velocity : MC_LREAL;
+	BackwardMove : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF isAtPosition(position := Position) THEN
+	IF BackwardMove THEN
+		_MoverState := XtsMoverStates.ReverseDone;
+	ELSE
+		_MoverState := XtsMoverStates.ForwardDone;
+	END_IF
+ELSE
+	IF NOT axesMoveTo.Busy THEN
+		axesMoveTo.MoveTo(Position := ModuloToAbs(Position, BackwardMove), Velocity := Velocity);
+		MoveTo := TRUE;
+		_targetPos := Position;
+		IF BackwardMove THEN
+			_MoverState := XtsMoverStates.ReverseMove;
+		ELSE
+			_MoverState := XtsMoverStates.ForwardMove;
+		END_IF
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ResetAxis" Id="{627dcfae-96a6-483b-aeaf-b2bb92851eed}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PUBLIC ResetAxis : BOOL
+VAR_INPUT
+END_VAR
+VAR
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[axesReset.Execute();
+axesMoveTo.Abort();
+axesHalt.Abort();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetGroupStop" Id="{5db54925-4bf7-473d-8e67-6621495b1a92}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD SetGroupStop : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _MoverState = XtsMoverStates.ForwardMove OR
+		_MoverState = XtsMoverStates.ForwardStationary THEN
+	_MoverState := XtsMoverStates.ForwardAborted;
+	axesMoveTo.Abort();	
+END_IF
+IF _MoverState = XtsMoverStates.ReverseMove OR
+		_MoverState = XtsMoverStates.ReverseStationary THEN
+	_MoverState := XtsMoverStates.ReverseAborted;
+	axesMoveTo.Abort();	
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetStatus" Id="{3c4ecb94-31de-4ff8-b16b-49e7c8b54463}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD SetStatus : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _MoverState = XtsMoverStates.ForwardMove OR _MoverState = XtsMoverStates.ForwardStationary THEN
+	IF _axis.Status.NotMoving THEN
+		IF axesMoveTo.Done AND isAtPosition(position := _targetPos) THEN
+			_MoverState := XtsMoverStates.ForwardDone;
+		ELSE
+			_MoverState := XtsMoverStates.ForwardStationary;
+		END_IF
+	ELSE
+		_MoverState := XtsMoverStates.ForwardMove;
+	END_IF
+END_IF
+
+IF _MoverState = XtsMoverStates.ReverseMove OR _MoverState = XtsMoverStates.ReverseStationary THEN
+	IF _axis.Status.NotMoving THEN
+		IF axesMoveTo.Done AND isAtPosition(position := _targetPos) THEN
+			_MoverState := XtsMoverStates.ReverseDone;
+		ELSE
+			_MoverState := XtsMoverStates.ReverseStationary;
+		END_IF
+	ELSE
+		_MoverState := XtsMoverStates.ReverseMove;
+	END_IF
+END_IF
+
+
+//IF ClearCommand THEN
+//	IF _MoverState = XtsMoverStates.ForwardAborted OR
+//			_MoverState = XtsMoverStates.ForwardDone OR
+//			_MoverState = XtsMoverStates.ReverseAborted OR
+//			_MoverState = XtsMoverStates.ForwardFailed OR
+//			_MoverState = XtsMoverStates.ReverseFailed OR
+//			_MoverState = XtsMoverStates.ReverseDone THEN
+//		IF isEnabled() THEN
+//			_MoverState := XtsMoverStates.Available;
+//		ELSE
+//			_MoverState := XtsMoverStates.Idle;
+//		END_IF
+//	END_IF
+	
+//	IF _MoverState <> XtsMoverStates.ForwardMove AND	
+//			_MoverState <> XtsMoverStates.ForwardStationary AND
+//			_MoverState <> XtsMoverStates.ReverseMove AND
+//			_MoverState <> XtsMoverStates.ReverseStationary AND 
+//			_MoverState <> XtsMoverStates.Idle AND
+//			_MoverState <> XtsMoverStates.MoverError THEN
+//		_MoverState := XtsMoverStates.Available;
+				
+//	END_IF
+//END_IF
+
+ErrorTrigger(CLK := _axis.Status.Error);
+IF ErrorTrigger.Q THEN
+	IF _MoverState = XtsMoverStates.ForwardMove OR 
+		_MoverState = XtsMoverStates.ForwardStationary THEN
+		_MoverState := XtsMoverStates.ForwardFailed;
+		axesMoveTo.Abort();
+	ELSIF _MoverState = XtsMoverStates.ReverseMove OR
+			_MoverState = XtsMoverStates.ReverseStationary THEN
+		_MoverState := XtsMoverStates.ReverseFailed;
+		axesMoveTo.Abort();
+	ELSE
+		_MoverState := XtsMoverStates.MoverError;
+	END_IF
+END_IF
+
+IF _MoverState = XtsMoverStates.MoverError AND NOT _axis.Status.Error THEN
+	IF axesEnable.Enable THEN
+		IF isEnabled() THEN
+			_MoverState := XtsMoverStates.Available;
+		END_IF
+	ELSE
+		_MoverState := XtsMoverStates.Idle;
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="TrackLength" Id="{d175efd0-8db6-42ab-b883-df9200333ebe}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC TrackLength : real]]></Declaration>
+      <Get Name="Get" Id="{1670d4fa-76f9-4278-871b-e1f420319691}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[TrackLength := _trackLength;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{14b136df-3930-4f12-921f-2ee26b4b33d6}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_trackLength := TrackLength;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Zones" Id="{1e1c9dad-3c7f-4e75-bceb-b4591f5bd64f}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY Zones : array[1..4] of dint]]></Declaration>
+      <Get Name="Get" Id="{8c2c8a28-5b87-4fa4-8e82-43aacf62a5e3}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Zones := arrZones;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{67c21546-1db6-45a1-ad68-905fc1bc605c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[arrZones := Zones;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="ZoneVelocities" Id="{d287b0eb-d15a-4f54-b384-d18650a4ca53}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY ZoneVelocities : array[1..4] of mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{8d1af704-520b-4e30-af4c-83cbc62b0b7b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ZoneVelocities := arrVelocities;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{2cd34126-a7ab-43aa-b55b-a90d4ab8e7ec}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[arrVelocities := ZoneVelocities;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <LineIds Name="XtsMover">
+      <LineId Id="114" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="133" Count="0" />
+      <LineId Id="157" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="181" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="95" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.Acceleration.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.Acceleration.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.AxisModuloPosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.AxisModuloPosition.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.AxisRef.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.AxisState.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.AxisState.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.ClearState">
+      <LineId Id="25" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.Deceleration.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.Deceleration.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.DisableAxis">
+      <LineId Id="31" Count="13" />
+      <LineId Id="20" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.EnableAxis">
+      <LineId Id="13" Count="0" />
+      <LineId Id="17" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.DisableMover">
+    <LineIds Name="XtsMover.Gap.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.Gap.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.HaltAxis">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="20" Count="1" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="22" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.hasError">
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.EnableMover">
+    <LineIds Name="XtsMover.IdentInGroup.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.IdentInGroup.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.isAtPosition">
+      <LineId Id="13" Count="0" />
+      <LineId Id="16" Count="1" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="18" Count="1" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="20" Count="1" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.isDetected">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="2" />
+    </LineIds>
+    <LineIds Name="XtsMover.isEnabled">
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.ResetMover">
+    <LineIds Name="XtsMover.Jerk.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.Jerk.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.ModuloToAbs">
+      <LineId Id="6" Count="19" />
       <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.MoverErrorId.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.MoverErrorId.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.MoveTo">
+      <LineId Id="53" Count="0" />
+      <LineId Id="60" Count="3" />
+      <LineId Id="54" Count="1" />
+      <LineId Id="26" Count="2" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="56" Count="3" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="64" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.ResetAxis">
+      <LineId Id="20" Count="0" />
+      <LineId Id="14" Count="1" />
+    </LineIds>
+    <LineIds Name="XtsMover.SetGroupStop">
+      <LineId Id="6" Count="8" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.SetStatus">
+      <LineId Id="22" Count="0" />
+      <LineId Id="25" Count="2" />
+      <LineId Id="30" Count="2" />
+      <LineId Id="36" Count="1" />
+      <LineId Id="23" Count="1" />
+      <LineId Id="39" Count="10" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="123" Count="1" />
+      <LineId Id="122" Count="0" />
+      <LineId Id="108" Count="10" />
+      <LineId Id="121" Count="0" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="62" Count="1" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="94" Count="0" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="127" Count="0" />
+      <LineId Id="68" Count="1" />
+      <LineId Id="79" Count="11" />
+      <LineId Id="67" Count="0" />
+      <LineId Id="95" Count="0" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="102" Count="2" />
+      <LineId Id="100" Count="1" />
+      <LineId Id="96" Count="1" />
+    </LineIds>
+    <LineIds Name="XtsMover.TrackLength.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.TrackLength.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.Zones.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.Zones.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.ZoneVelocities.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMover.ZoneVelocities.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

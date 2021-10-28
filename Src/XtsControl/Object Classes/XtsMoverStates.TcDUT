@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <DUT Name="XtsMoverStates" Id="{c832a9f5-fdba-4708-a912-ecd68ce81a8a}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE XtsMoverStates :
+(
+	Idle := 50,
+	Available := 100,
+	ForwardMove := 200,
+	ForwardStationary := 210,
+	ForwardDone := 220,
+	ForwardFailed := 230,
+	ForwardAborted := 240,
+	ReverseMove := 300,
+	ReverseStationary := 310,
+	ReverseDone := 320,
+	ReverseFailed := 330,
+	ReverseAborted := 340,
+	MoverError := 60000
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <POU Name="MoveMoverToPositionZoned" Id="{7521c43f-7edc-406b-9eb4-a67d1456ebfc}" SpecialFunc="None">
+    <Declaration><![CDATA[
+FUNCTION_BLOCK PUBLIC MoveMoverToPositionZoned EXTENDS MoveMoverToPosition
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	i: INT;
+	StartZone: INT;
+	CurrentZone : INT;
+END_VAR
+VAR_IN_OUT
+	arrPositions : ARRAY[1..4] OF DINT;
+	arrVelos : ARRAY[1..4] OF MC_LREAL;
+END_VAR
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE State OF
+	0:
+		IF _MoveMover THEN
+			_done := FALSE;
+			_error := FALSE;
+			_busy := TRUE;
+			moveAbs.Execute := TRUE;
+			StartZone := GetZone();
+			moveAbs.Velocity := arrVelos[StartZone];
+			IF moveAbs.Busy THEN
+				State := 10;
+				_MoveMover := FALSE;
+			END_IF
+		END_IF
+	
+	10:
+		IF NOT moveAbs.Busy THEN
+			IF moveAbs.Done THEN
+				_done := TRUE;
+			ELSIF moveAbs.Error THEN
+				_error := TRUE;
+			END_IF
+			_busy := FALSE;
+			moveAbs.Execute := FALSE;
+			State := 0;
+		ELSE
+			CurrentZone := GetZone();
+			IF CurrentZone <> StartZone THEN
+				moveAbs.Execute := FALSE;
+				State := 0;
+				_MoveMover := TRUE;
+			END_IF
+		END_IF
+END_CASE
+
+moveAbs(Axis := _axis);]]></ST>
+    </Implementation>
+    <Method Name="GetZone" Id="{0c790166-0fe0-44bb-a3f3-d4c67c93f2c4}">
+      <Declaration><![CDATA[METHOD GetZone : int
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _axis.NcToPlc.ModuloActPos > arrPositions[1] AND _axis.NcToPlc.ModuloActPos < arrPositions[2] THEN
+	GetZone := 1;
+ELSIF (_axis.NcToPlc.ModuloActPos > arrPositions[2] AND _axis.NcToPlc.ModuloActPos < 11000.0) 
+		OR _axis.NcToPlc.ModuloActPos > 0.0 AND  _axis.NcToPlc.ModuloActPos < arrPositions[3] THEN
+	GetZone := 2;
+ELSIF _axis.NcToPlc.ModuloActPos > arrPositions[3] AND _axis.NcToPlc.ModuloActPos < arrPositions[4] THEN
+	GetZone := 3;
+ELSIF _axis.NcToPlc.ModuloActPos > arrPositions[4] THEN
+	GetZone := 4;
+ELSE
+	GetZone := 4;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="MoveMoverToPositionZoned">
+      <LineId Id="87" Count="26" />
+      <LineId Id="118" Count="1" />
+      <LineId Id="121" Count="1" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="114" Count="2" />
+      <LineId Id="22" Count="0" />
+    </LineIds>
+    <LineIds Name="MoveMoverToPositionZoned.GetZone">
+      <LineId Id="36" Count="10" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

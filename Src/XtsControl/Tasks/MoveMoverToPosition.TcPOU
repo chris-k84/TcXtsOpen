@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
   <POU Name="MoveMoverToPosition" Id="{7bb1d5d1-744a-4af2-9a8e-f277395f1819}" SpecialFunc="None">
-    <Declaration><![CDATA[
-FUNCTION_BLOCK MoveMoverToPosition
+    <Declaration><![CDATA[FUNCTION_BLOCK MoveMoverToPosition
 VAR_INPUT
 END_VAR
 VAR_OUTPUT

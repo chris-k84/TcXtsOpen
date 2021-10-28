@@ -38,6 +38,12 @@
     <Compile Include="Object Classes\XtsMover.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Object Classes\XtsMoverStates.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Object Classes\XtsTrack.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
@@ -63,6 +69,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\MoveMoverToPosition.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\MoveMoverToPositionZoned.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\RemoveAllMoverFromGroup.TcPOU">
