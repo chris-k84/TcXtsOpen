@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <POU Name="MoverSequence" Id="{5b1293cd-307b-4dc9-8f5e-57c564c1904c}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK MoverSequence
+VAR_INPUT
+	ThisMover : IMover;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	State :(
+        Init,                                               
+        Available,                                  
+        ForwardMove,
+		ForwardStationary,
+		ForwardDone,
+		ForwardFailed,
+		ForwardAborted,
+		BackwardMove,
+		BackwardStationary,
+		BackwardDone,
+		BackwardFailed,
+		BackwardAborted);  
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE State OF
+	State.Init:
+	State.Available:
+END_CASE]]></ST>
+    </Implementation>
+    <Method Name="ClearState" Id="{a836235b-88fd-4a29-b023-93bff8c050ce}">
+      <Declaration><![CDATA[METHOD ClearState : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ClearCommand := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetGroupStop" Id="{5db54925-4bf7-473d-8e67-6621495b1a92}">
+      <Declaration><![CDATA[METHOD SetGroupStop : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _MoverState = XtsMoverStates.ForwardMove OR
+		_MoverState = XtsMoverStates.ForwardStationary THEN
+	_MoverState := XtsMoverStates.ForwardAborted;
+	axesMoveTo.Abort();	
+END_IF
+IF _MoverState = XtsMoverStates.ReverseMove OR
+		_MoverState = XtsMoverStates.ReverseStationary THEN
+	_MoverState := XtsMoverStates.ReverseAborted;
+	axesMoveTo.Abort();	
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetStatus" Id="{3c4ecb94-31de-4ff8-b16b-49e7c8b54463}">
+      <Declaration><![CDATA[METHOD SetStatus : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _MoverState = XtsMoverStates.ForwardMove OR _MoverState = XtsMoverStates.ForwardStationary THEN
+	IF _axis.Status.NotMoving THEN
+		IF axesMoveTo.Done AND isAtPosition(position := _targetPos) THEN
+			_MoverState := XtsMoverStates.ForwardDone;
+		ELSE
+			_MoverState := XtsMoverStates.ForwardStationary;
+		END_IF
+	ELSE
+		_MoverState := XtsMoverStates.ForwardMove;
+	END_IF
+END_IF
+
+IF _MoverState = XtsMoverStates.ReverseMove OR _MoverState = XtsMoverStates.ReverseStationary THEN
+	IF _axis.Status.NotMoving THEN
+		IF axesMoveTo.Done AND isAtPosition(position := _targetPos) THEN
+			_MoverState := XtsMoverStates.ReverseDone;
+		ELSE
+			_MoverState := XtsMoverStates.ReverseStationary;
+		END_IF
+	ELSE
+		_MoverState := XtsMoverStates.ReverseMove;
+	END_IF
+END_IF
+
+
+//IF ClearCommand THEN
+//	IF _MoverState = XtsMoverStates.ForwardAborted OR
+//			_MoverState = XtsMoverStates.ForwardDone OR
+//			_MoverState = XtsMoverStates.ReverseAborted OR
+//			_MoverState = XtsMoverStates.ForwardFailed OR
+//			_MoverState = XtsMoverStates.ReverseFailed OR
+//			_MoverState = XtsMoverStates.ReverseDone THEN
+//		IF isEnabled() THEN
+//			_MoverState := XtsMoverStates.Available;
+//		ELSE
+//			_MoverState := XtsMoverStates.Idle;
+//		END_IF
+//	END_IF
+	
+//	IF _MoverState <> XtsMoverStates.ForwardMove AND	
+//			_MoverState <> XtsMoverStates.ForwardStationary AND
+//			_MoverState <> XtsMoverStates.ReverseMove AND
+//			_MoverState <> XtsMoverStates.ReverseStationary AND 
+//			_MoverState <> XtsMoverStates.Idle AND
+//			_MoverState <> XtsMoverStates.MoverError THEN
+//		_MoverState := XtsMoverStates.Available;
+				
+//	END_IF
+//END_IF
+
+ErrorTrigger(CLK := _axis.Status.Error);
+IF ErrorTrigger.Q THEN
+	IF _MoverState = XtsMoverStates.ForwardMove OR 
+		_MoverState = XtsMoverStates.ForwardStationary THEN
+		_MoverState := XtsMoverStates.ForwardFailed;
+		axesMoveTo.Abort();
+	ELSIF _MoverState = XtsMoverStates.ReverseMove OR
+			_MoverState = XtsMoverStates.ReverseStationary THEN
+		_MoverState := XtsMoverStates.ReverseFailed;
+		axesMoveTo.Abort();
+	ELSE
+		_MoverState := XtsMoverStates.MoverError;
+	END_IF
+END_IF
+
+IF _MoverState = XtsMoverStates.MoverError AND NOT _axis.Status.Error THEN
+	IF axesEnable.Enable THEN
+		IF isEnabled() THEN
+			_MoverState := XtsMoverStates.Available;
+		END_IF
+	ELSE
+		_MoverState := XtsMoverStates.Idle;
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="MoverSequence">
+      <LineId Id="9" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="39" Count="0" />
+    </LineIds>
+    <LineIds Name="MoverSequence.ClearState">
+      <LineId Id="25" Count="0" />
+    </LineIds>
+    <LineIds Name="MoverSequence.SetGroupStop">
+      <LineId Id="6" Count="8" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="MoverSequence.SetStatus">
+      <LineId Id="22" Count="0" />
+      <LineId Id="25" Count="2" />
+      <LineId Id="30" Count="2" />
+      <LineId Id="36" Count="1" />
+      <LineId Id="23" Count="1" />
+      <LineId Id="39" Count="10" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="123" Count="1" />
+      <LineId Id="122" Count="0" />
+      <LineId Id="108" Count="10" />
+      <LineId Id="121" Count="0" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="62" Count="1" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="94" Count="0" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="127" Count="0" />
+      <LineId Id="68" Count="1" />
+      <LineId Id="79" Count="11" />
+      <LineId Id="67" Count="0" />
+      <LineId Id="95" Count="0" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="102" Count="2" />
+      <LineId Id="100" Count="1" />
+      <LineId Id="96" Count="1" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

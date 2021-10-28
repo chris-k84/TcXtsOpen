@@ -17,31 +17,37 @@
     <LibraryReferences>{3f6e0c75-4a9c-4b5f-8039-17a6f22e412c}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IMover.TcIO">
+    <Compile Include="Mover Class\MoverSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Interfaces\ITask.TcIO">
+    <Compile Include="Mover Class\XtsMover_1.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Manager Classes\XtsManager.TcPOU">
+    <Compile Include="Tasks\XtsDisableSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Manager Classes\XtsMoverManager.TcPOU">
+    <Compile Include="Tasks\XtsEnableSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Manager Classes\XtsTrackManager.TcPOU">
+    <Compile Include="XTS Class\XtsHardware.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Object Classes\XtsHardware.TcPOU">
+    <Compile Include="XTS Class\XtsManager.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Object Classes\XtsMover.TcPOU">
+    <Compile Include="XTS Class\XtsTrack.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Object Classes\XtsMoverStates.TcDUT">
+    <Compile Include="XTS Class\XtsTrackManager.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Object Classes\XtsTrack.TcPOU">
+    <Compile Include="Mover Class\IMover.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Mover Class\XtsMover.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Mover Class\IndexMover.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PlcTask.TcTTO">
@@ -51,9 +57,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\AddMoverToGroupTask.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Tasks\AxesPower.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\AxesReset.TcPOU">
@@ -66,6 +69,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\HaltMover.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\ITask.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\MoveMoverToPosition.TcPOU">
@@ -85,11 +91,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Manager Classes" />
-    <Folder Include="Interfaces" />
+    <Folder Include="XTS Class" />
+    <Folder Include="Mover Class" />
     <Folder Include="Tasks" />
-    <Folder Include="States" />
-    <Folder Include="Object Classes" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
   </ItemGroup>

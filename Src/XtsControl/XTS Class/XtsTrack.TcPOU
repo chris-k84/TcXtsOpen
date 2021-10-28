@@ -8,7 +8,9 @@ VAR_OUTPUT
 END_VAR
 VAR
 END_VAR
-]]></Declaration>
+VAR_IN_OUT
+	MoverArray : ARRAY[*] OF IndexMover;
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>

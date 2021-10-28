@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <POU Name="IndexMover" Id="{4b45940e-4817-4260-a891-e07dd3ca95d8}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK IndexMover EXTENDS XtsMover
+VAR_INPUT
+	E_StateMachine : ST_StateMachine;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_moverSequence : MoverSequence;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+
+]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{30f4d276-6a1b-46cf-9f3e-2a464b237849}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="IndexMover">
+      <LineId Id="9" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMover.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
