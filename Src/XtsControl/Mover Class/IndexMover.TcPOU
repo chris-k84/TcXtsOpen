@@ -8,7 +8,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	_moverSequence : MoverSequence;
+	_moverSequence : IndexMoverSequence;
 END_VAR
 ]]></Declaration>
     <Implementation>

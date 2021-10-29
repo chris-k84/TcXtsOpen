@@ -17,10 +17,7 @@
     <LibraryReferences>{3f6e0c75-4a9c-4b5f-8039-17a6f22e412c}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Mover Class\MoverSequence.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mover Class\XtsMover_1.TcPOU">
+    <Compile Include="Mover Class\IndexMoverSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\XtsDisableSequence.TcPOU">
@@ -36,9 +33,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="XTS Class\XtsTrack.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="XTS Class\XtsTrackManager.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mover Class\IMover.TcIO">

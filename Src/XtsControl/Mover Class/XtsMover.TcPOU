@@ -7,23 +7,22 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	_axis 			: AXIS_REF;
 	axesEnable		: MC_Power;
 	axesReset		: AxesReset(_axis);
 	axesMoveTo 		: MoveMoverToPositionZoned(_axis) := (Gap := 213.0);
 	axesHalt 		: HaltMover(_axis);
+	axesReadError : Tc2_MC2.MC_ReadAxisError;
+	_axis 			: AXIS_REF;
 	_identInGroup : INT;
-	_trackLength : REAL := 11000.0;
+	_trackLength : REAL;
 	_targetPos : LREAL;
 	_MoverErrorId : DWORD;
-	axesReadError : Tc2_MC2.MC_ReadAxisError;
-	ErrorTrigger : Tc2_Standard.R_TRIG;
-	arrZones : ARRAY[1..4] OF DINT;
-	arrVelocities : ARRAY[1..4] OF mc_LREAL;
+	_arrZones : ARRAY[1..4] OF DINT;
+	_arrVelocities : ARRAY[1..4] OF mc_LREAL;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[axesMoveTo(arrPositions := arrZones, arrVelos := arrVelocities);
+      <ST><![CDATA[axesMoveTo(arrPositions := _arrZones, arrVelos := _arrVelocities);
 axesHalt();
 axesReset();
 _axis.ReadStatus();
@@ -52,25 +51,6 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Property Name="AxisModuloPosition" Id="{1607f262-8017-4db0-8df7-26815469f5c2}" FolderPath="Properties\">
-      <Declaration><![CDATA[PROPERTY AxisModuloPosition : lreal]]></Declaration>
-      <Get Name="Get" Id="{87df890b-cb2c-4f53-8c8a-15125326a7e2}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[AxisModuloPosition := _axis.NcToPlc.ModuloActPos;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{fce2d0e7-6d7e-471a-a68f-79a774b83a8d}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[//_axis.NcToPlc.ModuloActPos := AxisModuloPosition;]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
     <Property Name="AxisRef" Id="{9b58505a-2998-4f2c-b04d-fff116217974}" FolderPath="Properties\">
       <Declaration><![CDATA[PROPERTY PUBLIC AxisRef : reference to AXIS_REF]]></Declaration>
       <Get Name="Get" Id="{d9e4a655-8a01-4876-94ff-b6745986fc39}">
@@ -81,25 +61,6 @@ END_VAR
           <ST><![CDATA[AxisRef REF= THIS^._axis;]]></ST>
         </Implementation>
       </Get>
-    </Property>
-    <Property Name="AxisState" Id="{3e417d0b-4647-4853-82a8-5de58de0d161}" FolderPath="Properties\">
-      <Declaration><![CDATA[PROPERTY AxisState : XtsMoverStates]]></Declaration>
-      <Get Name="Get" Id="{7337afc2-0af7-4ddf-8f98-cd020f44cbad}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[AxisState := _MoverState;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{e75bf356-d976-473e-892e-6ee903f9ccaa}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[_MoverState := AxisState;]]></ST>
-        </Implementation>
-      </Set>
     </Property>
     <Property Name="Deceleration" Id="{2da8c65a-ea43-4ee7-b0b8-dd1d445fda83}" FolderPath="Properties\">
       <Declaration><![CDATA[PROPERTY PUBLIC Deceleration : mc_lreal]]></Declaration>
@@ -323,11 +284,6 @@ END_VAR
 		axesMoveTo.MoveTo(Position := ModuloToAbs(Position, BackwardMove), Velocity := Velocity);
 		MoveTo := TRUE;
 		_targetPos := Position;
-		IF BackwardMove THEN
-			_MoverState := XtsMoverStates.ReverseMove;
-		ELSE
-			_MoverState := XtsMoverStates.ForwardMove;
-		END_IF
 	END_IF
 END_IF]]></ST>
       </Implementation>
@@ -370,7 +326,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Zones := arrZones;]]></ST>
+          <ST><![CDATA[Zones := _arrZones;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{67c21546-1db6-45a1-ad68-905fc1bc605c}">
@@ -378,7 +334,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[arrZones := Zones;]]></ST>
+          <ST><![CDATA[_arrZones := Zones;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -389,7 +345,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[ZoneVelocities := arrVelocities;]]></ST>
+          <ST><![CDATA[ZoneVelocities := _arrVelocities;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{2cd34126-a7ab-43aa-b55b-a90d4ab8e7ec}">
@@ -397,17 +353,12 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[arrVelocities := ZoneVelocities;]]></ST>
+          <ST><![CDATA[_arrVelocities := ZoneVelocities;]]></ST>
         </Implementation>
       </Set>
     </Property>
     <LineIds Name="XtsMover">
-      <LineId Id="9" Count="0" />
-      <LineId Id="133" Count="0" />
-      <LineId Id="157" Count="0" />
-      <LineId Id="24" Count="0" />
-      <LineId Id="181" Count="0" />
-      <LineId Id="42" Count="0" />
+      <LineId Id="503" Count="5" />
       <LineId Id="95" Count="0" />
     </LineIds>
     <LineIds Name="XtsMover.Acceleration.Get">
@@ -416,19 +367,7 @@ END_VAR
     <LineIds Name="XtsMover.Acceleration.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.AxisModuloPosition.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsMover.AxisModuloPosition.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
     <LineIds Name="XtsMover.AxisRef.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsMover.AxisState.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsMover.AxisState.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsMover.Deceleration.Get">
@@ -502,9 +441,7 @@ END_VAR
     <LineIds Name="XtsMover.MoveTo">
       <LineId Id="53" Count="0" />
       <LineId Id="26" Count="2" />
-      <LineId Id="48" Count="0" />
-      <LineId Id="56" Count="3" />
-      <LineId Id="47" Count="0" />
+      <LineId Id="71" Count="0" />
       <LineId Id="5" Count="0" />
       <LineId Id="64" Count="0" />
     </LineIds>

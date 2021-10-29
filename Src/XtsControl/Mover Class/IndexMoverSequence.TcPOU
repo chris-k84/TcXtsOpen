@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
-  <POU Name="MoverSequence" Id="{5b1293cd-307b-4dc9-8f5e-57c564c1904c}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK MoverSequence
+  <POU Name="IndexMoverSequence" Id="{5b1293cd-307b-4dc9-8f5e-57c564c1904c}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK IndexMoverSequence
 VAR_INPUT
 	ThisMover : IMover;
 END_VAR
@@ -11,16 +11,9 @@ VAR
 	State :(
         Init,                                               
         Available,                                  
-        ForwardMove,
-		ForwardStationary,
-		ForwardDone,
-		ForwardFailed,
-		ForwardAborted,
-		BackwardMove,
-		BackwardStationary,
-		BackwardDone,
-		BackwardFailed,
-		BackwardAborted);  
+        MovingToStation,
+		QueuedAtStation,
+		AtStation);  
 	
 END_VAR
 ]]></Declaration>
@@ -139,20 +132,20 @@ IF _MoverState = XtsMoverStates.MoverError AND NOT _axis.Status.Error THEN
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="MoverSequence">
+    <LineIds Name="IndexMoverSequence">
       <LineId Id="9" Count="0" />
       <LineId Id="38" Count="0" />
       <LineId Id="41" Count="0" />
       <LineId Id="39" Count="0" />
     </LineIds>
-    <LineIds Name="MoverSequence.ClearState">
+    <LineIds Name="IndexMoverSequence.ClearState">
       <LineId Id="25" Count="0" />
     </LineIds>
-    <LineIds Name="MoverSequence.SetGroupStop">
+    <LineIds Name="IndexMoverSequence.SetGroupStop">
       <LineId Id="6" Count="8" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="MoverSequence.SetStatus">
+    <LineIds Name="IndexMoverSequence.SetStatus">
       <LineId Id="22" Count="0" />
       <LineId Id="25" Count="2" />
       <LineId Id="30" Count="2" />
