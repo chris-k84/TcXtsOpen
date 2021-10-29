@@ -1,20 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
   <POU Name="IndexMover" Id="{4b45940e-4817-4260-a891-e07dd3ca95d8}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK IndexMover EXTENDS XtsMover
+    <Declaration><![CDATA[FUNCTION_BLOCK IndexMover EXTENDS FB_Mover
 VAR_INPUT
-	E_StateMachine : ST_StateMachine;
+	TrackState : E_Xts_StateMachine;
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	_moverSequence : IndexMoverSequence;
+	moverSequence : IndexMoverSequence;
 END_VAR
-]]></Declaration>
+VAR_IN_OUT
+	StationArray : ARRAY[*] OF IStation;
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[SUPER^();
 
-]]></ST>
+moverSequence(ThisMover	 := THIS, TrackState := TrackState);]]></ST>
     </Implementation>
     <Method Name="FB_init" Id="{30f4d276-6a1b-46cf-9f3e-2a464b237849}">
       <Declaration><![CDATA[METHOD FB_init : BOOL

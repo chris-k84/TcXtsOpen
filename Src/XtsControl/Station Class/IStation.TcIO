@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <Itf Name="IStation" Id="{d53abde8-a061-4411-9fc7-d7a9304584ff}">
+    <Declaration><![CDATA[INTERFACE IStation
+]]></Declaration>
+  </Itf>
+</TcPlcObject>

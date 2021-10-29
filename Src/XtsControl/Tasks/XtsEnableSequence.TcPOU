@@ -21,7 +21,7 @@ VAR
 	_Error: BOOL;
 END_VAR
 VAR_IN_OUT
-	arrMovers : ARRAY[*] OF XtsMover;
+	arrMovers : ARRAY[*] OF IMover;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[CASE State OF

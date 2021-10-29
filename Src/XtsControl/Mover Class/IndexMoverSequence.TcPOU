@@ -4,6 +4,7 @@
     <Declaration><![CDATA[FUNCTION_BLOCK IndexMoverSequence
 VAR_INPUT
 	ThisMover : IMover;
+	TrackState : E_Xts_StateMachine;
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -16,11 +17,22 @@ VAR
 		AtStation);  
 	
 END_VAR
-]]></Declaration>
+VAR_IN_OUT
+	StationArray : ARRAY[*] OF IStation;
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[CASE State OF
 	State.Init:
+		IF TrackState = E_Xts_StateMachine.Enabled THEN
+			ThisMover.MoveTo(Position := ,
+								Velocity := ,
+								BackwardMove := );
+		END_IF
 	State.Available:
+		
+	State.MovingToStation:
+	State.QueuedAtStation:
+	State.AtStation:
 END_CASE]]></ST>
     </Implementation>
     <Method Name="ClearState" Id="{a836235b-88fd-4a29-b023-93bff8c050ce}">
@@ -135,7 +147,13 @@ END_IF]]></ST>
     <LineIds Name="IndexMoverSequence">
       <LineId Id="9" Count="0" />
       <LineId Id="38" Count="0" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="74" Count="1" />
+      <LineId Id="73" Count="0" />
       <LineId Id="41" Count="0" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="67" Count="2" />
       <LineId Id="39" Count="0" />
     </LineIds>
     <LineIds Name="IndexMoverSequence.ClearState">

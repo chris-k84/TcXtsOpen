@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <DUT Name="E_Xts_StateMachine" Id="{cc5470c7-9e93-4078-ba7f-941eff61b9de}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_Xts_StateMachine :
+(
+	Init := 0,
+	Enabling := 1,
+	Enabled := 2,
+	Disabling := 3,
+	Disabled := 4
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

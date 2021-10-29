@@ -1,11 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
-  <POU Name="XtsMover" Id="{203ccb09-708b-4f54-b5b6-0f120d67335b}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK XtsMover IMPLEMENTS IMover
-VAR_INPUT
-END_VAR
-VAR_OUTPUT
-END_VAR
+  <POU Name="FB_Mover" Id="{203ccb09-708b-4f54-b5b6-0f120d67335b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Mover IMPLEMENTS IMover
 VAR
 	axesEnable		: MC_Power;
 	axesReset		: AxesReset(_axis);
@@ -357,55 +353,55 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <LineIds Name="XtsMover">
+    <LineIds Name="FB_Mover">
       <LineId Id="503" Count="5" />
       <LineId Id="95" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.Acceleration.Get">
+    <LineIds Name="FB_Mover.Acceleration.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.Acceleration.Set">
+    <LineIds Name="FB_Mover.Acceleration.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.AxisRef.Get">
+    <LineIds Name="FB_Mover.AxisRef.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.Deceleration.Get">
+    <LineIds Name="FB_Mover.Deceleration.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.Deceleration.Set">
+    <LineIds Name="FB_Mover.Deceleration.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.DisableAxis">
+    <LineIds Name="FB_Mover.DisableAxis">
       <LineId Id="31" Count="0" />
       <LineId Id="20" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.EnableAxis">
+    <LineIds Name="FB_Mover.EnableAxis">
       <LineId Id="13" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.Gap.Get">
+    <LineIds Name="FB_Mover.Gap.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.Gap.Set">
+    <LineIds Name="FB_Mover.Gap.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.HaltAxis">
+    <LineIds Name="FB_Mover.HaltAxis">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="11" Count="0" />
       <LineId Id="10" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.hasError">
+    <LineIds Name="FB_Mover.hasError">
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.IdentInGroup.Get">
+    <LineIds Name="FB_Mover.IdentInGroup.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.IdentInGroup.Set">
+    <LineIds Name="FB_Mover.IdentInGroup.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.isAtPosition">
+    <LineIds Name="FB_Mover.isAtPosition">
       <LineId Id="13" Count="0" />
       <LineId Id="16" Count="1" />
       <LineId Id="14" Count="0" />
@@ -415,56 +411,56 @@ END_VAR
       <LineId Id="15" Count="0" />
       <LineId Id="7" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.isDetected">
+    <LineIds Name="FB_Mover.isDetected">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="2" />
     </LineIds>
-    <LineIds Name="XtsMover.isEnabled">
+    <LineIds Name="FB_Mover.isEnabled">
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.Jerk.Get">
+    <LineIds Name="FB_Mover.Jerk.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.Jerk.Set">
+    <LineIds Name="FB_Mover.Jerk.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.ModuloToAbs">
+    <LineIds Name="FB_Mover.ModuloToAbs">
       <LineId Id="6" Count="19" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.MoverErrorId.Get">
+    <LineIds Name="FB_Mover.MoverErrorId.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.MoverErrorId.Set">
+    <LineIds Name="FB_Mover.MoverErrorId.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.MoveTo">
+    <LineIds Name="FB_Mover.MoveTo">
       <LineId Id="53" Count="0" />
       <LineId Id="26" Count="2" />
       <LineId Id="71" Count="0" />
       <LineId Id="5" Count="0" />
       <LineId Id="64" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.ResetAxis">
+    <LineIds Name="FB_Mover.ResetAxis">
       <LineId Id="20" Count="0" />
       <LineId Id="14" Count="1" />
     </LineIds>
-    <LineIds Name="XtsMover.TrackLength.Get">
+    <LineIds Name="FB_Mover.TrackLength.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.TrackLength.Set">
+    <LineIds Name="FB_Mover.TrackLength.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.Zones.Get">
+    <LineIds Name="FB_Mover.Zones.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.Zones.Set">
+    <LineIds Name="FB_Mover.Zones.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.ZoneVelocities.Get">
+    <LineIds Name="FB_Mover.ZoneVelocities.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsMover.ZoneVelocities.Set">
+    <LineIds Name="FB_Mover.ZoneVelocities.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

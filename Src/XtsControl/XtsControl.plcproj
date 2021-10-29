@@ -20,10 +20,19 @@
     <Compile Include="Mover Class\IndexMoverSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Station Class\FB_Station.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Station Class\IStation.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Tasks\XtsDisableSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\XtsEnableSequence.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XTS Class\E_Xts_StateMachine.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="XTS Class\XtsHardware.TcPOU">
@@ -38,7 +47,7 @@
     <Compile Include="Mover Class\IMover.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Mover Class\XtsMover.TcPOU">
+    <Compile Include="Mover Class\FB_Mover.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mover Class\IndexMover.TcPOU">
@@ -85,6 +94,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Station Class" />
     <Folder Include="XTS Class" />
     <Folder Include="Mover Class" />
     <Folder Include="Tasks" />
