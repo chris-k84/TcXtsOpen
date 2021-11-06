@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="XtsDisableSequence" Id="{ea1d04be-726e-4c7d-baa7-17245f825e22}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'hide_all_locals'}
 FUNCTION_BLOCK XtsDisableSequence IMPLEMENTS ITask
@@ -8,16 +8,14 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	_collisionGroup : REFERENCE TO AXES_GROUP_REF;
-	disableGrp : DisableGroup(_collisionGroup);
-	removeAllAxes : RemoveAllMoverFromGroup(_collisionGroup);
-	grpStop : StopMoverGroup(_collisionGroup);
+	_collisionGroup : ICollisionGroup;
+	disableGrp : DisableGroup(_collisionGroup.GroupRef);
+	removeAllAxes : RemoveAllMoverFromGroup(_collisionGroup.GroupRef);
+	grpStop : StopMoverGroup(_collisionGroup.GroupRef);
 	State : INT;
 	DisableTrigger: BOOL;
 	moverNumbers : DINT := 1;
 	AllMoversDisabled: BOOL;
-	XtsState : REFERENCE TO XtsTrackStates;
-	GroupStates : REFERENCE TO CaGroupStates;
 	_busy : BOOL;
 	_done : BOOL;
 	_Error : BOOL;
@@ -31,11 +29,10 @@ END_VAR]]></Declaration>
 	0:
 		IF DisableTrigger THEN
 			DisableTrigger := FALSE;
-			XtsState := XtsTrackStates.Disabling;
 			_busy := TRUE;
 			_done := FALSE;
 			_Error := FALSE;
-			IF GroupStates.GroupMoving THEN
+			IF _collisionGroup.GroupState = CAGroupStatus.mcGroupStateMoving THEN
 				grpStop.Execute();
 				State := 10;
 			ELSE
@@ -71,7 +68,6 @@ END_VAR]]></Declaration>
 	50:
 		IF disableGrp.Done THEN
 			State := 0;
-			XtsState := XtsTrackStates.Disabled;
 			grpStop.Deceleration := Tc3_Mc3Definitions.MC_DEFAULT;
 			grpStop.Jerk := Tc3_Mc3Definitions.MC_DEFAULT;
 			_busy := FALSE;
@@ -148,21 +144,14 @@ END_VAR
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	collisionGroup : REFERENCE TO AXES_GROUP_REF;
-	Status : REFERENCE TO XtsTrackStates;
-	GroupState : REFERENCE TO CaGroupStates;
+	collisionGroup : ICollisionGroup;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_collisionGroup REF= collisionGroup;
-XtsState REF= Status;
-GroupStates REF= GroupState;
-disableGrp.FB_init(FALSE, FALSE, CAGroup := _collisionGroup);
-removeAllAxes.FB_init(FALSE, FALSE, CAGroup := _collisionGroup);
-grpStop.FB_init(false,false,CAGroup := _collisionGroup);
-
-
-]]></ST>
+        <ST><![CDATA[_collisionGroup := collisionGroup;
+disableGrp.FB_init(FALSE, FALSE, CAGroup := collisionGroup.GroupRef);
+removeAllAxes.FB_init(FALSE, FALSE, CAGroup := collisionGroup.GroupRef);
+grpStop.FB_init(FALSE,FALSE,CAGroup := collisionGroup.GroupRef);]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetEmergencyDynamics" Id="{b5418f68-dda4-4664-b66b-f4c1bc501dec}">
@@ -176,7 +165,9 @@ grpStop.Jerk := Tc3_Mc3Definitions.MC_MAXIMUM;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="XtsDisableSequence">
-      <LineId Id="3" Count="53" />
+      <LineId Id="3" Count="3" />
+      <LineId Id="8" Count="38" />
+      <LineId Id="48" Count="8" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.Abort">
@@ -196,8 +187,8 @@ grpStop.Jerk := Tc3_Mc3Definitions.MC_MAXIMUM;]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.FB_init">
-      <LineId Id="3" Count="7" />
-      <LineId Id="2" Count="0" />
+      <LineId Id="3" Count="0" />
+      <LineId Id="6" Count="2" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.SetEmergencyDynamics">
       <LineId Id="3" Count="1" />

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="AddMoverToGroupTask" Id="{38d9c2dd-c50a-4b37-aa1d-638377a11576}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'hide_all_locals'}
 FUNCTION_BLOCK AddMoverToGroupTask IMPLEMENTS ITask
@@ -45,7 +45,6 @@ END_VAR
 			State := 0;
 		END_IF
 END_CASE
-
 
 AddtoGrp(AxesGroup := _caGroup,
 			Axis := _axis,
@@ -139,7 +138,8 @@ END_VAR
       <LineId Id="92" Count="0" />
       <LineId Id="90" Count="0" />
       <LineId Id="84" Count="0" />
-      <LineId Id="73" Count="3" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="75" Count="1" />
       <LineId Id="14" Count="0" />
       <LineId Id="77" Count="0" />
     </LineIds>

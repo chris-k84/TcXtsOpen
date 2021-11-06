@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <Itf Name="IMover" Id="{0e30beea-f524-44e1-ae12-0e02166014dd}">
     <Declaration><![CDATA[INTERFACE IMover
 ]]></Declaration>
@@ -23,6 +23,12 @@ END_VAR
     </Method>
     <Method Name="HaltAxis" Id="{ebcb5f64-4a36-49eb-91f7-3a5c2f6ad022}">
       <Declaration><![CDATA[METHOD HaltAxis : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="hasError" Id="{cc588e08-6d37-4da2-b68d-df7f5ab8bd21}">
+      <Declaration><![CDATA[METHOD hasError : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>

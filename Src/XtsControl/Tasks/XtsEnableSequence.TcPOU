@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="XtsEnableSequence" Id="{2dbfd422-2e0c-45f9-9282-01bc354cd414}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'hide_all_locals'}
 FUNCTION_BLOCK XtsEnableSequence IMPLEMENTS ITask
@@ -8,14 +8,13 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	_collisionGroup : REFERENCE TO AXES_GROUP_REF;
-	addMover : AddMoverToGroupTask(_collisionGroup);
-	enableGrp : EnableGroup(_collisionGroup);
+	_collisionGroup : ICollisionGroup;
+	addMover : AddMoverToGroupTask(_collisionGroup.GroupRef);
+	enableGrp : EnableGroup(_collisionGroup.GroupRef);
 	State : INT;
 	moverNumbers : DINT;
 	AllMoversEnabled: BOOL;
 	EnableTrigger : BOOL;
-	XtsState : REFERENCE TO XtsTrackStates;
 	_busy: BOOL;
 	_done: BOOL;
 	_Error: BOOL;
@@ -30,7 +29,6 @@ END_VAR]]></Declaration>
 			State := 10;
 			EnableTrigger := FALSE;
 			moverNumbers := 1;
-			XtsState := XtsTrackStates.Enabling;
 			_busy := TRUE;
 			_done := FALSE;
 			_Error := FALSE;
@@ -75,11 +73,7 @@ END_VAR]]></Declaration>
 		
 	50:
 		IF enableGrp.Done THEN
-			FOR moverNumbers := LOWER_BOUND(arrMovers,1) TO UPPER_BOUND(arrMovers,1) DO
-				arrMovers[moverNumbers].AxisState := XtsMoverStates.Available;
-			END_FOR
 			State := 0;
-			XtsState := XtsTrackStates.Enabled;
 			_busy := FALSE;
 			_done := true;
 		END_IF
@@ -152,19 +146,17 @@ END_VAR
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	collisionGroup : REFERENCE TO AXES_GROUP_REF;
-	Status : REFERENCE TO XtsTrackStates;
+	collisionGroup : ICollisionGroup;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_collisionGroup REF= collisionGroup;
-XtsState REF= Status;
-addMover.FB_init(FALSE, FALSE, CAGroup := _collisionGroup);
-enableGrp.FB_init(false,false, CAGroup := _collisionGroup);]]></ST>
+        <ST><![CDATA[_collisionGroup := collisionGroup;
+//addMover.FB_init(FALSE, FALSE, CAGroup := collisionGroup.GroupRef);
+//enableGrp.FB_init(FALSE,FALSE, CAGroup := collisionGroup.GroupRef);]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="XtsEnableSequence">
-      <LineId Id="138" Count="6" />
+      <LineId Id="138" Count="5" />
       <LineId Id="291" Count="1" />
       <LineId Id="290" Count="0" />
       <LineId Id="145" Count="0" />
@@ -183,10 +175,7 @@ enableGrp.FB_init(false,false, CAGroup := _collisionGroup);]]></ST>
       <LineId Id="169" Count="4" />
       <LineId Id="247" Count="0" />
       <LineId Id="174" Count="3" />
-      <LineId Id="182" Count="0" />
-      <LineId Id="271" Count="1" />
-      <LineId Id="265" Count="0" />
-      <LineId Id="183" Count="1" />
+      <LineId Id="182" Count="1" />
       <LineId Id="296" Count="1" />
       <LineId Id="185" Count="3" />
       <LineId Id="35" Count="0" />
@@ -208,7 +197,6 @@ enableGrp.FB_init(false,false, CAGroup := _collisionGroup);]]></ST>
     </LineIds>
     <LineIds Name="XtsEnableSequence.FB_init">
       <LineId Id="7" Count="0" />
-      <LineId Id="10" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="11" Count="0" />
     </LineIds>

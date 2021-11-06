@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <Itf Name="ICollisionGroup" Id="{1b8f8047-acf9-445b-bd58-83146e946e99}">
+    <Declaration><![CDATA[INTERFACE ICollisionGroup
+]]></Declaration>
+    <Property Name="GroupRef" Id="{c2d0d7b8-491f-4f57-863e-bf5e8f85dbc9}">
+      <Declaration><![CDATA[PROPERTY GroupRef : reference to axes_group_ref]]></Declaration>
+      <Get Name="Get" Id="{9f958490-7f73-4757-812f-c33b4de49e1d}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="GroupState" Id="{106086c4-6784-44cc-9433-5e6352da23cc}">
+      <Declaration><![CDATA[PROPERTY GroupState : cagroupstatus]]></Declaration>
+      <Get Name="Get" Id="{79e367f7-d0cd-44c9-8db9-0a680a23360a}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>

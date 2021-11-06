@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="MoveMoverToPosition" Id="{7bb1d5d1-744a-4af2-9a8e-f277395f1819}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK MoveMoverToPosition
 VAR_INPUT
@@ -29,7 +29,7 @@ END_VAR
 				_MoveMover := FALSE;
 			END_IF
 		END_IF
-	
+		
 	10:
 		IF NOT moveAbs.Busy THEN
 			IF moveAbs.Done THEN
@@ -198,7 +198,8 @@ _MoveMover := MoveTo := true;]]></ST>
     <LineIds Name="MoveMoverToPosition">
       <LineId Id="57" Count="5" />
       <LineId Id="99" Count="3" />
-      <LineId Id="64" Count="2" />
+      <LineId Id="64" Count="1" />
+      <LineId Id="118" Count="0" />
       <LineId Id="103" Count="0" />
       <LineId Id="72" Count="10" />
       <LineId Id="84" Count="0" />

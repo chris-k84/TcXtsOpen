@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="CollisionGroup" Id="{0bc361f9-56cf-433c-aec7-a5801fd95d6e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK CollisionGroup IMPLEMENTS ICollisionGroup
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_caGroup : Tc3_McCoordinatedMotion.AXES_GROUP_REF;
+	readStatus : Tc3_McCoordinatedMotion.MC_GroupReadStatus;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[readStatus(
+	AxesGroup:= _caGroup, 
+	Enable:= TRUE );]]></ST>
+    </Implementation>
+    <Property Name="GroupRef" Id="{6faf36db-c068-43d3-aa12-55d90013f979}">
+      <Declaration><![CDATA[PROPERTY GroupRef : reference to AXES_GROUP_REF]]></Declaration>
+      <Get Name="Get" Id="{c6dbe199-1644-405b-b519-b28e2b4f4703}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[GroupRef REF= _caGroup;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="GroupState" Id="{eabcea1b-8fd2-4f17-a82d-d1eb5e302aca}">
+      <Declaration><![CDATA[PROPERTY GroupState : CAGroupStatus]]></Declaration>
+      <Get Name="Get" Id="{e79d0405-66e0-4012-9a7b-d329b25966d5}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IF readStatus.AllAxesStanding THEN
+	GroupState := CAGroupStatus.mcGroupAllAxesStanding;
+ELSIF readStatus.GroupDisabled THEN
+	GroupState := CAGroupStatus.mcGroupStateDisabled;
+ELSIF readStatus.GroupErrorStop THEN
+	GroupState := CAGroupStatus.mcGroupStateErrorStop;
+ELSIF readStatus.GroupHoming THEN
+	GroupState := CAGroupStatus.mcGroupStateHoming;
+ELSIF readStatus.GroupMoving THEN
+	GroupState := CAGroupStatus.mcGroupStateMoving;
+ELSIF readStatus.GroupNotReady THEN
+	GroupState := CAGroupStatus.mcGroupStateNotReady;
+ELSIF readStatus.GroupStandby THEN
+	GroupState := CAGroupStatus.mcGroupStateStandby;
+ELSIF readStatus.GroupStopping THEN
+	GroupState := CAGroupStatus.mcGroupStateStopping;
+ELSIF readStatus.Error THEN
+	GroupState := CAGroupStatus.mcGroupError;
+END_IF]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <LineIds Name="CollisionGroup">
+      <LineId Id="12" Count="2" />
+    </LineIds>
+    <LineIds Name="CollisionGroup.GroupRef.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="CollisionGroup.GroupState.Get">
+      <LineId Id="7" Count="17" />
+      <LineId Id="6" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

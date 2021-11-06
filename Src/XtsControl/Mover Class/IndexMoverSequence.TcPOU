@@ -22,26 +22,26 @@ VAR_IN_OUT
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[CASE State OF
-	State.Init:
+	Init:
 		IF TrackState = E_Xts_StateMachine.Enabled THEN
 //			ThisMover.MoveTo(Position := ,
 //								Velocity := ,
 //								BackwardMove := );
 //			Move to home
 		END_IF
-	State.Available:
+	Available:
 //		Await at home for call
-		IF StationArray[LOWER_BOUND(StationArray,1)].IsReady THEN
+		IF StationArray[LOWER_BOUND(StationArray,1)].IsReady() THEN
 			;
 		END_IF
 		
-	State.MovingToStation:
+	MovingToStation:
 //		Moving to Station
 
-	State.QueuedAtStation:
+	QueuedAtStation:
 //		Queued at Station waiting for it to open
 
-	State.AtStation:
+	AtStation:
 //		At Station awaiting operation
 
 END_CASE]]></ST>
