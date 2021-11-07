@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="AxesReset" Id="{19c7231b-8311-413c-9d34-e6adc74e815f}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'hide_all_locals'}
 FUNCTION_BLOCK AxesReset IMPLEMENTS ITask
@@ -47,8 +47,7 @@ END_CASE
 resetMover(Axis := _axis);]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{9e36c0f1-29b1-495e-81a0-1b56d8641dad}">
-      <Declaration><![CDATA[{warning 'add method implementation '}
-METHOD Abort : BOOL
+      <Declaration><![CDATA[METHOD Abort : BOOL
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[resetMover.Execute := FALSE;
@@ -59,8 +58,7 @@ State := 0;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Busy" Id="{4bd0c1bc-04e3-4035-be20-37a4a7951312}">
-      <Declaration><![CDATA[{warning 'add property implementation'}
-PROPERTY Busy : BOOL
+      <Declaration><![CDATA[PROPERTY Busy : BOOL
 ]]></Declaration>
       <Get Name="Get" Id="{10088129-c3bc-45c5-a92a-560ec05cd1e0}">
         <Declaration><![CDATA[VAR
@@ -72,8 +70,7 @@ END_VAR
       </Get>
     </Property>
     <Property Name="Done" Id="{69a4036c-fbd6-447e-9a81-2a36e44fa345}">
-      <Declaration><![CDATA[{warning 'add property implementation'}
-PROPERTY Done : BOOL
+      <Declaration><![CDATA[PROPERTY Done : BOOL
 ]]></Declaration>
       <Get Name="Get" Id="{de08bd98-cb25-4cfe-9549-e45117710413}">
         <Declaration><![CDATA[VAR
@@ -85,8 +82,7 @@ END_VAR
       </Get>
     </Property>
     <Property Name="Error" Id="{eb85cd05-7c9e-445c-a5b5-cee06b091b11}">
-      <Declaration><![CDATA[{warning 'add property implementation'}
-PROPERTY Error : BOOL
+      <Declaration><![CDATA[PROPERTY Error : BOOL
 ]]></Declaration>
       <Get Name="Get" Id="{5d4ec38d-ee89-4e4f-952f-381714593cd5}">
         <Declaration><![CDATA[VAR

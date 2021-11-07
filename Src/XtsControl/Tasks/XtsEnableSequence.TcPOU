@@ -83,8 +83,7 @@ addMover();
 enableGrp();]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{d2d6e9f2-aed0-4b3a-a87f-f1996d8a72d7}">
-      <Declaration><![CDATA[{warning 'add method implementation '}
-METHOD Abort : BOOL
+      <Declaration><![CDATA[METHOD Abort : BOOL
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[EnableTrigger := FALSE;
@@ -94,8 +93,7 @@ enableGrp.Abort();]]></ST>
       </Implementation>
     </Method>
     <Property Name="Busy" Id="{b2847b1e-0ad6-4e6f-aa9c-05b6fa25b442}">
-      <Declaration><![CDATA[{warning 'add property implementation'}
-PROPERTY Busy : BOOL
+      <Declaration><![CDATA[PROPERTY Busy : BOOL
 ]]></Declaration>
       <Get Name="Get" Id="{cd6105c6-affb-4b98-98f6-bce5ae07cff9}">
         <Declaration><![CDATA[VAR
@@ -107,8 +105,7 @@ END_VAR
       </Get>
     </Property>
     <Property Name="Done" Id="{e08effed-58fa-4696-899c-213c464e3425}">
-      <Declaration><![CDATA[{warning 'add property implementation'}
-PROPERTY Done : BOOL
+      <Declaration><![CDATA[PROPERTY Done : BOOL
 ]]></Declaration>
       <Get Name="Get" Id="{b0ae37c0-67bd-4f74-a37a-4e9cef15bbed}">
         <Declaration><![CDATA[VAR
@@ -129,8 +126,7 @@ END_VAR
       </Implementation>
     </Method>
     <Property Name="Error" Id="{01255016-1bfa-4264-989a-481808856654}">
-      <Declaration><![CDATA[{warning 'add property implementation'}
-PROPERTY Error : BOOL
+      <Declaration><![CDATA[PROPERTY Error : BOOL
 ]]></Declaration>
       <Get Name="Get" Id="{17ab46e5-ad36-493a-89c9-3492f2d2be19}">
         <Declaration><![CDATA[VAR

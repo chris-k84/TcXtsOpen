@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="HaltMover" Id="{5e16f656-97ee-4391-96b9-fb1d24ff82ad}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'hide_all_locals'}
 FUNCTION_BLOCK HaltMover IMPLEMENTS ITask
@@ -47,8 +47,7 @@ END_CASE
 haltMover(Axis := _axis);]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{f69b4fe1-38a5-4078-941d-4d491f1587ae}">
-      <Declaration><![CDATA[{warning 'add method implementation '}
-METHOD Abort : BOOL
+      <Declaration><![CDATA[METHOD Abort : BOOL
 
 VAR
 	Position: INT;

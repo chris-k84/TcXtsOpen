@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="MoveMoverToPositionZoned" Id="{7521c43f-7edc-406b-9eb4-a67d1456ebfc}" SpecialFunc="None">
-    <Declaration><![CDATA[
-FUNCTION_BLOCK PUBLIC MoveMoverToPositionZoned EXTENDS MoveMoverToPosition
+    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC MoveMoverToPositionZoned EXTENDS MoveMoverToPosition
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -11,11 +10,10 @@ VAR
 	i: INT;
 	StartZone: INT;
 	CurrentZone : INT;
+	ZoneTransitionPositions : ARRAY[1..4] OF DINT;
+	ZoneVelocities : ARRAY[1..4] OF MC_LREAL;
 END_VAR
-VAR_IN_OUT
-	arrPositions : ARRAY[1..4] OF DINT;
-	arrVelos : ARRAY[1..4] OF MC_LREAL;
-END_VAR
+
 
 ]]></Declaration>
     <Implementation>
@@ -27,7 +25,7 @@ END_VAR
 			_busy := TRUE;
 			moveAbs.Execute := TRUE;
 			StartZone := GetZone();
-			moveAbs.Velocity := arrVelos[StartZone];
+			moveAbs.Velocity := ZoneVelocities[StartZone];
 			IF moveAbs.Busy THEN
 				State := 10;
 				_MoveMover := FALSE;
@@ -56,20 +54,36 @@ END_CASE
 
 moveAbs(Axis := _axis);]]></ST>
     </Implementation>
+    <Method Name="FB_init" Id="{95385f0a-689d-419b-8993-43f263bff449}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	axis : REFERENCE TO AXIS_REF;
+	arrPositions : ARRAY[1..4] OF DINT;
+	arrVelos : ARRAY[1..4] OF MC_LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^();
+ZoneTransitionPositions := arrPositions;
+ZoneVelocities := arrVelos;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="GetZone" Id="{0c790166-0fe0-44bb-a3f3-d4c67c93f2c4}">
       <Declaration><![CDATA[METHOD GetZone : int
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF _axis.NcToPlc.ModuloActPos > arrPositions[1] AND _axis.NcToPlc.ModuloActPos < arrPositions[2] THEN
+        <ST><![CDATA[IF _axis.NcToPlc.ModuloActPos > ZoneTransitionPositions[1] AND _axis.NcToPlc.ModuloActPos < ZoneTransitionPositions[2] THEN
 	GetZone := 1;
-ELSIF (_axis.NcToPlc.ModuloActPos > arrPositions[2] AND _axis.NcToPlc.ModuloActPos < 11000.0) 
-		OR _axis.NcToPlc.ModuloActPos > 0.0 AND  _axis.NcToPlc.ModuloActPos < arrPositions[3] THEN
+ELSIF (_axis.NcToPlc.ModuloActPos > ZoneTransitionPositions[2] AND _axis.NcToPlc.ModuloActPos < 11000.0) 
+		OR _axis.NcToPlc.ModuloActPos > 0.0 AND  _axis.NcToPlc.ModuloActPos < ZoneTransitionPositions[3] THEN
 	GetZone := 2;
-ELSIF _axis.NcToPlc.ModuloActPos > arrPositions[3] AND _axis.NcToPlc.ModuloActPos < arrPositions[4] THEN
+ELSIF _axis.NcToPlc.ModuloActPos > ZoneTransitionPositions[3] AND _axis.NcToPlc.ModuloActPos < ZoneTransitionPositions[4] THEN
 	GetZone := 3;
-ELSIF _axis.NcToPlc.ModuloActPos > arrPositions[4] THEN
+ELSIF _axis.NcToPlc.ModuloActPos > ZoneTransitionPositions[4] THEN
 	GetZone := 4;
 ELSE
 	GetZone := 4;
@@ -77,15 +91,15 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="MoveMoverToPositionZoned">
-      <LineId Id="87" Count="26" />
-      <LineId Id="118" Count="1" />
-      <LineId Id="121" Count="1" />
-      <LineId Id="120" Count="0" />
-      <LineId Id="114" Count="2" />
+      <LineId Id="169" Count="34" />
       <LineId Id="22" Count="0" />
     </LineIds>
+    <LineIds Name="MoveMoverToPositionZoned.FB_init">
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="1" />
+    </LineIds>
     <LineIds Name="MoveMoverToPositionZoned.GetZone">
-      <LineId Id="36" Count="10" />
+      <LineId Id="50" Count="10" />
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>

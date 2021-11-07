@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="FB_Mover" Id="{203ccb09-708b-4f54-b5b6-0f120d67335b}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Mover IMPLEMENTS IMover
 VAR
 	axesEnable		: MC_Power;
 	axesReset		: AxesReset(_axis);
-	axesMoveTo 		: MoveMoverToPositionZoned(_axis) := (Gap := 213.0);
+	axesMoveTo 		: MoveMoverToPositionZoned(_axis,_arrZones,_arrVelocities) := (Gap := 213.0);
 	axesHalt 		: HaltMover(_axis);
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_axis 			: AXIS_REF;
@@ -18,7 +18,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[axesMoveTo(arrPositions := _arrZones, arrVelos := _arrVelocities);
+      <ST><![CDATA[axesMoveTo();
 axesHalt();
 axesReset();
 _axis.ReadStatus();
@@ -230,18 +230,18 @@ IF NOT _backwardsAllowed THEN
 	//---------if SetPos is greater than current actual then move to that position--------------------
 	//---------else current position is greater, increase moduloturn count by 1 before set---------------
 	IF moduloPositionDemand > _axis.NcToPlc.ModuloActPos THEN
-		ModuloToAbs := (_Axis.NcToPlc.ModuloActTurns*_trackLength) + moduloPositionDemand;
+		ModuloToAbs := (DINT_TO_REAL(_Axis.NcToPlc.ModuloActTurns)*_trackLength) + moduloPositionDemand;
 	ELSE
-		ModuloToAbs := ((_Axis.NcToPlc.ModuloActTurns + 1)*_trackLength) + moduloPositionDemand;
+		ModuloToAbs := (DINT_TO_REAL(_Axis.NcToPlc.ModuloActTurns + 1)*_trackLength) + moduloPositionDemand;
 	END_IF
 ELSE
 	//--------if you want to go backwards--------------------------------
 	//--------if setPos is less than current actual then move to that position---------------------
 	//---------else current position is less, decrease moduloturn count by 1 before set------------
 	IF moduloPositionDemand < _axis.NcToPlc.ModuloActPos THEN
-		ModuloToAbs := (_Axis.NcToPlc.ModuloActTurns*_trackLength) + moduloPositionDemand;
+		ModuloToAbs := (DINT_TO_REAL(_Axis.NcToPlc.ModuloActTurns)*_trackLength) + moduloPositionDemand;
 	ELSE
-		ModuloToAbs := ((_Axis.NcToPlc.ModuloActTurns-1)*_trackLength) + moduloPositionDemand;
+		ModuloToAbs := (DINT_TO_REAL(_Axis.NcToPlc.ModuloActTurns-1)*_trackLength) + moduloPositionDemand;
 		//ModuloToAbsolute := ((_Axis.NcToPlc.ModuloActTurns - 1)*GVLAxesRefs.iXTSTrackLength) + moduloPositionDemand;
 	END_IF
 END_IF]]></ST>
@@ -354,7 +354,7 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="FB_Mover">
-      <LineId Id="503" Count="5" />
+      <LineId Id="530" Count="5" />
       <LineId Id="95" Count="0" />
     </LineIds>
     <LineIds Name="FB_Mover.Acceleration.Get">
