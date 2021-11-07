@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="IndexMoverSequence" Id="{5b1293cd-307b-4dc9-8f5e-57c564c1904c}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK IndexMoverSequence
 VAR_INPUT
 	ThisMover : IMover;
-	TrackState : E_Xts_StateMachine;
+	XtsTrack : IXtsTrack;
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -23,7 +23,7 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[CASE State OF
 	Init:
-		IF TrackState = E_Xts_StateMachine.Enabled THEN
+		IF TRUE THEN
 //			ThisMover.MoveTo(Position := ,
 //								Velocity := ,
 //								BackwardMove := );

@@ -1,19 +1,167 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
-  <POU Name="XtsHardware" Id="{c69630cb-dc63-4ece-b97e-1738681b1044}" SpecialFunc="None">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="XtsHardware" Id="{fdc8b717-d16e-40a4-b579-c07cec9aa7e9}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XtsHardware
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
+	XtsHardwareOK : BOOL;
+	AllMoversValid : BOOL;
+	bMoverIdDetected : BOOL;
+	Xts48VStanding : BOOL;
+	Xts24VStanding : BOOL;
+	ExpectedMoversFound : BOOL;
 END_VAR
 VAR
+	XtsIoEnvironment : Tc3_XTS_Utility.FB_TcIoXtsEnvironment;
+	bInit: BOOL;
+	bMoverIdDetectionError		: BOOL;
+	bMoverIdDetectionActive		: BOOL;
+	f24V: ARRAY[1..nModuleNumber] OF LREAL;
+	f48V: ARRAY[1..nModuleNumber] OF LREAL;
+	CurrentLive : ARRAY[1..nModuleNumber] OF LREAL;
+	MaxCurrent : ARRAY [1..nModuleNumber] OF DINT;
+	nModuleCounter : INT := 1;
+	i: INT;
+END_VAR
+VAR CONSTANT
+	nModuleNumber  : INT := 44;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[IF NOT bInit THEN
+	IF XtsIoEnvironment.Init(TRUE) THEN
+		XtsIoEnvironment.Init(FALSE);
+		bInit := TRUE;
+	END_IF
+	RETURN;
+END_IF
+
+IF NOT getMoversDetected() THEN
+	RETURN;
+ELSE
+	ExpectedMoversFound := true;
+END_IF
+
+IF getAllMoversValid() AND NOT bMoverIdDetected AND Xts48VStanding THEN
+	AllMoversValid := TRUE;
+	TriggerMoverID();
+END_IF
+getModuleInfoData();
+
+FOR i := 1 TO nModuleNumber DO
+	Xts48VStanding := TRUE;
+	Xts24VStanding := TRUE;
+	IF f48V[i] < 46000 THEN
+		Xts48VStanding := FALSE;
+	END_IF
+	IF f24V[i] < 22000 THEN
+		Xts24VStanding := FALSE;
+	END_IF
+END_FOR
+
+XtsHardwareOK := ExpectedMoversFound AND AllMoversValid AND bMoverIdDetected AND Xts48VStanding AND Xts24VStanding;
+]]></ST>
     </Implementation>
+    <Method Name="getAllMoversValid" Id="{ae944bc3-2c4d-4e0e-be98-33dfbe9c20d4}">
+      <Declaration><![CDATA[METHOD getAllMoversValid : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[getAllMoversValid := XtsIoEnvironment.XpuTcIo(1).GetAreAllPositionsValid();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="getModuleInfoData" Id="{5df1d418-67cd-4681-b784-eb84b54fcac5}">
+      <Declaration><![CDATA[METHOD getModuleInfoData : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF XtsIoEnvironment.XpuTcIo(1).PartTcIo(1).ModuleCoE(nModuleCounter).InfoData.Update() THEN
+	CurrentLive[nModuleCounter]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(1).ModuleCoE(nModuleCounter).InfoData.OverallCurrent;
+	MaxCurrent[nModuleCounter]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(1).ModuleCoE(nModuleCounter).InfoData.MaxOverallCurrentLast500ms;
+	f24V[nModuleCounter]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(1).ModuleCoE(nModuleCounter).InfoData.AuxiliaryVoltage24V;
+	f48V[nModuleCounter]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(1).ModuleCoE(nModuleCounter).InfoData.DcLinkVoltage;
+	//Increase Module count
+	IF nModuleCounter = nModuleNumber THEN
+		nModuleCounter:=1;
+	ELSE
+		nModuleCounter:=nModuleCounter+1;
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="getMoversDetected" Id="{812da94e-a8c0-4d51-9f58-8d59861ca284}">
+      <Declaration><![CDATA[METHOD getMoversDetected : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF XtsIoEnvironment.XpuTcIo(1).GetDetectedMoverCount() = XtsIoEnvironment.XpuTcIo(1).GetExpectedMoverCount() THEN
+	getMoversDetected := TRUE;
+ELSE
+	getMoversDetected := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TriggerMoverID" Id="{fba9ec64-a56d-44cb-8f57-71a89622c1d8}">
+      <Declaration><![CDATA[METHOD TriggerMoverID : BOOL
+VAR_INPUT
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Mover1 Functionality		
+// Check if "MoverIdDetectionMode" has been activated under the XtsProcessingUnit object.
+IF XtsIoEnvironment.XpuTcIo(1).GetMoverIdDetectionMode() = E_MoverIdDetectionMode.Mover1 THEN
+
+	// Check if the "MoverIdDetection" has already been started or the Mover1 was found.
+	IF NOT (bMoverIdDetectionActive OR bMoverIdDetected) THEN
+		// Trigger the "MoverIdDetection".
+		XtsIoEnvironment.XpuTcIo(1).TriggerMoverIdDetection();
+	END_IF
+
+	// Check for error or success of "MoverIdDetection".
+	bMoverIdDetectionError 	:= XtsIoEnvironment.XpuTcIo(1).GetHasMoverIdDetectionError();
+	bMoverIdDetected 	:= XtsIoEnvironment.XpuTcIo(1).GetIsMoverIdDetectionValid();
+	bMoverIdDetectionActive	:= XtsIoEnvironment.XpuTcIo(1).GetIsMoverIdDetectionActive();
+	
+	// If the detection has an error, check for errors in output and try again.
+	IF bMoverIdDetectionError THEN
+		RETURN; 
+	END_IF
+
+	// Do not process any further until the "MoverId" was deteced.
+	IF NOT bMoverIdDetected THEN
+		RETURN;
+	END_IF		
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="XtsHardware">
+      <LineId Id="206" Count="29" />
+      <LineId Id="263" Count="0" />
+      <LineId Id="262" Count="0" />
+      <LineId Id="58" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsHardware.getAllMoversValid">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsHardware.getModuleInfoData">
+      <LineId Id="6" Count="3" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="10" Count="5" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsHardware.getMoversDetected">
+      <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsHardware.TriggerMoverID">
+      <LineId Id="6" Count="5" />
+      <LineId Id="14" Count="17" />
+      <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

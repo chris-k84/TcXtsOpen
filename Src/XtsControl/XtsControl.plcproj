@@ -35,10 +35,10 @@
     <Compile Include="XTS Class\CollisionGroup.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="XTS Class\E_Xts_StateMachine.TcDUT">
+    <Compile Include="XTS Class\ICollisionGroup.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="XTS Class\ICollisionGroup.TcIO">
+    <Compile Include="XTS Class\IXtsTrack.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="XTS Class\XtsHardware.TcPOU">
@@ -132,6 +132,10 @@
     <PlaceholderReference Include="Tc3_Module">
       <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_Module</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_XTS_Utility">
+      <DefaultResolution>Tc3_XTS_Utility, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc3_XTS_Utility</Namespace>
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <Itf Name="IXtsTrack" Id="{82297094-0948-4f1a-ba6d-1d7e13cae51c}">
+    <Declaration><![CDATA[INTERFACE IXtsTrack
+]]></Declaration>
+  </Itf>
+</TcPlcObject>
