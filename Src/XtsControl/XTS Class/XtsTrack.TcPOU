@@ -3,6 +3,7 @@
   <POU Name="XtsTrack" Id="{cc8fa43e-3905-4147-a69e-0a5caa88babb}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XtsTrack IMPLEMENTS IXtsTrack
 VAR_INPUT
+	Machine : IMachine;
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -20,17 +21,81 @@ VAR
 		Enabled,
 		Running,
 		Disabling,
-		Disabled);  
-	
+		Disabled);  	
 END_VAR
 VAR_IN_OUT
 	MoverArray : ARRAY[*] OF IndexMover;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[XtsTrackHardware();
+CASE State OF
+	Init:
+		IF XtsTrackHardware.XtsHardwareOK THEN
+			State := Ready;
+		END_IF
+		
+	Ready:
+		IF Machine.PMLState = PackMLState.Clearing THEN
+			EnableSequence.Enable();
+			IF EnableSequence.Busy THEN
+				State := Enabling;
+			END_IF	
+		END_IF
+		
+	Enabling:
+		IF EnableSequence.Done THEN
+			State := Enabled;
+		END_IF
+		
+	Enabled:
+		IF Machine.PMLState = PackMLState.Aborting THEN
+			DisableSequence.Disable();
+			IF DisableSequence.Busy THEN
+				State := Disabling;
+			END_IF
+		END_IF
+		IF Machine.PMLState = PackMLState.Stopping THEN
+			//implement group stop;
+		END_IF
+		
+	Disabling:
+		IF DisableSequence.Done THEN
+			State := Ready;
+		END_IF
+	
+END_CASE
+
+EnableSequence(arrMovers := MoverArray);
+DisableSequence(arrMovers := MoverArray);
+mcCollisionGroup();]]></ST>
     </Implementation>
     <LineIds Name="XtsTrack">
+      <LineId Id="68" Count="0" />
       <LineId Id="9" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="69" Count="3" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="101" Count="3" />
+      <LineId Id="100" Count="0" />
+      <LineId Id="95" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="84" Count="1" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="40" Count="1" />
+      <LineId Id="90" Count="3" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="105" Count="2" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="89" Count="0" />
+      <LineId Id="96" Count="1" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="77" Count="1" />
     </LineIds>
   </POU>
 </TcPlcObject>

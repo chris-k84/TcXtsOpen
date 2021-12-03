@@ -5,6 +5,7 @@
 VAR_INPUT
 	ThisMover : IMover;
 	XtsTrack : IXtsTrack;
+	Machine : IMachine;
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -23,12 +24,13 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[CASE State OF
 	Init:
-		IF TRUE THEN
-//			ThisMover.MoveTo(Position := ,
-//								Velocity := ,
-//								BackwardMove := );
-//			Move to home
+		IF Machine.PMLState = PackMLState.Resetting THEN
+			ThisMover.MoveTo(Position := StationArray[LOWER_BOUND(StationArray,1)].Position,
+								Velocity := 1000,
+								BackwardMove := FALSE);
+			State := MovingToStation;
 		END_IF
+		
 	Available:
 //		Await at home for call
 		IF StationArray[LOWER_BOUND(StationArray,1)].IsReady() THEN
@@ -36,7 +38,7 @@ END_VAR]]></Declaration>
 		END_IF
 		
 	MovingToStation:
-//		Moving to Station
+		
 
 	QueuedAtStation:
 //		Queued at Station waiting for it to open
@@ -49,11 +51,11 @@ END_CASE]]></ST>
     <LineIds Name="IndexMoverSequence">
       <LineId Id="9" Count="0" />
       <LineId Id="38" Count="0" />
-      <LineId Id="70" Count="0" />
-      <LineId Id="72" Count="0" />
-      <LineId Id="74" Count="1" />
-      <LineId Id="80" Count="0" />
       <LineId Id="73" Count="0" />
+      <LineId Id="129" Count="0" />
+      <LineId Id="133" Count="2" />
+      <LineId Id="130" Count="0" />
+      <LineId Id="132" Count="0" />
       <LineId Id="41" Count="0" />
       <LineId Id="81" Count="0" />
       <LineId Id="89" Count="2" />

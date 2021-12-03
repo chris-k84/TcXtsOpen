@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <Itf Name="IMachine" Id="{2f2a2bb8-28a0-4228-9323-58e2c8d4e0dc}">
+    <Declaration><![CDATA[INTERFACE IMachine
+]]></Declaration>
+    <Property Name="PMLState" Id="{ca082088-8442-42b0-bf5a-85ad1b42830d}">
+      <Declaration><![CDATA[PROPERTY PMLState : PackMLState]]></Declaration>
+      <Get Name="Get" Id="{42dbe94e-961d-4466-bac8-ac3c6c5ba5b7}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>

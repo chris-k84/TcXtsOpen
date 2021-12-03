@@ -43,15 +43,11 @@ ELSE
 	ExpectedMoversFound := true;
 END_IF
 
-IF getAllMoversValid() AND NOT bMoverIdDetected AND Xts48VStanding THEN
-	AllMoversValid := TRUE;
-	TriggerMoverID();
-END_IF
 getModuleInfoData();
 
+Xts48VStanding := TRUE;
+Xts24VStanding := TRUE;
 FOR i := 1 TO nModuleNumber DO
-	Xts48VStanding := TRUE;
-	Xts24VStanding := TRUE;
 	IF f48V[i] < 46000 THEN
 		Xts48VStanding := FALSE;
 	END_IF
@@ -60,7 +56,7 @@ FOR i := 1 TO nModuleNumber DO
 	END_IF
 END_FOR
 
-XtsHardwareOK := ExpectedMoversFound AND AllMoversValid AND bMoverIdDetected AND Xts48VStanding AND Xts24VStanding;
+XtsHardwareOK := ExpectedMoversFound AND Xts48VStanding AND Xts24VStanding;
 ]]></ST>
     </Implementation>
     <Method Name="getAllMoversValid" Id="{ae944bc3-2c4d-4e0e-be98-33dfbe9c20d4}">
@@ -138,7 +134,11 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="XtsHardware">
-      <LineId Id="206" Count="29" />
+      <LineId Id="206" Count="12" />
+      <LineId Id="223" Count="1" />
+      <LineId Id="290" Count="1" />
+      <LineId Id="225" Count="1" />
+      <LineId Id="229" Count="6" />
       <LineId Id="263" Count="0" />
       <LineId Id="262" Count="0" />
       <LineId Id="58" Count="0" />
