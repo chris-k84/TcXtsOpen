@@ -1,17 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="XtsDisableSequence" Id="{ea1d04be-726e-4c7d-baa7-17245f825e22}" SpecialFunc="None">
-    <Declaration><![CDATA[{attribute 'hide_all_locals'}
-FUNCTION_BLOCK XtsDisableSequence IMPLEMENTS ITask
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsDisableSequence IMPLEMENTS ITask
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
 	_collisionGroup : ICollisionGroup;
-	disableGrp : DisableGroup(_collisionGroup.GroupRef);
-	removeAllAxes : RemoveAllMoverFromGroup(_collisionGroup.GroupRef);
-	grpStop : StopMoverGroup(_collisionGroup.GroupRef);
+	disableGrp : DisableGroup(_collisionGroup);
+	removeAllAxes : RemoveAllMoverFromGroup(_collisionGroup);
+	grpStop : StopMoverGroup(_collisionGroup);
 	State : INT;
 	DisableTrigger: BOOL;
 	moverNumbers : DINT := 1;

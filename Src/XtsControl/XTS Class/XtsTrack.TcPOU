@@ -22,9 +22,10 @@ VAR
 		Running,
 		Disabling,
 		Disabled);  	
+	iCounter: INT;
 END_VAR
 VAR_IN_OUT
-	MoverArray : ARRAY[*] OF IndexMover;
+	MoverArray : ARRAY[*] OF IMover;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[XtsTrackHardware();
@@ -64,7 +65,7 @@ CASE State OF
 		END_IF
 	
 END_CASE
-
+iCounter := iCounter + 1;
 EnableSequence(arrMovers := MoverArray);
 DisableSequence(arrMovers := MoverArray);
 mcCollisionGroup();]]></ST>

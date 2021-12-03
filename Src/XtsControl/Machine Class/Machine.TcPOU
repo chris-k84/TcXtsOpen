@@ -9,14 +9,22 @@ END_VAR
 VAR
 	Xts : XtsTrack;
 	State : PackMLState;
-	Movers : ARRAY[1..10] OF IndexMover;
+	indexMovers : ARRAY[1..10] OF IndexMover;
+	Movers : ARRAY[1..10] OF IMover;
 	i: INT;
+	bInit: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[Xts(MoverArray := Movers, Machine := THIS^);
+      <ST><![CDATA[IF NOT bInit THEN
+	FOR i := 1 TO 10 DO
+		Movers[i] := indexMovers[i];
+	END_FOR
+	bInit := TRUE;
+END_IF
+Xts(MoverArray := Movers, Machine := THIS^);
 FOR i := 1 TO 10 DO
-	Movers[i](XtsTrack := , Machine := THIS^, StationArray := );	
+	indexMovers[i](XtsTrack := , Machine := THIS^, StationArray := );	
 END_FOR
 
 ]]></ST>
@@ -35,6 +43,9 @@ END_VAR
       </Get>
     </Property>
     <LineIds Name="Machine">
+      <LineId Id="53" Count="1" />
+      <LineId Id="57" Count="2" />
+      <LineId Id="55" Count="0" />
       <LineId Id="14" Count="0" />
       <LineId Id="26" Count="2" />
       <LineId Id="40" Count="0" />
