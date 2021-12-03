@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="StopMoverGroup" Id="{6b4de033-a9aa-4f32-b1bf-39cfc678fe0d}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'hide_all_locals'}
 FUNCTION_BLOCK StopMoverGroup IMPLEMENTS ITask
@@ -9,7 +9,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	groupStop			: MC_GroupStop;
-	_caGroup			: REFERENCE TO AXES_GROUP_REF;
+	_caGroup			: ICollisionGroup;
 	State: INT;
 	_stopGroup : BOOL;
 	_busy : BOOL;
@@ -46,7 +46,7 @@ END_VAR
 END_CASE
 
 
-groupStop(AxesGroup := _caGroup);]]></ST>
+groupStop(AxesGroup := _caGroup.GroupRef);]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{84d8ec1e-2daf-405f-97f6-3ca84d42d71e}">
       <Declaration><![CDATA[METHOD Abort : BOOL
@@ -124,11 +124,11 @@ END_VAR
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	CAGroup : Reference TO AXES_GROUP_REF;
+	CAGroup : ICollisionGroup;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_caGroup REF= CAGroup;]]></ST>
+        <ST><![CDATA[_caGroup := CAGroup;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Jerk" Id="{b1ff7d73-bcbe-4f76-8a44-8a6566f51dae}">

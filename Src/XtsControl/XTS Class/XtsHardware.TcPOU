@@ -25,7 +25,7 @@ VAR
 	i: INT;
 END_VAR
 VAR CONSTANT
-	nModuleNumber  : INT := 44;
+	nModuleNumber  : INT := 14;
 END_VAR
 ]]></Declaration>
     <Implementation>

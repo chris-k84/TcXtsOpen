@@ -16,7 +16,7 @@ END_VAR
     <Implementation>
       <ST><![CDATA[Xts(MoverArray := Movers, Machine := THIS^);
 FOR i := 1 TO 10 DO
-	Movers[i](XtsTrack := Xts, Machine := THIS^, StationArray := );	
+	Movers[i](XtsTrack := , Machine := THIS^, StationArray := );	
 END_FOR
 
 ]]></ST>

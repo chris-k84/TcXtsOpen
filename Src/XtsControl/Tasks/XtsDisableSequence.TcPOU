@@ -145,9 +145,9 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[_collisionGroup := collisionGroup;
-disableGrp.FB_init(FALSE, FALSE, CAGroup := collisionGroup.GroupRef);
-removeAllAxes.FB_init(FALSE, FALSE, CAGroup := collisionGroup.GroupRef);
-grpStop.FB_init(FALSE,FALSE,CAGroup := collisionGroup.GroupRef);]]></ST>
+disableGrp.FB_init(FALSE, FALSE, CAGroup := collisionGroup);
+removeAllAxes.FB_init(FALSE, FALSE, CAGroup := collisionGroup);
+grpStop.FB_init(FALSE,FALSE,CAGroup := collisionGroup);]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetEmergencyDynamics" Id="{b5418f68-dda4-4664-b66b-f4c1bc501dec}">

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="ResetGroup" Id="{c21d861d-7057-4a32-9917-b2f2f1a5c489}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'hide_all_locals'}
 FUNCTION_BLOCK ResetGroup IMPLEMENTS ITask
@@ -9,7 +9,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	groupReset			: MC_GroupReset;
-	_caGroup			: REFERENCE TO AXES_GROUP_REF;
+	_caGroup			: ICollisionGroup;
 	State: INT;
 	_resetGroup : BOOL;
 	_busy : BOOL;
@@ -45,7 +45,7 @@ END_VAR
 END_CASE
 
 
-groupReset(AxesGroup := _caGroup);]]></ST>
+groupReset(AxesGroup := _caGroup.GroupRef);]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{6df41d98-0ac8-4a32-bfbe-e6164194489d}">
       <Declaration><![CDATA[METHOD Abort : BOOL
@@ -104,11 +104,11 @@ END_VAR
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	CAGroup : Reference TO AXES_GROUP_REF;	
+	CAGroup : ICollisionGroup;	
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_caGroup REF= CAGroup;]]></ST>
+        <ST><![CDATA[_caGroup := CAGroup;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="ResetGroup">

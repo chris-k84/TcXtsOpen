@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="DisableGroup" Id="{37828990-1151-42cb-8a82-4d653ff373ed}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'hide_all_locals'}
 FUNCTION_BLOCK DisableGroup IMPLEMENTS ITask
@@ -9,7 +9,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	groupDisable			: MC_GroupDisable;
-	_caGroup			: REFERENCE TO AXES_GROUP_REF;
+	_caGroup			: ICollisionGroup;
 	State: INT;
 	_disableGroup : BOOL;
 	_busy : BOOL;
@@ -45,7 +45,7 @@ END_VAR
 END_CASE
 
 
-groupDisable(AxesGroup := _caGroup);]]></ST>
+groupDisable(AxesGroup := _caGroup.GroupRef);]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{7caac018-1ef3-4d59-99fd-8985ed0dc129}">
       <Declaration><![CDATA[METHOD Abort : BOOL
@@ -105,11 +105,11 @@ END_VAR
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	CAGroup : Reference TO AXES_GROUP_REF;
+	CAGroup : ICollisionGroup;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_caGroup REF= CAGroup;]]></ST>
+        <ST><![CDATA[_caGroup := CAGroup;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="DisableGroup">

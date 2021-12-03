@@ -1,15 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="AddMoverToGroupTask" Id="{38d9c2dd-c50a-4b37-aa1d-638377a11576}" SpecialFunc="None">
-    <Declaration><![CDATA[{attribute 'hide_all_locals'}
-FUNCTION_BLOCK AddMoverToGroupTask IMPLEMENTS ITask
+    <Declaration><![CDATA[FUNCTION_BLOCK AddMoverToGroupTask IMPLEMENTS ITask
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
 	AddtoGrp			: MC_AddAxisToGroup;
-	_caGroup			: REFERENCE TO AXES_GROUP_REF;
+	_caGroup			: ICollisionGroup;
 	_axis				: reference TO AXIS_REF;
 	State: INT;
 	_addMover : BOOL;
@@ -46,7 +45,7 @@ END_VAR
 		END_IF
 END_CASE
 
-AddtoGrp(AxesGroup := _caGroup,
+AddtoGrp(AxesGroup := _caGroup.GroupRef,
 			Axis := _axis,
 			IdentInGroup := UDINT_TO_IDENTINGROUP(_moverNumber));]]></ST>
     </Implementation>
@@ -116,11 +115,11 @@ END_VAR
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	CAGroup : Reference TO AXES_GROUP_REF;	
+	collisionGroup : ICollisionGroup;	
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_caGroup REF= CAGroup;]]></ST>
+        <ST><![CDATA[_caGroup := collisionGroup;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="AddMoverToGroupTask">

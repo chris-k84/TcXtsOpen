@@ -1,16 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="XtsEnableSequence" Id="{2dbfd422-2e0c-45f9-9282-01bc354cd414}" SpecialFunc="None">
-    <Declaration><![CDATA[{attribute 'hide_all_locals'}
-FUNCTION_BLOCK XtsEnableSequence IMPLEMENTS ITask
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsEnableSequence IMPLEMENTS ITask
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
 	_collisionGroup : ICollisionGroup;
-	addMover : AddMoverToGroupTask(_collisionGroup.GroupRef);
-	enableGrp : EnableGroup(_collisionGroup.GroupRef);
+	addMover : AddMoverToGroupTask(_collisionGroup);
+	enableGrp : EnableGroup(_collisionGroup);
 	State : INT;
 	moverNumbers : DINT;
 	AllMoversEnabled: BOOL;
@@ -147,8 +146,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[_collisionGroup := collisionGroup;
-//addMover.FB_init(FALSE, FALSE, CAGroup := collisionGroup.GroupRef);
-//enableGrp.FB_init(FALSE,FALSE, CAGroup := collisionGroup.GroupRef);]]></ST>
+addMover.FB_init(FALSE, FALSE, collisionGroup);
+enableGrp.FB_init(FALSE,FALSE, collisionGroup);]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="XtsEnableSequence">

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="RemoveAllMoverFromGroup" Id="{894ab397-c87f-4d26-bea3-6776a2e45544}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'hide_all_locals'}
 FUNCTION_BLOCK RemoveAllMoverFromGroup IMPLEMENTS ITask
@@ -9,7 +9,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	RemoveAllFromGrp			: MC_UngroupAllAxes;
-	_caGroup			: REFERENCE TO AXES_GROUP_REF;
+	_caGroup			: ICollisionGroup;
 	State: INT;
 	_removeAllMovers : BOOL;
 	_busy : BOOL;
@@ -46,7 +46,7 @@ END_VAR
 END_CASE
 
 
-RemoveAllFromGrp(AxesGroup := _caGroup);]]></ST>
+RemoveAllFromGrp(AxesGroup := _caGroup.GroupRef);]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{a22f45bd-5352-4828-a3a0-02009b309eee}">
       <Declaration><![CDATA[METHOD Abort : BOOL
@@ -101,11 +101,11 @@ END_VAR
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	CAGroup : Reference TO AXES_GROUP_REF;	
+	CAGroup : ICollisionGroup;	
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_caGroup REF= CAGroup;]]></ST>
+        <ST><![CDATA[_caGroup := CAGroup;]]></ST>
       </Implementation>
     </Method>
     <Method Name="RemoveAllMover" Id="{9cf1b53b-0b00-45d8-9017-648dead49a6a}">
