@@ -46,6 +46,7 @@ CASE State OF
 	Enabling:
 		IF EnableSequence.Done THEN
 			State := Enabled;
+			//set packml state complete
 		END_IF
 		
 	Enabled:
@@ -62,9 +63,11 @@ CASE State OF
 	Disabling:
 		IF DisableSequence.Done THEN
 			State := Ready;
+			//set packml state complete
 		END_IF
 	
 END_CASE
+
 iCounter := iCounter + 1;
 EnableSequence(arrMovers := MoverArray);
 DisableSequence(arrMovers := MoverArray);
@@ -83,7 +86,9 @@ mcCollisionGroup();]]></ST>
       <LineId Id="95" Count="0" />
       <LineId Id="39" Count="0" />
       <LineId Id="74" Count="0" />
-      <LineId Id="84" Count="1" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="160" Count="0" />
+      <LineId Id="85" Count="0" />
       <LineId Id="80" Count="0" />
       <LineId Id="40" Count="1" />
       <LineId Id="90" Count="3" />
@@ -92,9 +97,12 @@ mcCollisionGroup();]]></ST>
       <LineId Id="88" Count="0" />
       <LineId Id="42" Count="0" />
       <LineId Id="89" Count="0" />
-      <LineId Id="96" Count="1" />
+      <LineId Id="96" Count="0" />
+      <LineId Id="161" Count="0" />
+      <LineId Id="97" Count="0" />
       <LineId Id="36" Count="0" />
       <LineId Id="35" Count="0" />
+      <LineId Id="159" Count="0" />
       <LineId Id="76" Count="0" />
       <LineId Id="75" Count="0" />
       <LineId Id="77" Count="1" />

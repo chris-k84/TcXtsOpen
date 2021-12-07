@@ -29,6 +29,12 @@
     <Compile Include="Mover Class\IndexMoverSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PackML\IPmlStateMachine.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PackML\PMLStateMachine.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Station Class\IStation.TcIO">
       <SubType>Code</SubType>
     </Compile>
@@ -107,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Machine Class" />
+    <Folder Include="PackML" />
     <Folder Include="Station Class" />
     <Folder Include="XTS Class" />
     <Folder Include="Mover Class" />
@@ -142,6 +149,10 @@
     <PlaceholderReference Include="Tc3_Module">
       <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_Module</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_PackML_V2">
+      <DefaultResolution>Tc3_PackML_V2, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc3_PackML_V2</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_XTS_Utility">
       <DefaultResolution>Tc3_XTS_Utility, * (Beckhoff Automation GmbH)</DefaultResolution>
