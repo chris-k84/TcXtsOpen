@@ -4,7 +4,7 @@
     <Declaration><![CDATA[FUNCTION_BLOCK IndexMover EXTENDS FB_Mover
 VAR_INPUT
 	XtsTrack : IXtsTrack;
-	Machine : IMachine;
+	StateMachine : IPmlStateMachine;
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -17,7 +17,10 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[SUPER^();
 
-moverSequence(ThisMover	 := THIS^, XtsTrack := XtsTrack, Machine := Machine);
+moverSequence(ThisMover	 := THIS^, 
+				XtsTrack := XtsTrack, 
+				StateMachine := StateMachine,
+				StationArray := StationArray);
 
 ]]></ST>
     </Implementation>
@@ -25,6 +28,9 @@ moverSequence(ThisMover	 := THIS^, XtsTrack := XtsTrack, Machine := Machine);
       <LineId Id="9" Count="0" />
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="73" Count="0" />
       <LineId Id="58" Count="0" />
       <LineId Id="57" Count="0" />
     </LineIds>

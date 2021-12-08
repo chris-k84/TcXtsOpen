@@ -8,9 +8,11 @@ VAR_OUTPUT
 END_VAR
 VAR
 	Xts : XtsTrack;
-	State : PackMLState;
+	stateMachine : PMLStateMachine;
 	indexMovers : ARRAY[1..10] OF IndexMover;
 	Movers : ARRAY[1..10] OF IMover;
+	StationArray : ARRAY[1..3] OF Station;
+	iStationArray : ARRAY[1..3] OF IStation;
 	i: INT;
 	bInit: BOOL;
 END_VAR
@@ -20,11 +22,20 @@ END_VAR
 	FOR i := 1 TO 10 DO
 		Movers[i] := indexMovers[i];
 	END_FOR
+	FOR i := 1 TO 3 DO
+		iStationArray[i] := StationArray[i];
+	END_FOR
+	StationArray[1].Position := 1500.0;
+	StationArray[2].Position := 2000.0;
+	StationArray[3].Position := 2250.0;
+	stateMachine.PMLCommand(Command := Tc3_PackML_V2.E_PMLState.ePMLState_Aborting);
+	stateMachine.StateComplete();
 	bInit := TRUE;
 END_IF
-Xts(MoverArray := Movers, Machine := THIS^);
+stateMachine();
+Xts(MoverArray := Movers, StateMachine := stateMachine);
 FOR i := 1 TO 10 DO
-	indexMovers[i](XtsTrack := , Machine := THIS^, StationArray := );	
+	indexMovers[i](XtsTrack := , StateMachine := stateMachine, StationArray := iStationArray );	
 END_FOR
 
 ]]></ST>
@@ -38,14 +49,17 @@ PROPERTY PMLState : PackMLState
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[PMLState := State;]]></ST>
+          <ST><![CDATA[//PMLState := State;]]></ST>
         </Implementation>
       </Get>
     </Property>
     <LineIds Name="Machine">
       <LineId Id="53" Count="1" />
-      <LineId Id="57" Count="2" />
+      <LineId Id="57" Count="1" />
+      <LineId Id="91" Count="7" />
+      <LineId Id="59" Count="0" />
       <LineId Id="55" Count="0" />
+      <LineId Id="74" Count="0" />
       <LineId Id="14" Count="0" />
       <LineId Id="26" Count="2" />
       <LineId Id="40" Count="0" />

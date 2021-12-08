@@ -61,6 +61,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Method Name="isStationary" Id="{dc850532-5214-4035-b444-b47b2e8e9d1b}">
+      <Declaration><![CDATA[METHOD isStationary : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
     <Method Name="MoveTo" Id="{ad2ef999-10e1-4863-90d6-0a9a5ca633ef}">
       <Declaration><![CDATA[METHOD MoveTo : BOOL
 VAR_INPUT

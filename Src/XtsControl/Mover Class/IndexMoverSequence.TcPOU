@@ -5,18 +5,20 @@
 VAR_INPUT
 	ThisMover : IMover;
 	XtsTrack : IXtsTrack;
-	Machine : IMachine;
+	StateMachine : IPmlStateMachine;
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
 	State :(
         Init,                                               
-        Available,                                  
+        Available,
+		MovingToStart, 
+		AtStart,                                 
         MovingToStation,
 		QueuedAtStation,
 		AtStation);  
-	CurrentStation : INT;
+	CurrentStation : INT := 1;
 END_VAR
 VAR_IN_OUT
 	StationArray : ARRAY[*] OF IStation;
@@ -24,49 +26,99 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[CASE State OF
 	Init:
-		IF Machine.PMLState = PackMLState.Resetting THEN
-			ThisMover.MoveTo(Position := StationArray[LOWER_BOUND(StationArray,1)].Position,
+		IF ThisMover.isDetected() THEN
+			State := Available;
+		END_IF
+		
+	Available:
+		IF StateMachine.getState() = E_PMLState.ePMLState_Starting THEN
+			State := MovingToStart;
+		END_IF
+		
+	MovingToStart:
+		IF ThisMover.isAtPosition(position := 1000.0) THEN
+			State := AtStart;
+		END_IF
+			
+	AtStart:
+		IF StationArray[CurrentStation].IsReady() THEN
+			ThisMover.MoveTo(Position := StationArray[CurrentStation].Position,
 								Velocity := 1000,
 								BackwardMove := FALSE);
 			State := MovingToStation;
 		END_IF
 		
-	Available:
-//		Await at home for call
-		IF StationArray[LOWER_BOUND(StationArray,1)].IsReady() THEN
-			;
+	MovingToStation:
+		IF ThisMover.isStationary() THEN 
+			IF ThisMover.isAtPosition(StationArray[CurrentStation].Position) THEN
+				State := AtStation;
+			ELSE
+				State := QueuedAtStation;
+			END_IF
 		END_IF
 		
-	MovingToStation:
-		
-
 	QueuedAtStation:
-//		Queued at Station waiting for it to open
+		IF ThisMover.isAtPosition(StationArray[CurrentStation].Position) THEN
+				State := AtStation;
+		END_IF
 
 	AtStation:
-//		At Station awaiting operation
+		IF StationArray[CurrentStation].isComplete() THEN
+			IF CurrentStation = UPPER_BOUND(StationArray,1) THEN
+				ThisMover.MoveTo(Position := 1000,
+								Velocity := 1000,
+								BackwardMove := FALSE);
+				State := MovingToStart;
+			ELSE
+				CurrentStation := CurrentStation + 1;
+				ThisMover.MoveTo(Position := StationArray[CurrentStation].Position,
+								Velocity := 1000,
+								BackwardMove := FALSE);
+				State := MovingToStation;
+			END_IF
+		END_IF
 
 END_CASE]]></ST>
     </Implementation>
     <LineIds Name="IndexMoverSequence">
       <LineId Id="9" Count="0" />
       <LineId Id="38" Count="0" />
-      <LineId Id="73" Count="0" />
-      <LineId Id="129" Count="0" />
-      <LineId Id="133" Count="2" />
-      <LineId Id="130" Count="0" />
+      <LineId Id="158" Count="2" />
       <LineId Id="132" Count="0" />
       <LineId Id="41" Count="0" />
-      <LineId Id="81" Count="0" />
-      <LineId Id="89" Count="2" />
-      <LineId Id="77" Count="0" />
+      <LineId Id="171" Count="0" />
+      <LineId Id="175" Count="0" />
+      <LineId Id="170" Count="0" />
+      <LineId Id="182" Count="2" />
+      <LineId Id="207" Count="1" />
+      <LineId Id="176" Count="0" />
+      <LineId Id="163" Count="0" />
+      <LineId Id="180" Count="1" />
+      <LineId Id="209" Count="2" />
+      <LineId Id="161" Count="1" />
       <LineId Id="67" Count="0" />
-      <LineId Id="85" Count="1" />
+      <LineId Id="85" Count="0" />
+      <LineId Id="214" Count="0" />
+      <LineId Id="212" Count="0" />
+      <LineId Id="215" Count="2" />
+      <LineId Id="213" Count="0" />
+      <LineId Id="86" Count="0" />
       <LineId Id="68" Count="0" />
       <LineId Id="84" Count="0" />
+      <LineId Id="233" Count="0" />
+      <LineId Id="219" Count="0" />
       <LineId Id="87" Count="0" />
       <LineId Id="69" Count="0" />
       <LineId Id="83" Count="0" />
+      <LineId Id="220" Count="0" />
+      <LineId Id="225" Count="1" />
+      <LineId Id="224" Count="0" />
+      <LineId Id="222" Count="0" />
+      <LineId Id="227" Count="1" />
+      <LineId Id="230" Count="2" />
+      <LineId Id="229" Count="0" />
+      <LineId Id="223" Count="0" />
+      <LineId Id="221" Count="0" />
       <LineId Id="88" Count="0" />
       <LineId Id="39" Count="0" />
     </LineIds>

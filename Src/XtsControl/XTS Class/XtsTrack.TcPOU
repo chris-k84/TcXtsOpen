@@ -3,7 +3,7 @@
   <POU Name="XtsTrack" Id="{cc8fa43e-3905-4147-a69e-0a5caa88babb}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XtsTrack IMPLEMENTS IXtsTrack
 VAR_INPUT
-	Machine : IMachine;
+	StateMachine : IPmlStateMachine;
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -15,14 +15,14 @@ VAR
 	DisableSequence : XtsDisableSequence(mcCollisionGroup);
 	State :(
         Init,                                               
-        Resetting, 
 		Ready,                                 
         Enabling,
 		Enabled,
+		Resetting,
 		Running,
-		Disabling,
-		Disabled);  	
-	iCounter: INT;
+		Disabling);  	
+	i : DINT;
+	AtHome: BOOL;
 END_VAR
 VAR_IN_OUT
 	MoverArray : ARRAY[*] OF IMover;
@@ -36,7 +36,7 @@ CASE State OF
 		END_IF
 		
 	Ready:
-		IF Machine.PMLState = PackMLState.Clearing THEN
+		IF StateMachine.getState() = E_PMLState.ePMLState_Clearing THEN
 			EnableSequence.Enable();
 			IF EnableSequence.Busy THEN
 				State := Enabling;
@@ -46,29 +46,50 @@ CASE State OF
 	Enabling:
 		IF EnableSequence.Done THEN
 			State := Enabled;
-			//set packml state complete
+			StateMachine.StateComplete();
 		END_IF
 		
 	Enabled:
-		IF Machine.PMLState = PackMLState.Aborting THEN
+		IF StateMachine.getState() = E_PMLState.ePMLState_Aborting THEN
 			DisableSequence.Disable();
 			IF DisableSequence.Busy THEN
 				State := Disabling;
 			END_IF
 		END_IF
-		IF Machine.PMLState = PackMLState.Stopping THEN
-			//implement group stop;
+		
+		IF StateMachine.getState() = E_PMLState.ePMLState_Resetting THEN
+			FOR i := LOWER_BOUND(MoverArray,1) TO UPPER_BOUND(MoverArray,1) DO
+				MoverArray[i].MoveTo(Position := 1000.0, Velocity := 1000.0, BackwardMove := FALSE);
+			END_FOR 
+			State := Resetting;
+		END_IF
+		
+	Resetting:
+		AtHome := TRUE;
+		FOR i := LOWER_BOUND(MoverArray,1) TO UPPER_BOUND(MoverArray,1) DO
+				AtHome := AtHome AND MoverArray[i].isStationary();
+		END_FOR 
+		IF AtHome THEN
+			State := Running;
+			StateMachine.StateComplete();	
+		END_IF
+		
+	Running:	
+		IF StateMachine.getState() = E_PMLState.ePMLState_Aborting THEN
+			DisableSequence.Disable();
+			IF DisableSequence.Busy THEN
+				State := Disabling;
+			END_IF
 		END_IF
 		
 	Disabling:
 		IF DisableSequence.Done THEN
 			State := Ready;
-			//set packml state complete
+			StateMachine.StateComplete();
 		END_IF
 	
 END_CASE
 
-iCounter := iCounter + 1;
 EnableSequence(arrMovers := MoverArray);
 DisableSequence(arrMovers := MoverArray);
 mcCollisionGroup();]]></ST>
@@ -93,18 +114,33 @@ mcCollisionGroup();]]></ST>
       <LineId Id="40" Count="1" />
       <LineId Id="90" Count="3" />
       <LineId Id="87" Count="0" />
-      <LineId Id="105" Count="2" />
+      <LineId Id="203" Count="0" />
+      <LineId Id="105" Count="0" />
+      <LineId Id="198" Count="0" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="204" Count="0" />
+      <LineId Id="107" Count="0" />
+      <LineId Id="193" Count="1" />
+      <LineId Id="208" Count="0" />
+      <LineId Id="205" Count="1" />
+      <LineId Id="210" Count="2" />
+      <LineId Id="214" Count="0" />
+      <LineId Id="213" Count="0" />
+      <LineId Id="196" Count="0" />
+      <LineId Id="188" Count="0" />
+      <LineId Id="216" Count="4" />
+      <LineId Id="215" Count="0" />
       <LineId Id="88" Count="0" />
       <LineId Id="42" Count="0" />
       <LineId Id="89" Count="0" />
       <LineId Id="96" Count="0" />
-      <LineId Id="161" Count="0" />
+      <LineId Id="187" Count="0" />
       <LineId Id="97" Count="0" />
       <LineId Id="36" Count="0" />
       <LineId Id="35" Count="0" />
-      <LineId Id="159" Count="0" />
       <LineId Id="76" Count="0" />
-      <LineId Id="75" Count="0" />
+      <LineId Id="202" Count="0" />
       <LineId Id="77" Count="1" />
     </LineIds>
   </POU>

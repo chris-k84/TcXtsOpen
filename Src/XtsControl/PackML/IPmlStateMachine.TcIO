@@ -12,6 +12,7 @@ END_VAR
     <Method Name="PMLCommand" Id="{d2c71d0c-6799-4511-ad44-296dbc3c3f79}">
       <Declaration><![CDATA[METHOD PMLCommand : bool
 VAR_INPUT
+	Command : E_PMLCommand;
 END_VAR
 ]]></Declaration>
     </Method>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <Itf Name="IStation" Id="{d53abde8-a061-4411-9fc7-d7a9304584ff}">
     <Declaration><![CDATA[INTERFACE IStation
 ]]></Declaration>
@@ -11,6 +11,12 @@ END_VAR
     </Method>
     <Method Name="IsClear" Id="{3bd7b012-e144-45f5-baa9-13115e740b45}">
       <Declaration><![CDATA[METHOD IsClear : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="isComplete" Id="{5ff9ac5b-9b0a-4f0e-9ce4-355e0f44f07f}">
+      <Declaration><![CDATA[METHOD isComplete : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>

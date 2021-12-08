@@ -54828,12 +54828,12 @@ and will return to Group State Standby when the situation permits.
 				<Box Id="21" BoxType="9099">
 					<Name>Box 21 (CU2508)</Name>
 					<ImageId>1008</ImageId>
-					<EtherCAT SlaveType="1" PdiType="#x0100" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x09cc5432" DcPotentialRefClock="true" PortPhys="17" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="CU2508 Ethernet Port" Desc="CU2508" PortABoxInfo="#x00ffffff"/>
+					<EtherCAT SlaveType="1" PdiType="#x0100" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x09cc5432" DcPotentialRefClock="true" CheckRevisionNoType="1" PortPhys="17" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="CU2508 Ethernet Port" Desc="CU2508" PortABoxInfo="#x00ffffff"/>
 				</Box>
 				<Box Id="22" BoxType="9099" BoxFlags="#x00000020">
 					<Name>Term 22 (AT2002-0250)</Name>
 					<ImageId>1009</ImageId>
-					<EtherCAT SlaveType="2" PdiType="#x0405" MboxDataLinkLayer="true" StateMBoxPolling="true" CfgModeSafeOp="true" CycleMBoxPollingTime="0" CoeType="7" FoeType="1" VendorId="#x00000002" ProductCode="#x07d25012" RevisionNo="#x001800fa" InfoDataAddr="true" InfoDataDcTimes="true" TimeoutMailbox2="2000" CheckRevisionNoType="3" PortPhys="305" SdoUploadWithMaxLength="true" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="AT2002-0250 Motor module with feed (B23-Connector) 250 mm, 48V" Desc="AT2002-0250" PortABoxInfo="#x01000015">
+					<EtherCAT SlaveType="2" PdiType="#x0405" MboxDataLinkLayer="true" StateMBoxPolling="true" CfgModeSafeOp="true" CycleMBoxPollingTime="0" CoeType="7" FoeType="1" VendorId="#x00000002" ProductCode="#x07d25012" RevisionNo="#x001800fa" InfoDataAddr="true" InfoDataDcTimes="true" TimeoutMailbox2="2000" CheckRevisionNoType="1" PortPhys="305" SdoUploadWithMaxLength="true" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="AT2002-0250 Motor module with feed (B23-Connector) 250 mm, 48V" Desc="AT2002-0250" PortABoxInfo="#x01000015">
 						<SyncMan>001080002600010001000000800080008000001026010000</SyncMan>
 						<SyncMan>801080002200010002000000800080008000801022010000</SyncMan>
 						<SyncMan>001120002400010003000000000000002000001124010000</SyncMan>
@@ -55048,7 +55048,7 @@ and will return to Group State Standby when the situation permits.
 					<Box Id="23" BoxType="9099">
 						<Name>Term 23 (AT2002-5250)</Name>
 						<ImageId>1009</ImageId>
-						<EtherCAT SlaveType="1" PdiType="#x0d06" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x07d25012" RevisionNo="#x00121482" InfoDataDcTimes="true" PortPhys="3" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="AT2002-5250 Sensor line with feed (B23-Connector)" Desc="AT2002-5250" PortABoxInfo="#x01000016">
+						<EtherCAT SlaveType="1" PdiType="#x0d06" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x07d25012" RevisionNo="#x00121482" InfoDataDcTimes="true" CheckRevisionNoType="1" PortPhys="3" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="AT2002-5250 Sensor line with feed (B23-Connector)" Desc="AT2002-5250" PortABoxInfo="#x01000016">
 							<SyncMan>001002004400010003000000000000000100001044010000</SyncMan>
 							<SyncMan>801042000000010004000000000000000100801000010000</SyncMan>
 							<Fmmu>0000000000000000001000020100000001000000000000000000000000000000</Fmmu>
@@ -55167,7 +55167,7 @@ and will return to Group State Standby when the situation permits.
 				<Box Id="24" BoxType="9099" BoxFlags="#x00000020">
 					<Name>Term 24 (AT2000-0250)</Name>
 					<ImageId>1009</ImageId>
-					<EtherCAT SlaveType="2" PdiType="#x0405" MboxDataLinkLayer="true" StateMBoxPolling="true" CfgModeSafeOp="true" CycleMBoxPollingTime="0" CoeType="7" FoeType="1" VendorId="#x00000002" ProductCode="#x07d05012" RevisionNo="#x001800fa" InfoDataAddr="true" InfoDataDcTimes="true" TimeoutMailbox2="2000" CheckRevisionNoType="3" PortPhys="305" SdoUploadWithMaxLength="true" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="AT2000-0250 Motor module 250 mm, 48V" Desc="AT2000-0250" PortABoxInfo="#x02000016">
+					<EtherCAT SlaveType="2" PdiType="#x0405" MboxDataLinkLayer="true" StateMBoxPolling="true" CfgModeSafeOp="true" CycleMBoxPollingTime="0" CoeType="7" FoeType="1" VendorId="#x00000002" ProductCode="#x07d05012" RevisionNo="#x001800fa" InfoDataAddr="true" InfoDataDcTimes="true" TimeoutMailbox2="2000" CheckRevisionNoType="1" PortPhys="305" SdoUploadWithMaxLength="true" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="AT2000-0250 Motor module 250 mm, 48V" Desc="AT2000-0250" PortABoxInfo="#x02000016">
 						<SyncMan>001080002600010001000000800080008000001026010000</SyncMan>
 						<SyncMan>801080002200010002000000800080008000801022010000</SyncMan>
 						<SyncMan>001120002400010003000000000000002000001124010000</SyncMan>
@@ -55382,7 +55382,7 @@ and will return to Group State Standby when the situation permits.
 					<Box Id="25" BoxType="9099">
 						<Name>Term 25 (AT2000-5250)</Name>
 						<ImageId>1009</ImageId>
-						<EtherCAT SlaveType="1" PdiType="#x0d06" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x07d05012" RevisionNo="#x00121482" InfoDataDcTimes="true" PortPhys="3" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="AT2000-5250 Sensor line" Desc="AT2000-5250" PortABoxInfo="#x01000018">
+						<EtherCAT SlaveType="1" PdiType="#x0d06" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x07d05012" RevisionNo="#x00121482" InfoDataDcTimes="true" CheckRevisionNoType="1" PortPhys="3" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="AT2000-5250 Sensor line" Desc="AT2000-5250" PortABoxInfo="#x01000018">
 							<SyncMan>001002004400010003000000000000000100001044010000</SyncMan>
 							<SyncMan>801042000000010004000000000000000100801000010000</SyncMan>
 							<Fmmu>0000000000000000001000020100000001000000000000000000000000000000</Fmmu>
@@ -55501,7 +55501,7 @@ and will return to Group State Standby when the situation permits.
 				<Box Id="26" BoxType="9099" BoxFlags="#x00000020">
 					<Name>Term 26 (AT2000-0250)</Name>
 					<ImageId>1009</ImageId>
-					<EtherCAT SlaveType="2" PdiType="#x0405" MboxDataLinkLayer="true" StateMBoxPolling="true" CfgModeSafeOp="true" CycleMBoxPollingTime="0" CoeType="7" FoeType="1" VendorId="#x00000002" ProductCode="#x07d05012" RevisionNo="#x001800fa" InfoDataAddr="true" InfoDataDcTimes="true" TimeoutMailbox2="2000" CheckRevisionNoType="3" PortPhys="305" SdoUploadWithMaxLength="true" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="AT2000-0250 Motor module 250 mm, 48V" Desc="AT2000-0250" PortABoxInfo="#x02000018">
+					<EtherCAT SlaveType="2" PdiType="#x0405" MboxDataLinkLayer="true" StateMBoxPolling="true" CfgModeSafeOp="true" CycleMBoxPollingTime="0" CoeType="7" FoeType="1" VendorId="#x00000002" ProductCode="#x07d05012" RevisionNo="#x001800fa" InfoDataAddr="true" InfoDataDcTimes="true" TimeoutMailbox2="2000" CheckRevisionNoType="1" PortPhys="305" SdoUploadWithMaxLength="true" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="AT2000-0250 Motor module 250 mm, 48V" Desc="AT2000-0250" PortABoxInfo="#x02000018">
 						<SyncMan>001080002600010001000000800080008000001026010000</SyncMan>
 						<SyncMan>801080002200010002000000800080008000801022010000</SyncMan>
 						<SyncMan>001120002400010003000000000000002000001124010000</SyncMan>
@@ -55716,7 +55716,7 @@ and will return to Group State Standby when the situation permits.
 					<Box Id="27" BoxType="9099">
 						<Name>Term 27 (AT2000-5250)</Name>
 						<ImageId>1009</ImageId>
-						<EtherCAT SlaveType="1" PdiType="#x0d06" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x07d05012" RevisionNo="#x00121482" InfoDataDcTimes="true" PortPhys="3" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="AT2000-5250 Sensor line" Desc="AT2000-5250" PortABoxInfo="#x0100001a">
+						<EtherCAT SlaveType="1" PdiType="#x0d06" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x07d05012" RevisionNo="#x00121482" InfoDataDcTimes="true" CheckRevisionNoType="1" PortPhys="3" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="AT2000-5250 Sensor line" Desc="AT2000-5250" PortABoxInfo="#x0100001a">
 							<SyncMan>001002004400010003000000000000000100001044010000</SyncMan>
 							<SyncMan>801042000000010004000000000000000100801000010000</SyncMan>
 							<Fmmu>0000000000000000001000020100000001000000000000000000000000000000</Fmmu>
@@ -55835,7 +55835,7 @@ and will return to Group State Standby when the situation permits.
 				<Box Id="28" BoxType="9099" BoxFlags="#x00000020">
 					<Name>Term 28 (AT2000-0250)</Name>
 					<ImageId>1009</ImageId>
-					<EtherCAT SlaveType="2" PdiType="#x0405" MboxDataLinkLayer="true" StateMBoxPolling="true" CfgModeSafeOp="true" CycleMBoxPollingTime="0" CoeType="7" FoeType="1" VendorId="#x00000002" ProductCode="#x07d05012" RevisionNo="#x001800fa" InfoDataAddr="true" InfoDataDcTimes="true" TimeoutMailbox2="2000" CheckRevisionNoType="3" PortPhys="305" SdoUploadWithMaxLength="true" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="AT2000-0250 Motor module 250 mm, 48V" Desc="AT2000-0250" PortABoxInfo="#x0200001a">
+					<EtherCAT SlaveType="2" PdiType="#x0405" MboxDataLinkLayer="true" StateMBoxPolling="true" CfgModeSafeOp="true" CycleMBoxPollingTime="0" CoeType="7" FoeType="1" VendorId="#x00000002" ProductCode="#x07d05012" RevisionNo="#x001800fa" InfoDataAddr="true" InfoDataDcTimes="true" TimeoutMailbox2="2000" CheckRevisionNoType="1" PortPhys="305" SdoUploadWithMaxLength="true" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="AT2000-0250 Motor module 250 mm, 48V" Desc="AT2000-0250" PortABoxInfo="#x0200001a">
 						<SyncMan>001080002600010001000000800080008000001026010000</SyncMan>
 						<SyncMan>801080002200010002000000800080008000801022010000</SyncMan>
 						<SyncMan>001120002400010003000000000000002000001124010000</SyncMan>
@@ -56050,7 +56050,7 @@ and will return to Group State Standby when the situation permits.
 					<Box Id="29" BoxType="9099">
 						<Name>Term 29 (AT2000-5250)</Name>
 						<ImageId>1009</ImageId>
-						<EtherCAT SlaveType="1" PdiType="#x0d06" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x07d05012" RevisionNo="#x00121482" InfoDataDcTimes="true" PortPhys="3" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="AT2000-5250 Sensor line" Desc="AT2000-5250" PortABoxInfo="#x0100001c">
+						<EtherCAT SlaveType="1" PdiType="#x0d06" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x07d05012" RevisionNo="#x00121482" InfoDataDcTimes="true" CheckRevisionNoType="1" PortPhys="3" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="AT2000-5250 Sensor line" Desc="AT2000-5250" PortABoxInfo="#x0100001c">
 							<SyncMan>001002004400010003000000000000000100001044010000</SyncMan>
 							<SyncMan>801042000000010004000000000000000100801000010000</SyncMan>
 							<Fmmu>0000000000000000001000020100000001000000000000000000000000000000</Fmmu>
@@ -59560,8 +59560,15 @@ and will return to Group State Standby when the situation permits.
 				<EtherCAT DcSyncMode="2" DcShiftTime="10440"/>
 			</Device>
 		</Io>
+		<SymbolWatch>
+			<Variable>TINC^NC SAF^Objects^Group1 (CA Group)^Group Outputs^ToPLC^Common^GroupStatus^State</Variable>
+			<Variable>TINC^NC SAF^Objects^Group1 (CA Group)^Group Outputs^ToPLC^Common^GroupErrorId</Variable>
+			<Variable>TINC^NC SAF^Objects^Group1 (CA Group)^Group Outputs^ToPLC^Common^GroupAxesCount</Variable>
+			<Variable>TINC^NC SAF^Objects^Group1 (CA Group)^Group Outputs^ToPLC^Common^GroupStatus^Flags^IsEnableRequested</Variable>
+		</SymbolWatch>
 	</Project>
 	<Mappings>
+		<MappingInfo Identifier="{05000010-2001-0850-1000-040300205008}" Id="#x02030010" Watchdog="14000000040000000400000004000000"/>
 		<MappingInfo Identifier="{05000010-2001-0850-1000-120500205008}" Id="#x02030020" Watchdog="14000000040000000400000004000000"/>
 		<OwnerA Name="TIID^Infeed 1">
 			<OwnerB Name="TIRC^TcCOM Objects^Object1 (XtsProcessingUnit)^Part 1^Module 12">

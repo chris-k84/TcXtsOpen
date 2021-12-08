@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="Station" Id="{c0ea4e62-fbfe-4a62-8def-c1a022a86e9d}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Station IMPLEMENTS IStation
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_Clear : BOOL;
+	_Complete : BOOL;
+	_Operating : BOOL;
+	_Ready : BOOL;
+	_Position : MC_LREAL;;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="HasMover" Id="{5275ace3-94b3-4866-84de-13c179bb6267}">
+      <Declaration><![CDATA[{warning 'add method implementation '}
+METHOD HasMover : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="IsClear" Id="{8e25d200-227b-4162-a115-dff1d5795336}">
+      <Declaration><![CDATA[{warning 'add method implementation '}
+METHOD IsClear : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IsClear := _Clear;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="isComplete" Id="{9f684948-b635-426f-b337-4bc540f41ce6}">
+      <Declaration><![CDATA[{warning 'add method implementation '}
+METHOD isComplete : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[isComplete := _Complete;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="IsOperating" Id="{e1a11572-f297-45c3-a812-60896aa74d29}">
+      <Declaration><![CDATA[{warning 'add method implementation '}
+METHOD IsOperating : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IsOperating := _Operating;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="IsReady" Id="{c3ad09cd-a86e-4a42-ac30-9f0ab4039334}">
+      <Declaration><![CDATA[{warning 'add method implementation '}
+METHOD IsReady : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IsReady := _Ready;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Position" Id="{4add20f7-beba-4a92-8079-611b8f00a59f}">
+      <Declaration><![CDATA[{warning 'add property implementation'}
+PROPERTY Position : MC_LREAL
+]]></Declaration>
+      <Get Name="Get" Id="{acdae7bd-9c6a-4c62-9baf-3c698e09701d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Position := _Position;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{c1baf216-d857-42c6-bc5c-effe4378b80c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_Position := Position;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="Station">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="Station.HasMover">
+      <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="Station.IsClear">
+      <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="Station.isComplete">
+      <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="Station.IsOperating">
+      <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="Station.IsReady">
+      <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="Station.Position.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Station.Position.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

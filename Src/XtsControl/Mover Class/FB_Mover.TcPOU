@@ -5,7 +5,7 @@
 VAR
 	axesEnable		: MC_Power;
 	axesReset		: AxesReset(_axis);
-	axesMoveTo 		: MoveMoverToPositionZoned(_axis,_arrZones,_arrVelocities) := (Gap := 213.0);
+	axesMoveTo 		: MoveMoverToPosition(_axis) := (Gap := 100.0);
 	axesHalt 		: HaltMover(_axis);
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_axis 			: AXIS_REF;
@@ -195,6 +195,15 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[isEnabled := not _axis.Status.Disabled;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="isStationary" Id="{8108bb6d-d181-4f40-acc1-62f292008c5d}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PUBLIC isStationary : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[isStationary := _axis.NcToPlc.SetVelo = 0;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Jerk" Id="{8dbc2563-ca56-48eb-bdb2-972740f27e21}" FolderPath="Properties\">
@@ -416,6 +425,9 @@ END_VAR
       <LineId Id="9" Count="2" />
     </LineIds>
     <LineIds Name="FB_Mover.isEnabled">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.isStationary">
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Mover.Jerk.Get">

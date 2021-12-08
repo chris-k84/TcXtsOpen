@@ -38,6 +38,9 @@
     <Compile Include="Station Class\IStation.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Station Class\Station.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Tasks\XtsDisableSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
