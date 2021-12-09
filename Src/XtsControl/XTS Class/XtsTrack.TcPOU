@@ -8,7 +8,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	_trackLength : REAL := 3000.0;
+	_trackLength : MC_LREAL := 3000.0;
 	mcCollisionGroup : CollisionGroup;
 	XtsTrackHardware : XtsHardware;
 	EnableSequence : XtsEnableSequence(mcCollisionGroup);
@@ -94,6 +94,17 @@ EnableSequence(arrMovers := MoverArray);
 DisableSequence(arrMovers := MoverArray);
 mcCollisionGroup();]]></ST>
     </Implementation>
+    <Property Name="TrackLength" Id="{650984a1-6668-4032-bccb-d14c7a46cb5a}">
+      <Declaration><![CDATA[PROPERTY PUBLIC TrackLength : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{074949c2-3a12-4fc2-a08c-82a02f06bf44}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[TrackLength := _trackLength;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <LineIds Name="XtsTrack">
       <LineId Id="68" Count="0" />
       <LineId Id="9" Count="0" />
@@ -142,6 +153,9 @@ mcCollisionGroup();]]></ST>
       <LineId Id="76" Count="0" />
       <LineId Id="202" Count="0" />
       <LineId Id="77" Count="1" />
+    </LineIds>
+    <LineIds Name="XtsTrack.TrackLength.Get">
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

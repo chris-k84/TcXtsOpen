@@ -34,9 +34,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[IF readStatus.AllAxesStanding THEN
-	GroupState := CAGroupStatus.mcGroupAllAxesStanding;
-ELSIF readStatus.GroupDisabled THEN
+          <ST><![CDATA[IF readStatus.GroupDisabled THEN
 	GroupState := CAGroupStatus.mcGroupStateDisabled;
 ELSIF readStatus.GroupErrorStop THEN
 	GroupState := CAGroupStatus.mcGroupStateErrorStop;
@@ -63,7 +61,7 @@ END_IF]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="CollisionGroup.GroupState.Get">
-      <LineId Id="7" Count="17" />
+      <LineId Id="9" Count="15" />
       <LineId Id="6" Count="0" />
     </LineIds>
   </POU>

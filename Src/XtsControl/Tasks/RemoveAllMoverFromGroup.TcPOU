@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="RemoveAllMoverFromGroup" Id="{894ab397-c87f-4d26-bea3-6776a2e45544}" SpecialFunc="None">
-    <Declaration><![CDATA[{attribute 'hide_all_locals'}
-FUNCTION_BLOCK RemoveAllMoverFromGroup IMPLEMENTS ITask
+    <Declaration><![CDATA[FUNCTION_BLOCK RemoveAllMoverFromGroup IMPLEMENTS ITask
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -16,6 +15,7 @@ VAR
 	_error : BOOL;
 	_done : BOOL;
 	_moverNumber : INT;
+	_errorId: UDINT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -38,6 +38,7 @@ END_VAR
 				_done := TRUE;
 			ELSIF RemoveAllFromGrp.Error THEN
 				_error := TRUE;
+				_errorId := RemoveAllFromGrp.ErrorId;
 			END_IF
 			_busy := FALSE;
 			RemoveAllFromGrp.Execute := false;
@@ -122,7 +123,9 @@ END_VAR
       <LineId Id="282" Count="0" />
       <LineId Id="324" Count="0" />
       <LineId Id="283" Count="0" />
-      <LineId Id="289" Count="13" />
+      <LineId Id="289" Count="4" />
+      <LineId Id="341" Count="0" />
+      <LineId Id="294" Count="8" />
     </LineIds>
     <LineIds Name="RemoveAllMoverFromGroup.Abort">
       <LineId Id="4" Count="0" />

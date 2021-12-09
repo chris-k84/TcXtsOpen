@@ -10,12 +10,17 @@ VAR_OUTPUT
 END_VAR
 VAR
 	moverSequence : IndexMoverSequence;
+	bInit: bool;
 END_VAR
 VAR_IN_OUT
 	StationArray : ARRAY[*] OF IStation;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[SUPER^();
+      <ST><![CDATA[IF NOT bInit THEN
+	bInit := TRUE;
+	_trackLength := XtsTrack.TrackLength;
+END_IF
+SUPER^();
 
 moverSequence(ThisMover	 := THIS^, 
 				XtsTrack := XtsTrack, 
@@ -25,6 +30,9 @@ moverSequence(ThisMover	 := THIS^,
 ]]></ST>
     </Implementation>
     <LineIds Name="IndexMover">
+      <LineId Id="86" Count="1" />
+      <LineId Id="90" Count="0" />
+      <LineId Id="88" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />

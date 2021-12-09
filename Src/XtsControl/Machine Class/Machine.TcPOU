@@ -35,7 +35,7 @@ END_IF
 stateMachine();
 Xts(MoverArray := Movers, StateMachine := stateMachine);
 FOR i := 1 TO 10 DO
-	indexMovers[i](XtsTrack := , StateMachine := stateMachine, StationArray := iStationArray );	
+	indexMovers[i](XtsTrack := Xts, StateMachine := stateMachine, StationArray := iStationArray );	
 END_FOR
 
 ]]></ST>

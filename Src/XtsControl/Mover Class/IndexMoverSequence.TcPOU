@@ -45,7 +45,7 @@ END_VAR]]></Declaration>
 			ThisMover.MoveTo(Position := StationArray[CurrentStation].Position,
 								Velocity := 1000,
 								BackwardMove := FALSE);
-			State := MovingToStation;
+			State :=  MovingToStation;
 		END_IF
 		
 	MovingToStation:

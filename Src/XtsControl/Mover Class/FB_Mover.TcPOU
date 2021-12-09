@@ -10,7 +10,7 @@ VAR
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_axis 			: AXIS_REF;
 	_identInGroup : INT;
-	_trackLength : REAL;
+	_trackLength : MC_LREAL;
 	_targetPos : LREAL;
 	_MoverErrorId : DWORD;
 	_arrZones : ARRAY[1..4] OF DINT;
