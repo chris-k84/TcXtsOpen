@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="GearMover" Id="{ff37142b-1aaf-40b6-8a09-27f219b6fa6d}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK GearMover EXTENDS FB_Mover
+VAR_INPUT
+	XtsTrack : IXtsTrack;
+	StateMachine : IPmlStateMachine;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	moverSequence : GearMoverSequence;
+	bInit : BOOL;
+END_VAR
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF NOT bInit THEN
+	bInit := TRUE;
+	_trackLength := XtsTrack.TrackLength;
+END_IF
+
+SUPER^();
+
+moverSequence(ThisMover := THIS^,
+				XtsTrack := XtsTrack,
+				StateMachine := StateMachine);]]></ST>
+    </Implementation>
+    <Method Name="Gear" Id="{e70c4ab6-700a-4f7f-96e2-f6bea672eae8}">
+      <Declaration><![CDATA[METHOD PUBLIC Gear : BOOL
+VAR_INPUT
+	MasterPosition : MC_LREAL;
+	SlavePosition : MC_LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT isAtPosition(position := Position) THEN
+	IF NOT axesMoveTo.Busy THEN
+		axesMoveTo.MoveTo(Position := ModuloToAbs(Position, BackwardMove), Velocity := Velocity);
+		MoveTo := TRUE;
+		_targetPos := Position;
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="GearMover">
+      <LineId Id="9" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="27" Count="1" />
+    </LineIds>
+    <LineIds Name="GearMover.Gear">
+      <LineId Id="8" Count="5" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

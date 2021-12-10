@@ -26,6 +26,12 @@
     <Compile Include="Machine Class\PackMLState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Mover Class\GearMover.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Mover Class\GearMoverSequence.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Mover Class\IndexMoverSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -198,6 +204,15 @@
     <PlaceholderResolution Include="Tc3_XTS_Utility">
       <Resolution>Tc3_XTS_Utility, 3.1.2107.3 (Beckhoff Automation GmbH)</Resolution>
     </PlaceholderResolution>
+  </ItemGroup>
+  <ItemGroup>
+    <SubObject Include="GearInCA.Abort" />
+    <SubObject Include="GearInCA.Busy" />
+    <SubObject Include="GearInCA.Busy.Get" />
+    <SubObject Include="GearInCA.Done" />
+    <SubObject Include="GearInCA.Done.Get" />
+    <SubObject Include="GearInCA.Error" />
+    <SubObject Include="GearInCA.Error.Get" />
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>
