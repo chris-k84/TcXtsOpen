@@ -15,5 +15,11 @@
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
+    <Method Name="Reset" Id="{bac4f071-c90f-4f5a-8994-39aa709febac}">
+      <Declaration><![CDATA[METHOD Reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
   </Itf>
 </TcPlcObject>

@@ -35,42 +35,46 @@ END_VAR]]></Declaration>
 		
 	10:
 		FOR moverNumbers := LOWER_BOUND(arrMovers,1) TO UPPER_BOUND(arrMovers,1) DO
-			IF arrMovers[moverNumbers].hasError() THEN
-				arrMovers[moverNumbers].ResetAxis();
-			END_IF
+			arrMovers[moverNumbers].ResetAxis();
 		END_FOR
 		moverNumbers := 1;
 		State := 20;
 		
 	20:
-		arrMovers[moverNumbers].IdentInGroup := DINT_TO_INT( moverNumbers);
-		addMover.AddMover(MoverToAdd := arrMovers[moverNumbers]);
+		IF _collisionGroup.GroupState = CAGroupStatus.mcGroupStateErrorStop THEN
+			_collisionGroup.Reset();
+		END_IF
 		State := 30;
 		
 	30:
+		arrMovers[moverNumbers].IdentInGroup := DINT_TO_INT( moverNumbers);
+		addMover.AddMover(MoverToAdd := arrMovers[moverNumbers]);
+		State := 40;
+		
+	40:
 		IF addMover.Done THEN
 			IF moverNumbers <> UPPER_BOUND(arrMovers,1) THEN
 				moverNumbers := moverNumbers + 1;
-				State := 20;
+				State := 30;
 			ELSE
 				FOR moverNumbers := LOWER_BOUND(arrMovers,1) TO UPPER_BOUND(arrMovers,1) DO
 					arrMovers[moverNumbers].EnableAxis();
 				END_FOR
-				State := 40;
+				State := 50;
 			END_IF
 		END_IF
 		
-	40:
+	50:
 		AllMoversEnabled := TRUE;
 		FOR moverNumbers := LOWER_BOUND(arrMovers,1) TO UPPER_BOUND(arrMovers,1) DO
 			AllMoversEnabled := TRUE AND arrMovers[moverNumbers].isEnabled();
 		END_FOR
 		IF AllMoversEnabled THEN
 			enableGrp.Execute();
-			State := 50;
+			State := 60;
 		END_IF
 		
-	50:
+	60:
 		IF enableGrp.Done THEN
 			State := 0;
 			_busy := FALSE;
@@ -156,10 +160,12 @@ enableGrp.FB_init(FALSE,FALSE, collisionGroup);]]></ST>
       <LineId Id="290" Count="0" />
       <LineId Id="145" Count="0" />
       <LineId Id="218" Count="1" />
-      <LineId Id="221" Count="3" />
+      <LineId Id="221" Count="0" />
+      <LineId Id="223" Count="0" />
       <LineId Id="220" Count="0" />
       <LineId Id="243" Count="0" />
       <LineId Id="225" Count="0" />
+      <LineId Id="317" Count="5" />
       <LineId Id="146" Count="11" />
       <LineId Id="244" Count="1" />
       <LineId Id="158" Count="0" />
