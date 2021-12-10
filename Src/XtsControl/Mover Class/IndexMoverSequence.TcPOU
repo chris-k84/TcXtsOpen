@@ -42,10 +42,11 @@ END_VAR]]></Declaration>
 			
 	AtStart:
 		IF StationArray[CurrentStation].IsReady() THEN
-			ThisMover.MoveTo(Position := StationArray[CurrentStation].Position,
+			IF ThisMover.MoveTo(Position := StationArray[CurrentStation].Position,
 								Velocity := 1000,
-								BackwardMove := FALSE);
-			State :=  MovingToStation;
+								BackwardMove := FALSE) THEN
+				State :=  MovingToStation;
+			END_IF
 		END_IF
 		
 	MovingToStation:
@@ -65,16 +66,18 @@ END_VAR]]></Declaration>
 	AtStation:
 		IF StationArray[CurrentStation].isComplete() THEN
 			IF CurrentStation = UPPER_BOUND(StationArray,1) THEN
-				ThisMover.MoveTo(Position := 1000,
+				IF ThisMover.MoveTo(Position := 1000.0,
 								Velocity := 1000,
-								BackwardMove := FALSE);
-				State := MovingToStart;
+								BackwardMove := FALSE) THEN
+					State := MovingToStart;
+				END_IF
 			ELSE
-				CurrentStation := CurrentStation + 1;
-				ThisMover.MoveTo(Position := StationArray[CurrentStation].Position,
+				IF ThisMover.MoveTo(Position := StationArray[CurrentStation + 1].Position,
 								Velocity := 1000,
-								BackwardMove := FALSE);
-				State := MovingToStation;
+								BackwardMove := FALSE) THEN
+					CurrentStation := CurrentStation + 1;
+					State := MovingToStation;
+				END_IF
 			END_IF
 		END_IF
 
@@ -95,6 +98,7 @@ END_CASE]]></ST>
       <LineId Id="163" Count="0" />
       <LineId Id="180" Count="1" />
       <LineId Id="209" Count="2" />
+      <LineId Id="256" Count="0" />
       <LineId Id="161" Count="1" />
       <LineId Id="67" Count="0" />
       <LineId Id="85" Count="0" />
@@ -114,9 +118,12 @@ END_CASE]]></ST>
       <LineId Id="225" Count="1" />
       <LineId Id="224" Count="0" />
       <LineId Id="222" Count="0" />
-      <LineId Id="227" Count="1" />
+      <LineId Id="258" Count="0" />
+      <LineId Id="227" Count="0" />
       <LineId Id="230" Count="2" />
+      <LineId Id="261" Count="0" />
       <LineId Id="229" Count="0" />
+      <LineId Id="260" Count="0" />
       <LineId Id="223" Count="0" />
       <LineId Id="221" Count="0" />
       <LineId Id="88" Count="0" />
