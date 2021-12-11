@@ -41,7 +41,7 @@ END_VAR]]></Declaration>
 END_CASE
 
 IF __ISVALIDREF(_MasterAxis) AND __ISVALIDREF(_SlaveAxis) THEN
-	gearInCA(Master := _MasterAxis, Slave := _SlaveAxis, SyncStrategy := _syncStrategy);
+	gearInCA(Master := _MasterAxis, Slave := _SlaveAxis, SyncStrategy := _syncStrategy, Velocity := 4000.0, RatioNumerator := 1);
 END_IF ]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{87b09574-b305-45e3-ac01-0f1710682ced}">

@@ -11,13 +11,53 @@ VAR_OUTPUT
 END_VAR
 VAR
 	axesGear	: GearInCA;
+	MoverToGearTo: UDINT;
+		State :(
+        Init,                                               
+        Available,
+		MovingToStart, 
+		AtStart,                                 
+        MovingToStation,
+		QueuedAtStation,
+		AtStation);  
+END_VAR
+VAR_IN_OUT
+	MoverArray : ARRAY[*] OF IMover;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+
+MoverToGearTo := ThisMover.AxisRef.NcToPlc.AxisId - 1;
+
+axesGear(_MasterAxis := MoverArray[].AxisRef, _SlaveAxis := ThisMover.AxisRef);
+]]></ST>
+    </Implementation>
+    <Method Name="Gear" Id="{e70c4ab6-700a-4f7f-96e2-f6bea672eae8}">
+      <Declaration><![CDATA[METHOD PUBLIC Gear : BOOL
+VAR_INPUT
+	MasterPosition : MC_LREAL;
+	SlavePosition : MC_LREAL;
 END_VAR
 ]]></Declaration>
-    <Implementation>
-      <ST><![CDATA[]]></ST>
-    </Implementation>
+      <Implementation>
+        <ST><![CDATA[IF NOT axesGear.Busy THEN
+		axesGear.Sync(MasterPosition := MasterPosition, SlavePosition := SlavePosition);
+		Gear := TRUE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="GearMoverSequence">
+      <LineId Id="46" Count="0" />
+      <LineId Id="22" Count="1" />
+      <LineId Id="51" Count="0" />
       <LineId Id="9" Count="0" />
+      <LineId Id="37" Count="0" />
+    </LineIds>
+    <LineIds Name="GearMoverSequence.Gear">
+      <LineId Id="9" Count="2" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

@@ -3,7 +3,7 @@
   <POU Name="MAIN" Id="{c3798e48-78cc-4657-a79b-2d5c7d932da8}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	fbMachine : Machine;
+	fbMachine : GrippingMachine;
 END_VAR
 ]]></Declaration>
     <Implementation>

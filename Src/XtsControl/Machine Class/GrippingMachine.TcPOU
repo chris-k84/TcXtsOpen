@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="GrippingMachine" Id="{cef35bf0-d94b-4472-a52e-67d847177915}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK GrippingMachine IMPLEMENTS IMachine
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	Xts : XtsTrack;
+	stateMachine : PMLStateMachine;
+	gearMovers : ARRAY [1..10] OF GearMover;
+	Movers : ARRAY [1..10] OF IMover;
+	i : INT;
+	bInit : BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF NOT bInit THEN
+	FOR i := 1 TO 10 DO
+		Movers[i] := gearMovers[i];
+	END_FOR
+	stateMachine.PMLCommand(Command := Tc3_PackML_V2.E_PMLState.ePMLState_Aborting);
+	IF stateMachine.getState() = Tc3_PackML_V2.E_PMLState.ePMLState_Aborting THEN
+		stateMachine.StateComplete();
+		bInit := TRUE;
+	END_IF
+END_IF
+stateMachine();
+Xts(MoverArray := Movers, StateMachine := stateMachine);
+FOR i := 1 TO 10 DO
+	gearMovers[i](XtsTrack := Xts, StateMachine := stateMachine, MoverArray := Movers);	
+END_FOR
+
+]]></ST>
+    </Implementation>
+    <Property Name="PMLState" Id="{937222a3-3d9b-4063-a98b-bc4aad01a053}">
+      <Declaration><![CDATA[{warning 'add property implementation'}
+PROPERTY PMLState : PackMLState
+]]></Declaration>
+      <Get Name="Get" Id="{f520911b-40aa-4fe6-9082-3c0f7e93d822}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <LineIds Name="GrippingMachine">
+      <LineId Id="16" Count="3" />
+      <LineId Id="26" Count="11" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="GrippingMachine.PMLState.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

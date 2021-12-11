@@ -12,7 +12,9 @@ VAR
 	moverSequence : GearMoverSequence;
 	bInit : BOOL;
 END_VAR
-
+VAR_IN_OUT
+	MoverArray : ARRAY[*] OF IMover;
+END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF NOT bInit THEN
@@ -24,25 +26,9 @@ SUPER^();
 
 moverSequence(ThisMover := THIS^,
 				XtsTrack := XtsTrack,
-				StateMachine := StateMachine);]]></ST>
+				StateMachine := StateMachine,
+				MoverArray := MoverArray);]]></ST>
     </Implementation>
-    <Method Name="Gear" Id="{e70c4ab6-700a-4f7f-96e2-f6bea672eae8}">
-      <Declaration><![CDATA[METHOD PUBLIC Gear : BOOL
-VAR_INPUT
-	MasterPosition : MC_LREAL;
-	SlavePosition : MC_LREAL;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF NOT isAtPosition(position := Position) THEN
-	IF NOT axesMoveTo.Busy THEN
-		axesMoveTo.MoveTo(Position := ModuloToAbs(Position, BackwardMove), Velocity := Velocity);
-		MoveTo := TRUE;
-		_targetPos := Position;
-	END_IF
-END_IF]]></ST>
-      </Implementation>
-    </Method>
     <LineIds Name="GearMover">
       <LineId Id="9" Count="0" />
       <LineId Id="20" Count="0" />
@@ -53,10 +39,7 @@ END_IF]]></ST>
       <LineId Id="26" Count="0" />
       <LineId Id="25" Count="0" />
       <LineId Id="27" Count="1" />
-    </LineIds>
-    <LineIds Name="GearMover.Gear">
-      <LineId Id="8" Count="5" />
-      <LineId Id="5" Count="0" />
+      <LineId Id="43" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

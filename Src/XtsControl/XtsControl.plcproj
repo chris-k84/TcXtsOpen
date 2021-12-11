@@ -17,6 +17,9 @@
     <LibraryReferences>{3f6e0c75-4a9c-4b5f-8039-17a6f22e412c}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Machine Class\GrippingMachine.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Machine Class\IMachine.TcIO">
       <SubType>Code</SubType>
     </Compile>
