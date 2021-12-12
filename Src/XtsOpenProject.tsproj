@@ -3830,7 +3830,7 @@ and will return to Group State Standby when the situation permits.
 							<Group TxtId="" Collapsed="true"><![CDATA[Teaching]]></Group>
 							<Group TxtId="" Collapsed="true"><![CDATA[Diagnostics]]></Group>
 							<Group TxtId="" Collapsed="true"><![CDATA[Advanced]]></Group>
-							<Group TxtId="" Collapsed="true"><![CDATA[Simulation]]></Group>
+							<Group TxtId=""><![CDATA[Simulation]]></Group>
 							<Group TxtId=""><![CDATA[Info]]></Group>
 							<Group TxtId="" Collapsed="true"><![CDATA[Structure]]></Group>
 							<Parameter Group="General">
@@ -5260,7 +5260,7 @@ and will return to Group State Standby when the situation permits.
 							</Value>
 							<Value>
 								<Name>PositionStartUpSimulationMode</Name>
-								<EnumText>UseMoverParameters</EnumText>
+								<EnumText>UseRandomDistribution</EnumText>
 							</Value>
 							<Value>
 								<Name>MoverIdStartUpSimulationMode</Name>
@@ -54744,7 +54744,7 @@ and will return to Group State Standby when the situation permits.
 								</Value>
 								<Value>
 									<Name>Rail Length</Name>
-									<Value>3000</Value>
+									<Value>3500</Value>
 								</Value>
 								<Value>
 									<Name>Rail Is Ring</Name>
@@ -54764,7 +54764,7 @@ and will return to Group State Standby when the situation permits.
 								</Value>
 								<Value>
 									<Name>Default Gap</Name>
-									<Value>100</Value>
+									<Value>80</Value>
 								</Value>
 								<Value>
 									<Name>Default Velocity</Name>
@@ -59570,6 +59570,16 @@ and will return to Group State Standby when the situation permits.
 	<Mappings>
 		<MappingInfo Identifier="{05000010-2001-0850-1000-040300205008}" Id="#x02030010" Watchdog="14000000040000000400000004000000"/>
 		<MappingInfo Identifier="{05000010-2001-0850-1000-120500205008}" Id="#x02030020" Watchdog="14000000040000000400000004000000"/>
+		<MappingInfo Identifier="{02010040-2001-0850-3001-010100205008}" Id="#x02030050" Watchdog="a0000000040000000400000004000000"/>
+		<MappingInfo Identifier="{02010040-2001-0850-3002-010100205008}" Id="#x02030040" Watchdog="a0000000040000000400000004000000"/>
+		<MappingInfo Identifier="{02010040-2001-0850-3003-010100205008}" Id="#x02030030" Watchdog="a0000000040000000400000004000000"/>
+		<MappingInfo Identifier="{02010040-2001-0850-3004-010100205008}" Id="#x020300c0" Watchdog="a0000000040000000400000004000000"/>
+		<MappingInfo Identifier="{02010040-2001-0850-3005-010100205008}" Id="#x020300b0" Watchdog="a0000000040000000400000004000000"/>
+		<MappingInfo Identifier="{02010040-2001-0850-B001-010100205008}" Id="#x020300a0" Watchdog="a0000000040000000400000004000000"/>
+		<MappingInfo Identifier="{02010040-2001-0850-B002-010100205008}" Id="#x02030090" Watchdog="a0000000040000000400000004000000"/>
+		<MappingInfo Identifier="{02010040-2001-0850-B003-010100205008}" Id="#x02030080" Watchdog="a0000000040000000400000004000000"/>
+		<MappingInfo Identifier="{02010040-2001-0850-B004-010100205008}" Id="#x02030070" Watchdog="a0000000040000000400000004000000"/>
+		<MappingInfo Identifier="{02010040-2001-0850-B005-010100205008}" Id="#x02030060" Watchdog="a0000000040000000400000004000000"/>
 		<OwnerA Name="TIID^Infeed 1">
 			<OwnerB Name="TIRC^TcCOM Objects^Object1 (XtsProcessingUnit)^Part 1^Module 12">
 				<Link VarA="Term 62 (AT2002-0250)^CC Inputs^Current actual value Ch.1" VarB="Data Pointer^CurrentActualValues[0]"/>

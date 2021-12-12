@@ -11,25 +11,159 @@ VAR_OUTPUT
 END_VAR
 VAR
 	axesGear	: GearInCA;
-	MoverToGearTo: UDINT;
-		State :(
+	MoverToGearTo: UDINT := 1;
+	FrontMoverState :(
         Init,                                               
         Available,
 		MovingToStart, 
-		AtStart,                                 
-        MovingToStation,
-		QueuedAtStation,
-		AtStation);  
+		AtStart,
+		MoveToLoad,
+		AtLoad,
+		MoveToUnload,
+		Unload);  
+	RearMoverState :(
+        Init,                                               
+        Available,
+		MovingToStart, 
+		AtStart,
+		MoveToHold,
+		GearToMaster,
+		ClearUnload); 
+	bInit: BOOL;
+	isMasterAxis: BOOL;
+	bTest: BOOL;
+	bGeared: BOOL;
+	bProduct: BOOL;
 END_VAR
 VAR_IN_OUT
 	MoverArray : ARRAY[*] OF IMover;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
+      <ST><![CDATA[IF NOT bInit THEN
+	IF (ThisMover.AxisRef.NcToPlc.AxisId MOD 2)<>1 THEN
+		isMasterAxis := TRUE;
+	ELSE
+		isMasterAxis := FALSE;
+		MoverToGearTo := ThisMover.AxisRef.NcToPlc.AxisId + 1;
+	END_IF
+	bInit := TRUE;
+END_IF
 
-MoverToGearTo := ThisMover.AxisRef.NcToPlc.AxisId - 1;
+IF isMasterAxis THEN
+	CASE FrontMoverState OF
+		Init:
+			IF ThisMover.isDetected() THEN
+				FrontMoverState := Available;
+			END_IF
+			
+		Available:
+			IF StateMachine.getState() = E_PMLState.ePMLState_Starting THEN
+				FrontMoverState := MovingToStart;
+			END_IF
+			
+		MovingToStart:
+			IF ThisMover.isAtPosition(position := 1000.0) THEN
+				FrontMoverState := AtStart;
+			END_IF
+				
+		AtStart:
+			//some start condition, timed to conveyor?
+			IF bTest THEN
+			IF ThisMover.MoveTo(Position := 2250.0,
+								Velocity := 1000,
+								BackwardMove := FALSE) THEN
+				FrontMoverState :=  MoveToLoad;
+			END_IF
+			END_IF
+			
+		MoveToLoad:
+			IF ThisMover.isAtPosition(position := 2250.0) THEN
+				FrontMoverState := AtLoad;
+			END_IF
+			
+		AtLoad:
+			//wait for rear mover to gear
+			IF bGeared THEN
+				IF ThisMover.MoveTo(Position := 100.0,
+								Velocity := 1000,
+								BackwardMove := FALSE) THEN
+					FrontMoverState :=  MoveToUnload;
+				END_IF
+			END_IF
+			
+		MoveToUnload:
+			IF ThisMover.isAtPosition(position := 100.0) THEN
+				FrontMoverState := Unload;
+			END_IF
+			
+		Unload:
+			IF ThisMover.MoveTo(Position := 1000.0,
+								Velocity := 1000,
+								BackwardMove := FALSE) THEN
+				FrontMoverState :=  MovingToStart;
+			END_IF	
+	END_CASE
+	
+ELSE
+	CASE RearMoverState OF
+		Init:
+			IF ThisMover.isDetected() THEN
+				RearMoverState := Available;
+			END_IF
+			
+		Available:
+			IF StateMachine.getState() = E_PMLState.ePMLState_Starting THEN
+				RearMoverState := MovingToStart;
+			END_IF
+			
+		MovingToStart:
+			IF ThisMover.isAtPosition(position := 1000.0) THEN
+				RearMoverState := AtStart;
+			END_IF
+				
+		AtStart:
+			//wait for conveyor
+			IF bProduct THEN
+				Gear(MasterPosition := 2250.0, SlavePosition := 2170.0);
+				RearMoverState := MoveToHold;
+			END_IF
+			
+		MoveToHold:
+			IF axesGear.gearInCA.InSync THEN
+				RearMoverState := GearToMaster;
+			END_IF
+			
+		GearToMaster:
+			IF MoverArray[MoverToGearTo].isAtPosition(position := 100.0) THEN
+				ThisMover.MoveTo(Position := 10.0,
+									Velocity := 1000.0,
+									BackwardMove := TRUE);
+				RearMoverState := ClearUnload;
+			END_IF
+			
+		ClearUnload:
+			//wait for unload condition
+			IF NOT bProduct THEN
+				IF ThisMover.MoveTo(Position := 1000.0,
+									Velocity := 1000.0,
+									BackwardMove := FALSE) THEN
+					RearMoverState := MovingToStart;
+				END_IF
+			END_IF
+	END_CASE	
+END_IF
 
-axesGear(_MasterAxis := MoverArray[].AxisRef, _SlaveAxis := ThisMover.AxisRef);
+//IF bTest THEN
+//	Gear(MasterPosition := masterPos, SlavePosition := slavePos);
+//	bTest := FALSE;
+//END_IF
+
+//IF bMove THEN
+//	ThisMover.MoveTo(Position := somePos, Velocity := 1000, BackwardMove := FALSE);
+//	bMove := false;
+//END_IF
+
+axesGear(_MasterAxis := MoverArray[MoverToGearTo].AxisRef, _SlaveAxis := ThisMover.AxisRef);
 ]]></ST>
     </Implementation>
     <Method Name="Gear" Id="{e70c4ab6-700a-4f7f-96e2-f6bea672eae8}">
@@ -49,7 +183,65 @@ END_IF
     </Method>
     <LineIds Name="GearMoverSequence">
       <LineId Id="46" Count="0" />
-      <LineId Id="22" Count="1" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="85" Count="0" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="89" Count="1" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="83" Count="0" />
+      <LineId Id="93" Count="1" />
+      <LineId Id="122" Count="1" />
+      <LineId Id="101" Count="14" />
+      <LineId Id="209" Count="0" />
+      <LineId Id="207" Count="0" />
+      <LineId Id="154" Count="2" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="168" Count="0" />
+      <LineId Id="158" Count="0" />
+      <LineId Id="237" Count="0" />
+      <LineId Id="159" Count="0" />
+      <LineId Id="163" Count="3" />
+      <LineId Id="160" Count="0" />
+      <LineId Id="171" Count="0" />
+      <LineId Id="186" Count="0" />
+      <LineId Id="190" Count="3" />
+      <LineId Id="187" Count="1" />
+      <LineId Id="173" Count="0" />
+      <LineId Id="161" Count="0" />
+      <LineId Id="195" Count="1" />
+      <LineId Id="194" Count="0" />
+      <LineId Id="197" Count="0" />
+      <LineId Id="162" Count="0" />
+      <LineId Id="198" Count="3" />
+      <LineId Id="157" Count="0" />
+      <LineId Id="125" Count="2" />
+      <LineId Id="129" Count="16" />
+      <LineId Id="208" Count="0" />
+      <LineId Id="210" Count="1" />
+      <LineId Id="214" Count="0" />
+      <LineId Id="212" Count="0" />
+      <LineId Id="146" Count="0" />
+      <LineId Id="215" Count="7" />
+      <LineId Id="224" Count="2" />
+      <LineId Id="223" Count="0" />
+      <LineId Id="227" Count="3" />
+      <LineId Id="233" Count="1" />
+      <LineId Id="231" Count="0" />
+      <LineId Id="236" Count="0" />
+      <LineId Id="235" Count="0" />
+      <LineId Id="232" Count="0" />
+      <LineId Id="128" Count="0" />
+      <LineId Id="99" Count="0" />
+      <LineId Id="95" Count="1" />
+      <LineId Id="174" Count="0" />
+      <LineId Id="177" Count="0" />
+      <LineId Id="175" Count="0" />
+      <LineId Id="180" Count="0" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="181" Count="0" />
+      <LineId Id="184" Count="0" />
+      <LineId Id="182" Count="0" />
       <LineId Id="51" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="37" Count="0" />

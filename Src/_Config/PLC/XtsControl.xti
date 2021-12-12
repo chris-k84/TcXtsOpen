@@ -1379,40 +1379,120 @@ External Setpoint Generation:
 					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 				</Var>
 				<Var>
+					<Name>MAIN.fbMachine.gearMovers[1].CurrentLimit</Name>
+					<Type>INT</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.fbMachine.gearMovers[1].Mode</Name>
+					<Type>UINT</Type>
+				</Var>
+				<Var>
 					<Name>MAIN.fbMachine.gearMovers[2]._axis.PlcToNc</Name>
 					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.fbMachine.gearMovers[2].CurrentLimit</Name>
+					<Type>INT</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.fbMachine.gearMovers[2].Mode</Name>
+					<Type>UINT</Type>
 				</Var>
 				<Var>
 					<Name>MAIN.fbMachine.gearMovers[3]._axis.PlcToNc</Name>
 					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 				</Var>
 				<Var>
+					<Name>MAIN.fbMachine.gearMovers[3].CurrentLimit</Name>
+					<Type>INT</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.fbMachine.gearMovers[3].Mode</Name>
+					<Type>UINT</Type>
+				</Var>
+				<Var>
 					<Name>MAIN.fbMachine.gearMovers[4]._axis.PlcToNc</Name>
 					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.fbMachine.gearMovers[4].CurrentLimit</Name>
+					<Type>INT</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.fbMachine.gearMovers[4].Mode</Name>
+					<Type>UINT</Type>
 				</Var>
 				<Var>
 					<Name>MAIN.fbMachine.gearMovers[5]._axis.PlcToNc</Name>
 					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 				</Var>
 				<Var>
+					<Name>MAIN.fbMachine.gearMovers[5].CurrentLimit</Name>
+					<Type>INT</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.fbMachine.gearMovers[5].Mode</Name>
+					<Type>UINT</Type>
+				</Var>
+				<Var>
 					<Name>MAIN.fbMachine.gearMovers[6]._axis.PlcToNc</Name>
 					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.fbMachine.gearMovers[6].CurrentLimit</Name>
+					<Type>INT</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.fbMachine.gearMovers[6].Mode</Name>
+					<Type>UINT</Type>
 				</Var>
 				<Var>
 					<Name>MAIN.fbMachine.gearMovers[7]._axis.PlcToNc</Name>
 					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 				</Var>
 				<Var>
+					<Name>MAIN.fbMachine.gearMovers[7].CurrentLimit</Name>
+					<Type>INT</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.fbMachine.gearMovers[7].Mode</Name>
+					<Type>UINT</Type>
+				</Var>
+				<Var>
 					<Name>MAIN.fbMachine.gearMovers[8]._axis.PlcToNc</Name>
 					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.fbMachine.gearMovers[8].CurrentLimit</Name>
+					<Type>INT</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.fbMachine.gearMovers[8].Mode</Name>
+					<Type>UINT</Type>
 				</Var>
 				<Var>
 					<Name>MAIN.fbMachine.gearMovers[9]._axis.PlcToNc</Name>
 					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 				</Var>
 				<Var>
+					<Name>MAIN.fbMachine.gearMovers[9].CurrentLimit</Name>
+					<Type>INT</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.fbMachine.gearMovers[9].Mode</Name>
+					<Type>UINT</Type>
+				</Var>
+				<Var>
 					<Name>MAIN.fbMachine.gearMovers[10]._axis.PlcToNc</Name>
 					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.fbMachine.gearMovers[10].CurrentLimit</Name>
+					<Type>INT</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.fbMachine.gearMovers[10].Mode</Name>
+					<Type>UINT</Type>
 				</Var>
 			</Vars>
 			<UnrestoredVarLinks ImportTime="2021-12-03T23:50:10">
@@ -1573,37 +1653,77 @@ External Setpoint Generation:
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.gearMovers[10]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[10]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
+			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 10^SoftDrive 10">
+				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[10].CurrentLimit" VarB="SoftDriveCmdFromTC^BipolarCurrentLimit"/>
+				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[10].Mode" VarB="SoftDriveCmdFromTC^Mode"/>
+			</OwnerB>
+			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 1^SoftDrive 1">
+				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[1].CurrentLimit" VarB="SoftDriveCmdFromTC^BipolarCurrentLimit"/>
+				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[1].Mode" VarB="SoftDriveCmdFromTC^Mode"/>
+			</OwnerB>
 			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 2">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.gearMovers[2]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[2]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
+			</OwnerB>
+			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 2^SoftDrive 2">
+				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[2].CurrentLimit" VarB="SoftDriveCmdFromTC^BipolarCurrentLimit"/>
+				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[2].Mode" VarB="SoftDriveCmdFromTC^Mode"/>
 			</OwnerB>
 			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 3">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.gearMovers[3]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[3]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
+			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 3^SoftDrive 3">
+				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[3].CurrentLimit" VarB="SoftDriveCmdFromTC^BipolarCurrentLimit"/>
+				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[3].Mode" VarB="SoftDriveCmdFromTC^Mode"/>
+			</OwnerB>
 			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 4">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.gearMovers[4]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[4]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
+			</OwnerB>
+			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 4^SoftDrive 4">
+				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[4].CurrentLimit" VarB="SoftDriveCmdFromTC^BipolarCurrentLimit"/>
+				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[4].Mode" VarB="SoftDriveCmdFromTC^Mode"/>
 			</OwnerB>
 			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 5">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.gearMovers[5]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[5]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
+			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 5^SoftDrive 5">
+				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[5].CurrentLimit" VarB="SoftDriveCmdFromTC^BipolarCurrentLimit"/>
+				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[5].Mode" VarB="SoftDriveCmdFromTC^Mode"/>
+			</OwnerB>
 			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 6">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.gearMovers[6]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[6]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
+			</OwnerB>
+			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 6^SoftDrive 6">
+				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[6].CurrentLimit" VarB="SoftDriveCmdFromTC^BipolarCurrentLimit"/>
+				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[6].Mode" VarB="SoftDriveCmdFromTC^Mode"/>
 			</OwnerB>
 			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 7">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.gearMovers[7]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[7]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
+			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 7^SoftDrive 7">
+				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[7].CurrentLimit" VarB="SoftDriveCmdFromTC^BipolarCurrentLimit"/>
+				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[7].Mode" VarB="SoftDriveCmdFromTC^Mode"/>
+			</OwnerB>
 			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 8">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.gearMovers[8]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[8]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
+			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 8^SoftDrive 8">
+				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[8].CurrentLimit" VarB="SoftDriveCmdFromTC^BipolarCurrentLimit"/>
+				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[8].Mode" VarB="SoftDriveCmdFromTC^Mode"/>
+			</OwnerB>
 			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 9">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.gearMovers[9]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[9]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
+			</OwnerB>
+			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 9^SoftDrive 9">
+				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[9].CurrentLimit" VarB="SoftDriveCmdFromTC^BipolarCurrentLimit"/>
+				<Link VarA="PlcTask Outputs^MAIN.fbMachine.gearMovers[9].Mode" VarB="SoftDriveCmdFromTC^Mode"/>
 			</OwnerB>
 			<OwnerB Name="TINC^NC SAF^Objects^Group1 (CA Group)">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.Xts.mcCollisionGroup._caGroup.NcToPlc" VarB="Group Outputs^ToPLC"/>

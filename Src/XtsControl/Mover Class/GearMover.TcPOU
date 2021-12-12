@@ -11,6 +11,8 @@ END_VAR
 VAR
 	moverSequence : GearMoverSequence;
 	bInit : BOOL;
+	CurrentLimit AT%Q* : INT;
+	Mode AT%Q* : UINT;
 END_VAR
 VAR_IN_OUT
 	MoverArray : ARRAY[*] OF IMover;
@@ -20,6 +22,10 @@ END_VAR
       <ST><![CDATA[IF NOT bInit THEN
 	bInit := TRUE;
 	_trackLength := XtsTrack.TrackLength;
+	IF (THIS^._axis.NcToPlc.AxisId MOD 2)<>1 THEN
+		Mode.8 := TRUE;
+		CurrentLimit := 3000;
+	END_IF
 END_IF
 
 SUPER^();
@@ -27,12 +33,17 @@ SUPER^();
 moverSequence(ThisMover := THIS^,
 				XtsTrack := XtsTrack,
 				StateMachine := StateMachine,
-				MoverArray := MoverArray);]]></ST>
+				MoverArray := MoverArray);
+				
+]]></ST>
     </Implementation>
     <LineIds Name="GearMover">
       <LineId Id="9" Count="0" />
       <LineId Id="20" Count="0" />
       <LineId Id="22" Count="0" />
+      <LineId Id="71" Count="1" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="70" Count="0" />
       <LineId Id="21" Count="0" />
       <LineId Id="24" Count="0" />
       <LineId Id="23" Count="0" />
@@ -40,6 +51,7 @@ moverSequence(ThisMover := THIS^,
       <LineId Id="25" Count="0" />
       <LineId Id="27" Count="1" />
       <LineId Id="43" Count="0" />
+      <LineId Id="60" Count="1" />
     </LineIds>
   </POU>
 </TcPlcObject>
