@@ -35,6 +35,9 @@
     <Compile Include="Mover Class\GearMoverSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Mover Class\IGearMover.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Mover Class\IndexMoverSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>

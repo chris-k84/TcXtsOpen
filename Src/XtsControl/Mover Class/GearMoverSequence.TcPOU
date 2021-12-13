@@ -3,15 +3,13 @@
   <POU Name="GearMoverSequence" Id="{e1681ea0-a376-4b8a-bd4c-9ec4a0739fe2}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC GearMoverSequence
 VAR_INPUT
-	ThisMover : IMover;
+	ThisMover : IGearMover;
 	XtsTrack : IXtsTrack;
 	StateMachine : IPmlStateMachine;
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	axesGear	: GearInCA;
-	MoverToGearTo: UDINT := 1;
 	FrontMoverState :(
         Init,                                               
         Available,
@@ -29,27 +27,16 @@ VAR
 		MoveToHold,
 		GearToMaster,
 		ClearUnload); 
-	bInit: BOOL;
-	isMasterAxis: BOOL;
 	bTest: BOOL;
-	bGeared: BOOL;
+	bMove : BOOL;
 	bProduct: BOOL;
+	somePos: MC_LREAL;
 END_VAR
 VAR_IN_OUT
-	MoverArray : ARRAY[*] OF IMover;
+	MoverArray : ARRAY[*] OF IGearMover;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF NOT bInit THEN
-	IF (ThisMover.AxisRef.NcToPlc.AxisId MOD 2)<>1 THEN
-		isMasterAxis := TRUE;
-	ELSE
-		isMasterAxis := FALSE;
-		MoverToGearTo := ThisMover.AxisRef.NcToPlc.AxisId + 1;
-	END_IF
-	bInit := TRUE;
-END_IF
-
-IF isMasterAxis THEN
+      <ST><![CDATA[IF ThisMover.isMaster() THEN
 	CASE FrontMoverState OF
 		Init:
 			IF ThisMover.isDetected() THEN
@@ -83,7 +70,7 @@ IF isMasterAxis THEN
 			
 		AtLoad:
 			//wait for rear mover to gear
-			IF bGeared THEN
+			IF MoverArray[ThisMover.AxisRef.NcToPlc.AxisId - 1].inGear() THEN
 				IF ThisMover.MoveTo(Position := 100.0,
 								Velocity := 1000,
 								BackwardMove := FALSE) THEN
@@ -124,17 +111,17 @@ ELSE
 		AtStart:
 			//wait for conveyor
 			IF bProduct THEN
-				Gear(MasterPosition := 2250.0, SlavePosition := 2170.0);
+			 	ThisMover.Gear(MasterPosition := 2250.0, SlavePosition := 2170.0);
 				RearMoverState := MoveToHold;
 			END_IF
 			
 		MoveToHold:
-			IF axesGear.gearInCA.InSync THEN
+			IF ThisMover.inGear() THEN
 				RearMoverState := GearToMaster;
 			END_IF
 			
 		GearToMaster:
-			IF MoverArray[MoverToGearTo].isAtPosition(position := 100.0) THEN
+			IF MoverArray[ThisMover.masterAxis()].isAtPosition(position := 100.0) THEN
 				ThisMover.MoveTo(Position := 10.0,
 									Velocity := 1000.0,
 									BackwardMove := TRUE);
@@ -158,39 +145,16 @@ END_IF
 //	bTest := FALSE;
 //END_IF
 
-//IF bMove THEN
-//	ThisMover.MoveTo(Position := somePos, Velocity := 1000, BackwardMove := FALSE);
-//	bMove := false;
-//END_IF
+IF bMove THEN
+	ThisMover.MoveTo(Position := somePos, Velocity := 1000, BackwardMove := FALSE);
+	bMove := false;
+END_IF
 
-axesGear(_MasterAxis := MoverArray[MoverToGearTo].AxisRef, _SlaveAxis := ThisMover.AxisRef);
+
 ]]></ST>
     </Implementation>
-    <Method Name="Gear" Id="{e70c4ab6-700a-4f7f-96e2-f6bea672eae8}">
-      <Declaration><![CDATA[METHOD PUBLIC Gear : BOOL
-VAR_INPUT
-	MasterPosition : MC_LREAL;
-	SlavePosition : MC_LREAL;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF NOT axesGear.Busy THEN
-		axesGear.Sync(MasterPosition := MasterPosition, SlavePosition := SlavePosition);
-		Gear := TRUE;
-END_IF
-]]></ST>
-      </Implementation>
-    </Method>
     <LineIds Name="GearMoverSequence">
-      <LineId Id="46" Count="0" />
-      <LineId Id="82" Count="0" />
-      <LineId Id="85" Count="0" />
-      <LineId Id="87" Count="0" />
-      <LineId Id="89" Count="1" />
-      <LineId Id="86" Count="0" />
-      <LineId Id="92" Count="0" />
-      <LineId Id="83" Count="0" />
-      <LineId Id="93" Count="1" />
+      <LineId Id="94" Count="0" />
       <LineId Id="122" Count="1" />
       <LineId Id="101" Count="14" />
       <LineId Id="209" Count="0" />
@@ -245,11 +209,6 @@ END_IF
       <LineId Id="51" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="37" Count="0" />
-    </LineIds>
-    <LineIds Name="GearMoverSequence.Gear">
-      <LineId Id="9" Count="2" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
