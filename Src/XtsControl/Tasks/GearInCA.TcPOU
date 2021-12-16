@@ -35,13 +35,16 @@ END_VAR]]></Declaration>
 		
 	10:
 		IF gearInCA.InSync THEN
-			;
+			gearInCA.Execute := FALSE;
+			_busy := FALSE;
+			_done := TRUE;
+			State := 0;
 		END_IF
 	
 END_CASE
 
 IF __ISVALIDREF(_MasterAxis) AND __ISVALIDREF(_SlaveAxis) THEN
-	gearInCA(Master := _MasterAxis, Slave := _SlaveAxis, SyncStrategy := _syncStrategy, Velocity := 2000.0, RatioNumerator := 1, Gap := 80.0);
+	gearInCA(Master := _MasterAxis, Slave := _SlaveAxis, SyncStrategy := _syncStrategy, Velocity := 2000.0, RatioNumerator := 1, Gap := 60.0);
 END_IF ]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{87b09574-b305-45e3-ac01-0f1710682ced}">
@@ -128,7 +131,9 @@ END_VAR
     </Property>
     <LineIds Name="GearInCA">
       <LineId Id="3" Count="14" />
-      <LineId Id="39" Count="1" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="58" Count="2" />
+      <LineId Id="40" Count="0" />
       <LineId Id="18" Count="4" />
       <LineId Id="2" Count="0" />
     </LineIds>

@@ -8,7 +8,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	_trackLength : MC_LREAL := 3500.0;
+	_trackLength : MC_LREAL := 4000.0;
 	mcCollisionGroup : CollisionGroup;
 	XtsTrackHardware : XtsHardware;
 	EnableSequence : XtsEnableSequence(mcCollisionGroup);
@@ -37,8 +37,7 @@ CASE State OF
 		
 	Ready:
 		IF StateMachine.getState() = E_PMLState.ePMLState_Clearing THEN
-			EnableSequence.Enable();
-			IF EnableSequence.Busy THEN
+			IF EnableSequence.Enable() THEN
 				State := Enabling;
 			END_IF	
 		END_IF
@@ -59,7 +58,7 @@ CASE State OF
 		
 		IF StateMachine.getState() = E_PMLState.ePMLState_Resetting THEN
 			FOR i := LOWER_BOUND(MoverArray,1) TO UPPER_BOUND(MoverArray,1) DO
-				MoverArray[i].MoveTo(Position := 1000.0, Velocity := 1000.0, BackwardMove := FALSE);
+				MoverArray[i].MoveTo(Position := 1500.0, Velocity := 1000.0, BackwardMove := FALSE);
 			END_FOR 
 			State := Resetting;
 		END_IF
@@ -113,7 +112,7 @@ END_VAR
       <LineId Id="71" Count="1" />
       <LineId Id="38" Count="0" />
       <LineId Id="98" Count="0" />
-      <LineId Id="101" Count="3" />
+      <LineId Id="102" Count="2" />
       <LineId Id="100" Count="0" />
       <LineId Id="95" Count="0" />
       <LineId Id="39" Count="0" />

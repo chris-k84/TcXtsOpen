@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="StopMoverGroup" Id="{6b4de033-a9aa-4f32-b1bf-39cfc678fe0d}" SpecialFunc="None">
-    <Declaration><![CDATA[{attribute 'hide_all_locals'}
-FUNCTION_BLOCK StopMoverGroup IMPLEMENTS ITask
+    <Declaration><![CDATA[FUNCTION_BLOCK StopMoverGroup IMPLEMENTS ITask
 VAR_INPUT
 END_VAR
 VAR_OUTPUT

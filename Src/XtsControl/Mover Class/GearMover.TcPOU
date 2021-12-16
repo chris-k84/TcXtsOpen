@@ -23,16 +23,27 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF NOT bInit THEN
-	bInit := TRUE;
 	_trackLength := XtsTrack.TrackLength;
-	IF (THIS^._axis.NcToPlc.AxisId MOD 2)<>1 THEN
-		Mode.8 := TRUE;
-		isMasterAxis := TRUE;
-		CurrentLimit := 3000;
-	ELSE
-		isMasterAxis := FALSE;
-		MoverToGearTo := THIS^.AxisRef.NcToPlc.AxisId + 1;
+	IF THIS^._axis.NcToPlc.AxisId <> 0 THEN
+		IF (THIS^._axis.NcToPlc.AxisId MOD 2)<>1 THEN
+			Mode.8 := TRUE;
+			isMasterAxis := TRUE;
+		ELSE
+			isMasterAxis := FALSE;
+			MoverToGearTo := THIS^.AxisRef.NcToPlc.AxisId + 1;
+		END_IF
+		bInit := TRUE;
 	END_IF
+END_IF
+
+IF isMasterAxis THEN
+	IF (_axis.NcToPlc.ModuloActPos > 3400 OR _axis.NcToPlc.ModuloActPos < 300)  THEN
+		CurrentLimit := 1000;
+	ELSE
+		CurrentLimit := 2000;
+	END_IF
+ELSE
+	CurrentLimit := 12000;
 END_IF
 
 SUPER^();
@@ -87,15 +98,22 @@ END_VAR
     </Method>
     <LineIds Name="GearMover">
       <LineId Id="9" Count="0" />
-      <LineId Id="20" Count="0" />
       <LineId Id="22" Count="0" />
+      <LineId Id="124" Count="0" />
       <LineId Id="71" Count="1" />
       <LineId Id="101" Count="0" />
-      <LineId Id="75" Count="0" />
       <LineId Id="103" Count="1" />
       <LineId Id="102" Count="0" />
       <LineId Id="70" Count="0" />
+      <LineId Id="126" Count="0" />
+      <LineId Id="125" Count="0" />
       <LineId Id="21" Count="0" />
+      <LineId Id="128" Count="0" />
+      <LineId Id="134" Count="0" />
+      <LineId Id="158" Count="0" />
+      <LineId Id="135" Count="2" />
+      <LineId Id="159" Count="2" />
+      <LineId Id="130" Count="0" />
       <LineId Id="24" Count="0" />
       <LineId Id="23" Count="0" />
       <LineId Id="26" Count="0" />
