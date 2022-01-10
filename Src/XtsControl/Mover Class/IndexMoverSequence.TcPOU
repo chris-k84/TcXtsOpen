@@ -17,7 +17,10 @@ VAR
 		AtStart,                                 
         MovingToStation,
 		QueuedAtStation,
-		AtStation);  
+		AtStation,
+		AtProcess,
+		InProcess,
+		StationProcessComplete);  
 	CurrentStation : INT := 1;
 END_VAR
 VAR_IN_OUT
@@ -51,8 +54,12 @@ END_VAR]]></Declaration>
 		
 	MovingToStation:
 		IF ThisMover.isStationary() THEN 
-			IF ThisMover.isAtPosition(StationArray[CurrentStation].Position) THEN
-				State := AtStation;
+			IF ThisMover.isAtPosition(StationArray[CurrentStation].Position) OR ThisMover.isAtPosition(StationArray[CurrentStation].StartPosition) THEN
+				IF StationArray[CurrentStation].IsProcess THEN
+					State := AtProcess;
+				ELSE
+					State := AtStation;
+				END_IF
 				StationArray[CurrentStation].HasMover();
 			ELSE
 				State := QueuedAtStation;
@@ -66,7 +73,24 @@ END_VAR]]></Declaration>
 
 	AtStation:
 		IF StationArray[CurrentStation].isComplete() THEN
-			IF CurrentStation = UPPER_BOUND(StationArray,1) THEN
+			State := StationProcessComplete;
+		END_IF
+
+	AtProcess:
+		ThisMover.MoveTo(Position := StationArray[CurrentStation].EndPosition,
+								Velocity := StationArray[CurrentStation].ProcessVelocity,
+								BackwardMove := FALSE);
+		State := InProcess;
+								
+	InProcess:
+		IF ThisMover.isStationary() THEN 
+			IF ThisMover.isAtPosition(StationArray[CurrentStation].EndPosition) THEN
+				State := StationProcessComplete;
+			END_IF
+		END_IF
+	
+	StationProcessComplete:
+		IF CurrentStation = UPPER_BOUND(StationArray,1) THEN
 				IF ThisMover.MoveTo(Position := 5500.0,
 								Velocity := 1000,
 								BackwardMove := FALSE) THEN
@@ -74,19 +98,23 @@ END_VAR]]></Declaration>
 					CurrentStation := 1; 
 				END_IF
 			ELSE
-				IF ThisMover.MoveTo(Position := StationArray[CurrentStation + 1].Position,
-								Velocity := 1000,
-								BackwardMove := FALSE) THEN
-					CurrentStation := CurrentStation + 1;
-					State := MovingToStation;
+				IF StationArray[CurrentStation + 1].IsProcess THEN
+					ThisMover.MoveTo(Position := StationArray[CurrentStation + 1].StartPosition,
+									Velocity := 4000,
+									BackwardMove := FALSE); 
+				ELSE
+					ThisMover.MoveTo(Position := StationArray[CurrentStation + 1].Position,
+									Velocity := 4000,
+									BackwardMove := FALSE);
 				END_IF
+				CurrentStation := CurrentStation + 1;
+				State := MovingToStation;
 			END_IF
-		END_IF
-
+	
 END_CASE]]></ST>
     </Implementation>
     <LineIds Name="IndexMoverSequence">
-      <LineId Id="304" Count="58" />
+      <LineId Id="517" Count="83" />
       <LineId Id="39" Count="0" />
     </LineIds>
   </POU>

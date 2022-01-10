@@ -42,7 +42,7 @@ Operation(PT := _OperationTime);]]></ST>
 METHOD HasMover : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[_HasMover := true;]]></ST>
       </Implementation>
     </Method>
     <Method Name="IsClear" Id="{8e25d200-227b-4162-a115-dff1d5795336}">

@@ -5,7 +5,7 @@
 VAR
 	axesEnable		: MC_Power;
 	axesReset		: AxesReset(_axis);
-	axesMoveTo 		: MoveMoverToPosition(_axis) := (Gap := 80.0);
+	axesMoveTo 		: MoveMoverToPosition(_axis) := (Gap := 100.0);
 	axesHalt 		: HaltMover(_axis);
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_axis 			: AXIS_REF;
