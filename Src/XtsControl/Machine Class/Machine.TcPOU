@@ -9,25 +9,40 @@ END_VAR
 VAR
 	Xts : XtsTrack;
 	stateMachine : PMLStateMachine;
-	indexMovers : ARRAY[1..10] OF IndexMover;
-	Movers : ARRAY[1..10] OF IMover;
-	StationArray : ARRAY[1..3] OF Station;
-	iStationArray : ARRAY[1..3] OF IStation;
+	indexMovers : ARRAY[1..NumberOfMovers] OF IndexMover;
+	Movers : ARRAY[1..NumberOfMovers] OF IMover;
+	StationArray : ARRAY[1..NumberOfStations] OF Process;
+	iStationArray : ARRAY[1..NumberOfStations] OF IProcess;
 	i: INT;
 	bInit: BOOL;
+END_VAR
+VAR CONSTANT
+	NumberOfMovers : INT := 30;
+	NumberOfStations : INT := 14;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF NOT bInit THEN
-	FOR i := 1 TO 10 DO
+	FOR i := 1 TO NumberOfMovers DO
 		Movers[i] := indexMovers[i];
 	END_FOR
-	FOR i := 1 TO 3 DO
+	FOR i := 1 TO NumberOfStations DO
 		iStationArray[i] := StationArray[i];
 	END_FOR
-	StationArray[1].Position := 1500.0;
-	StationArray[2].Position := 2000.0;
-	StationArray[3].Position := 2250.0;
+	StationArray[1].Position := 5750.0;
+	StationArray[2].Position := 6100.0;
+	StationArray[3].Position := 6700.0;
+	StationArray[4].Position := 1100.0;
+	StationArray[5].Position := 1300.0;
+	StationArray[6].Position := 1500.0;
+	StationArray[7].Position := 1700.0;
+	StationArray[8].Position := 1900.0;
+	StationArray[9].Position := 2100.0;
+	StationArray[10].Position := 2400.0;
+	StationArray[11].Position := 4100.0;
+	StationArray[12].Position := 4250.0;
+	StationArray[13].Position := 4750.0;
+	StationArray[14].Position := 5400.0;
 	stateMachine.PMLCommand(Command := Tc3_PackML_V2.E_PMLState.ePMLState_Aborting);
 	IF stateMachine.getState() = Tc3_PackML_V2.E_PMLState.ePMLState_Aborting THEN
 		stateMachine.StateComplete();
@@ -36,8 +51,11 @@ END_VAR
 END_IF
 stateMachine();
 Xts(MoverArray := Movers, StateMachine := stateMachine);
-FOR i := 1 TO 10 DO
+FOR i := 1 TO NumberOfMovers DO
 	indexMovers[i](XtsTrack := Xts, StateMachine := stateMachine, StationArray := iStationArray );	
+END_FOR
+FOR i := 1 TO NumberOfStations DO
+	StationArray[i]();
 END_FOR
 
 ]]></ST>
@@ -56,18 +74,7 @@ END_VAR
       </Get>
     </Property>
     <LineIds Name="Machine">
-      <LineId Id="53" Count="1" />
-      <LineId Id="57" Count="1" />
-      <LineId Id="91" Count="6" />
-      <LineId Id="59" Count="0" />
-      <LineId Id="114" Count="0" />
-      <LineId Id="116" Count="0" />
-      <LineId Id="115" Count="0" />
-      <LineId Id="55" Count="0" />
-      <LineId Id="74" Count="0" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="26" Count="2" />
-      <LineId Id="40" Count="0" />
+      <LineId Id="151" Count="35" />
       <LineId Id="25" Count="0" />
     </LineIds>
     <LineIds Name="Machine.PMLState.Get">

@@ -48,9 +48,6 @@ END_VAR]]></Declaration>
 		
 	30:
 		arrMovers[moverNumbers].IdentInGroup := DINT_TO_INT( moverNumbers);
-		IF arrMovers[moverNumbers].AxisRef.NcToPlc.SetPos = 0 THEN
-			State := 31;
-		END_IF
 		addMover.AddMover(MoverToAdd := arrMovers[moverNumbers]);
 		State := 40;
 		
@@ -172,9 +169,7 @@ enableGrp.FB_init(FALSE,FALSE, collisionGroup);]]></ST>
       <LineId Id="243" Count="0" />
       <LineId Id="225" Count="0" />
       <LineId Id="317" Count="5" />
-      <LineId Id="146" Count="2" />
-      <LineId Id="342" Count="2" />
-      <LineId Id="149" Count="8" />
+      <LineId Id="146" Count="11" />
       <LineId Id="244" Count="1" />
       <LineId Id="158" Count="0" />
       <LineId Id="246" Count="0" />

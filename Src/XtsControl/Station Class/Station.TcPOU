@@ -11,11 +11,31 @@ VAR
 	_Complete : BOOL;
 	_Operating : BOOL;
 	_Ready : BOOL;
-	_Position : MC_LREAL;;
+	_Position : MC_LREAL;
+	_OperationTime : TIME := T#1S;
+	Operation : ton;
+	_HasMover : BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[IF _HasMover THEN
+	_Operating := TRUE;
+	_Clear := FALSE;
+	_Ready := FALSE;
+	Operation.IN := TRUE;
+	IF Operation.Q THEN
+		_HasMover := FALSE;
+		Operation.IN := FALSE;
+		_Complete := TRUE;
+	END_IF
+ELSE
+	_Complete := FALSE;
+	_Clear := TRUE;
+	_Operating := FALSE;
+	_Ready := TRUE;
+END_IF
+
+Operation(PT := _OperationTime);]]></ST>
     </Implementation>
     <Method Name="HasMover" Id="{5275ace3-94b3-4866-84de-13c179bb6267}">
       <Declaration><![CDATA[{warning 'add method implementation '}
@@ -79,6 +99,7 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="Station">
+      <LineId Id="37" Count="16" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="Station.HasMover">

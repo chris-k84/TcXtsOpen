@@ -21,7 +21,7 @@ VAR
 	CurrentStation : INT := 1;
 END_VAR
 VAR_IN_OUT
-	StationArray : ARRAY[*] OF IStation;
+	StationArray : ARRAY[*] OF IProcess;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[CASE State OF
@@ -36,7 +36,7 @@ END_VAR]]></Declaration>
 		END_IF
 		
 	MovingToStart:
-		IF ThisMover.isAtPosition(position := 1000.0) THEN
+		IF ThisMover.isAtPosition(position := 5500.0) THEN
 			State := AtStart;
 		END_IF
 			
@@ -53,23 +53,25 @@ END_VAR]]></Declaration>
 		IF ThisMover.isStationary() THEN 
 			IF ThisMover.isAtPosition(StationArray[CurrentStation].Position) THEN
 				State := AtStation;
+				StationArray[CurrentStation].HasMover();
 			ELSE
 				State := QueuedAtStation;
 			END_IF
 		END_IF
 		
 	QueuedAtStation:
-		IF ThisMover.isAtPosition(StationArray[CurrentStation].Position) THEN
-				State := AtStation;
+		IF NOT ThisMover.isStationary() THEN
+				State := MovingToStation;
 		END_IF
 
 	AtStation:
 		IF StationArray[CurrentStation].isComplete() THEN
 			IF CurrentStation = UPPER_BOUND(StationArray,1) THEN
-				IF ThisMover.MoveTo(Position := 1000.0,
+				IF ThisMover.MoveTo(Position := 5500.0,
 								Velocity := 1000,
 								BackwardMove := FALSE) THEN
 					State := MovingToStart;
+					CurrentStation := 1; 
 				END_IF
 			ELSE
 				IF ThisMover.MoveTo(Position := StationArray[CurrentStation + 1].Position,
@@ -84,49 +86,7 @@ END_VAR]]></Declaration>
 END_CASE]]></ST>
     </Implementation>
     <LineIds Name="IndexMoverSequence">
-      <LineId Id="9" Count="0" />
-      <LineId Id="38" Count="0" />
-      <LineId Id="158" Count="2" />
-      <LineId Id="132" Count="0" />
-      <LineId Id="41" Count="0" />
-      <LineId Id="171" Count="0" />
-      <LineId Id="175" Count="0" />
-      <LineId Id="170" Count="0" />
-      <LineId Id="182" Count="2" />
-      <LineId Id="207" Count="1" />
-      <LineId Id="176" Count="0" />
-      <LineId Id="163" Count="0" />
-      <LineId Id="180" Count="1" />
-      <LineId Id="209" Count="2" />
-      <LineId Id="256" Count="0" />
-      <LineId Id="161" Count="1" />
-      <LineId Id="67" Count="0" />
-      <LineId Id="85" Count="0" />
-      <LineId Id="214" Count="0" />
-      <LineId Id="212" Count="0" />
-      <LineId Id="215" Count="2" />
-      <LineId Id="213" Count="0" />
-      <LineId Id="86" Count="0" />
-      <LineId Id="68" Count="0" />
-      <LineId Id="84" Count="0" />
-      <LineId Id="233" Count="0" />
-      <LineId Id="219" Count="0" />
-      <LineId Id="87" Count="0" />
-      <LineId Id="69" Count="0" />
-      <LineId Id="83" Count="0" />
-      <LineId Id="220" Count="0" />
-      <LineId Id="225" Count="1" />
-      <LineId Id="224" Count="0" />
-      <LineId Id="222" Count="0" />
-      <LineId Id="258" Count="0" />
-      <LineId Id="227" Count="0" />
-      <LineId Id="230" Count="2" />
-      <LineId Id="261" Count="0" />
-      <LineId Id="229" Count="0" />
-      <LineId Id="260" Count="0" />
-      <LineId Id="223" Count="0" />
-      <LineId Id="221" Count="0" />
-      <LineId Id="88" Count="0" />
+      <LineId Id="304" Count="58" />
       <LineId Id="39" Count="0" />
     </LineIds>
   </POU>

@@ -13,7 +13,7 @@ VAR
 	bInit: bool;
 END_VAR
 VAR_IN_OUT
-	StationArray : ARRAY[*] OF IStation;
+	StationArray : ARRAY[*] OF IProcess;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF NOT bInit THEN

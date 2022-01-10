@@ -8,7 +8,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	_trackLength : MC_LREAL := 4000.0;
+	_trackLength : MC_LREAL := 8000.0;
 	mcCollisionGroup : CollisionGroup;
 	XtsTrackHardware : XtsHardware;
 	EnableSequence : XtsEnableSequence(mcCollisionGroup);
@@ -58,7 +58,7 @@ CASE State OF
 		
 		IF StateMachine.getState() = E_PMLState.ePMLState_Resetting THEN
 			FOR i := LOWER_BOUND(MoverArray,1) TO UPPER_BOUND(MoverArray,1) DO
-				MoverArray[i].MoveTo(Position := 1500.0, Velocity := 1000.0, BackwardMove := FALSE);
+				MoverArray[i].MoveTo(Position := 5500.0, Velocity := 1000.0, BackwardMove := FALSE);
 			END_FOR 
 			State := Resetting;
 		END_IF
@@ -105,53 +105,8 @@ END_VAR
       </Get>
     </Property>
     <LineIds Name="XtsTrack">
-      <LineId Id="68" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="34" Count="0" />
-      <LineId Id="132" Count="1" />
-      <LineId Id="71" Count="1" />
-      <LineId Id="38" Count="0" />
-      <LineId Id="98" Count="0" />
-      <LineId Id="102" Count="2" />
-      <LineId Id="100" Count="0" />
-      <LineId Id="95" Count="0" />
-      <LineId Id="39" Count="0" />
-      <LineId Id="74" Count="0" />
-      <LineId Id="84" Count="0" />
-      <LineId Id="160" Count="0" />
-      <LineId Id="85" Count="0" />
-      <LineId Id="80" Count="0" />
-      <LineId Id="40" Count="1" />
-      <LineId Id="90" Count="3" />
-      <LineId Id="87" Count="0" />
-      <LineId Id="203" Count="0" />
-      <LineId Id="105" Count="0" />
-      <LineId Id="198" Count="0" />
-      <LineId Id="201" Count="0" />
-      <LineId Id="106" Count="0" />
-      <LineId Id="204" Count="0" />
-      <LineId Id="107" Count="0" />
-      <LineId Id="193" Count="1" />
-      <LineId Id="208" Count="0" />
-      <LineId Id="205" Count="1" />
-      <LineId Id="210" Count="2" />
-      <LineId Id="214" Count="0" />
-      <LineId Id="213" Count="0" />
-      <LineId Id="196" Count="0" />
-      <LineId Id="188" Count="0" />
-      <LineId Id="216" Count="4" />
-      <LineId Id="215" Count="0" />
-      <LineId Id="88" Count="0" />
-      <LineId Id="42" Count="0" />
-      <LineId Id="89" Count="0" />
-      <LineId Id="96" Count="0" />
-      <LineId Id="187" Count="0" />
-      <LineId Id="97" Count="0" />
-      <LineId Id="36" Count="0" />
-      <LineId Id="35" Count="0" />
-      <LineId Id="76" Count="0" />
-      <LineId Id="202" Count="0" />
-      <LineId Id="77" Count="1" />
+      <LineId Id="271" Count="62" />
+      <LineId Id="78" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.TrackLength.Get">
       <LineId Id="2" Count="0" />
