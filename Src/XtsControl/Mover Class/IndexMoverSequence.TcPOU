@@ -20,7 +20,8 @@ VAR
 		AtStation,
 		AtProcess,
 		InProcess,
-		StationProcessComplete);  
+		StationProcessComplete,
+		Aborting);  
 	CurrentStation : INT := 1;
 END_VAR
 VAR_IN_OUT
@@ -65,15 +66,24 @@ END_VAR]]></Declaration>
 				State := QueuedAtStation;
 			END_IF
 		END_IF
+		IF StateMachine.getState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
 		
 	QueuedAtStation:
 		IF NOT ThisMover.isStationary() THEN
 				State := MovingToStation;
 		END_IF
+		IF StateMachine.getState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
 
 	AtStation:
 		IF StationArray[CurrentStation].isComplete() THEN
 			State := StationProcessComplete;
+		END_IF
+		IF StateMachine.getState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
 		END_IF
 
 	AtProcess:
@@ -81,6 +91,9 @@ END_VAR]]></Declaration>
 								Velocity := StationArray[CurrentStation].ProcessVelocity,
 								BackwardMove := FALSE);
 		State := InProcess;
+		IF StateMachine.getState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
 								
 	InProcess:
 		IF ThisMover.isStationary() THEN 
@@ -88,33 +101,45 @@ END_VAR]]></Declaration>
 				State := StationProcessComplete;
 			END_IF
 		END_IF
+		IF StateMachine.getState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
 	
 	StationProcessComplete:
 		IF CurrentStation = UPPER_BOUND(StationArray,1) THEN
-				IF ThisMover.MoveTo(Position := 5500.0,
-								Velocity := 1000,
-								BackwardMove := FALSE) THEN
-					State := MovingToStart;
-					CurrentStation := 1; 
-				END_IF
-			ELSE
-				IF StationArray[CurrentStation + 1].IsProcess THEN
-					ThisMover.MoveTo(Position := StationArray[CurrentStation + 1].StartPosition,
-									Velocity := 4000,
-									BackwardMove := FALSE); 
-				ELSE
-					ThisMover.MoveTo(Position := StationArray[CurrentStation + 1].Position,
-									Velocity := 4000,
-									BackwardMove := FALSE);
-				END_IF
-				CurrentStation := CurrentStation + 1;
-				State := MovingToStation;
+			IF ThisMover.MoveTo(Position := 5500.0,
+							Velocity := 1000,
+							BackwardMove := FALSE) THEN
+				State := MovingToStart;
+				CurrentStation := 1; 
 			END_IF
-	
+		ELSE
+			IF StationArray[CurrentStation + 1].IsProcess THEN
+				ThisMover.MoveTo(Position := StationArray[CurrentStation + 1].StartPosition,
+								Velocity := 4000,
+								BackwardMove := FALSE); 
+			ELSE
+				ThisMover.MoveTo(Position := StationArray[CurrentStation + 1].Position,
+								Velocity := 4000,
+								BackwardMove := FALSE);
+			END_IF
+			CurrentStation := CurrentStation + 1;
+			State := MovingToStation;
+		END_IF
+		IF StateMachine.getState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
+		
+	Aborting:
+		IF StateMachine.getState() = E_PMLState.ePMLState_Aborted THEN
+			State := Available;
+			CurrentStation := 1;
+		END_IF
+		
 END_CASE]]></ST>
     </Implementation>
     <LineIds Name="IndexMoverSequence">
-      <LineId Id="517" Count="83" />
+      <LineId Id="650" Count="107" />
       <LineId Id="39" Count="0" />
     </LineIds>
   </POU>

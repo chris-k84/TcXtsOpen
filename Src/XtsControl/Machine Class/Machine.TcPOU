@@ -27,7 +27,7 @@ END_VAR
 		Movers[i] := indexMovers[i];
 		indexMovers[i].Acceleration := 40000;
 		indexMovers[i].Deceleration := 40000;
-		indexMovers[i].Jerk := 500000;
+		indexMovers[i].Jerk := 4000000;
 	END_FOR
 	FOR i := 1 TO NumberOfStations DO
 		iStationArray[i] := StationArray[i];
@@ -115,23 +115,7 @@ END_VAR
       </Get>
     </Property>
     <LineIds Name="Machine">
-      <LineId Id="53" Count="1" />
-      <LineId Id="57" Count="0" />
-      <LineId Id="169" Count="2" />
-      <LineId Id="58" Count="0" />
-      <LineId Id="91" Count="2" />
-      <LineId Id="146" Count="0" />
-      <LineId Id="97" Count="0" />
-      <LineId Id="59" Count="0" />
-      <LineId Id="114" Count="0" />
-      <LineId Id="116" Count="0" />
-      <LineId Id="115" Count="0" />
-      <LineId Id="55" Count="0" />
-      <LineId Id="74" Count="0" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="26" Count="2" />
-      <LineId Id="147" Count="2" />
-      <LineId Id="40" Count="0" />
+      <LineId Id="191" Count="25" />
       <LineId Id="25" Count="0" />
     </LineIds>
     <LineIds Name="Machine.InitialiseStations">
