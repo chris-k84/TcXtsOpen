@@ -33,6 +33,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Method Name="MoverAway" Id="{ddb4e9e6-4cf4-4eea-b607-0dfcfc708097}">
+      <Declaration><![CDATA[METHOD MoverAway : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
     <Property Name="Position" Id="{3e9be7e9-e67d-46c2-81c2-a99de33f0222}">
       <Declaration><![CDATA[PROPERTY Position : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{99828a85-cb6c-467b-9b04-6d446a05124f}">

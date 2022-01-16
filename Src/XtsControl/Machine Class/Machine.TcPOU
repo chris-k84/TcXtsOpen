@@ -15,9 +15,10 @@ VAR
 	iStationArray : ARRAY[1..NumberOfStations] OF IProcess;
 	i: INT;
 	bInit: BOOL;
+	OnStartOnly: BOOL;
 END_VAR
 VAR CONSTANT
-	NumberOfMovers : INT := 30;
+	NumberOfMovers : INT := 46;
 	NumberOfStations : INT := 16;
 END_VAR
 ]]></Declaration>
@@ -34,15 +35,19 @@ END_VAR
 	END_FOR
 	InitialiseStations();
 	stateMachine.PMLCommand(Command := Tc3_PackML_V2.E_PMLState.ePMLState_Aborting);
+	bInit := TRUE;
+END_IF
+IF NOT OnStartOnly THEN
 	IF stateMachine.getState() = Tc3_PackML_V2.E_PMLState.ePMLState_Aborting THEN
 		stateMachine.StateComplete();
-		bInit := TRUE;
+		OnStartOnly := true;
 	END_IF
 END_IF
+
 stateMachine();
 Xts(MoverArray := Movers, StateMachine := stateMachine);
 FOR i := 1 TO NumberOfMovers DO
-	indexMovers[i](XtsTrack := Xts, StateMachine := stateMachine, StationArray := iStationArray );	
+	indexMovers[47-i](XtsTrack := Xts, StateMachine := stateMachine, StationArray := iStationArray );	
 END_FOR
 FOR i := 1 TO NumberOfStations DO
 	StationArray[i]();
@@ -56,7 +61,9 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[StationArray[1].Position := 5800.0;
+        <ST><![CDATA[StationArray[1].Position := 5900.0;
+StationArray[1].Position := 5800.0;
+StationArray[1].TempPropTime := T#250MS;
 
 StationArray[2].StartPosition := 6100.0;
 StationArray[2].IsProcess := TRUE;
@@ -73,20 +80,36 @@ StationArray[4].IsProcess := TRUE;
 StationArray[4].EndPosition := 450.0;
 StationArray[4].ProcessVelocity := 175.0;
 
+StationArray[5].Position := 1150.0;
 StationArray[5].Position := 1050.0;
+StationArray[5].TempPropTime := T#350MS;
+StationArray[6].Position := 1350.0;
 StationArray[6].Position := 1250.0;
+StationArray[6].TempPropTime := T#830MS;
+StationArray[7].Position := 1550.0;
 StationArray[7].Position := 1450.0;
+StationArray[7].TempPropTime := T#830MS;
+StationArray[8].Position := 1750.0;
 StationArray[8].Position := 1650.0;
+StationArray[8].TempPropTime := T#830MS;
+StationArray[9].Position := 1950.0;
 StationArray[9].Position := 1850.0;
+StationArray[9].TempPropTime := T#830MS;
+StationArray[10].Position := 2150.0;
 StationArray[10].Position := 2050.0;
+StationArray[10].TempPropTime := T#830MS;
+
 StationArray[11].Position := 2350.0;
+StationArray[11].TempPropTime := T#250MS;
 
 StationArray[12].StartPosition := 2550.0;
 StationArray[12].IsProcess := TRUE;
 StationArray[12].EndPosition := 3950.0;
 StationArray[12].ProcessVelocity := 175.0;
 
+StationArray[13].Position := 4150.0;
 StationArray[13].Position := 4050.0;
+StationArray[13].TempPropTime := T#250MS;
 
 StationArray[14].StartPosition := 4250.0;
 StationArray[14].IsProcess := TRUE;
@@ -98,7 +121,9 @@ StationArray[15].IsProcess := TRUE;
 StationArray[15].EndPosition := 5150.0;
 StationArray[15].ProcessVelocity := 143.0;
 
-StationArray[16].Position := 5350;]]></ST>
+StationArray[16].Position := 5450;
+StationArray[16].Position := 5350;
+StationArray[16].TempPropTime := T#250MS;]]></ST>
       </Implementation>
     </Method>
     <Property Name="PMLState" Id="{ba36824d-caae-4e6e-b5dc-fb0feef88a75}">
@@ -115,29 +140,11 @@ END_VAR
       </Get>
     </Property>
     <LineIds Name="Machine">
-      <LineId Id="191" Count="25" />
+      <LineId Id="256" Count="29" />
       <LineId Id="25" Count="0" />
     </LineIds>
     <LineIds Name="Machine.InitialiseStations">
-      <LineId Id="6" Count="0" />
-      <LineId Id="22" Count="0" />
-      <LineId Id="7" Count="0" />
-      <LineId Id="19" Count="2" />
-      <LineId Id="23" Count="3" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="27" Count="3" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="31" Count="0" />
-      <LineId Id="10" Count="6" />
-      <LineId Id="32" Count="3" />
-      <LineId Id="17" Count="0" />
-      <LineId Id="36" Count="0" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="37" Count="3" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="42" Count="3" />
-      <LineId Id="41" Count="0" />
-      <LineId Id="47" Count="0" />
+      <LineId Id="51" Count="61" />
       <LineId Id="46" Count="0" />
     </LineIds>
     <LineIds Name="Machine.PMLState.Get">
