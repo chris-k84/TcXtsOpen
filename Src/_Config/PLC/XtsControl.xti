@@ -1332,240 +1332,40 @@ External Setpoint Generation:
 					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>MAIN.fbMachine.indexMovers[1].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
 					<Name>MAIN.fbMachine.indexMovers[2]._axis.NcToPlc</Name>
 					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[2].startButton</Name>
-					<Type>BOOL</Type>
 				</Var>
 				<Var>
 					<Name>MAIN.fbMachine.indexMovers[3]._axis.NcToPlc</Name>
 					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>MAIN.fbMachine.indexMovers[3].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
 					<Name>MAIN.fbMachine.indexMovers[4]._axis.NcToPlc</Name>
 					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[4].startButton</Name>
-					<Type>BOOL</Type>
 				</Var>
 				<Var>
 					<Name>MAIN.fbMachine.indexMovers[5]._axis.NcToPlc</Name>
 					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>MAIN.fbMachine.indexMovers[5].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
 					<Name>MAIN.fbMachine.indexMovers[6]._axis.NcToPlc</Name>
 					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[6].startButton</Name>
-					<Type>BOOL</Type>
 				</Var>
 				<Var>
 					<Name>MAIN.fbMachine.indexMovers[7]._axis.NcToPlc</Name>
 					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>MAIN.fbMachine.indexMovers[7].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
 					<Name>MAIN.fbMachine.indexMovers[8]._axis.NcToPlc</Name>
 					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[8].startButton</Name>
-					<Type>BOOL</Type>
 				</Var>
 				<Var>
 					<Name>MAIN.fbMachine.indexMovers[9]._axis.NcToPlc</Name>
 					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>MAIN.fbMachine.indexMovers[9].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
 					<Name>MAIN.fbMachine.indexMovers[10]._axis.NcToPlc</Name>
 					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[10].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[11]._axis.NcToPlc</Name>
-					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[11].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[12]._axis.NcToPlc</Name>
-					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[12].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[13]._axis.NcToPlc</Name>
-					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[13].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[14]._axis.NcToPlc</Name>
-					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[14].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[15]._axis.NcToPlc</Name>
-					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[15].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[16]._axis.NcToPlc</Name>
-					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[16].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[17]._axis.NcToPlc</Name>
-					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[17].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[18]._axis.NcToPlc</Name>
-					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[18].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[19]._axis.NcToPlc</Name>
-					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[19].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[20]._axis.NcToPlc</Name>
-					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[20].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[21]._axis.NcToPlc</Name>
-					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[21].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[22]._axis.NcToPlc</Name>
-					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[22].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[23]._axis.NcToPlc</Name>
-					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[23].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[24]._axis.NcToPlc</Name>
-					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[24].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[25]._axis.NcToPlc</Name>
-					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[25].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[26]._axis.NcToPlc</Name>
-					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[26].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[27]._axis.NcToPlc</Name>
-					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[27].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[28]._axis.NcToPlc</Name>
-					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[28].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[29]._axis.NcToPlc</Name>
-					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[29].startButton</Name>
-					<Type>BOOL</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[30]._axis.NcToPlc</Name>
-					<Type GUID="{10036166-C9D3-404B-BDD3-323034AAA7F4}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[30].startButton</Name>
-					<Type>BOOL</Type>
 				</Var>
 			</Vars>
 			<Vars VarGrpType="2" AreaNo="1">
@@ -1612,86 +1412,6 @@ External Setpoint Generation:
 				</Var>
 				<Var>
 					<Name>MAIN.fbMachine.indexMovers[10]._axis.PlcToNc</Name>
-					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[11]._axis.PlcToNc</Name>
-					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[12]._axis.PlcToNc</Name>
-					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[13]._axis.PlcToNc</Name>
-					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[14]._axis.PlcToNc</Name>
-					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[15]._axis.PlcToNc</Name>
-					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[16]._axis.PlcToNc</Name>
-					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[17]._axis.PlcToNc</Name>
-					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[18]._axis.PlcToNc</Name>
-					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[19]._axis.PlcToNc</Name>
-					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[20]._axis.PlcToNc</Name>
-					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[21]._axis.PlcToNc</Name>
-					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[22]._axis.PlcToNc</Name>
-					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[23]._axis.PlcToNc</Name>
-					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[24]._axis.PlcToNc</Name>
-					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[25]._axis.PlcToNc</Name>
-					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[26]._axis.PlcToNc</Name>
-					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[27]._axis.PlcToNc</Name>
-					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[28]._axis.PlcToNc</Name>
-					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[29]._axis.PlcToNc</Name>
-					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-				</Var>
-				<Var>
-					<Name>MAIN.fbMachine.indexMovers[30]._axis.PlcToNc</Name>
 					<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 				</Var>
 			</Vars>

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="EventLoggerClass" Id="{3f6e8d91-2b3f-4c47-b9e7-0101dde119b9}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK EventLoggerClass IMPLEMENTS IEventLoggers
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+    fbMsg : FB_TcMessage; 
+	fbTest : Tc3_EventLogger.FB_TcEvent;
+	fbInfo : Tc3_EventLogger.FB_TcSourceInfo;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Send" Id="{ae7ec69f-155c-4e06-b3b3-42ff1592972e}">
+      <Declaration><![CDATA[METHOD PUBLIC Send : BOOL
+VAR_INPUT
+	eventType : Tc3_EventLogger.TcEventEntry;
+	args : STRING(255);
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^.fbMsg.CreateEx(eventType, 0);
+THIS^.fbMsg.ipArguments.AddString(args);
+THIS^.fbMsg.Send(0);
+THIS^.fbMsg.Release();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="EventLoggerClass">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="EventLoggerClass.Send">
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

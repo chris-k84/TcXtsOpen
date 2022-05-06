@@ -42,7 +42,7 @@ END_VAR]]></Declaration>
 		END_IF
 		
 	MovingToStart:
-		IF ThisMover.isAtPosition(position := 5500.0) THEN
+		IF ThisMover.isAtPosition(position := 800.0) THEN
 			State := AtStart;
 		END_IF
 			
@@ -105,8 +105,8 @@ END_VAR]]></Declaration>
 	
 	GetNextMove:
 		IF CurrentStation = UPPER_BOUND(StationArray,1) THEN
-			IF ThisMover.MoveTo(Position := 5500.0,
-							Velocity := 4000,
+			IF ThisMover.MoveTo(Position := 800.0,
+							Velocity := 1000,
 							BackwardMove := FALSE) THEN
 				State := MovingToStart;
 				StationArray[CurrentStation].MoverAway();
@@ -126,7 +126,7 @@ END_VAR]]></Declaration>
 			TargetStationPosition := StationArray[CurrentStation + 1].Position;
 		END_IF
 		IF 	ThisMover.MoveTo(Position := TargetStationPosition,
-							Velocity := 4000,
+							Velocity := 1000,
 							BackwardMove := FALSE) THEN
 			IF CurrentStation <> 0 THEN
 				StationArray[CurrentStation].MoverAway();	
