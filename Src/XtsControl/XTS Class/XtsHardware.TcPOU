@@ -116,7 +116,10 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[getAllMoversValid := XtsIoEnvironment.XpuTcIo(1).GetAreAllPositionsValid();]]></ST>
+        <ST><![CDATA[ IF XtsIoEnvironment.XpuTcIo(1).GetAreAllPositionsValid() THEN
+	 getAllMoversValid := TRUE;
+	 Logger.Send(TC_EVENTS.XtsHardwareEvents.AllMoversValid,'');
+ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="getModuleInfoData" Id="{5df1d418-67cd-4681-b784-eb84b54fcac5}">
@@ -186,6 +189,7 @@ IF XtsIoEnvironment.XpuTcIo(1).GetMoverIdDetectionMode() = E_MoverIdDetectionMod
 	
 	// If the detection has an error, check for errors in output and try again.
 	IF bMoverIdDetectionError THEN
+		Logger.Send(TC_EVENTS.XtsHardwareEvents.Mover1DetectionFailed,'');
 		RETURN; 
 	END_IF
 
@@ -194,8 +198,10 @@ IF XtsIoEnvironment.XpuTcIo(1).GetMoverIdDetectionMode() = E_MoverIdDetectionMod
 		RETURN;
 	END_IF	
 	TriggerMoverID := TRUE;	
+	Logger.Send(TC_EVENTS.XtsHardwareEvents.Mover1DetectionComplete,'');
 ELSE
-	TriggerMoverID := true;
+	TriggerMoverID := TRUE;
+	Logger.Send(TC_EVENTS.XtsHardwareEvents.StandardMoverNumberingComplete,'');
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -242,6 +248,7 @@ END_IF]]></ST>
       <LineId Id="8" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.getAllMoversValid">
+      <LineId Id="9" Count="2" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.getModuleInfoData">
@@ -262,12 +269,7 @@ END_IF]]></ST>
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.TriggerMoverID">
-      <LineId Id="6" Count="2" />
-      <LineId Id="34" Count="0" />
-      <LineId Id="9" Count="2" />
-      <LineId Id="14" Count="17" />
-      <LineId Id="37" Count="0" />
-      <LineId Id="35" Count="1" />
+      <LineId Id="40" Count="30" />
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>

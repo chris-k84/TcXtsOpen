@@ -223,7 +223,7 @@
       <Resolution>Tc3_Module, 3.3.21.0 (Beckhoff Automation GmbH)</Resolution>
     </PlaceholderResolution>
     <PlaceholderResolution Include="Tc3_XTS_Utility">
-      <Resolution>Tc3_XTS_Utility, 3.1.2107.3 (Beckhoff Automation GmbH)</Resolution>
+      <Resolution>Tc3_XTS_Utility, 3.1.2202.3 (Beckhoff Automation GmbH)</Resolution>
     </PlaceholderResolution>
   </ItemGroup>
   <ItemGroup>
