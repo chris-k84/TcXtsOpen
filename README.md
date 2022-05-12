@@ -20,7 +20,7 @@ The system has classes for XTS hardware and management, a mover class is impleme
 
 ## System Design
 
-The MAIN program instances a class Machine, this contains the Xts Manager and Hardware classes. it also instances an array of a mover type, that can be editted depending on operation requirements.
+The MAIN program instances a class Machine, this contains the Xts Manager and Hardware classes. it also instances an array of a mover type, these get a movement class that can be editted depending on operation requirements.
 
 ## Tests
 
