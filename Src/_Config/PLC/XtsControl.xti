@@ -1317,8 +1317,8 @@ External Setpoint Generation:
 			</Relations>
 		</DataType>
 	</DataTypes>
-	<Project GUID="{6CE98D97-B85B-476D-91E3-37ABB0FAE03C}" Name="XtsControl" PrjFilePath="..\..\XtsControl\XtsControl.plcproj" TmcFilePath="..\..\XtsControl\XtsControl.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="1" TmcPath="XtsControl\XtsControl.tmc">
+	<Project GUID="{6CE98D97-B85B-476D-91E3-37ABB0FAE03C}" Name="XtsControl" PrjFilePath="..\..\XtsControl\XtsControl.plcproj" TmcFilePath="..\..\XtsControl\XtsControl.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e">
+		<Instance Id="#x01010640" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="1" TmcPath="XtsControl\XtsControl.tmc">
 			<Name>XtsControl Instance</Name>
 			<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 			<Vars VarGrpType="1">
@@ -1562,9 +1562,6 @@ External Setpoint Generation:
 					<CycleTime>10000000</CycleTime>
 				</Context>
 			</Contexts>
-			<TaskPouOids>
-				<TaskPouOid Prio="20" OTCID="#x08502001"/>
-			</TaskPouOids>
 		</Instance>
 	</Project>
 	<Mappings>
