@@ -1,4 +1,4 @@
-# TwinCAT XTS Open Framework
+# TwinCAT XTS Framework
 
 ## Contents
 
@@ -12,7 +12,7 @@
 
 ## Background
 
-This project is an attempt to use good programming practice to create a standard project to run a Bekchoff XTS unit, there is currently not a standard implementation for XTS so developers are able to design and implement their own system, however this leads to a lot of duplication of effort. Hopefully this will remove some of that process, even if only providing a basis for others to copy.
+This project is an attempt to use good programming practice to create a standard project to run a Beckhoff XTS unit, there is currently not a standard implementation for XTS so developers are able to design and implement their own system, however this leads to a lot of duplication of effort. Hopefully this will remove some of that process, even if only providing a basis for others to copy. Also its a good bit of fun :-)
 
 ## Description
 
