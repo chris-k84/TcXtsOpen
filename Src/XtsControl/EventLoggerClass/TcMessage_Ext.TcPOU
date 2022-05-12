@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="TcMessage_Ext" Id="{3f6e8d91-2b3f-4c47-b9e7-0101dde119b9}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TcMessage_Ext IMPLEMENTS ITcMessage_Ext
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+    fbMsg : FB_TcMessage; 
+	fbTest : Tc3_EventLogger.FB_TcEvent;
+	fbInfo : Tc3_EventLogger.FB_TcSourceInfo;
+	_loggerLevel : TcEventSeverity := TcEventSeverity.Info;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Property Name="LoggerLevel" Id="{8568972f-6d3d-40be-b448-2b58b8436b58}">
+      <Declaration><![CDATA[PROPERTY PUBLIC LoggerLevel : TcEventSeverity]]></Declaration>
+      <Get Name="Get" Id="{9e4b1554-037a-4367-8d23-52d542a5cfae}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[LoggerLevel := _loggerLevel;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{e31bcf61-4a4d-4540-bb24-f11bb5c26349}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_loggerLevel := LoggerLevel;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="Send" Id="{ae7ec69f-155c-4e06-b3b3-42ff1592972e}">
+      <Declaration><![CDATA[METHOD PUBLIC Send : BOOL
+VAR_INPUT
+	eventType : Tc3_EventLogger.TcEventEntry;
+	args : STRING(255);
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF eventType.eSeverity >= LoggerLevel THEN
+	THIS^.fbMsg.CreateEx(eventType, 0);
+	THIS^.fbMsg.ipArguments.AddString(args);
+	THIS^.fbMsg.Send(0);
+	THIS^.fbMsg.Release();
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="TcMessage_Ext">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TcMessage_Ext.LoggerLevel.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TcMessage_Ext.LoggerLevel.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TcMessage_Ext.Send">
+      <LineId Id="3" Count="5" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

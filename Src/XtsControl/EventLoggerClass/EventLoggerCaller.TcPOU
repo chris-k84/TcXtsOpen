@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="EventLoggerCaller" Id="{3b332520-45e0-4fbd-8a12-5a5798153567}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC EventLoggerCaller
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR_STAT
+	test : TcMessage_Ext;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Property Name="LoggerLevel" Id="{7a1da120-30ac-48b0-b143-72eb13841f05}">
+      <Declaration><![CDATA[PROPERTY PUBLIC LoggerLevel : TcEventSeverity]]></Declaration>
+      <Get Name="Get" Id="{d12ca7de-57d3-4365-b0d4-d095bb9a7ef4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[LoggerLevel := test.LoggerLevel;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{07445f74-6004-4001-9016-db8d42ed9270}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[test.LoggerLevel := LoggerLevel;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="SendMessage" Id="{27c653b0-052f-4876-8eb5-3aa962176d3e}">
+      <Declaration><![CDATA[METHOD PUBLIC SendMessage : BOOL
+VAR_INPUT
+	eventType : Tc3_EventLogger.TcEventEntry;
+	args : STRING(255);
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[test.Send(eventType := eventType, args := args);]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="EventLoggerCaller">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="EventLoggerCaller.LoggerLevel.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="EventLoggerCaller.LoggerLevel.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="EventLoggerCaller.SendMessage">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

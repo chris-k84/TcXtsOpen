@@ -10,7 +10,7 @@ VAR
 	Xts : XtsTrack;
 	stateMachine : PMLStateMachine;
 	indexMovers : ARRAY[1..NumberOfMovers] OF IndexMover;
-	Movers : ARRAY[1..NumberOfMovers] OF IMover;
+	Movers : ARRAY[1..NumberOfMovers] OF IMover;// := [indexMovers[1], indexMovers[2]];
 	StationArray : ARRAY[1..NumberOfStations] OF Process;
 	iStationArray : ARRAY[1..NumberOfStations] OF IProcess;
 	i: INT;

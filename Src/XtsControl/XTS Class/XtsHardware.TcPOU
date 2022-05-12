@@ -28,7 +28,10 @@ VAR
 		MoversValid,                                 
         AllMoversFound,
 		MoverIdDetection,
+		XTSMode,
+		CheckModuleVoltages,
 		HWReady);
+	Logger : TcMessage_Ext;
 END_VAR
 VAR CONSTANT
 	nModuleNumber  : INT := 16;
@@ -66,10 +69,17 @@ CASE State OF
 		
 	MoverIdDetection:
 		IF TriggerMoverID() THEN
-			State := HWReady;
+			State := XtsMode;
 		END_IF
 	
-	HWReady:
+	XtsMode:
+		IF IsInSim() THEN
+			State := HWReady;
+		ELSE
+			State := CheckModuleVoltages;
+		END_IF
+		
+	CheckModuleVoltages:
 		Xts48VStanding := TRUE;
 		Xts24VStanding := TRUE;
 		FOR i := 1 TO nModuleNumber DO
@@ -80,11 +90,15 @@ CASE State OF
 				Xts24VStanding := FALSE;
 			END_IF
 		END_FOR
-		XtsHardwareOK := Xts48VStanding AND Xts24VStanding;
+		IF Xts24VStanding AND Xts48VStanding THEN
+			State := HWReady;
+		END_IF
 	
+	HWReady:
+		XtsHardwareOK := TRUE;
 END_CASE
 
-
+//Logger();
 getModuleInfoData();
 
 
@@ -99,11 +113,12 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR nForCounter1:=1 TO XtsIoEnvironment.XpuTcIo(1).GetTrackCount() DO
-	XtsIoEnvironment.XpuTcIo(1).TrackTcIo(INT_TO_UINT(nForCounter1)).SetIsIncludedInDetection(FALSE);
+	XtsIoEnvironment.XpuTcIo(1).TrackTcIo(UDINT_TO_UINT(nForCounter1)).SetIsIncludedInDetection(FALSE);
 END_FOR
 
 FOR nForCounter1:=1 TO XtsIoEnvironment.XpuTcIo(1).GetTrackCount() DO
-	XtsIoEnvironment.XpuTcIo(1).TrackTcIo(INT_TO_UINT(nForCounter1)).SetIsIncludedInDetection(TRUE);
+	XtsIoEnvironment.XpuTcIo(1).TrackTcIo(UDINT_TO_UINT(nForCounter1)).SetIsIncludedInDetection(TRUE);
+	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(XtsIoEnvironment.XpuTcIo(1).GetTrackCount()));
 	GetActiveTracks := TRUE;
 END_FOR
 
@@ -150,8 +165,24 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF XtsIoEnvironment.XpuTcIo(1).GetDetectedMoverCount() = XtsIoEnvironment.XpuTcIo(1).GetExpectedMoverCount() THEN
 	getMoversDetected := TRUE;
+	Logger.Send(TC_EVENTS.XtsHardwareEvents.ExpectedMoversDetected,UDINT_TO_STRING(XtsIoEnvironment.XpuTcIo(1).GetExpectedMoverCount()));
 ELSE
 	getMoversDetected := FALSE;
+	Logger.Send(TC_EVENTS.XtsHardwareEvents.ExpectedMoversNotFound,'');
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="IsInSim" Id="{de7f62a4-75e4-488e-905d-35dc6644068b}">
+      <Declaration><![CDATA[METHOD IsInSim : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF  XtsIoEnvironment.XpuTcIo(1).GetOperationMode() = OperationMode.Simulation THEN
+	IsInSim := TRUE;
+	Logger.Send(TC_EVENTS.XtsHardwareEvents.XtsInSimulationMode,'');
+ELSE
+	IsInSim := FALSE;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -162,6 +193,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[XtsIoEnvironment.XpuTcIo(1).TriggerRedetection();
+Logger.Send(TC_EVENTS.XtsHardwareEvents.MoverDetectionInitiated,'');
 TriggerMoverDetection := true;
 ]]></ST>
       </Implementation>
@@ -180,6 +212,7 @@ IF XtsIoEnvironment.XpuTcIo(1).GetMoverIdDetectionMode() = E_MoverIdDetectionMod
 	IF NOT (bMoverIdDetectionActive OR bMoverIdDetected) THEN
 		// Trigger the "MoverIdDetection".
 		XtsIoEnvironment.XpuTcIo(1).TriggerMoverIdDetection();
+		Logger.Send(TC_EVENTS.XtsHardwareEvents.Mover1DetectionStarted,'');
 	END_IF
 
 	// Check for error or success of "MoverIdDetection".
@@ -206,45 +239,11 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="XtsHardware">
-      <LineId Id="206" Count="6" />
-      <LineId Id="465" Count="0" />
-      <LineId Id="319" Count="0" />
-      <LineId Id="466" Count="0" />
-      <LineId Id="473" Count="0" />
-      <LineId Id="475" Count="2" />
-      <LineId Id="469" Count="0" />
-      <LineId Id="479" Count="2" />
-      <LineId Id="478" Count="0" />
-      <LineId Id="489" Count="1" />
-      <LineId Id="492" Count="1" />
-      <LineId Id="491" Count="0" />
-      <LineId Id="470" Count="0" />
-      <LineId Id="482" Count="0" />
-      <LineId Id="487" Count="0" />
-      <LineId Id="484" Count="1" />
-      <LineId Id="471" Count="0" />
-      <LineId Id="494" Count="2" />
-      <LineId Id="486" Count="0" />
-      <LineId Id="472" Count="0" />
-      <LineId Id="500" Count="8" />
-      <LineId Id="498" Count="0" />
-      <LineId Id="509" Count="0" />
-      <LineId Id="499" Count="0" />
-      <LineId Id="467" Count="0" />
-      <LineId Id="390" Count="0" />
-      <LineId Id="223" Count="1" />
-      <LineId Id="290" Count="0" />
-      <LineId Id="235" Count="0" />
-      <LineId Id="263" Count="0" />
-      <LineId Id="262" Count="0" />
+      <LineId Id="577" Count="65" />
       <LineId Id="58" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.GetActiveTracks">
-      <LineId Id="6" Count="1" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="11" Count="3" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="9" Count="0" />
+      <LineId Id="18" Count="9" />
       <LineId Id="8" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.getAllMoversValid">
@@ -258,18 +257,21 @@ END_IF]]></ST>
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.getMoversDetected">
-      <LineId Id="5" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="11" Count="1" />
+      <LineId Id="16" Count="5" />
       <LineId Id="10" Count="0" />
     </LineIds>
+    <LineIds Name="XtsHardware.IsInSim">
+      <LineId Id="3" Count="4" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
     <LineIds Name="XtsHardware.TriggerMoverDetection">
-      <LineId Id="5" Count="0" />
-      <LineId Id="7" Count="0" />
+      <LineId Id="11" Count="2" />
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.TriggerMoverID">
-      <LineId Id="40" Count="30" />
+      <LineId Id="40" Count="8" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="49" Count="21" />
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>

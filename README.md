@@ -31,7 +31,7 @@ Main documentation site is available on: **[www.tcunit.org](https://www.tcunit.o
 
 code was developed/modified by:
 
-1. Chris Knight c.knight@beckhoff.co.uk
+1. Chris Knight
 
 ## Requirements: 
 

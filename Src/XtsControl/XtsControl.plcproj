@@ -18,10 +18,13 @@
     <LibraryReferences>{3f6e0c75-4a9c-4b5f-8039-17a6f22e412c}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="EventLoggerClass\EventLoggerClass.TcPOU">
+    <Compile Include="EventLoggerClass\EventLoggerCaller.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="EventLoggerClass\IEventLogger.TcIO">
+    <Compile Include="EventLoggerClass\ITcMessage_Ext.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EventLoggerClass\TcMessage_Ext.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Machine Class\GrippingMachine.TcPOU">
@@ -145,7 +148,6 @@
   <ItemGroup>
     <Folder Include="EventLoggerClass" />
     <Folder Include="Machine Class" />
-    <Folder Include="EventLogger" />
     <Folder Include="PackML" />
     <Folder Include="Station Class" />
     <Folder Include="XTS Class" />
@@ -166,6 +168,10 @@
     <PlaceholderReference Include="Tc2_System">
       <DefaultResolution>Tc2_System, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_System</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_EventLogger">
+      <DefaultResolution>Tc3_EventLogger, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc3_EventLogger</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_Mc3Definitions">
       <DefaultResolution>Tc3_Mc3Definitions, * (Beckhoff Automation GmbH)</DefaultResolution>
@@ -227,7 +233,6 @@
     </PlaceholderResolution>
   </ItemGroup>
   <ItemGroup>
-    <SubObject Include="EventLoggerClass.Send" />
     <SubObject Include="GearInCA.Abort" />
     <SubObject Include="GearInCA.Busy" />
     <SubObject Include="GearInCA.Busy.Get" />
@@ -235,7 +240,6 @@
     <SubObject Include="GearInCA.Done.Get" />
     <SubObject Include="GearInCA.Error" />
     <SubObject Include="GearInCA.Error.Get" />
-    <SubObject Include="IEventLogger.Send" />
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>
