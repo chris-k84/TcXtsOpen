@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
   <POU Name="XtsEnableSequence" Id="{2dbfd422-2e0c-45f9-9282-01bc354cd414}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XtsEnableSequence IMPLEMENTS ITask
 VAR_INPUT
@@ -9,7 +9,6 @@ END_VAR
 VAR
 	_collisionGroup : ICollisionGroup;
 	addMover : AddMoverToGroupTask(_collisionGroup);
-	enableGrp : EnableGroup(_collisionGroup);
 	State : INT;
 	moverNumbers : DINT;
 	AllMoversEnabled: BOOL;
@@ -17,6 +16,8 @@ VAR
 	_busy: BOOL;
 	_done: BOOL;
 	_Error: BOOL;
+	
+	Logger : TcMessage_Ext;
 END_VAR
 VAR_IN_OUT
 	arrMovers : ARRAY[*] OF IMover;
@@ -49,6 +50,7 @@ END_VAR]]></Declaration>
 	30:
 		arrMovers[moverNumbers].IdentInGroup := DINT_TO_INT( moverNumbers);
 		addMover.AddMover(MoverToAdd := arrMovers[moverNumbers]);
+		logger.Send(TC_EVENTS.XtsCAGroupEvents.AddingMoverToGroup,DINT_TO_STRING(moverNumbers));
 		State := 40;
 		
 	40:
@@ -57,6 +59,7 @@ END_VAR]]></Declaration>
 				moverNumbers := moverNumbers + 1;
 				State := 30;
 			ELSE
+				logger.Send(TC_EVENTS.XtsCAGroupEvents.AllMoversAdded,'');
 				FOR moverNumbers := LOWER_BOUND(arrMovers,1) TO UPPER_BOUND(arrMovers,1) DO
 					arrMovers[moverNumbers].EnableAxis();
 				END_FOR
@@ -70,20 +73,21 @@ END_VAR]]></Declaration>
 			AllMoversEnabled := TRUE AND arrMovers[moverNumbers].isEnabled();
 		END_FOR
 		IF AllMoversEnabled THEN
-			enableGrp.Execute();
+			logger.Send(TC_EVENTS.XtsCAGroupEvents.AllMoversEnabled,'');
+			_collisionGroup.Enable();
 			State := 60;
 		END_IF
 		
 	60:
-		IF enableGrp.Done THEN
+		IF _collisionGroup.GroupState = 2 THEN
+			logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupEnabled,'');
 			State := 0;
 			_busy := FALSE;
 			_done := true;
 		END_IF
 END_CASE
 
-addMover();
-enableGrp();]]></ST>
+addMover();]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{d2d6e9f2-aed0-4b3a-a87f-f1996d8a72d7}">
       <Declaration><![CDATA[METHOD Abort : BOOL
@@ -169,7 +173,10 @@ enableGrp.FB_init(FALSE,FALSE, collisionGroup);]]></ST>
       <LineId Id="243" Count="0" />
       <LineId Id="225" Count="0" />
       <LineId Id="317" Count="5" />
-      <LineId Id="146" Count="11" />
+      <LineId Id="146" Count="3" />
+      <LineId Id="344" Count="0" />
+      <LineId Id="150" Count="7" />
+      <LineId Id="345" Count="0" />
       <LineId Id="244" Count="1" />
       <LineId Id="158" Count="0" />
       <LineId Id="246" Count="0" />
@@ -177,12 +184,14 @@ enableGrp.FB_init(FALSE,FALSE, collisionGroup);]]></ST>
       <LineId Id="206" Count="0" />
       <LineId Id="211" Count="0" />
       <LineId Id="169" Count="4" />
+      <LineId Id="346" Count="0" />
       <LineId Id="247" Count="0" />
       <LineId Id="174" Count="3" />
-      <LineId Id="182" Count="1" />
+      <LineId Id="182" Count="0" />
+      <LineId Id="347" Count="0" />
+      <LineId Id="183" Count="0" />
       <LineId Id="296" Count="1" />
       <LineId Id="185" Count="3" />
-      <LineId Id="35" Count="0" />
     </LineIds>
     <LineIds Name="XtsEnableSequence.Abort">
       <LineId Id="5" Count="3" />

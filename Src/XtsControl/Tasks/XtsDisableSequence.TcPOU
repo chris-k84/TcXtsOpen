@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
   <POU Name="XtsDisableSequence" Id="{ea1d04be-726e-4c7d-baa7-17245f825e22}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XtsDisableSequence IMPLEMENTS ITask
 VAR_INPUT
@@ -8,7 +8,6 @@ VAR_OUTPUT
 END_VAR
 VAR
 	_collisionGroup : ICollisionGroup;
-	disableGrp : DisableGroup(_collisionGroup);
 	removeAllAxes : RemoveAllMoverFromGroup(_collisionGroup);
 	grpStop : StopMoverGroup(_collisionGroup);
 	State : INT;
@@ -19,6 +18,8 @@ VAR
 	_done : BOOL;
 	_Error : BOOL;
 	i: DINT;
+	
+	Logger : TcMessage_Ext;
 END_VAR
 VAR_IN_OUT
 	arrMovers : ARRAY[*] OF IMover;
@@ -32,10 +33,12 @@ END_VAR]]></Declaration>
 			_done := FALSE;
 			_Error := FALSE;
 			IF _collisionGroup.GroupState = CAGroupStatus.mcGroupStateMoving THEN
+				Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupStop,'');
 				grpStop.Execute();
 				State := 10;
 			ELSE
 				State := 20;
+				Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupRemoving,'');
 				removeAllAxes.RemoveAllMover();
 			END_IF
 		END_IF
@@ -43,11 +46,14 @@ END_VAR]]></Declaration>
 	10:
 		IF grpStop.Done THEN
 			State := 20;
+			Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupStopped,'');
+			Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupRemoving,'');
 			removeAllAxes.RemoveAllMover();
 		END_IF
 	
 	20:
 		IF removeAllAxes.Done THEN
+			logger.Send(TC_EVENTS.XtsCAGroupEvents.AllMoversRemoved,'');
 			FOR moverNumbers := LOWER_BOUND(arrMovers,1) TO UPPER_BOUND(arrMovers,1) DO
 				arrMovers[moverNumbers].DisableAxis();
 			END_FOR
@@ -60,21 +66,22 @@ END_VAR]]></Declaration>
 			AllMoversDisabled := TRUE AND NOT arrMovers[moverNumbers].isEnabled();
 		END_FOR
 		IF AllMoversDisabled THEN
+			logger.Send(TC_EVENTS.XtsCAGroupEvents.AllMoversDisabled,'');
 			State := 50;
-			disableGrp.Execute();
+			_collisionGroup.Disable();
 		END_IF
 		
 	50:
-		IF disableGrp.Done THEN
+		IF _collisionGroup.GroupState = 1 THEN
 			State := 0;
 			grpStop.Deceleration := Tc3_Mc3Definitions.MC_DEFAULT;
 			grpStop.Jerk := Tc3_Mc3Definitions.MC_DEFAULT;
+			logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupDisabled,'');
 			_busy := FALSE;
 			_done := true;
 		END_IF
 END_CASE
 
-disableGrp();
 removeAllAxes();
 grpStop();]]></ST>
     </Implementation>
@@ -161,8 +168,21 @@ grpStop.Jerk := Tc3_Mc3Definitions.MC_MAXIMUM;]]></ST>
     </Method>
     <LineIds Name="XtsDisableSequence">
       <LineId Id="3" Count="3" />
-      <LineId Id="8" Count="38" />
-      <LineId Id="48" Count="8" />
+      <LineId Id="8" Count="3" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="12" Count="3" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="16" Count="6" />
+      <LineId Id="82" Count="1" />
+      <LineId Id="23" Count="4" />
+      <LineId Id="85" Count="0" />
+      <LineId Id="28" Count="11" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="40" Count="6" />
+      <LineId Id="48" Count="1" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="50" Count="3" />
+      <LineId Id="55" Count="1" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.Abort">

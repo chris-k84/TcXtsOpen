@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
   <POU Name="CollisionGroup" Id="{0bc361f9-56cf-433c-aec7-a5801fd95d6e}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK CollisionGroup IMPLEMENTS ICollisionGroup
 VAR_INPUT
@@ -10,14 +10,40 @@ VAR
 	_caGroup : Tc3_McCoordinatedMotion.AXES_GROUP_REF;
 	readStatus : Tc3_McCoordinatedMotion.MC_GroupReadStatus;
 	resetCAGroup : ResetGroup(THIS^);
+	enableCAGroup : EnableGroup(THIS^);
+	disableCAGroup : DisableGroup(this^);
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[readStatus(
 	AxesGroup:= _caGroup, 
 	Enable:= TRUE );
-resetCAGroup();]]></ST>
+resetCAGroup();
+enableCAGroup();
+disableCAGroup();]]></ST>
     </Implementation>
+    <Method Name="Disable" Id="{2eaaf05d-ba0d-403c-b6c2-6c1880be25f4}">
+      <Declaration><![CDATA[METHOD Disable : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT disableCAGroup.Busy THEN
+	disableCAGroup.Execute();
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Enable" Id="{6d4242a6-e972-414e-a129-69718fbcece2}">
+      <Declaration><![CDATA[METHOD Enable : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT enableCAGroup.Busy THEN
+	enableCAGroup.Execute();
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="GroupRef" Id="{6faf36db-c068-43d3-aa12-55d90013f979}">
       <Declaration><![CDATA[PROPERTY GroupRef : reference to AXES_GROUP_REF]]></Declaration>
       <Get Name="Get" Id="{c6dbe199-1644-405b-b519-b28e2b4f4703}">
@@ -69,6 +95,13 @@ END_IF]]></ST>
     <LineIds Name="CollisionGroup">
       <LineId Id="12" Count="2" />
       <LineId Id="25" Count="0" />
+      <LineId Id="38" Count="1" />
+    </LineIds>
+    <LineIds Name="CollisionGroup.Disable">
+      <LineId Id="5" Count="2" />
+    </LineIds>
+    <LineIds Name="CollisionGroup.Enable">
+      <LineId Id="5" Count="2" />
     </LineIds>
     <LineIds Name="CollisionGroup.GroupRef.Get">
       <LineId Id="2" Count="0" />
