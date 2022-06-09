@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="XtsTrack" Id="{9b564055-e4ef-49ec-91fa-4e16cb16a3f0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsTrack IMPLEMENTS IXtsTrack
+VAR_INPUT
+	StateMachine : IPmlStateMachine;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_trackLength : MC_LREAL := 4000.0;
+	mcCollisionGroup : CollisionGroup;
+	XtsTrackHardware : XtsHardware;
+	EnableSequence : XtsEnableSequence(mcCollisionGroup);
+	DisableSequence : XtsDisableSequence(mcCollisionGroup);
+	State :(
+        Init,                                               
+		Ready,                                 
+        Enabling,
+		Enabled,
+		Resetting,
+		Running,
+		Disabling);  	
+	i : DINT;
+	AtHome: BOOL;
+END_VAR
+VAR_IN_OUT
+	MoverArray : ARRAY[*] OF IMover;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[XtsTrackHardware();
+CASE State OF
+	Init:
+		IF XtsTrackHardware.XtsHardwareOK THEN
+			State := Ready;
+		END_IF
+		
+	Ready:
+		IF StateMachine.getState() = E_PMLState.ePMLState_Clearing THEN
+			IF EnableSequence.Enable() THEN
+				State := Enabling;
+			END_IF	
+		END_IF
+		
+	Enabling:
+		IF EnableSequence.Done THEN
+			State := Enabled;
+			StateMachine.StateComplete();
+		END_IF
+		
+	Enabled:
+		IF StateMachine.getState() = E_PMLState.ePMLState_Aborting THEN
+			DisableSequence.Disable();
+			IF DisableSequence.Busy THEN
+				State := Disabling;
+			END_IF
+		END_IF
+		
+		IF StateMachine.getState() = E_PMLState.ePMLState_Resetting THEN
+			FOR i := LOWER_BOUND(MoverArray,1) TO UPPER_BOUND(MoverArray,1) DO
+				MoverArray[i].MoveTo(Position := 800.0, Velocity := 1000.0, BackwardMove := FALSE);
+			END_FOR 
+			State := Resetting;
+		END_IF
+		
+	Resetting:
+		AtHome := TRUE;
+		FOR i := LOWER_BOUND(MoverArray,1) TO UPPER_BOUND(MoverArray,1) DO
+				AtHome := AtHome AND MoverArray[i].isStationary();
+		END_FOR 
+		IF AtHome THEN
+			State := Running;
+			StateMachine.StateComplete();	
+		END_IF
+		
+	Running:	
+		IF StateMachine.getState() = E_PMLState.ePMLState_Aborting THEN
+			DisableSequence.Disable();
+			IF DisableSequence.Busy THEN
+				State := Disabling;
+			END_IF
+		END_IF
+		
+	Disabling:
+		IF DisableSequence.Done THEN
+			State := Ready;
+			StateMachine.StateComplete();
+		END_IF
+	
+END_CASE
+
+EnableSequence(arrMovers := MoverArray);
+DisableSequence(arrMovers := MoverArray);
+mcCollisionGroup();]]></ST>
+    </Implementation>
+    <Property Name="TrackLength" Id="{4f244eb1-0239-423a-8574-4ccb93081483}">
+      <Declaration><![CDATA[PROPERTY PUBLIC TrackLength : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{962af0e5-68fc-457e-92c4-2ae643ddac5e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[TrackLength := _trackLength;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <LineIds Name="XtsTrack">
+      <LineId Id="68" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="132" Count="1" />
+      <LineId Id="71" Count="1" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="102" Count="2" />
+      <LineId Id="100" Count="0" />
+      <LineId Id="95" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="160" Count="0" />
+      <LineId Id="85" Count="0" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="40" Count="1" />
+      <LineId Id="90" Count="3" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="203" Count="0" />
+      <LineId Id="105" Count="0" />
+      <LineId Id="198" Count="0" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="204" Count="0" />
+      <LineId Id="107" Count="0" />
+      <LineId Id="193" Count="1" />
+      <LineId Id="208" Count="0" />
+      <LineId Id="205" Count="1" />
+      <LineId Id="210" Count="2" />
+      <LineId Id="214" Count="0" />
+      <LineId Id="213" Count="0" />
+      <LineId Id="196" Count="0" />
+      <LineId Id="188" Count="0" />
+      <LineId Id="216" Count="4" />
+      <LineId Id="215" Count="0" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="89" Count="0" />
+      <LineId Id="96" Count="0" />
+      <LineId Id="187" Count="0" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="202" Count="0" />
+      <LineId Id="77" Count="1" />
+    </LineIds>
+    <LineIds Name="XtsTrack.TrackLength.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

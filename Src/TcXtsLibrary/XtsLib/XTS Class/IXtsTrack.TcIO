@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <Itf Name="IXtsTrack" Id="{b3c6e967-8b31-478f-9f89-976ea42d89c5}">
+    <Declaration><![CDATA[INTERFACE IXtsTrack
+]]></Declaration>
+    <Property Name="TrackLength" Id="{e00364fa-b4dc-4b20-8989-f77a4311510c}">
+      <Declaration><![CDATA[PROPERTY TrackLength : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{32b4808d-dff1-403b-a19c-9aec12b15f8e}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>

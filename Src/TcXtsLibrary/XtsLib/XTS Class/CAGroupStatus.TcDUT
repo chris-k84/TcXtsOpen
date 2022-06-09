@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <DUT Name="CAGroupStatus" Id="{85bf436c-9b10-4cd9-a128-8e6a5c29ad32}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE CAGroupStatus :
+(
+	mcGroupStateInvalid:=0, 
+	mcGroupStateDisabled:=1,
+	mcGroupStateStandby:=2, 
+	mcGroupStateMoving:=3, 
+	mcGroupStateStopping:=4, 
+	mcGroupStateErrorStop:=5, 
+	mcGroupStateHoming:=6, 
+	mcGroupStateNotReady:=7, 
+	mcGroupAllAxesStanding:=8,
+    mcGroupConstantVelocity:=9,
+    mcGroupAccelerating:=10,
+    mcGroupDecelerating:=11,
+    mcGroupInPosition:=12,
+    mcGroupError:=13
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

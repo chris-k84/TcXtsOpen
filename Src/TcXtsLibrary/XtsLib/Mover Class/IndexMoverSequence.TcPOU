@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="IndexMoverSequence" Id="{4ed28eae-b2a7-40a7-8856-6ea87acd0ba0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK IndexMoverSequence
+VAR_INPUT
+	ThisMover : IMover;
+	XtsTrack : IXtsTrack;
+	StateMachine : IPmlStateMachine;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	State :(
+        Init,                                               
+        Available,
+		MovingToStart, 
+		AtStart,                                 
+        MovingToStation,
+		QueuedAtStation,
+		AtStation,
+		AtProcess,
+		InProcess,
+		GetNextMove,
+		GoToNextStation,
+		Aborting);  
+	CurrentStation : INT;
+	TargetStationPosition : MC_LREAL;
+END_VAR
+VAR_IN_OUT
+	StationArray : ARRAY[*] OF IProcess;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE State OF
+	Init:
+		IF ThisMover.isDetected() THEN
+			State := Available;
+		END_IF
+		
+	Available:
+		IF StateMachine.getState() = E_PMLState.ePMLState_Starting THEN
+			State := MovingToStart;
+		END_IF
+		
+	MovingToStart:
+		IF ThisMover.isAtPosition(position := 800.0) THEN
+			State := AtStart;
+		END_IF
+			
+	AtStart:
+		IF StationArray[LOWER_BOUND(StationArray,1)].IsReady() THEN
+			State := GetNextMove;
+		END_IF
+		
+	MovingToStation:
+		IF ThisMover.isStationary() THEN 
+			IF ThisMover.isAtPosition(TargetStationPosition) THEN
+				IF StationArray[CurrentStation].IsProcess THEN
+					State := AtProcess;
+				ELSE
+					State := AtStation;
+				END_IF
+				StationArray[CurrentStation].HasMover();
+			ELSE
+				State := QueuedAtStation;
+			END_IF
+		END_IF
+		IF StateMachine.getState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
+		
+	QueuedAtStation:
+		IF NOT ThisMover.isStationary() THEN
+				State := MovingToStation;
+		END_IF
+		IF StateMachine.getState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
+
+	AtStation:
+		IF StationArray[CurrentStation].isComplete() THEN
+			State := GetNextMove;
+		END_IF
+		IF StateMachine.getState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
+
+	AtProcess:
+		ThisMover.MoveTo(Position := StationArray[CurrentStation].EndPosition,
+								Velocity := StationArray[CurrentStation].ProcessVelocity,
+								BackwardMove := FALSE);
+		State := InProcess;
+		IF StateMachine.getState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
+								
+	InProcess:
+		IF ThisMover.isStationary() THEN 
+			IF ThisMover.isAtPosition(StationArray[CurrentStation].EndPosition) THEN
+				State := GetNextMove;
+			END_IF
+		END_IF
+		IF StateMachine.getState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
+	
+	GetNextMove:
+		IF CurrentStation = UPPER_BOUND(StationArray,1) THEN
+			IF ThisMover.MoveTo(Position := 800.0,
+							Velocity := 1000,
+							BackwardMove := FALSE) THEN
+				State := MovingToStart;
+				StationArray[CurrentStation].MoverAway();
+				CurrentStation := 0; 
+			END_IF
+		ELSE
+			State := GoToNextStation;
+		END_IF
+		IF StateMachine.getState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
+		
+	GoToNextStation:
+		IF StationArray[CurrentStation + 1].IsProcess THEN
+			TargetStationPosition := StationArray[CurrentStation + 1].StartPosition;
+		ELSE
+			TargetStationPosition := StationArray[CurrentStation + 1].Position;
+		END_IF
+		IF 	ThisMover.MoveTo(Position := TargetStationPosition,
+							Velocity := 1000,
+							BackwardMove := FALSE) THEN
+			IF CurrentStation <> 0 THEN
+				StationArray[CurrentStation].MoverAway();	
+			END_IF		
+			CurrentStation := CurrentStation + 1;
+			State := MovingToStation;
+		END_IF				
+			
+		
+	Aborting:
+		IF StateMachine.getState() = E_PMLState.ePMLState_Aborted THEN
+			State := Available;
+			CurrentStation := 0;
+			TargetStationPosition := 0.0;
+		END_IF
+		
+END_CASE]]></ST>
+    </Implementation>
+    <LineIds Name="IndexMoverSequence">
+      <LineId Id="810" Count="112" />
+      <LineId Id="39" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

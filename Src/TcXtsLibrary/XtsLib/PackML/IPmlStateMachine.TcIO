@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <Itf Name="IPmlStateMachine" Id="{a572c756-2ee2-4617-b1ba-a370e2347b9e}">
+    <Declaration><![CDATA[INTERFACE IPmlStateMachine
+]]></Declaration>
+    <Method Name="getState" Id="{8896b180-4065-4462-9182-dfc33f7be59c}">
+      <Declaration><![CDATA[METHOD getState : E_PMLState
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="PMLCommand" Id="{f841f4da-d94f-47fd-a3c7-c8897a849506}">
+      <Declaration><![CDATA[METHOD PMLCommand : bool
+VAR_INPUT
+	Command : E_PMLCommand;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="StateComplete" Id="{5723ee2f-d368-4970-a6c6-2e134230c395}">
+      <Declaration><![CDATA[METHOD StateComplete : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="IndexMover" Id="{ae40fee3-92e9-44c7-98fa-7602be1fb9dc}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK IndexMover EXTENDS FB_Mover
+VAR_INPUT
+	XtsTrack : IXtsTrack;
+	StateMachine : IPmlStateMachine;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	moverSequence : IndexMoverSequence;
+	bInit: bool;
+END_VAR
+VAR_IN_OUT
+	StationArray : ARRAY[*] OF IProcess;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF NOT bInit THEN
+	bInit := TRUE;
+	_trackLength := XtsTrack.TrackLength;
+END_IF
+SUPER^();
+
+moverSequence(ThisMover	 := THIS^, 
+				XtsTrack := XtsTrack, 
+				StateMachine := StateMachine,
+				StationArray := StationArray);
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="IndexMover">
+      <LineId Id="86" Count="1" />
+      <LineId Id="90" Count="0" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="57" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

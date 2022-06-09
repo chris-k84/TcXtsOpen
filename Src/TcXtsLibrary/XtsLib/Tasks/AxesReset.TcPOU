@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="AxesReset" Id="{50b6cb56-c29b-4e65-9645-432ca640e140}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'hide_all_locals'}
+FUNCTION_BLOCK AxesReset IMPLEMENTS ITask
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	resetMover : Tc2_MC2.MC_Reset;
+	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
+	_ResetMover : BOOL;
+	state : INT;
+	_busy : BOOL;
+	_error : BOOL;
+	_done : BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE State OF
+	0:
+		IF _ResetMover THEN
+			_done := FALSE;
+			_error := FALSE;
+			_busy := TRUE;
+			resetMover.Execute := TRUE;
+			IF resetMover.Busy THEN
+				State := 10;
+				_ResetMover := FALSE;
+			END_IF
+		END_IF
+	
+	10:
+		IF NOT resetMover.Busy THEN
+			IF resetMover.Done THEN
+				_done := TRUE;
+			ELSIF resetMover.Error THEN
+				_error := TRUE;
+			END_IF
+			_busy := FALSE;
+			resetMover.Execute := FALSE;
+			State := 0;
+		END_IF
+END_CASE
+
+resetMover(Axis := _axis);]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{1e191aa0-5300-47ad-a5cc-fd578ced08bc}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[resetMover.Execute := FALSE;
+_busy := FALSE;
+_ResetMover := FALSE;
+Abort := TRUE;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Busy" Id="{ffbd0dda-3106-42ba-b22c-3278cb6aaea4}">
+      <Declaration><![CDATA[PROPERTY Busy : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{90c7b31c-76e8-4f44-95af-c4317569bbe0}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Busy := _busy;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Done" Id="{47e63658-753a-4115-96e1-42e82c8ff57f}">
+      <Declaration><![CDATA[PROPERTY Done : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{accb34dd-8a4d-4cb7-bc9f-4596b11ba7cc}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Done := _done;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Error" Id="{44b7813b-391c-4b03-b5bd-f887814b2c5c}">
+      <Declaration><![CDATA[PROPERTY Error : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{e407d0a0-d259-4518-9091-03bbe8cf3bbe}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Error := _error;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Execute" Id="{6a1f36ad-1cf4-4393-9c94-06ccb247a97f}">
+      <Declaration><![CDATA[METHOD Execute : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Execute := _ResetMover := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{8a85576b-5504-487e-903b-6d992319f896}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	axis : reference TO AXIS_REF;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_axis REF= axis;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="AxesReset">
+      <LineId Id="12" Count="25" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="AxesReset.Abort">
+      <LineId Id="5" Count="3" />
+      <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="AxesReset.Busy.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="AxesReset.Done.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="AxesReset.Error.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="AxesReset.Execute">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="AxesReset.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.29">
+	<DataTypes>
+		<DataType>
+			<Name GUID="{873DD3B9-D1F9-4D80-8270-496111E1E5A6}" PersistentType="true">NewEventClass</Name>
+			<DisplayName TxtId=""><![CDATA[NewEventClass_DisplayText]]></DisplayName>
+			<EventId>
+				<Name Id="1">Event</Name>
+				<DisplayName TxtId=""><![CDATA[Event_DisplayText]]></DisplayName>
+				<Severity>Verbose</Severity>
+			</EventId>
+		</DataType>
+	</DataTypes>
+	<Project ProjectGUID="{08A2B0F7-C4A7-4FE5-ACD3-6DAF9E50345D}" Target64Bit="true" ShowHideConfigurations="#x106">
+		<Plc>
+			<Project GUID="{B62C1B8F-A6E4-4B5A-899A-5D5B71636640}" Name="XtsLib" PrjFilePath="XtsLib\XtsLib.plcproj" TmcFilePath="XtsLib\XtsLib.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e"/>
+		</Plc>
+	</Project>
+</TcSmProject>

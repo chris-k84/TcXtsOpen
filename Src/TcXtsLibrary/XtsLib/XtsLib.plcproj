@@ -1,30 +1,60 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <FileVersion>1.0.0.0</FileVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6ce98d97-b85b-476d-91e3-37abb0fae03c}</ProjectGuid>
+    <ProjectGuid>{b62c1b8f-a6e4-4b5a-899a-5d5b71636640}</ProjectGuid>
     <SubObjectsSortedByName>True</SubObjectsSortedByName>
     <DownloadApplicationInfo>true</DownloadApplicationInfo>
     <WriteProductVersion>true</WriteProductVersion>
     <GenerateTpy>false</GenerateTpy>
-    <Name>XtsControl</Name>
-    <ProgramVersion>3.1.4024.12</ProgramVersion>
-    <Application>{76b5c7e3-5e01-4c60-82fd-836a1581bde6}</Application>
-    <TypeSystem>{58bbbd95-fcda-425e-beb9-5ba1f7af41c4}</TypeSystem>
-    <Implicit_Task_Info>{d3be959d-141b-4591-896f-1edca68eee24}</Implicit_Task_Info>
-    <Implicit_KindOfTask>{bf908b3e-fed4-4893-8a3b-8e475b0946a1}</Implicit_KindOfTask>
-    <Implicit_Jitter_Distribution>{00f1c187-ce26-4c8d-a045-194473879630}</Implicit_Jitter_Distribution>
-    <LibraryReferences>{3f6e0c75-4a9c-4b5f-8039-17a6f22e412c}</LibraryReferences>
+    <Name>XtsLib</Name>
+    <ProgramVersion>3.1.4023.0</ProgramVersion>
+    <Application>{c180b2c0-38b4-4315-924e-53aa3a527f21}</Application>
+    <TypeSystem>{655dd1f4-b339-44b3-ae3d-91f9d3c43389}</TypeSystem>
+    <Implicit_Task_Info>{91949891-8d62-4c68-ba61-9bcdf1da753e}</Implicit_Task_Info>
+    <Implicit_KindOfTask>{b13a8837-6545-418a-96e2-e1bd6fd9fcee}</Implicit_KindOfTask>
+    <Implicit_Jitter_Distribution>{3a679315-69e1-4f89-896a-7ccc5eb827e8}</Implicit_Jitter_Distribution>
+    <LibraryReferences>{8422622f-e831-439e-86d4-ef93fd220668}</LibraryReferences>
+    <Company>BAUK</Company>
+    <Released>false</Released>
+    <Title>Xts Library</Title>
+    <ProjectVersion>0.0.0.2</ProjectVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Machine Class\GrippingMachine.TcPOU">
+    <Compile Include="EventLoggerClass\ITcMessage_Ext.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Machine Class\IMachine.TcIO">
+    <Compile Include="EventLoggerClass\TcMessage_Ext.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Machine Class\Machine.TcPOU">
+    <Compile Include="Mover Class\FB_Mover.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Mover Class\GearMover.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Mover Class\GearMoverSequence.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Mover Class\IGearMover.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Mover Class\IMover.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Mover Class\IndexMover.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Mover Class\IndexMoverSequence.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PackML\IPmlStateMachine.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PackML\PackMLState.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PackML\PMLStateMachine.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PlcTask.TcTTO">
@@ -33,11 +63,90 @@
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Station Class\IProcess.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Station Class\IStation.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Station Class\Process.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Station Class\Station.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\AddMoverToGroupTask.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\AxesReset.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\DisableGroup.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\EnableGroup.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\GearInCA.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\HaltMover.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\ITask.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\MoveMoverToPosition.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\MoveMoverToPositionZoned.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\RemoveAllMoverFromGroup.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\ResetGroup.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\StopMoverGroup.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\XtsDisableSequence.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\XtsEnableSequence.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XTS Class\CAGroupStatus.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XTS Class\CollisionGroup.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XTS Class\ICollisionGroup.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XTS Class\IXtsTrack.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XTS Class\XtsHardware.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XTS Class\XtsTrack.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Machine Class" />
+    <Folder Include="DUTs" />
+    <Folder Include="EventLoggerClass" />
+    <Folder Include="GVLs" />
+    <Folder Include="Mover Class" />
+    <Folder Include="PackML" />
+    <Folder Include="Station Class" />
+    <Folder Include="Tasks" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
+    <Folder Include="XTS Class" />
   </ItemGroup>
   <ItemGroup>
     <PlaceholderReference Include="Tc2_Standard">
@@ -48,26 +157,42 @@
       <DefaultResolution>Tc2_System, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_System</Namespace>
     </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_EventLogger">
+      <DefaultResolution>Tc3_EventLogger, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc3_EventLogger</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_McCoordinatedMotion">
+      <DefaultResolution>Tc3_McCoordinatedMotion, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc3_McCoordinatedMotion</Namespace>
+    </PlaceholderReference>
     <PlaceholderReference Include="Tc3_Module">
       <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_Module</Namespace>
     </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_PackML_V2">
+      <DefaultResolution>Tc3_PackML_V2, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc3_PackML_V2</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_XTS_Utility">
+      <DefaultResolution>Tc3_XTS_Utility, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc3_XTS_Utility</Namespace>
+    </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="XtsControl.tmc">
+    <LibraryReference Include="Tc2_MC2,3.3.46.0,Beckhoff Automation GmbH">
+      <Namespace>Tc2_MC2</Namespace>
+    </LibraryReference>
+    <LibraryReference Include="Tc3_Mc3Definitions,3.1.10.0,Beckhoff Automation GmbH">
+      <Namespace>Tc3_Mc3Definitions</Namespace>
+    </LibraryReference>
+    <LibraryReference Include="Tc3_McCollisionAvoidance,3.1.10.3,Beckhoff Automation GmbH">
+      <Namespace>Tc3_McCollisionAvoidance</Namespace>
+    </LibraryReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="XtsLib.tmc">
       <SubType>Content</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <PlaceholderResolution Include="Tc2_Standard">
-      <Resolution>Tc2_Standard, 3.3.3.0 (Beckhoff Automation GmbH)</Resolution>
-    </PlaceholderResolution>
-    <PlaceholderResolution Include="Tc2_System">
-      <Resolution>Tc2_System, * (Beckhoff Automation GmbH)</Resolution>
-    </PlaceholderResolution>
-    <PlaceholderResolution Include="Tc3_Module">
-      <Resolution>Tc3_Module, * (Beckhoff Automation GmbH)</Resolution>
-    </PlaceholderResolution>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>

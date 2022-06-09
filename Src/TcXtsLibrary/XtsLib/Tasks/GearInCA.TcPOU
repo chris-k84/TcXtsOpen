@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="GearInCA" Id="{85cd067d-c270-434d-ae38-a08ddeb32de2}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC GearInCA IMPLEMENTS ITask
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	gearInCA : Tc3_McCollisionAvoidance.MC_GearInPosCA;
+	_syncStrategy : Tc3_Mc3Definitions.MC_SYNC_STRATEGY := Tc3_Mc3Definitions.MC_SYNC_STRATEGY.mcSyncStrategyEarly;
+	State : INT;
+	_GearMover: BOOL;
+	_busy : BOOL;
+	_error : BOOL;
+	_done : BOOL;
+END_VAR
+VAR_IN_OUT
+	_MasterAxis : Tc2_MC2.AXIS_REF;
+	_SlaveAxis : Tc2_MC2.AXIS_REF;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE State OF
+	0:
+		IF _GearMover THEN
+			_done := FALSE;
+			_error := FALSE;
+			_busy := TRUE;
+			gearInCA.Execute := TRUE;
+			IF gearInCA.Busy THEN
+				State := 10;
+				_GearMover := FALSE;
+			END_IF
+		END_IF
+		
+	10:
+		IF gearInCA.InSync THEN
+			gearInCA.Execute := FALSE;
+			_busy := FALSE;
+			_done := TRUE;
+			State := 0;
+		END_IF
+	
+END_CASE
+
+IF __ISVALIDREF(_MasterAxis) AND __ISVALIDREF(_SlaveAxis) THEN
+	gearInCA(Master := _MasterAxis, Slave := _SlaveAxis, SyncStrategy := _syncStrategy, Velocity := 2000.0, RatioNumerator := 1, Gap := 60.0);
+END_IF ]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{1ef9ec2a-01a5-4187-8738-1e40cc26313d}">
+      <Declaration><![CDATA[{warning 'add method implementation '}
+METHOD Abort : BOOL]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[gearInCA.Execute := FALSE;
+_GearMover := FALSE;
+_busy := false;
+Abort := true;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Busy" Id="{854082f8-1cc5-4970-9332-1bd16a27d6e6}">
+      <Declaration><![CDATA[{warning 'add property implementation'}
+PROPERTY Busy : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{e9b60f21-d8c1-4ece-9313-9018f106d538}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Busy := _busy;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Done" Id="{79b7f5dc-6232-40e5-9050-e6505dc4c482}">
+      <Declaration><![CDATA[{warning 'add property implementation'}
+PROPERTY Done : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{fd8bd123-c1de-42bf-96e2-73e8a9d83db7}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Done := _done;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Error" Id="{3c54b486-1fbe-43b1-8caa-5c88b9ab79af}">
+      <Declaration><![CDATA[{warning 'add property implementation'}
+PROPERTY Error : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{2ef11448-bbc2-4dae-be74-4a5a13a6ded9}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Error := _error;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Sync" Id="{640dcb9d-e008-41e8-9eb9-9bab468a9c53}">
+      <Declaration><![CDATA[METHOD PUBLIC Sync : BOOL
+VAR_INPUT
+	MasterPosition : MC_LREAL;
+	SlavePosition : MC_LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[gearInCA.MasterSyncPosition := MasterPosition;
+gearInCA.SlaveSyncPosition := SlavePosition;
+_GearMover := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="SyncStrategy" Id="{5cdc164e-3aa2-4be7-bdb0-b1add5e06305}">
+      <Declaration><![CDATA[PROPERTY PUBLIC SyncStrategy : mc_sync_strategy]]></Declaration>
+      <Get Name="Get" Id="{8163f17f-50fb-4eae-b68e-0fbed391eed4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[SyncStrategy := _syncStrategy;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{f3113814-9ead-450d-869a-2471cf1c5508}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_syncStrategy := SyncStrategy;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="GearInCA">
+      <LineId Id="3" Count="14" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="58" Count="2" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="18" Count="4" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="GearInCA.Abort">
+      <LineId Id="3" Count="3" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="GearInCA.Busy.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="GearInCA.Done.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="GearInCA.Error.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="GearInCA.Sync">
+      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="1" />
+    </LineIds>
+    <LineIds Name="GearInCA.SyncStrategy.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="GearInCA.SyncStrategy.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

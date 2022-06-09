@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="EnableGroup" Id="{78c0ffeb-f751-4064-9ca5-f5352de8dccc}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'hide_all_locals'}
+FUNCTION_BLOCK EnableGroup IMPLEMENTS ITask
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	groupEnable			: MC_GroupEnable;
+	_caGroup			: ICollisionGroup;
+	State: INT;
+	_enableGroup : BOOL;
+	_busy : BOOL;
+	_error : BOOL;
+	_done : BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE State OF
+	0:
+		IF _enableGroup THEN
+			_done := FALSE;
+			_error := FALSE;
+			_busy := TRUE;
+			groupEnable.Execute := TRUE;
+			IF groupEnable.Busy THEN
+				State := 10;
+				_enableGroup := FALSE;
+			END_IF
+		END_IF
+	
+	10:
+		IF NOT groupEnable.Busy THEN
+			IF groupEnable.Done THEN
+				_done := TRUE;
+			ELSIF groupEnable.Error THEN
+				_error := TRUE;
+			END_IF
+			_busy := FALSE;
+			groupEnable.Execute := false;
+			State := 0;
+		END_IF
+END_CASE
+
+
+groupEnable(AxesGroup := _caGroup.GroupRef);]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{b71dbe64-bf42-4f8d-bc93-a820b314190e}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[groupEnable.Execute := FALSE;
+Abort := TRUE;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Busy" Id="{844fe327-b432-4d9b-9ff8-674b403712de}">
+      <Declaration><![CDATA[PROPERTY Busy : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{9de7276e-68b8-471b-acbe-4af805d8f9d4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Busy := _busy;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Done" Id="{96fe3f04-3684-47c6-96b8-040adc9ccb95}">
+      <Declaration><![CDATA[PROPERTY Done : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{752b21aa-907b-4aba-b185-74a8d165978c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Done := _done;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Error" Id="{91a57102-e8a8-46ee-bdd6-0ba18161e2fa}">
+      <Declaration><![CDATA[PROPERTY Error : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{f8961f71-0d32-45d5-9893-2036d33f4a14}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Error := _error;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Execute" Id="{46988e83-7049-4ed9-931d-ac6221516616}">
+      <Declaration><![CDATA[METHOD Execute : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Execute := _enableGroup := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{b5caa772-6afb-4d2b-9da8-e7bb1ea9e9b8}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	CAGroup : ICollisionGroup;	
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_caGroup := CAGroup;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="EnableGroup">
+      <LineId Id="111" Count="5" />
+      <LineId Id="154" Count="1" />
+      <LineId Id="158" Count="1" />
+      <LineId Id="118" Count="2" />
+      <LineId Id="160" Count="0" />
+      <LineId Id="126" Count="13" />
+    </LineIds>
+    <LineIds Name="EnableGroup.Abort">
+      <LineId Id="4" Count="2" />
+    </LineIds>
+    <LineIds Name="EnableGroup.Busy.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="EnableGroup.Done.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="EnableGroup.Error.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="EnableGroup.Execute">
+      <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="EnableGroup.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

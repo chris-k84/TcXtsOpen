@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="PMLStateMachine" Id="{60400ea6-a6d0-4d71-8555-f15b7929c342}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK PMLStateMachine IMPLEMENTS IPmlStateMachine
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_pmlStateMachine : Tc3_PackML_V2.PML_StateMachine;
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[_pmlStateMachine();
+
+]]></ST>
+    </Implementation>
+    <Method Name="getState" Id="{8c64c6da-7bfe-4eb7-ad2f-8614ebc2ae80}">
+      <Declaration><![CDATA[METHOD PUBLIC getState : E_PMLState
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[getState := _pmlStateMachine.eState;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="PMLCommand" Id="{54af98e0-d3e9-44c6-81e2-5076efd7e22a}">
+      <Declaration><![CDATA[METHOD PUBLIC PMLCommand : BOOL
+VAR_INPUT
+	Command : E_PMLCommand;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_pmlStateMachine.eCommand := Command;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StateComplete" Id="{ca883fc1-f163-42f5-8b56-82749a1c7d47}">
+      <Declaration><![CDATA[METHOD PUBLIC StateComplete : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_pmlStateMachine.M_StateComplete();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="PMLStateMachine">
+      <LineId Id="9" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="12" Count="0" />
+    </LineIds>
+    <LineIds Name="PMLStateMachine.getState">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PMLStateMachine.PMLCommand">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PMLStateMachine.StateComplete">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
