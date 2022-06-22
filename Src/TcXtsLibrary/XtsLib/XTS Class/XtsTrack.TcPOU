@@ -8,7 +8,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	_trackLength : MC_LREAL := 4000.0;
+	_trackLength : MC_LREAL;
 	mcCollisionGroup : CollisionGroup;
 	XtsTrackHardware : XtsHardware;
 	EnableSequence : XtsEnableSequence(mcCollisionGroup);
@@ -103,12 +103,24 @@ END_VAR
           <ST><![CDATA[TrackLength := _trackLength;]]></ST>
         </Implementation>
       </Get>
+      <Set Name="Set" Id="{9d3b1cf5-ae4d-4af9-ab8c-ba44e55a4cc2}">
+        <Declaration><![CDATA[PUBLIC 
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_trackLength := TrackLength;]]></ST>
+        </Implementation>
+      </Set>
     </Property>
     <LineIds Name="XtsTrack">
       <LineId Id="246" Count="62" />
       <LineId Id="78" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.TrackLength.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.TrackLength.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

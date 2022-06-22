@@ -7,7 +7,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	Xts : XtsTrack;
+	Xts : XtsTrack := (TrackLength := TrackLength);
 	stateMachine : PMLStateMachine;
 	indexMovers : ARRAY[1..NumberOfMovers] OF IndexMover;
 	Movers : ARRAY[1..NumberOfMovers] OF IMover;// := [indexMovers[1], indexMovers[2]];
@@ -20,6 +20,7 @@ END_VAR
 VAR CONSTANT
 	NumberOfMovers : INT := 10;
 	NumberOfStations : INT := 6;
+	TrackLength : LREAL := 4000.0;
 END_VAR
 ]]></Declaration>
     <Implementation>

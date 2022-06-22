@@ -23,7 +23,6 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF NOT bInit THEN
-	_trackLength := XtsTrack.TrackLength;
 	IF THIS^._axis.NcToPlc.AxisId <> 0 THEN
 		IF (THIS^._axis.NcToPlc.AxisId MOD 2)<>1 THEN
 			Mode.8 := TRUE;
@@ -35,7 +34,7 @@ END_VAR
 		bInit := TRUE;
 	END_IF
 END_IF
-
+	_trackLength := XtsTrack.TrackLength;
 IF isMasterAxis THEN
 	IF (_axis.NcToPlc.ModuloActPos > 3400 OR _axis.NcToPlc.ModuloActPos < 300)  THEN
 		CurrentLimit := 1000;
@@ -98,7 +97,6 @@ END_VAR
     </Method>
     <LineIds Name="GearMover">
       <LineId Id="9" Count="0" />
-      <LineId Id="22" Count="0" />
       <LineId Id="124" Count="0" />
       <LineId Id="71" Count="1" />
       <LineId Id="101" Count="0" />
