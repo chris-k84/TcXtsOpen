@@ -1569,47 +1569,47 @@ External Setpoint Generation:
 	</Project>
 	<Mappings>
 		<OwnerA Name="XtsControl Instance">
-			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 1">
+			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Mover Axis 1">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.indexMovers[1]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.indexMovers[1]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
-			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 10">
+			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Mover Axis 10">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.indexMovers[10]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.indexMovers[10]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
-			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 2">
+			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Mover Axis 2">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.indexMovers[2]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.indexMovers[2]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
-			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 3">
+			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Mover Axis 3">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.indexMovers[3]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.indexMovers[3]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
-			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 4">
+			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Mover Axis 4">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.indexMovers[4]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.indexMovers[4]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
-			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 5">
+			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Mover Axis 5">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.indexMovers[5]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.indexMovers[5]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
-			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 6">
+			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Mover Axis 6">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.indexMovers[6]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.indexMovers[6]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
-			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 7">
+			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Mover Axis 7">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.indexMovers[7]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.indexMovers[7]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
-			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 8">
+			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Mover Axis 8">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.indexMovers[8]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.indexMovers[8]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
-			<OwnerB Name="TINC^NC SAF^Axes^Mover Axis 9">
+			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Mover Axis 9">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.indexMovers[9]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.indexMovers[9]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
-			<OwnerB Name="TINC^NC SAF^Objects^Group1 (CA Group)">
+			<OwnerB Name="TINC^NC-Task 1 SAF^Objects^Group1 (CA Group)">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.Xts.mcCollisionGroup._caGroup.NcToPlc" VarB="Group Outputs^ToPLC"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.Xts.mcCollisionGroup._caGroup.PlcToNc" VarB="Group Inputs^FromPLC"/>
 			</OwnerB>

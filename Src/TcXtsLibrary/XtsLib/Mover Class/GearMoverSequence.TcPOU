@@ -50,7 +50,7 @@ END_VAR]]></Declaration>
 			END_IF
 			
 		Available:
-			IF StateMachine.getState() = E_PMLState.ePMLState_Starting THEN
+			IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Starting THEN
 				FrontMoverState := MovingToStart;
 			END_IF
 			
@@ -107,7 +107,7 @@ ELSE
 			END_IF
 			
 		Available:
-			IF StateMachine.getState() = E_PMLState.ePMLState_Starting THEN
+			IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Starting THEN
 				RearMoverState := MovingToStart;
 			END_IF
 			
@@ -171,67 +171,7 @@ ELSE
 END_IF]]></ST>
     </Implementation>
     <LineIds Name="GearMoverSequence">
-      <LineId Id="94" Count="0" />
-      <LineId Id="122" Count="1" />
-      <LineId Id="101" Count="14" />
-      <LineId Id="209" Count="0" />
-      <LineId Id="207" Count="0" />
-      <LineId Id="154" Count="2" />
-      <LineId Id="98" Count="0" />
-      <LineId Id="271" Count="0" />
-      <LineId Id="168" Count="0" />
-      <LineId Id="158" Count="0" />
-      <LineId Id="237" Count="0" />
-      <LineId Id="159" Count="0" />
-      <LineId Id="163" Count="3" />
-      <LineId Id="160" Count="0" />
-      <LineId Id="171" Count="0" />
-      <LineId Id="186" Count="0" />
-      <LineId Id="190" Count="3" />
-      <LineId Id="272" Count="0" />
-      <LineId Id="187" Count="1" />
-      <LineId Id="173" Count="0" />
-      <LineId Id="161" Count="0" />
-      <LineId Id="195" Count="1" />
-      <LineId Id="194" Count="0" />
-      <LineId Id="197" Count="0" />
-      <LineId Id="162" Count="0" />
-      <LineId Id="198" Count="3" />
-      <LineId Id="157" Count="0" />
-      <LineId Id="125" Count="2" />
-      <LineId Id="129" Count="16" />
-      <LineId Id="208" Count="0" />
-      <LineId Id="210" Count="1" />
-      <LineId Id="214" Count="0" />
-      <LineId Id="212" Count="0" />
-      <LineId Id="146" Count="0" />
-      <LineId Id="215" Count="3" />
-      <LineId Id="273" Count="2" />
-      <LineId Id="277" Count="0" />
-      <LineId Id="282" Count="0" />
-      <LineId Id="278" Count="0" />
-      <LineId Id="284" Count="1" />
-      <LineId Id="287" Count="2" />
-      <LineId Id="286" Count="0" />
-      <LineId Id="219" Count="2" />
-      <LineId Id="294" Count="0" />
-      <LineId Id="226" Count="0" />
-      <LineId Id="223" Count="0" />
-      <LineId Id="334" Count="1" />
-      <LineId Id="339" Count="1" />
-      <LineId Id="336" Count="0" />
-      <LineId Id="343" Count="1" />
-      <LineId Id="342" Count="0" />
-      <LineId Id="347" Count="1" />
-      <LineId Id="346" Count="0" />
-      <LineId Id="349" Count="0" />
-      <LineId Id="227" Count="3" />
-      <LineId Id="233" Count="1" />
-      <LineId Id="231" Count="0" />
-      <LineId Id="236" Count="0" />
-      <LineId Id="235" Count="0" />
-      <LineId Id="232" Count="0" />
-      <LineId Id="128" Count="0" />
+      <LineId Id="389" Count="125" />
       <LineId Id="99" Count="0" />
     </LineIds>
   </POU>

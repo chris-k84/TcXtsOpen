@@ -37,7 +37,7 @@ END_VAR]]></Declaration>
 		END_IF
 		
 	Available:
-		IF StateMachine.getState() = E_PMLState.ePMLState_Starting THEN
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Starting THEN
 			State := MovingToStart;
 		END_IF
 		
@@ -64,7 +64,7 @@ END_VAR]]></Declaration>
 				State := QueuedAtStation;
 			END_IF
 		END_IF
-		IF StateMachine.getState() = E_PMLState.ePMLState_Aborting THEN
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF
 		
@@ -72,7 +72,7 @@ END_VAR]]></Declaration>
 		IF NOT ThisMover.isStationary() THEN
 				State := MovingToStation;
 		END_IF
-		IF StateMachine.getState() = E_PMLState.ePMLState_Aborting THEN
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF
 
@@ -80,7 +80,7 @@ END_VAR]]></Declaration>
 		IF StationArray[CurrentStation].isComplete() THEN
 			State := GetNextMove;
 		END_IF
-		IF StateMachine.getState() = E_PMLState.ePMLState_Aborting THEN
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF
 
@@ -89,7 +89,7 @@ END_VAR]]></Declaration>
 								Velocity := StationArray[CurrentStation].ProcessVelocity,
 								BackwardMove := FALSE);
 		State := InProcess;
-		IF StateMachine.getState() = E_PMLState.ePMLState_Aborting THEN
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF
 								
@@ -99,7 +99,7 @@ END_VAR]]></Declaration>
 				State := GetNextMove;
 			END_IF
 		END_IF
-		IF StateMachine.getState() = E_PMLState.ePMLState_Aborting THEN
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF
 	
@@ -115,7 +115,7 @@ END_VAR]]></Declaration>
 		ELSE
 			State := GoToNextStation;
 		END_IF
-		IF StateMachine.getState() = E_PMLState.ePMLState_Aborting THEN
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF
 		
@@ -137,7 +137,7 @@ END_VAR]]></Declaration>
 			
 		
 	Aborting:
-		IF StateMachine.getState() = E_PMLState.ePMLState_Aborted THEN
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborted THEN
 			State := Available;
 			CurrentStation := 0;
 			TargetStationPosition := 0.0;

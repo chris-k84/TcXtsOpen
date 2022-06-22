@@ -3,8 +3,8 @@
   <Itf Name="IPmlStateMachine" Id="{a572c756-2ee2-4617-b1ba-a370e2347b9e}">
     <Declaration><![CDATA[INTERFACE IPmlStateMachine
 ]]></Declaration>
-    <Method Name="getState" Id="{8896b180-4065-4462-9182-dfc33f7be59c}">
-      <Declaration><![CDATA[METHOD getState : E_PMLState
+    <Method Name="GetCurrentState" Id="{8896b180-4065-4462-9182-dfc33f7be59c}">
+      <Declaration><![CDATA[METHOD GetCurrentState : E_PMLState
 VAR_INPUT
 END_VAR
 ]]></Declaration>

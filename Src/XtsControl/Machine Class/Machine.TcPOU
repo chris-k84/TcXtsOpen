@@ -34,13 +34,8 @@ END_VAR
 		iStationArray[i] := StationArray[i];
 	END_FOR
 	InitialiseStations();
-	stateMachine.PMLCommand(Command := Tc3_PackML_V2.E_PMLState.ePMLState_Aborting);
-	bInit := TRUE;
-END_IF
-IF NOT OnStartOnly THEN
-	IF stateMachine.getState() = Tc3_PackML_V2.E_PMLState.ePMLState_Aborting THEN
-		stateMachine.StateComplete();
-		OnStartOnly := true;
+	IF stateMachine.Initialise() THEN
+		bInit := TRUE;
 	END_IF
 END_IF
 
@@ -94,7 +89,10 @@ END_VAR
       </Get>
     </Property>
     <LineIds Name="Machine">
-      <LineId Id="256" Count="29" />
+      <LineId Id="256" Count="11" />
+      <LineId Id="327" Count="1" />
+      <LineId Id="269" Count="0" />
+      <LineId Id="276" Count="9" />
       <LineId Id="25" Count="0" />
     </LineIds>
     <LineIds Name="Machine.InitialiseStations">

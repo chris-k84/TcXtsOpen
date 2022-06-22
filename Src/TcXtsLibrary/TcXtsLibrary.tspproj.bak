@@ -10,6 +10,126 @@
 				<Severity>Verbose</Severity>
 			</EventId>
 		</DataType>
+		<DataType>
+			<Name GUID="{00DE8E8A-BA2F-4C21-92B2-F85A687714C5}" PersistentType="true">XtsHardwareEvents</Name>
+			<DisplayName TxtId=""><![CDATA[NewEventClass_DisplayText]]></DisplayName>
+			<EventId>
+				<Name Id="1">MoversDetected</Name>
+				<DisplayName TxtId=""><![CDATA[All Movers Detected]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="2">AllMoversValid</Name>
+				<DisplayName TxtId=""><![CDATA[All Movers Are Valid]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="3">ExpectedMoversDetected</Name>
+				<DisplayName TxtId=""><![CDATA[The Expected Number of Movers Was Detected]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="4">ActiveTracksAddedForDetection</Name>
+				<DisplayName TxtId=""><![CDATA[Tracks added for mover detection]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="5">ExpectedMoversNotFound</Name>
+				<DisplayName TxtId=""><![CDATA[Expected number of movers not found on track]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="6">XtsInSimulationMode</Name>
+				<DisplayName TxtId=""><![CDATA[Xts running in simulation mode]]></DisplayName>
+				<Severity>Verbose</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="7">MoverDetectionInitiated</Name>
+				<DisplayName TxtId=""><![CDATA[Mover detection started on track]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="8">Mover1DetectionStarted</Name>
+				<DisplayName TxtId=""><![CDATA[Mover 1 detection started]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="9">Mover1DetectionFailed</Name>
+				<DisplayName TxtId=""><![CDATA[Mover 1 detection failed]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="10">Mover1DetectionComplete</Name>
+				<DisplayName TxtId=""><![CDATA[Mover 1 detection complete]]></DisplayName>
+				<Severity>Verbose</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="11">StandardMoverNumberingComplete</Name>
+				<DisplayName TxtId=""><![CDATA[Movers using standard numbering]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<Hides>
+				<Hide GUID="{873DD3B9-D1F9-4D80-8270-496111E1E5A6}"/>
+				<Hide GUID="{681E3F63-287C-427C-AA4B-FED38812577A}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{A14A65BD-20AA-4BAB-A005-164464960B7F}" PersistentType="true">XtsCaGroupEvents</Name>
+			<DisplayName TxtId=""><![CDATA[NewEventClass1_DisplayText]]></DisplayName>
+			<EventId>
+				<Name Id="1">AddingMoverToGroup</Name>
+				<DisplayName TxtId=""><![CDATA[Adding Current Mover To CA Group]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="2">AllMoversAdded</Name>
+				<DisplayName TxtId=""><![CDATA[All Movers Added To Group]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="3">AllMoversEnabled</Name>
+				<DisplayName TxtId=""><![CDATA[All Movers are Enabled]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="4">CAGroupEnabled</Name>
+				<DisplayName TxtId=""><![CDATA[Collision Group Enabled]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="5">CAGroupStop</Name>
+				<DisplayName TxtId=""><![CDATA[CA Group Stopping before Disable]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="6">CAGroupStopped</Name>
+				<DisplayName TxtId=""><![CDATA[CA Group has stopped for disable]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="7">CAGroupRemoving</Name>
+				<DisplayName TxtId=""><![CDATA[CA Group Removing Movers]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="8">AllMoversRemoved</Name>
+				<DisplayName TxtId=""><![CDATA[All Movers removed from CA Group]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="9">AllMoversDisabled</Name>
+				<DisplayName TxtId=""><![CDATA[All Movers have been disabled]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="10">CAGroupDisabled</Name>
+				<DisplayName TxtId=""><![CDATA[CA Groups has been disabled]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<Hides>
+				<Hide GUID="{D18B2ADF-208A-485C-AFE8-AF531DEF23E0}"/>
+			</Hides>
+		</DataType>
 	</DataTypes>
 	<Project ProjectGUID="{08A2B0F7-C4A7-4FE5-ACD3-6DAF9E50345D}" Target64Bit="true" ShowHideConfigurations="#x106">
 		<Plc>

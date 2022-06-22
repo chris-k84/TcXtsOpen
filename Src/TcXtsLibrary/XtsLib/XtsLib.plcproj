@@ -15,7 +15,7 @@
     <Implicit_KindOfTask>{b13a8837-6545-418a-96e2-e1bd6fd9fcee}</Implicit_KindOfTask>
     <Implicit_Jitter_Distribution>{3a679315-69e1-4f89-896a-7ccc5eb827e8}</Implicit_Jitter_Distribution>
     <LibraryReferences>{8422622f-e831-439e-86d4-ef93fd220668}</LibraryReferences>
-    <Company>BAUK</Company>
+    <Company>ChrisK</Company>
     <Released>false</Released>
     <Title>Xts Library</Title>
     <ProjectVersion>0.0.0.2</ProjectVersion>
@@ -194,11 +194,15 @@
       <SubType>Content</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <PinnedGlobalDataType Include="ST_XtsCaGroupEvents" />
+    <PinnedGlobalDataType Include="ST_XtsHardwareEvents" />
+  </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>
       <XmlArchive>
-  <Data>
-    <o xml:space="preserve" t="OptionKey">
+        <Data>
+          <o xml:space="preserve" t="OptionKey">
       <v n="Name">"&lt;ProjectRoot&gt;"</v>
       <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
         <v>{192FAD59-8248-4824-A8DE-9177C94C195A}</v>
@@ -259,14 +263,14 @@
       </d>
       <d n="Values" t="Hashtable" />
     </o>
-  </Data>
-  <TypeList>
-    <Type n="Boolean">System.Boolean</Type>
-    <Type n="Hashtable">System.Collections.Hashtable</Type>
-    <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
-    <Type n="String">System.String</Type>
-  </TypeList>
-</XmlArchive>
+        </Data>
+        <TypeList>
+          <Type n="Boolean">System.Boolean</Type>
+          <Type n="Hashtable">System.Collections.Hashtable</Type>
+          <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+          <Type n="String">System.String</Type>
+        </TypeList>
+      </XmlArchive>
     </PlcProjectOptions>
   </ProjectExtensions>
 </Project>
