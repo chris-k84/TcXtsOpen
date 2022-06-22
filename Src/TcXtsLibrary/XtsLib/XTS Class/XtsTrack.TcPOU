@@ -9,6 +9,8 @@ VAR_OUTPUT
 END_VAR
 VAR
 	_trackLength : MC_LREAL;
+	_homePosition : MC_LREAL;
+	HomeSpeed : MC_LREAL := 1000.0;
 	mcCollisionGroup : CollisionGroup;
 	XtsTrackHardware : XtsHardware;
 	EnableSequence : XtsEnableSequence(mcCollisionGroup);
@@ -58,7 +60,7 @@ CASE State OF
 		
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Resetting THEN
 			FOR i := LOWER_BOUND(MoverArray,1) TO UPPER_BOUND(MoverArray,1) DO
-				MoverArray[i].MoveTo(Position := 800.0, Velocity := 1000.0, BackwardMove := FALSE);
+				MoverArray[i].MoveTo(Position := _homePosition, Velocity := HomeSpeed, BackwardMove := FALSE);
 			END_FOR 
 			State := Resetting;
 		END_IF
@@ -93,6 +95,25 @@ EnableSequence(arrMovers := MoverArray);
 DisableSequence(arrMovers := MoverArray);
 mcCollisionGroup();]]></ST>
     </Implementation>
+    <Property Name="HomePosition" Id="{17d8d860-04e6-4fdc-9d29-4118d8eda955}">
+      <Declaration><![CDATA[PROPERTY PUBLIC HomePosition : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{620c6b86-3832-4e3f-9912-ef7e2a1a6514}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[HomePosition := _homePosition;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{f190637e-4d36-4143-baa6-9db775f41566}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_homePosition := HomePosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="TrackLength" Id="{4f244eb1-0239-423a-8574-4ccb93081483}">
       <Declaration><![CDATA[PROPERTY PUBLIC TrackLength : mc_lreal]]></Declaration>
       <Get Name="Get" Id="{962af0e5-68fc-457e-92c4-2ae643ddac5e}">
@@ -116,6 +137,12 @@ END_VAR
     <LineIds Name="XtsTrack">
       <LineId Id="246" Count="62" />
       <LineId Id="78" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.HomePosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.HomePosition.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.TrackLength.Get">
       <LineId Id="2" Count="0" />

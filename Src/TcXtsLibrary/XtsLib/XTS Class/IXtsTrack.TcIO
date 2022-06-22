@@ -3,6 +3,15 @@
   <Itf Name="IXtsTrack" Id="{b3c6e967-8b31-478f-9f89-976ea42d89c5}">
     <Declaration><![CDATA[INTERFACE IXtsTrack
 ]]></Declaration>
+    <Property Name="HomePosition" Id="{f943ac3b-e872-487d-bd1c-d6af5b2d2e0e}">
+      <Declaration><![CDATA[PROPERTY HomePosition : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{b712b17d-a004-403a-9c1d-4d118d1cf6e2}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{d693e4e3-8eec-40ae-9e2f-09bea44ac577}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
     <Property Name="TrackLength" Id="{e00364fa-b4dc-4b20-8989-f77a4311510c}">
       <Declaration><![CDATA[PROPERTY TrackLength : mc_lreal]]></Declaration>
       <Get Name="Get" Id="{32b4808d-dff1-403b-a19c-9aec12b15f8e}">

@@ -42,7 +42,7 @@ END_VAR]]></Declaration>
 		END_IF
 		
 	MovingToStart:
-		IF ThisMover.isAtPosition(position := 800.0) THEN
+		IF ThisMover.isAtPosition(position := XtsTrack.HomePosition) THEN
 			State := AtStart;
 		END_IF
 			
