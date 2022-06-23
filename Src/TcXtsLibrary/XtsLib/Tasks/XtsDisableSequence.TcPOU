@@ -46,7 +46,6 @@ END_VAR]]></Declaration>
 	10:
 		IF grpStop.Done THEN
 			State := 20;
-			Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupStopped,'');
 			Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupRemoving,'');
 			removeAllAxes.RemoveAllMover();
 		END_IF
@@ -171,7 +170,7 @@ grpStop.Jerk := Tc3_Mc3Definitions.MC_MAXIMUM;]]></ST>
       <LineId Id="12" Count="3" />
       <LineId Id="81" Count="0" />
       <LineId Id="16" Count="6" />
-      <LineId Id="82" Count="1" />
+      <LineId Id="83" Count="0" />
       <LineId Id="23" Count="4" />
       <LineId Id="85" Count="0" />
       <LineId Id="28" Count="11" />

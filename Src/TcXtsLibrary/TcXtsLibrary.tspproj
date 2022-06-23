@@ -74,7 +74,7 @@
 			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{A14A65BD-20AA-4BAB-A005-164464960B7F}" PersistentType="true">XtsCaGroupEvents</Name>
+			<Name GUID="{43F91E73-31CA-4FED-AA85-4831CE917C69}" PersistentType="true">XtsCaGroupEvents</Name>
 			<DisplayName TxtId=""><![CDATA[NewEventClass1_DisplayText]]></DisplayName>
 			<EventId>
 				<Name Id="1">AddingMoverToGroup</Name>
@@ -126,12 +126,41 @@
 				<DisplayName TxtId=""><![CDATA[CA Groups has been disabled]]></DisplayName>
 				<Severity>Info</Severity>
 			</EventId>
+			<EventId>
+				<Name Id="11">CAGroupStopping</Name>
+				<DisplayName TxtId=""><![CDATA[CA Group Stopping]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="12">CAGroupStopError</Name>
+				<DisplayName TxtId=""><![CDATA[Error in CA Groups Stop]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="13">CAGroupResetting</Name>
+				<DisplayName TxtId=""><![CDATA[CA Group resetting]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="14">CAGroupReset</Name>
+				<DisplayName TxtId=""><![CDATA[CA Group reset done]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="15">CAGroupResetError</Name>
+				<DisplayName TxtId=""><![CDATA[CA GRoup Reset Error]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
 			<Hides>
 				<Hide GUID="{D18B2ADF-208A-485C-AFE8-AF531DEF23E0}"/>
+				<Hide GUID="{A14A65BD-20AA-4BAB-A005-164464960B7F}"/>
+				<Hide GUID="{0D485C21-B88D-450F-A93B-3B12CC2B2B4B}"/>
+				<Hide GUID="{DF8BF769-9ACD-4B21-867E-633BC24460E7}"/>
+				<Hide GUID="{031C22D4-DF30-4F0C-9F6C-0611DDBE0B21}"/>
 			</Hides>
 		</DataType>
 	</DataTypes>
-	<Project ProjectGUID="{08A2B0F7-C4A7-4FE5-ACD3-6DAF9E50345D}" TargetNetId="169.254.61.77.1.1" Target64Bit="true" ShowHideConfigurations="#x106">
+	<Project ProjectGUID="{08A2B0F7-C4A7-4FE5-ACD3-6DAF9E50345D}" Target64Bit="true" ShowHideConfigurations="#x106">
 		<Plc>
 			<Project GUID="{B62C1B8F-A6E4-4B5A-899A-5D5B71636640}" Name="XtsLib" PrjFilePath="XtsLib\XtsLib.plcproj" TmcFilePath="XtsLib\XtsLib.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e"/>
 		</Plc>

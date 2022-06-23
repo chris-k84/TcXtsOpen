@@ -16,6 +16,7 @@ VAR
 	_done : BOOL;
 	_jerk : MC_LREAL;
 	_deceleration : MC_LREAL;
+	Logger : TcMessage_Ext;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -29,13 +30,16 @@ END_VAR
 			IF groupStop.Busy THEN
 				State := 10;
 				_stopGroup := FALSE;
+				Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupStopping,'');
 			END_IF
 		END_IF
 	10:
 		IF groupStop.Done THEN
 			_done := TRUE;
+			Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupStopped,'');
 		ELSIF groupStop.Error THEN
 			_error := TRUE;
+			Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupStopError,'');
 		END_IF
 		IF _done OR _error THEN
 			_busy := FALSE;
@@ -152,11 +156,14 @@ END_VAR
     <LineIds Name="StopMoverGroup">
       <LineId Id="200" Count="5" />
       <LineId Id="274" Count="3" />
+      <LineId Id="295" Count="0" />
       <LineId Id="273" Count="0" />
       <LineId Id="208" Count="1" />
       <LineId Id="224" Count="0" />
       <LineId Id="248" Count="0" />
+      <LineId Id="296" Count="0" />
       <LineId Id="250" Count="1" />
+      <LineId Id="297" Count="0" />
       <LineId Id="249" Count="0" />
       <LineId Id="252" Count="1" />
       <LineId Id="255" Count="1" />

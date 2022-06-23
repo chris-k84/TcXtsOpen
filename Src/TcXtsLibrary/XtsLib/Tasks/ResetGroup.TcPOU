@@ -15,6 +15,7 @@ VAR
 	_busy : BOOL;
 	_error : BOOL;
 	_done : BOOL;
+	Logger : TcMessage_Ext;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -28,6 +29,7 @@ END_VAR
 			IF groupReset.Busy THEN
 				State := 10;
 				_resetGroup := FALSE;
+				Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupResetting,'');
 			END_IF
 		END_IF
 	
@@ -35,8 +37,10 @@ END_VAR
 		IF NOT groupReset.Busy THEN
 			IF groupReset.Done THEN
 				_done := TRUE;
+				Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupReset,'');
 			ELSIF groupReset.Error THEN
 				_error := TRUE;
+				Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupResetError,'');
 			END_IF
 			_busy := FALSE;
 			groupReset.Execute := false;
@@ -114,9 +118,14 @@ END_VAR
     <LineIds Name="ResetGroup">
       <LineId Id="102" Count="5" />
       <LineId Id="145" Count="3" />
+      <LineId Id="166" Count="0" />
       <LineId Id="109" Count="2" />
       <LineId Id="149" Count="0" />
-      <LineId Id="117" Count="12" />
+      <LineId Id="117" Count="2" />
+      <LineId Id="167" Count="0" />
+      <LineId Id="120" Count="1" />
+      <LineId Id="168" Count="0" />
+      <LineId Id="122" Count="7" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="ResetGroup.Abort">
