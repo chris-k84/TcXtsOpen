@@ -16,6 +16,7 @@ VAR
 	_done : BOOL;
 	_moverNumber : INT;
 	_errorId: UDINT;
+	Logger : TcMessage_Ext;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -29,6 +30,7 @@ END_VAR
 			IF RemoveAllFromGrp.Busy THEN
 				_removeAllMovers := FALSE;
 				State := 10;
+				logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupRemoving,'');
 			END_IF
 		END_IF
 		
@@ -36,9 +38,11 @@ END_VAR
 		IF NOT RemoveAllFromGrp.Busy THEN
 			IF RemoveAllFromGrp.Done THEN
 				_done := TRUE;
+				logger.Send(TC_EVENTS.XtsCAGroupEvents.AllMoversRemoved,'');
 			ELSIF RemoveAllFromGrp.Error THEN
 				_error := TRUE;
 				_errorId := RemoveAllFromGrp.ErrorId;
+				Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupRemoveError,'');
 			END_IF
 			_busy := FALSE;
 			RemoveAllFromGrp.Execute := false;
@@ -119,12 +123,16 @@ END_VAR
     <LineIds Name="RemoveAllMoverFromGroup">
       <LineId Id="274" Count="5" />
       <LineId Id="320" Count="3" />
+      <LineId Id="360" Count="0" />
       <LineId Id="280" Count="0" />
       <LineId Id="282" Count="0" />
       <LineId Id="324" Count="0" />
       <LineId Id="283" Count="0" />
-      <LineId Id="289" Count="4" />
+      <LineId Id="289" Count="2" />
+      <LineId Id="359" Count="0" />
+      <LineId Id="292" Count="1" />
       <LineId Id="341" Count="0" />
+      <LineId Id="361" Count="0" />
       <LineId Id="294" Count="8" />
     </LineIds>
     <LineIds Name="RemoveAllMoverFromGroup.Abort">

@@ -15,6 +15,7 @@ VAR
 	_busy : BOOL;
 	_error : BOOL;
 	_done : BOOL;
+	Logger : TcMessage_Ext;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -28,6 +29,7 @@ END_VAR
 			IF groupEnable.Busy THEN
 				State := 10;
 				_enableGroup := FALSE;
+				logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupEnabling,'');
 			END_IF
 		END_IF
 	
@@ -35,8 +37,10 @@ END_VAR
 		IF NOT groupEnable.Busy THEN
 			IF groupEnable.Done THEN
 				_done := TRUE;
+				logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupEnabled,'');
 			ELSIF groupEnable.Error THEN
 				_error := TRUE;
+				logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupEnableError,'');
 			END_IF
 			_busy := FALSE;
 			groupEnable.Execute := false;
@@ -115,9 +119,14 @@ END_VAR
       <LineId Id="111" Count="5" />
       <LineId Id="154" Count="1" />
       <LineId Id="158" Count="1" />
+      <LineId Id="176" Count="0" />
       <LineId Id="118" Count="2" />
       <LineId Id="160" Count="0" />
-      <LineId Id="126" Count="13" />
+      <LineId Id="126" Count="2" />
+      <LineId Id="178" Count="0" />
+      <LineId Id="129" Count="1" />
+      <LineId Id="179" Count="0" />
+      <LineId Id="131" Count="8" />
     </LineIds>
     <LineIds Name="EnableGroup.Abort">
       <LineId Id="4" Count="2" />

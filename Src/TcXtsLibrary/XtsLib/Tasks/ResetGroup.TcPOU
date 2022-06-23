@@ -37,7 +37,7 @@ END_VAR
 		IF NOT groupReset.Busy THEN
 			IF groupReset.Done THEN
 				_done := TRUE;
-				Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupReset,'');
+				Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupResetDone,'');
 			ELSIF groupReset.Error THEN
 				_error := TRUE;
 				Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupResetError,'');

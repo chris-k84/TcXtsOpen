@@ -38,21 +38,20 @@ END_VAR]]></Declaration>
 				State := 10;
 			ELSE
 				State := 20;
-				Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupRemoving,'');
 				removeAllAxes.RemoveAllMover();
+				Logger.Send(TC_EVENTS.XtsCAGroupEvents.CaGroupRemoveMovers,'');
 			END_IF
 		END_IF
 		
 	10:
 		IF grpStop.Done THEN
 			State := 20;
-			Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupRemoving,'');
+			Logger.Send(TC_EVENTS.XtsCAGroupEvents.CaGroupRemoveMovers,'');
 			removeAllAxes.RemoveAllMover();
 		END_IF
 	
 	20:
 		IF removeAllAxes.Done THEN
-			logger.Send(TC_EVENTS.XtsCAGroupEvents.AllMoversRemoved,'');
 			FOR moverNumbers := LOWER_BOUND(arrMovers,1) TO UPPER_BOUND(arrMovers,1) DO
 				arrMovers[moverNumbers].DisableAxis();
 			END_FOR
@@ -68,6 +67,7 @@ END_VAR]]></Declaration>
 			logger.Send(TC_EVENTS.XtsCAGroupEvents.AllMoversDisabled,'');
 			State := 50;
 			_collisionGroup.Disable();
+			logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupDisable,'');
 		END_IF
 		
 	50:
@@ -75,7 +75,7 @@ END_VAR]]></Declaration>
 			State := 0;
 			grpStop.Deceleration := Tc3_Mc3Definitions.MC_DEFAULT;
 			grpStop.Jerk := Tc3_Mc3Definitions.MC_DEFAULT;
-			logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupDisabled,'');
+			
 			_busy := FALSE;
 			_done := true;
 		END_IF
@@ -167,15 +167,15 @@ grpStop.Jerk := Tc3_Mc3Definitions.MC_MAXIMUM;]]></ST>
       <LineId Id="3" Count="3" />
       <LineId Id="8" Count="3" />
       <LineId Id="80" Count="0" />
-      <LineId Id="12" Count="3" />
-      <LineId Id="81" Count="0" />
-      <LineId Id="16" Count="6" />
+      <LineId Id="12" Count="4" />
+      <LineId Id="110" Count="0" />
+      <LineId Id="17" Count="5" />
       <LineId Id="83" Count="0" />
-      <LineId Id="23" Count="4" />
-      <LineId Id="85" Count="0" />
-      <LineId Id="28" Count="11" />
+      <LineId Id="23" Count="16" />
       <LineId Id="86" Count="0" />
-      <LineId Id="40" Count="6" />
+      <LineId Id="40" Count="1" />
+      <LineId Id="111" Count="0" />
+      <LineId Id="42" Count="4" />
       <LineId Id="48" Count="1" />
       <LineId Id="87" Count="0" />
       <LineId Id="50" Count="3" />
