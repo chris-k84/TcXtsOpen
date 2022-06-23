@@ -15,13 +15,12 @@ VAR
 	iStationArray : ARRAY[1..NumberOfStations] OF IProcess;
 	i: INT;
 	bInit: BOOL;
-	OnStartOnly: BOOL;
 END_VAR
 VAR CONSTANT
 	NumberOfMovers : INT := 10;
 	NumberOfStations : INT := 6;
 	TrackLength : LREAL := 4000.0;
-	TrackHomePosition : LREAL := 2000.0;
+	TrackHomePosition : LREAL := 800.0;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -35,9 +34,9 @@ END_VAR
 	FOR i := 1 TO NumberOfStations DO
 		iStationArray[i] := StationArray[i];
 	END_FOR
-	InitialiseStations();
 	IF stateMachine.Initialise() THEN
 		bInit := TRUE;
+		InitialiseStations();
 	END_IF
 END_IF
 
@@ -91,8 +90,11 @@ END_VAR
       </Get>
     </Property>
     <LineIds Name="Machine">
-      <LineId Id="256" Count="11" />
-      <LineId Id="327" Count="1" />
+      <LineId Id="256" Count="9" />
+      <LineId Id="267" Count="0" />
+      <LineId Id="327" Count="0" />
+      <LineId Id="350" Count="0" />
+      <LineId Id="328" Count="0" />
       <LineId Id="269" Count="0" />
       <LineId Id="276" Count="9" />
       <LineId Id="25" Count="0" />

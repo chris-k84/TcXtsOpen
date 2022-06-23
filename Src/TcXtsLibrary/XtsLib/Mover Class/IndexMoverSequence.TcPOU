@@ -105,8 +105,8 @@ END_VAR]]></Declaration>
 	
 	GetNextMove:
 		IF CurrentStation = UPPER_BOUND(StationArray,1) THEN
-			IF ThisMover.MoveTo(Position := 800.0,
-							Velocity := 1000,
+			IF ThisMover.MoveTo(Position := XtsTrack.HomePosition,
+							Velocity := 1000.0,
 							BackwardMove := FALSE) THEN
 				State := MovingToStart;
 				StationArray[CurrentStation].MoverAway();
