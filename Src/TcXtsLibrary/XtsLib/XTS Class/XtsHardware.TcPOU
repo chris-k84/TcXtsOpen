@@ -139,8 +139,6 @@ ELSE
 			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(3).SetIsIncludedInDetection(TRUE);
 			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(4).SetIsIncludedInDetection(TRUE);
 	END_CASE
-
-	XtsIoEnvironment.XpuTcIo(1).TrackTcIo(UDINT_TO_UINT(nForCounter1)).SetIsIncludedInDetection(TRUE);
 	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(XtsIoEnvironment.XpuTcIo(1).GetTrackCount()));
 	GetActiveTracks := TRUE;
 END_IF
@@ -285,7 +283,8 @@ END_IF]]></ST>
       <LineId Id="75" Count="1" />
       <LineId Id="60" Count="0" />
       <LineId Id="78" Count="1" />
-      <LineId Id="61" Count="3" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="64" Count="0" />
       <LineId Id="52" Count="0" />
       <LineId Id="49" Count="0" />
       <LineId Id="32" Count="0" />
