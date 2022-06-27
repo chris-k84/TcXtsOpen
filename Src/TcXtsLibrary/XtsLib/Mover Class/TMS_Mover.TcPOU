@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="TMS_Mover" Id="{6b131325-7dfb-4240-b139-8c4216101462}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TMS_Mover EXTENDS FB_Mover
+VAR_INPUT
+	XtsTrack : IXtsTrack;
+	StateMachine : IPmlStateMachine;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	mcActivateTrack : Tc3_McCollisionAvoidance.MC_ActivateTrack;
+	mcReadTrackPositions : Tc3_McCollisionAvoidance.MC_ReadTrackPositions;
+END_VAR
+VAR_IN_OUT
+	StationArray : ARRAY[*] OF IProcess;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+mcReadTrackPositions(
+	Axis:= THIS^._axis, 
+	Enable:= TRUE, 
+	Valid=> , 
+	Busy=> , 
+	TrackPosition=> , 
+	TrackId=> , 
+	PartPosition=> , 
+	PartId=> , 
+	Error=> , 
+	ErrorId=> );
+mcActivateTrack(Axis := THIS^._axis);
+
+]]></ST>
+    </Implementation>
+    <Method Name="ActivateTrack" Id="{5f8dc4a4-b7cd-44e5-baab-59a89ea4550d}">
+      <Declaration><![CDATA[METHOD ActivateTrack : BOOL
+VAR_INPUT
+	newTrack : OTCID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT mcActivateTrack.Busy THEN
+	mcActivateTrack.Execute := TRUE;
+	mcActivateTrack.TrackId := newTrack;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="TMS_Mover">
+      <LineId Id="9" Count="0" />
+      <LineId Id="15" Count="9" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="12" Count="0" />
+    </LineIds>
+    <LineIds Name="TMS_Mover.ActivateTrack">
+      <LineId Id="5" Count="1" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
