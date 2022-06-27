@@ -22,7 +22,7 @@ VAR CONSTANT
 	NumberOfStations : INT := 6;
 	TrackLength : LREAL := 4000.0;
 	TrackHomePosition : LREAL := 800.0;
-	Tracks : INT := 4;
+	Tracks : INT := 6;
 END_VAR
 ]]></Declaration>
     <Implementation>

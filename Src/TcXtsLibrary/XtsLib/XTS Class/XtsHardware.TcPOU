@@ -123,15 +123,29 @@ FOR nForCounter1:=1 TO XtsIoEnvironment.XpuTcIo(1).GetTrackCount() DO
 	XtsIoEnvironment.XpuTcIo(1).TrackTcIo(UDINT_TO_UINT(nForCounter1)).SetIsIncludedInDetection(FALSE);
 END_FOR
 
-CASE TmsSwitch.Switch OF
-	0: 
-	1:
-	2:
-END_CASE
+IF XtsIoEnvironment.XpuTcIo(1).GetTrackCount() = 1 THEN
+	XtsIoEnvironment.XpuTcIo(1).TrackTcIo(1).SetIsIncludedInDetection(TRUE);
+	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(XtsIoEnvironment.XpuTcIo(1).GetTrackCount()));
+	GetActiveTracks := TRUE;
+ELSE
+	CASE TmsSwitch.Switch OF
+		0: 
+			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(6).SetIsIncludedInDetection(TRUE);
+			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(5).SetIsIncludedInDetection(TRUE);
+		1:
+			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(1).SetIsIncludedInDetection(TRUE);
+			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(2).SetIsIncludedInDetection(TRUE);
+		2:
+			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(3).SetIsIncludedInDetection(TRUE);
+			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(4).SetIsIncludedInDetection(TRUE);
+	END_CASE
 
-XtsIoEnvironment.XpuTcIo(1).TrackTcIo(UDINT_TO_UINT(nForCounter1)).SetIsIncludedInDetection(TRUE);
-Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(XtsIoEnvironment.XpuTcIo(1).GetTrackCount()));
-GetActiveTracks := TRUE;
+	XtsIoEnvironment.XpuTcIo(1).TrackTcIo(UDINT_TO_UINT(nForCounter1)).SetIsIncludedInDetection(TRUE);
+	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(XtsIoEnvironment.XpuTcIo(1).GetTrackCount()));
+	GetActiveTracks := TRUE;
+END_IF
+
+
 ]]></ST>
       </Implementation>
     </Method>
@@ -256,14 +270,26 @@ END_IF]]></ST>
       <LineId Id="31" Count="0" />
       <LineId Id="35" Count="0" />
       <LineId Id="33" Count="1" />
+      <LineId Id="66" Count="2" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="72" Count="1" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="75" Count="1" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="78" Count="1" />
+      <LineId Id="61" Count="3" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="49" Count="0" />
       <LineId Id="32" Count="0" />
-      <LineId Id="18" Count="2" />
-      <LineId Id="37" Count="0" />
-      <LineId Id="36" Count="0" />
-      <LineId Id="40" Count="2" />
-      <LineId Id="39" Count="0" />
-      <LineId Id="21" Count="0" />
-      <LineId Id="23" Count="3" />
+      <LineId Id="25" Count="1" />
     </LineIds>
     <LineIds Name="XtsHardware.getAllMoversValid">
       <LineId Id="9" Count="2" />
