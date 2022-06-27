@@ -4,6 +4,7 @@
     <Declaration><![CDATA[FUNCTION_BLOCK XtsTrack IMPLEMENTS IXtsTrack
 VAR_INPUT
 	StateMachine : IPmlStateMachine;
+	TmsSwitch : ITF_TmsSwitch;
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -15,6 +16,7 @@ VAR
 	XtsTrackHardware : XtsHardware;
 	EnableSequence : XtsEnableSequence(mcCollisionGroup);
 	DisableSequence : XtsDisableSequence(mcCollisionGroup);
+	
 	State :(
         Init,                                               
 		Ready,                                 
@@ -25,12 +27,13 @@ VAR
 		Disabling);  	
 	i : DINT;
 	AtHome: BOOL;
+	_tracks : INT;
 END_VAR
 VAR_IN_OUT
 	MoverArray : ARRAY[*] OF IMover;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[XtsTrackHardware();
+      <ST><![CDATA[XtsTrackHardware(Tracks := _tracks, TmsSwitch := TmsSwitch);
 CASE State OF
 	Init:
 		IF XtsTrackHardware.XtsHardwareOK THEN
@@ -134,6 +137,25 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Property Name="Tracks" Id="{7741ef95-8846-4cc0-aa81-d8ac8ebba247}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Tracks : INT]]></Declaration>
+      <Get Name="Get" Id="{d2af4e1e-cc7b-4b07-b5c4-6cf6f6dda28f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Tracks := _tracks;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{bb7806ec-85ad-4f70-9606-95b8e7565462}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_tracks := Tracks;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <LineIds Name="XtsTrack">
       <LineId Id="246" Count="62" />
       <LineId Id="78" Count="0" />
@@ -148,6 +170,12 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.TrackLength.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.Tracks.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.Tracks.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

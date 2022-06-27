@@ -69,6 +69,15 @@
     <Compile Include="Station Class\Station.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Switch Class\ITF_TmsSwitch.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Switch Class\SwitchState.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Switch Class\XtsTmsSwitch.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Tasks\AddMoverToGroupTask.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -135,6 +144,7 @@
     <Folder Include="EventLoggerClass" />
     <Folder Include="GVLs" />
     <Folder Include="Mover Class" />
+    <Folder Include="Switch Class" />
     <Folder Include="PackML" />
     <Folder Include="Station Class" />
     <Folder Include="Tasks" />

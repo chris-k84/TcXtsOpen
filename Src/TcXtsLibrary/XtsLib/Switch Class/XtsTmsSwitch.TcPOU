@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="XtsTmsSwitch" Id="{73ef316f-86b5-4cc1-962a-15251e072db1}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsTmsSwitch IMPLEMENTS ITF_TmsSwitch
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	positionState : SwitchState := SwitchState.Middle;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Property Name="Switch" Id="{cea7677b-4e3e-436d-9a14-24ba96282e4e}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Switch : SwitchState]]></Declaration>
+      <Get Name="Get" Id="{955c8029-4c60-4733-8b6b-b2d2d74760a8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Switch := positionState;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <LineIds Name="XtsTmsSwitch">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTmsSwitch.Switch.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

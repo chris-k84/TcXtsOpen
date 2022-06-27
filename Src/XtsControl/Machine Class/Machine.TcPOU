@@ -7,12 +7,13 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	Xts : XtsTrack := (TrackLength := TrackLength, HomePosition := TrackHomePosition);
+	Xts : XtsTrack := (TrackLength := TrackLength, HomePosition := TrackHomePosition, Tracks := Tracks);
 	stateMachine : PMLStateMachine;
 	indexMovers : ARRAY[1..NumberOfMovers] OF IndexMover;
 	Movers : ARRAY[1..NumberOfMovers] OF IMover;// := [indexMovers[1], indexMovers[2]];
 	StationArray : ARRAY[1..NumberOfStations] OF Process;
 	iStationArray : ARRAY[1..NumberOfStations] OF IProcess;
+	TmsSwitch : XtsTmsSwitch;
 	i: INT;
 	bInit: BOOL;
 END_VAR
@@ -21,6 +22,7 @@ VAR CONSTANT
 	NumberOfStations : INT := 6;
 	TrackLength : LREAL := 4000.0;
 	TrackHomePosition : LREAL := 800.0;
+	Tracks : INT := 4;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -41,14 +43,14 @@ END_VAR
 END_IF
 
 stateMachine();
-Xts(MoverArray := Movers, StateMachine := stateMachine);
+Xts(MoverArray := Movers, StateMachine := stateMachine, TmsSwitch := TmsSwitch);
 FOR i := 1 TO NumberOfMovers DO
 	indexMovers[11-i](XtsTrack := Xts, StateMachine := stateMachine, StationArray := iStationArray );	
 END_FOR
 FOR i := 1 TO NumberOfStations DO
 	StationArray[i]();
 END_FOR
-
+TmsSwitch();
 ]]></ST>
     </Implementation>
     <Method Name="InitialiseStations" Id="{484207a2-fa7d-4c77-9d9b-69f5cd52cf18}">
