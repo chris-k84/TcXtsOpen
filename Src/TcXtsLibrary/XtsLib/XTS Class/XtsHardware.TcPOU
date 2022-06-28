@@ -194,6 +194,20 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="GetMoverTrackId" Id="{5238a5d7-e3c6-49a8-b781-758176dc2db0}">
+      <Declaration><![CDATA[METHOD PUBLIC GetMoverTrackId : OTCID
+VAR_INPUT
+	moverNumber : INT;
+END_VAR
+VAR
+	posInfo : Tc3_XTS_Utility.ST_PositionInfo;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[posInfo := XtsIoEnvironment.XpuTcIo(1).MoverTcIo(moverNumber).GetPositionInfo();
+GetMoverTrackId := posInfo.nTrackObjectid;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="IsInSim" Id="{7079e35e-0b08-4e1a-90dd-d5ff9bd0268d}">
       <Declaration><![CDATA[METHOD IsInSim : BOOL
 VAR_INPUT
@@ -302,6 +316,10 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="XtsHardware.getMoversDetected">
       <LineId Id="16" Count="5" />
+      <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsHardware.GetMoverTrackId">
+      <LineId Id="5" Count="0" />
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.IsInSim">

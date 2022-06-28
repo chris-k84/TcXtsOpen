@@ -98,6 +98,17 @@ EnableSequence(arrMovers := MoverArray);
 DisableSequence(arrMovers := MoverArray);
 mcCollisionGroup();]]></ST>
     </Implementation>
+    <Method Name="AssignMoverToTrack" Id="{9ccda3a4-60d1-4f4d-8563-7a430a9cb080}">
+      <Declaration><![CDATA[METHOD PUBLIC AssignMoverToTrack : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR i := 1 TO UPPER_BOUND(MoverArray,1) DO
+	MoverArray[i]. XtsTrackHardware.GetMoverTrackId(i);
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="HomePosition" Id="{17d8d860-04e6-4fdc-9d29-4118d8eda955}">
       <Declaration><![CDATA[PROPERTY PUBLIC HomePosition : mc_lreal]]></Declaration>
       <Get Name="Get" Id="{620c6b86-3832-4e3f-9912-ef7e2a1a6514}">
@@ -159,6 +170,9 @@ END_VAR
     <LineIds Name="XtsTrack">
       <LineId Id="246" Count="62" />
       <LineId Id="78" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.AssignMoverToTrack">
+      <LineId Id="5" Count="2" />
     </LineIds>
     <LineIds Name="XtsTrack.HomePosition.Get">
       <LineId Id="2" Count="0" />

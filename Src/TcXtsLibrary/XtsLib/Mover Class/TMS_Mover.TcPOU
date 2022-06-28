@@ -11,6 +11,8 @@ END_VAR
 VAR
 	mcActivateTrack : Tc3_McCollisionAvoidance.MC_ActivateTrack;
 	mcReadTrackPositions : Tc3_McCollisionAvoidance.MC_ReadTrackPositions;
+	MoverActiveTrack : OTCID;
+	moverSequence : TmsMoverSequence;
 END_VAR
 VAR_IN_OUT
 	StationArray : ARRAY[*] OF IProcess;
@@ -31,7 +33,9 @@ IF _identInGroup <> 0 THEN
 		ErrorId=> );
 END_IF
 mcActivateTrack(Axis := THIS^._axis);
-
+moverSequence(ThisMover := THIS^,
+				XtsTrack := XtsTrack,
+				StateMachine := StateMachine);
 ]]></ST>
     </Implementation>
     <Method Name="ActivateTrack" Id="{5f8dc4a4-b7cd-44e5-baab-59a89ea4550d}">
@@ -47,6 +51,16 @@ END_VAR
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="SetTrackId" Id="{f860ba64-8391-49dd-9256-26b78ef744f7}">
+      <Declaration><![CDATA[METHOD PUBLIC SetTrackId : BOOL
+VAR_INPUT
+	
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="TMS_Mover">
       <LineId Id="9" Count="0" />
       <LineId Id="43" Count="0" />
@@ -55,12 +69,16 @@ END_IF]]></ST>
       <LineId Id="44" Count="0" />
       <LineId Id="29" Count="0" />
       <LineId Id="13" Count="0" />
+      <LineId Id="60" Count="1" />
       <LineId Id="12" Count="0" />
     </LineIds>
     <LineIds Name="TMS_Mover.ActivateTrack">
       <LineId Id="5" Count="1" />
       <LineId Id="8" Count="0" />
       <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="TMS_Mover.SetTrackId">
+      <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
