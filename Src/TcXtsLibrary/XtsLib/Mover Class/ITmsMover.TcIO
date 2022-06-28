@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <Itf Name="ITmsMover" Id="{1dd4f0e1-1fa2-4d8b-bd4e-d91c7c33d591}">
+    <Declaration><![CDATA[INTERFACE ITmsMover EXTENDS IMover
+]]></Declaration>
+    <Method Name="SetTrackId" Id="{6e62ed33-5211-41f4-b2cf-01546af65477}">
+      <Declaration><![CDATA[METHOD SetTrackId : BOOL
+VAR_INPUT
+	ActiveTrack : OTCID;
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

@@ -37,6 +37,7 @@ END_VAR]]></Declaration>
 CASE State OF
 	Init:
 		IF XtsTrackHardware.XtsHardwareOK THEN
+			AssignMoverToTrack();
 			State := Ready;
 		END_IF
 		
@@ -102,10 +103,15 @@ mcCollisionGroup();]]></ST>
       <Declaration><![CDATA[METHOD PUBLIC AssignMoverToTrack : BOOL
 VAR_INPUT
 END_VAR
+VAR
+	iTmsMover : ITmsMover;
+END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR i := 1 TO UPPER_BOUND(MoverArray,1) DO
-	MoverArray[i]. XtsTrackHardware.GetMoverTrackId(i);
+	IF __QUERYINTERFACE(MoverArray[i],iTmsMover) THEN
+		iTmsMover.SetTrackId(XtsTrackHardware.GetMoverTrackId(DINT_TO_INT(i)));
+	END_IF
 END_FOR]]></ST>
       </Implementation>
     </Method>
@@ -168,11 +174,16 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="XtsTrack">
-      <LineId Id="246" Count="62" />
+      <LineId Id="246" Count="3" />
+      <LineId Id="339" Count="0" />
+      <LineId Id="250" Count="58" />
       <LineId Id="78" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.AssignMoverToTrack">
-      <LineId Id="5" Count="2" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="15" Count="1" />
+      <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.HomePosition.Get">
       <LineId Id="2" Count="0" />

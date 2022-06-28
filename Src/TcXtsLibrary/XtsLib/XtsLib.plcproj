@@ -48,6 +48,9 @@
     <Compile Include="Mover Class\IndexMoverSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Mover Class\ITmsMover.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Mover Class\TmsMoverSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>

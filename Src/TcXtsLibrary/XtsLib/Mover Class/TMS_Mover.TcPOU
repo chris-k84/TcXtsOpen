@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
   <POU Name="TMS_Mover" Id="{6b131325-7dfb-4240-b139-8c4216101462}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK TMS_Mover EXTENDS FB_Mover
+    <Declaration><![CDATA[FUNCTION_BLOCK TMS_Mover EXTENDS FB_Mover IMPLEMENTS ITmsMover
 VAR_INPUT
 	XtsTrack : IXtsTrack;
 	StateMachine : IPmlStateMachine;
@@ -54,11 +54,11 @@ END_IF]]></ST>
     <Method Name="SetTrackId" Id="{f860ba64-8391-49dd-9256-26b78ef744f7}">
       <Declaration><![CDATA[METHOD PUBLIC SetTrackId : BOOL
 VAR_INPUT
-	
+	ActiveTrack : OTCID;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[MoverActiveTrack := ActiveTrack;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="TMS_Mover">

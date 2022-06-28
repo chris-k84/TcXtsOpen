@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
   <Itf Name="IMover" Id="{2b4928b5-3753-4507-b938-b4947bdd1e88}">
-    <Declaration><![CDATA[INTERFACE IMover
+    <Declaration><![CDATA[INTERFACE IMover EXTENDS __SYSTEM.IQueryInterface
 ]]></Declaration>
     <Property Name="AxisRef" Id="{0ae72611-7a70-4b1b-993f-43cc935c3de4}">
       <Declaration><![CDATA[PROPERTY AxisRef : reference to axis_ref]]></Declaration>
