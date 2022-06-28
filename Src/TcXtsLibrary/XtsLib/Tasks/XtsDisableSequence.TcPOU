@@ -53,6 +53,7 @@ END_VAR]]></Declaration>
 	20:
 		IF removeAllAxes.Done THEN
 			FOR moverNumbers := LOWER_BOUND(arrMovers,1) TO UPPER_BOUND(arrMovers,1) DO
+				arrMovers[moverNumbers].IdentInGroup := 0;
 				arrMovers[moverNumbers].DisableAxis();
 			END_FOR
 			State := 30;
@@ -171,7 +172,9 @@ grpStop.Jerk := Tc3_Mc3Definitions.MC_MAXIMUM;]]></ST>
       <LineId Id="110" Count="0" />
       <LineId Id="17" Count="5" />
       <LineId Id="83" Count="0" />
-      <LineId Id="23" Count="16" />
+      <LineId Id="23" Count="6" />
+      <LineId Id="134" Count="0" />
+      <LineId Id="30" Count="9" />
       <LineId Id="86" Count="0" />
       <LineId Id="40" Count="1" />
       <LineId Id="111" Count="0" />

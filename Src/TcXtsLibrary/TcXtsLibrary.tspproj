@@ -223,7 +223,7 @@
 			</Hides>
 		</DataType>
 	</DataTypes>
-	<Project ProjectGUID="{08A2B0F7-C4A7-4FE5-ACD3-6DAF9E50345D}" Target64Bit="true" ShowHideConfigurations="#x106">
+	<Project ProjectGUID="{08A2B0F7-C4A7-4FE5-ACD3-6DAF9E50345D}" TargetNetId="169.254.61.77.1.1" Target64Bit="true" ShowHideConfigurations="#x106">
 		<Plc>
 			<Project GUID="{B62C1B8F-A6E4-4B5A-899A-5D5B71636640}" Name="XtsLib" PrjFilePath="XtsLib\XtsLib.plcproj" TmcFilePath="XtsLib\XtsLib.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e"/>
 		</Plc>
