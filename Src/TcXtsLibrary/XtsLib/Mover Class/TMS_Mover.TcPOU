@@ -9,16 +9,24 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	mcActivateTrack : Tc3_McCollisionAvoidance.MC_ActivateTrack;
+	_activateTrack : ActivateTrackForMover(_axis);
 	mcReadTrackPositions : Tc3_McCollisionAvoidance.MC_ReadTrackPositions;
 	MoverActiveTrack : OTCID;
 	moverSequence : TmsMoverSequence;
+	bInit : BOOL;
 END_VAR
 VAR_IN_OUT
 	StationArray : ARRAY[*] OF IProcess;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[SUPER^();
+      <ST><![CDATA[IF NOT bInit THEN
+	IF MoverActiveTrack <> 0 THEN
+		ActivateTrack(newTrack := MoverActiveTrack);
+		bInit := TRUE;
+	END_IF
+	RETURN;
+END_IF
+SUPER^();
 IF _identInGroup <> 0 THEN
 	mcReadTrackPositions(
 		Axis:= THIS^._axis, 
@@ -32,7 +40,7 @@ IF _identInGroup <> 0 THEN
 		Error=> , 
 		ErrorId=> );
 END_IF
-mcActivateTrack(Axis := THIS^._axis);
+_activateTrack();
 moverSequence(ThisMover := THIS^,
 				XtsTrack := XtsTrack,
 				StateMachine := StateMachine);
@@ -45,9 +53,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT mcActivateTrack.Busy THEN
-	mcActivateTrack.Execute := TRUE;
-	mcActivateTrack.TrackId := newTrack;
+        <ST><![CDATA[IF NOT _activateTrack.Busy THEN
+	_activateTrack.Execute(Track := newTrack);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -62,20 +69,15 @@ END_VAR
       </Implementation>
     </Method>
     <LineIds Name="TMS_Mover">
-      <LineId Id="9" Count="0" />
-      <LineId Id="43" Count="0" />
-      <LineId Id="15" Count="9" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="44" Count="0" />
-      <LineId Id="29" Count="0" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="60" Count="1" />
+      <LineId Id="99" Count="2" />
+      <LineId Id="122" Count="0" />
+      <LineId Id="102" Count="0" />
+      <LineId Id="123" Count="0" />
+      <LineId Id="103" Count="18" />
       <LineId Id="12" Count="0" />
     </LineIds>
     <LineIds Name="TMS_Mover.ActivateTrack">
-      <LineId Id="5" Count="1" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="7" Count="0" />
+      <LineId Id="5" Count="2" />
     </LineIds>
     <LineIds Name="TMS_Mover.SetTrackId">
       <LineId Id="5" Count="0" />

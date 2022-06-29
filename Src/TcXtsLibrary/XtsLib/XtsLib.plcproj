@@ -87,6 +87,9 @@
     <Compile Include="Switch Class\XtsTmsSwitch.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tasks\ActivateTrackForMover.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Tasks\AddMoverToGroupTask.TcPOU">
       <SubType>Code</SubType>
     </Compile>
