@@ -90,6 +90,10 @@
     <Compile Include="Switch Class\XtsTmsSwitch.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SystemParameters.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
+    </Compile>
     <Compile Include="Tasks\ActivateTrackForMover.TcPOU">
       <SubType>Code</SubType>
     </Compile>

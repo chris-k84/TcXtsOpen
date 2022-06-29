@@ -17,10 +17,10 @@ VAR
 	bMoverIdDetectionError		: BOOL;
 	bMoverIdDetectionActive		: BOOL;
 	bMoverIdDetected : BOOL;
-	f24V: ARRAY[1..nModuleNumber] OF LREAL;
-	f48V: ARRAY[1..nModuleNumber] OF LREAL;
-	CurrentLive : ARRAY[1..nModuleNumber] OF LREAL;
-	MaxCurrent : ARRAY [1..nModuleNumber] OF DINT;
+	f24V: ARRAY[1..SystemParameters.nModuleNumber] OF LREAL;
+	f48V: ARRAY[1..SystemParameters.nModuleNumber] OF LREAL;
+	CurrentLive : ARRAY[1..SystemParameters.nModuleNumber] OF LREAL;
+	MaxCurrent : ARRAY [1..SystemParameters.nModuleNumber] OF DINT;
 	nModuleCounter : INT := 1;
 	nForCounter1 : UDINT;
 	i: INT;
@@ -34,11 +34,7 @@ VAR
 		CheckModuleVoltages,
 		HWReady);
 	Logger : TcMessage_Ext;
-END_VAR
-VAR CONSTANT
-	nModuleNumber  : INT := 16;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF NOT bInit THEN
 	IF XtsIoEnvironment.Init(TRUE) THEN
@@ -84,7 +80,7 @@ CASE State OF
 	CheckModuleVoltages:
 		Xts48VStanding := TRUE;
 		Xts24VStanding := TRUE;
-		FOR i := 1 TO nModuleNumber DO
+		FOR i := 1 TO SystemParameters.nModuleNumber DO
 			IF f48V[i] < 46000 THEN
 				Xts48VStanding := FALSE;
 			END_IF
@@ -171,7 +167,7 @@ END_VAR
 	f24V[nModuleCounter]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(1).ModuleCoE(nModuleCounter).InfoData.AuxiliaryVoltage24V;
 	f48V[nModuleCounter]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(1).ModuleCoE(nModuleCounter).InfoData.DcLinkVoltage;
 	//Increase Module count
-	IF nModuleCounter = nModuleNumber THEN
+	IF nModuleCounter = SystemParameters.nModuleNumber THEN
 		nModuleCounter:=1;
 	ELSE
 		nModuleCounter:=nModuleCounter+1;

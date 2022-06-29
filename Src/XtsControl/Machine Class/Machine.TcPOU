@@ -7,33 +7,25 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	Xts : XtsTrack := (TrackLength := TrackLength, HomePosition := TrackHomePosition, Tracks := Tracks);
+	Xts : XtsTrack := (TrackLength := SystemParameters.TrackLength, HomePosition := SystemParameters.TrackHomePosition, Tracks := SystemParameters.Tracks);
 	stateMachine : PMLStateMachine;
-	indexMovers : ARRAY[1..NumberOfMovers] OF IndexMover;
-	Movers : ARRAY[1..NumberOfMovers] OF IMover;// := [indexMovers[1], indexMovers[2]];
-	StationArray : ARRAY[1..NumberOfStations] OF StationSample;
-	iStationArray : ARRAY[1..NumberOfStations] OF IProcess;
+	indexMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF IndexMover;
+	Movers : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover;// := [indexMovers[1], indexMovers[2]];
+	StationArray : ARRAY[1..SystemParameters.NumberOfStations] OF StationSample;
+	iStationArray : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess;
 	TmsSwitch : XtsTmsSwitch;
 	i: INT;
 	bInit: BOOL;
-END_VAR
-VAR CONSTANT
-	NumberOfMovers : INT := 10;
-	NumberOfStations : INT := 6;
-	TrackLength : LREAL := 4000.0;
-	TrackHomePosition : LREAL := 800.0;
-	Tracks : INT := 1;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF NOT bInit THEN
-	FOR i := 1 TO NumberOfMovers DO
+	FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
 		Movers[i] := indexMovers[i];
 		indexMovers[i].Acceleration := 20000;
 		indexMovers[i].Deceleration := 20000;
 		indexMovers[i].Jerk := 800000;
 	END_FOR
-	FOR i := 1 TO NumberOfStations DO
+	FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
 		iStationArray[i] := StationArray[i];
 	END_FOR
 	IF stateMachine.Initialise() THEN
@@ -44,10 +36,10 @@ END_IF
 
 stateMachine();
 Xts(MoverArray := Movers, StateMachine := stateMachine, TmsSwitch := TmsSwitch);
-FOR i := 1 TO NumberOfMovers DO
-	indexMovers[11-i](XtsTrack := Xts, StateMachine := stateMachine, StationArray := iStationArray );	
+FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
+	indexMovers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i](XtsTrack := Xts, StateMachine := stateMachine, StationArray := iStationArray );	
 END_FOR
-FOR i := 1 TO NumberOfStations DO
+FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
 	StationArray[i](StateMachine := stateMachine);
 END_FOR
 TmsSwitch();
