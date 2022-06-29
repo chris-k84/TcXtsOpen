@@ -40,15 +40,24 @@ END_VAR]]></Declaration>
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Starting THEN
 			State := MovingToStart;
 		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
 		
 	MovingToStart:
 		IF ThisMover.isAtPosition(position := XtsTrack.HomePosition) THEN
 			State := AtStart;
 		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
 			
 	AtStart:
 		IF StationArray[LOWER_BOUND(StationArray,1)].IsReady() THEN
 			State := GetNextMove;
+		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
 		END_IF
 		
 	MovingToStation:
@@ -134,7 +143,9 @@ END_VAR]]></Declaration>
 			CurrentStation := CurrentStation + 1;
 			State := MovingToStation;
 		END_IF				
-		
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
 		
 	Aborting:
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborted THEN
@@ -146,7 +157,17 @@ END_VAR]]></Declaration>
 END_CASE]]></ST>
     </Implementation>
     <LineIds Name="IndexMoverSequence">
-      <LineId Id="810" Count="103" />
+      <LineId Id="810" Count="9" />
+      <LineId Id="968" Count="1" />
+      <LineId Id="967" Count="0" />
+      <LineId Id="820" Count="4" />
+      <LineId Id="965" Count="1" />
+      <LineId Id="964" Count="0" />
+      <LineId Id="825" Count="4" />
+      <LineId Id="962" Count="1" />
+      <LineId Id="961" Count="0" />
+      <LineId Id="830" Count="83" />
+      <LineId Id="970" Count="1" />
       <LineId Id="915" Count="0" />
       <LineId Id="960" Count="0" />
       <LineId Id="916" Count="6" />
