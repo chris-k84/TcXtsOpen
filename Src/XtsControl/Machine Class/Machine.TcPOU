@@ -11,7 +11,7 @@ VAR
 	stateMachine : PMLStateMachine;
 	indexMovers : ARRAY[1..NumberOfMovers] OF IndexMover;
 	Movers : ARRAY[1..NumberOfMovers] OF IMover;// := [indexMovers[1], indexMovers[2]];
-	StationArray : ARRAY[1..NumberOfStations] OF Process;
+	StationArray : ARRAY[1..NumberOfStations] OF StationSample;
 	iStationArray : ARRAY[1..NumberOfStations] OF IProcess;
 	TmsSwitch : XtsTmsSwitch;
 	i: INT;
@@ -22,7 +22,7 @@ VAR CONSTANT
 	NumberOfStations : INT := 6;
 	TrackLength : LREAL := 4000.0;
 	TrackHomePosition : LREAL := 800.0;
-	Tracks : INT := 6;
+	Tracks : INT := 1;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -48,7 +48,7 @@ FOR i := 1 TO NumberOfMovers DO
 	indexMovers[11-i](XtsTrack := Xts, StateMachine := stateMachine, StationArray := iStationArray );	
 END_FOR
 FOR i := 1 TO NumberOfStations DO
-	StationArray[i]();
+	StationArray[i](StateMachine := stateMachine);
 END_FOR
 TmsSwitch();
 ]]></ST>

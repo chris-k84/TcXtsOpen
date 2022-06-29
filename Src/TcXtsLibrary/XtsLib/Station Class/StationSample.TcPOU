@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="StationSample" Id="{2455d108-358d-48f3-a683-d527519dc5b8}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK StationSample EXTENDS Process
+VAR_INPUT
+	StateMachine : IPmlStateMachine;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_OperationTime : TIME := T#1S;
+	Operation : ton;
+	State: INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF _isProcess THEN
+	;
+ELSE
+	IF _HasMover THEN
+		_Operating := TRUE;
+		_Clear := FALSE;
+		_Ready := FALSE;
+		Operation.IN := TRUE;
+		IF Operation.Q THEN
+			_Complete := TRUE;
+			IF StationMovers = 0 THEN
+				_HasMover := FALSE;
+				Operation.IN := FALSE;
+			END_IF
+		END_IF
+	ELSE
+		_Complete := FALSE;
+		_Clear := TRUE;
+		_Operating := FALSE;
+		_Ready := TRUE;
+	END_IF
+	
+	Operation(PT := _OperationTime);
+END_IF
+
+IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborted THEN
+	_Complete := FALSE;
+	_Clear := TRUE;
+	_Operating := FALSE;
+	_Ready := TRUE;
+	StationMovers := 0;
+END_IF]]></ST>
+    </Implementation>
+    <Property Name="TempPropTime" Id="{e0ccb7b2-ab4d-4401-a6ea-ec63ab2ed8d6}">
+      <Declaration><![CDATA[PROPERTY TempPropTime : time]]></Declaration>
+      <Get Name="Get" Id="{d09bc174-9f05-4e5a-bc80-e72251b6839f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[TempPropTime := _OperationTime;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{cefc9927-2f03-41f9-b855-e64e1bbf9aa6}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_OperationTime := TempPropTime;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="StationSample">
+      <LineId Id="31" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="38" Count="18" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="74" Count="2" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="73" Count="0" />
+    </LineIds>
+    <LineIds Name="StationSample.TempPropTime.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="StationSample.TempPropTime.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

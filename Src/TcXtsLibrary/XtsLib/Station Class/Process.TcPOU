@@ -14,11 +14,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF _isProcess THEN
-	;
-ELSE
-	SUPER^();
-END_IF]]></ST>
+      <ST><![CDATA[]]></ST>
     </Implementation>
     <Property Name="EndPosition" Id="{65043570-5e02-48d8-bfb0-5c560a6a952b}">
       <Declaration><![CDATA[PROPERTY EndPosition : MC_LREAL]]></Declaration>
@@ -99,9 +95,6 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="Process">
-      <LineId Id="18" Count="0" />
-      <LineId Id="21" Count="0" />
-      <LineId Id="24" Count="1" />
       <LineId Id="22" Count="0" />
     </LineIds>
     <LineIds Name="Process.EndPosition.Get">
