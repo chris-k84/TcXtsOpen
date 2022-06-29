@@ -20,7 +20,7 @@ VAR_IN_OUT
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF NOT bInit THEN
-	IF MoverActiveTrack <> 0 THEN
+	IF MoverActiveTrack <> 0 AND _identInGroup <> 0 THEN
 		ActivateTrack(newTrack := MoverActiveTrack);
 		bInit := TRUE;
 	END_IF
