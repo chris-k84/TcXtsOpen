@@ -9,8 +9,9 @@ END_VAR
 VAR
 	Xts : XtsTrack := (TrackLength := SystemParameters.TrackLength, HomePosition := SystemParameters.TrackHomePosition, Tracks := SystemParameters.Tracks);
 	stateMachine : PMLStateMachine;
-	indexMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF IndexMover;
-	Movers : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover;// := [indexMovers[1], indexMovers[2]];
+	Movers : ARRAY[1..SystemParameters.NumberOfMovers] OF FB_Mover;
+	iMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover;// := [indexMovers[1], indexMovers[2]];
+	MoverSequences : ARRAY[1..SystemParameters.NumberOfMovers] OF IndexMoverSequence;
 	StationArray : ARRAY[1..SystemParameters.NumberOfStations] OF StationSample;
 	iStationArray : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess;
 	TmsSwitch : XtsTmsSwitch;
@@ -20,10 +21,7 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF NOT bInit THEN
 	FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
-		Movers[i] := indexMovers[i];
-		indexMovers[i].Acceleration := 20000;
-		indexMovers[i].Deceleration := 20000;
-		indexMovers[i].Jerk := 800000;
+		iMovers[i] := Movers[i];
 	END_FOR
 	FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
 		iStationArray[i] := StationArray[i];
@@ -35,9 +33,13 @@ END_VAR]]></Declaration>
 END_IF
 
 stateMachine();
-Xts(MoverArray := Movers, StateMachine := stateMachine, TmsSwitch := TmsSwitch);
+Xts(MoverArray := iMovers, StateMachine := stateMachine, TmsSwitch := TmsSwitch);
 FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
-	indexMovers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i](XtsTrack := Xts, StateMachine := stateMachine, StationArray := iStationArray );	
+	Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i]();
+	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i](ThisMover := Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i], 
+																		XtsTrack := Xts, 
+																		StateMachine := stateMachine, 
+																		StationArray := iStationArray);																
 END_FOR
 FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
 	StationArray[i](StateMachine := stateMachine);
@@ -84,13 +86,11 @@ END_VAR
       </Get>
     </Property>
     <LineIds Name="Machine">
-      <LineId Id="256" Count="9" />
-      <LineId Id="267" Count="0" />
-      <LineId Id="327" Count="0" />
-      <LineId Id="350" Count="0" />
-      <LineId Id="328" Count="0" />
-      <LineId Id="269" Count="0" />
-      <LineId Id="276" Count="9" />
+      <LineId Id="425" Count="2" />
+      <LineId Id="431" Count="13" />
+      <LineId Id="450" Count="0" />
+      <LineId Id="452" Count="2" />
+      <LineId Id="445" Count="4" />
       <LineId Id="25" Count="0" />
     </LineIds>
     <LineIds Name="Machine.InitialiseStations">
