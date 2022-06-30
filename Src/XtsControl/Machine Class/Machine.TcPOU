@@ -22,6 +22,7 @@ END_VAR]]></Declaration>
       <ST><![CDATA[IF NOT bInit THEN
 	FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
 		iMovers[i] := Movers[i];
+		Movers[i].TrackLength := Xts.TrackLength;
 	END_FOR
 	FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
 		iStationArray[i] := StationArray[i];
@@ -87,6 +88,7 @@ END_VAR
     </Property>
     <LineIds Name="Machine">
       <LineId Id="425" Count="2" />
+      <LineId Id="455" Count="0" />
       <LineId Id="431" Count="13" />
       <LineId Id="450" Count="0" />
       <LineId Id="452" Count="2" />
