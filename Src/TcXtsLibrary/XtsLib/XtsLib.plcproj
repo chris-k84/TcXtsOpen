@@ -78,6 +78,9 @@
     <Compile Include="Station Class\StationSample.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Station Class\TmsSwitchStation.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Switch Class\ITF_TmsSwitch.TcIO">
       <SubType>Code</SubType>
     </Compile>
@@ -119,6 +122,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\MoveMoverToPositionZoned.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\MoveSwitchToPosition.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\RemoveAllMoverFromGroup.TcPOU">
