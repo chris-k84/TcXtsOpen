@@ -8,73 +8,41 @@ VAR_OUTPUT
 END_VAR
 VAR
 	positionState : SwitchState := SwitchState.Middle;
-	_axis : Tc2_MC2.AXIS_REF;
-	axesEnable		: MC_Power;
-	axesReset		: AxesReset(_axis);
-	axesMoveTo 		: MoveSwitchToPosition(_axis);
-	axesHalt 		: HaltMover(_axis);
-	axesReadError : Tc2_MC2.MC_ReadAxisError;
-	_MoverErrorId: DWORD;
 	UpPosition : MC_LREAL := 100.0;
 	MiddlePosition : MC_LREAL := 200.0;
 	DownPosition : MC_LREAL := 300.0;
 	SwitchVelocity : MC_LREAL := 100.0;
+	switchAxis : MC2_Axis_Base;	
+	State :(
+        Init,                                               
+		Ready,                                 
+        Enabling,
+		Enabled,
+		Resetting,
+		Running,
+		Disabling); 
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[axesMoveTo();
-axesHalt();
-axesReset();
-_axis.ReadStatus();
-axesEnable(Axis := _axis);
-axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _MoverErrorId);]]></ST>
-    </Implementation>
-    <Method Name="DisableAxis" Id="{60660af7-0c9b-4bcf-a8f4-087a2b275858}">
-      <Declaration><![CDATA[METHOD PUBLIC DisableAxis : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[axesEnable.Enable := false;
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="EnableAxis" Id="{b2adce6c-4d73-4d61-a85c-76fc2fb40881}">
-      <Declaration><![CDATA[METHOD PUBLIC EnableAxis : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[axesEnable.Enable := axesEnable.Enable_Negative := axesEnable.Enable_Positive := TRUE;
-axesEnable.Override := 100;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="HaltAxis" Id="{62625fe2-1fc1-41aa-8faf-2ae2103125b3}">
-      <Declaration><![CDATA[METHOD PUBLIC HaltAxis : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF NOT axesHalt.Busy THEN
-	axesHalt.Execute();
-	HaltAxis := TRUE;
-END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="isAtPosition" Id="{e3cf596a-0159-4cde-b6e4-79249500a2fd}">
-      <Declaration><![CDATA[METHOD isAtPosition : BOOL
-VAR_INPUT
-	position : MC_LREAL;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF _axis.NcToPlc.ModuloActPos < position + 0.2 AND _axis.NcToPlc.ModuloActPos > position - 0.2 THEN
-	isAtPosition := TRUE;
-END_IF  
+      <ST><![CDATA[CASE State OF
+	Init:
+		
+	Ready:
+		
+	Enabling:
+		
+	Enabled:
+		
+	Resetting:
+		
+	Running:	
+		
+	Disabling:
 
-]]></ST>
-      </Implementation>
-    </Method>
+END_CASE
+
+switchAxis();]]></ST>
+    </Implementation>
     <Method Name="MoveTo" Id="{fd17c823-afe7-4820-9dad-912e69242e2b}">
       <Declaration><![CDATA[METHOD PUBLIC MoveTo : BOOL
 VAR_INPUT
@@ -121,27 +89,16 @@ END_VAR
       </Get>
     </Property>
     <LineIds Name="XtsTmsSwitch">
-      <LineId Id="38" Count="4" />
+      <LineId Id="74" Count="1" />
+      <LineId Id="80" Count="1" />
+      <LineId Id="87" Count="1" />
+      <LineId Id="93" Count="1" />
+      <LineId Id="108" Count="1" />
+      <LineId Id="118" Count="1" />
+      <LineId Id="126" Count="1" />
+      <LineId Id="132" Count="0" />
+      <LineId Id="62" Count="1" />
       <LineId Id="30" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsTmsSwitch.DisableAxis">
-      <LineId Id="31" Count="0" />
-      <LineId Id="20" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsTmsSwitch.EnableAxis">
-      <LineId Id="13" Count="0" />
-      <LineId Id="17" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsTmsSwitch.HaltAxis">
-      <LineId Id="5" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="10" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsTmsSwitch.isAtPosition">
-      <LineId Id="11" Count="2" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="8" Count="0" />
     </LineIds>
     <LineIds Name="XtsTmsSwitch.MoveTo">
       <LineId Id="78" Count="0" />
