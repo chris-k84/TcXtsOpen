@@ -165,9 +165,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DUTs" />
     <Folder Include="EventLoggerClass" />
-    <Folder Include="GVLs" />
     <Folder Include="Mover Class" />
     <Folder Include="Axis Class" />
     <Folder Include="SequenceSamples" />
