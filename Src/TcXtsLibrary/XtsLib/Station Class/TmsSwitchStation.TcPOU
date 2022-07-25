@@ -24,8 +24,8 @@ END_VAR
 	//Yes
 	//organise transfer of movers onto switch]]></ST>
     </Implementation>
-    <Method Name="HasMover" Id="{9da69018-e0b3-43b6-8b40-80f26b1bd5d9}">
-      <Declaration><![CDATA[METHOD PUBLIC HasMover : BOOL
+    <Method Name="MoverArriving" Id="{9da69018-e0b3-43b6-8b40-80f26b1bd5d9}">
+      <Declaration><![CDATA[METHOD PUBLIC MoverArriving : BOOL
 VAR_INPUT
 	mover : IMover;
 END_VAR
@@ -62,7 +62,7 @@ END_IF
       <LineId Id="15" Count="0" />
       <LineId Id="17" Count="4" />
     </LineIds>
-    <LineIds Name="TmsSwitchStation.HasMover">
+    <LineIds Name="TmsSwitchStation.MoverArriving">
       <LineId Id="8" Count="1" />
       <LineId Id="11" Count="0" />
       <LineId Id="10" Count="0" />
