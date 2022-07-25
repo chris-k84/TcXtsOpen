@@ -3,6 +3,7 @@
   <POU Name="XtsTmsSwitch" Id="{73ef316f-86b5-4cc1-962a-15251e072db1}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XtsTmsSwitch IMPLEMENTS ITF_TmsSwitch
 VAR_INPUT
+	StateMachine : IPmlStateMachine;
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -26,15 +27,34 @@ END_VAR
     <Implementation>
       <ST><![CDATA[CASE State OF
 	Init:
+		IF NOT switchAxis.hasError() THEN
+			State := Ready;
+		END_IF
 		
 	Ready:
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Clearing THEN
+			IF switchAxis.EnableAxis() THEN
+				State := Enabling;
+			END_IF
+		END_IF	
 		
 	Enabling:
+		IF switchAxis.isEnabled() THEN
+			State := Enabled;
+		END_IF
 		
 	Enabled:
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Resetting THEN
+			IF switchAxis.MoveTo(Position := MiddlePosition, Velocity := 100.0) THEN
+				State := Resetting;
+			END_IF
+		END_IF
 		
 	Resetting:
-		
+		IF switchAxis.isAtPosition(position := MiddlePosition) THEN
+			State := Running;
+		END_IF	
+	
 	Running:	
 		
 	Disabling:
@@ -90,11 +110,26 @@ END_VAR
     </Property>
     <LineIds Name="XtsTmsSwitch">
       <LineId Id="74" Count="1" />
-      <LineId Id="80" Count="1" />
-      <LineId Id="87" Count="1" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="133" Count="1" />
+      <LineId Id="145" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="135" Count="0" />
+      <LineId Id="137" Count="0" />
+      <LineId Id="139" Count="1" />
+      <LineId Id="138" Count="0" />
+      <LineId Id="144" Count="0" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="141" Count="2" />
       <LineId Id="93" Count="1" />
+      <LineId Id="146" Count="1" />
+      <LineId Id="149" Count="1" />
+      <LineId Id="148" Count="0" />
       <LineId Id="108" Count="1" />
-      <LineId Id="118" Count="1" />
+      <LineId Id="118" Count="0" />
+      <LineId Id="152" Count="1" />
+      <LineId Id="151" Count="0" />
+      <LineId Id="119" Count="0" />
       <LineId Id="126" Count="1" />
       <LineId Id="132" Count="0" />
       <LineId Id="62" Count="1" />

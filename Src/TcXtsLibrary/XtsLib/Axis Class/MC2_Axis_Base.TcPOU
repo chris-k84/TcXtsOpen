@@ -56,6 +56,15 @@ END_VAR
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="hasError" Id="{e562e1dc-1d96-4854-a959-c047830f5072}">
+      <Declaration><![CDATA[METHOD hasError : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[hasError := _axis.Status.Error;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="isAtPosition" Id="{759f3fe2-ecc3-47d7-a565-50175aea3510}">
       <Declaration><![CDATA[METHOD isAtPosition : BOOL
 VAR_INPUT
@@ -68,6 +77,15 @@ END_VAR
 END_IF  
 
 ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="isEnabled" Id="{5aa08f06-f1a7-4864-95cb-b6f30feaf835}">
+      <Declaration><![CDATA[METHOD isEnabled : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[isEnabled := not _axis.Status.Disabled;]]></ST>
       </Implementation>
     </Method>
     <Method Name="MoveTo" Id="{10981345-e84c-491a-ba3f-6d3f1f0223b2}">
@@ -87,17 +105,6 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Switch" Id="{7dbfc80e-8cf5-40a7-890b-b1cb5ee6d0cb}">
-      <Declaration><![CDATA[PROPERTY PUBLIC Switch : SwitchState]]></Declaration>
-      <Get Name="Get" Id="{3e1cb52a-caa1-4fe5-856d-500830303b9a}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Switch := positionState;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <LineIds Name="MC2_Axis_Base">
       <LineId Id="38" Count="4" />
       <LineId Id="30" Count="0" />
@@ -116,19 +123,22 @@ END_VAR
       <LineId Id="11" Count="0" />
       <LineId Id="10" Count="0" />
     </LineIds>
+    <LineIds Name="MC2_Axis_Base.hasError">
+      <LineId Id="5" Count="0" />
+    </LineIds>
     <LineIds Name="MC2_Axis_Base.isAtPosition">
       <LineId Id="11" Count="2" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
+    </LineIds>
+    <LineIds Name="MC2_Axis_Base.isEnabled">
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="MC2_Axis_Base.MoveTo">
       <LineId Id="106" Count="3" />
       <LineId Id="111" Count="0" />
       <LineId Id="79" Count="0" />
       <LineId Id="64" Count="0" />
-    </LineIds>
-    <LineIds Name="MC2_Axis_Base.Switch.Get">
-      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
