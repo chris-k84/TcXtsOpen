@@ -72,26 +72,23 @@ END_VAR
       <Implementation>
         <ST><![CDATA[CASE positionState OF
 	SwitchState.Down:
-		IF NOT isAtPosition(position := DownPosition) THEN
-			IF NOT axesMoveTo.Busy THEN
-				axesMoveTo.MoveTo(Position := DownPosition, Velocity := SwitchVelocity);
+		IF switchAxis.isAtPosition(position := DownPosition) THEN
+			IF switchAxis.MoveTo(Position := DownPosition, Velocity := SwitchVelocity) THEN
 				MoveTo := TRUE;
 			END_IF
-		END_IF
+		END_IF	
 	SwitchState.Middle:
-		IF NOT isAtPosition(position := MiddlePosition) THEN
-			IF NOT axesMoveTo.Busy THEN
-				axesMoveTo.MoveTo(Position := MiddlePosition, Velocity := SwitchVelocity);
+		IF switchAxis.isAtPosition(position := MiddlePosition) THEN
+			IF switchAxis.MoveTo(Position := MiddlePosition, Velocity := SwitchVelocity) THEN
 				MoveTo := TRUE;
 			END_IF
-		END_IF
+		END_IF	
 	SwitchState.Up:
-		IF NOT isAtPosition(position := UpPosition) THEN
-			IF NOT axesMoveTo.Busy THEN
-				axesMoveTo.MoveTo(Position := UpPosition, Velocity := SwitchVelocity);
+		IF switchAxis.isAtPosition(position := UpPosition) THEN
+			IF switchAxis.MoveTo(Position := UpPosition, Velocity := SwitchVelocity) THEN
 				MoveTo := TRUE;
 			END_IF
-		END_IF
+		END_IF	
 END_CASE
 
 ]]></ST>
@@ -138,13 +135,15 @@ END_VAR
     <LineIds Name="XtsTmsSwitch.MoveTo">
       <LineId Id="78" Count="0" />
       <LineId Id="80" Count="0" />
-      <LineId Id="85" Count="4" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="108" Count="1" />
+      <LineId Id="107" Count="0" />
       <LineId Id="84" Count="0" />
       <LineId Id="82" Count="0" />
-      <LineId Id="91" Count="4" />
+      <LineId Id="110" Count="3" />
       <LineId Id="90" Count="0" />
       <LineId Id="83" Count="0" />
-      <LineId Id="97" Count="4" />
+      <LineId Id="114" Count="3" />
       <LineId Id="96" Count="0" />
       <LineId Id="81" Count="0" />
       <LineId Id="79" Count="0" />

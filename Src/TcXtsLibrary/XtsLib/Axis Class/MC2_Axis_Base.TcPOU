@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
   <POU Name="MC2_Axis_Base" Id="{ee6e7337-5f5f-4c5d-9917-89dff0d4a6cd}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK MC2_Axis_Base IMPLEMENTS ITF_TmsSwitch
+    <Declaration><![CDATA[FUNCTION_BLOCK MC2_Axis_Base
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
