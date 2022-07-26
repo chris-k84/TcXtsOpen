@@ -207,13 +207,13 @@
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
-    <LibraryReference Include="Tc2_MC2,3.3.46.0,Beckhoff Automation GmbH">
+    <LibraryReference Include="Tc2_MC2,newest,Beckhoff Automation GmbH">
       <Namespace>Tc2_MC2</Namespace>
     </LibraryReference>
-    <LibraryReference Include="Tc3_Mc3Definitions,3.1.10.0,Beckhoff Automation GmbH">
+    <LibraryReference Include="Tc3_Mc3Definitions,newest,Beckhoff Automation GmbH">
       <Namespace>Tc3_Mc3Definitions</Namespace>
     </LibraryReference>
-    <LibraryReference Include="Tc3_McCollisionAvoidance,3.1.10.3,Beckhoff Automation GmbH">
+    <LibraryReference Include="Tc3_McCollisionAvoidance,newest,Beckhoff Automation GmbH">
       <Namespace>Tc3_McCollisionAvoidance</Namespace>
     </LibraryReference>
   </ItemGroup>

@@ -41,7 +41,6 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF StationMovers <= 2 THEN
 	StationMovers := StationMovers + 1;
-	movers[StationMovers] := mover;
 	IF __QUERYINTERFACE(mover,iTmsMover) THEN
 		movers[StationMovers] := iTmsMover;
 	END_IF
@@ -91,7 +90,6 @@ END_IF
     </LineIds>
     <LineIds Name="TmsSwitchStation.MoverArriving">
       <LineId Id="8" Count="1" />
-      <LineId Id="11" Count="0" />
       <LineId Id="23" Count="1" />
       <LineId Id="22" Count="0" />
       <LineId Id="10" Count="0" />
