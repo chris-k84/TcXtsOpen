@@ -14,6 +14,7 @@ VAR
 	_busy : BOOL;
 	_error : BOOL;
 	_done : BOOL;
+	_stOptions : ST_MoveAbsoluteCAOptions;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -43,7 +44,7 @@ END_VAR
 		END_IF
 END_CASE
 
-moveAbs(Axis := _axis);]]></ST>
+moveAbs(Axis := _axis, Options := _stOptions);]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{f9d68d1b-cca9-4afb-b897-7620e260f1b1}">
       <Declaration><![CDATA[METHOD Abort : BOOL
@@ -195,6 +196,25 @@ moveAbs.Velocity := Velocity;
 _MoveMover := MoveTo := true;]]></ST>
       </Implementation>
     </Method>
+    <Property Name="Options" Id="{91d35b49-0fef-402f-ac14-74673db6c7d3}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Options : ST_MoveAbsoluteCAOptions]]></Declaration>
+      <Get Name="Get" Id="{193d1496-2d7b-452f-afc5-343cbd1801df}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Options := _stOptions;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{51e61ca1-1574-48db-b754-cf37e5744493}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_stOptions := Options;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <LineIds Name="MoveMoverToPosition">
       <LineId Id="57" Count="5" />
       <LineId Id="99" Count="3" />
@@ -253,6 +273,12 @@ _MoveMover := MoveTo := true;]]></ST>
     <LineIds Name="MoveMoverToPosition.MoveTo">
       <LineId Id="4" Count="0" />
       <LineId Id="10" Count="1" />
+    </LineIds>
+    <LineIds Name="MoveMoverToPosition.Options.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="MoveMoverToPosition.Options.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

@@ -14,6 +14,7 @@ VAR
 	_error: BOOL;
 	_busy: BOOL;
 	_ActivateTrack : BOOL;
+	_newTrackId : OTCID;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -34,6 +35,7 @@ END_VAR
 		IF NOT mcActivateTrack.Busy THEN
 			IF mcActivateTrack.Done THEN
 				_done := TRUE;
+				_newTrackId := mcActivateTrack.TrackId;
 			ELSIF mcActivateTrack.Error THEN
 				_error := TRUE;
 			END_IF
@@ -120,8 +122,21 @@ END_VAR
         <ST><![CDATA[_axis REF= axis;]]></ST>
       </Implementation>
     </Method>
+    <Property Name="NewTrackId" Id="{81e55462-ab9a-4701-8b1c-501e85b6459e}">
+      <Declaration><![CDATA[PROPERTY PUBLIC NewTrackId : OTCID]]></Declaration>
+      <Get Name="Get" Id="{34911b80-2212-4751-995c-4be8cd54a183}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[NewTrackId := _newTrackId;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <LineIds Name="ActivateTrackForMover">
-      <LineId Id="55" Count="25" />
+      <LineId Id="55" Count="16" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="72" Count="8" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="ActivateTrackForMover.Abort">
@@ -144,6 +159,9 @@ END_VAR
     </LineIds>
     <LineIds Name="ActivateTrackForMover.FB_init">
       <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="ActivateTrackForMover.NewTrackId.Get">
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

@@ -12,6 +12,7 @@ VAR
 	_activateTrack : ActivateTrackForMover(_axis);
 	mcReadTrackPositions : Tc3_McCollisionAvoidance.MC_ReadTrackPositions;
 	MoverActiveTrack : OTCID;
+	_stOptions : ST_MoveAbsoluteCAOptions;
 	bInit : BOOL;
 END_VAR
 VAR_IN_OUT
@@ -40,6 +41,10 @@ IF _identInGroup <> 0 THEN
 		ErrorId=> );
 END_IF
 _activateTrack();
+IF _activateTrack.Done THEN 
+	_stOptions.PositionReferenceSystem := MoverActiveTrack := _activateTrack.NewTrackId;
+	axesMoveTo.Options := _stOptions;
+END_IF
 ]]></ST>
     </Implementation>
     <Method Name="ActivateTrack" Id="{5f8dc4a4-b7cd-44e5-baab-59a89ea4550d}">
@@ -70,6 +75,9 @@ END_VAR
       <LineId Id="102" Count="0" />
       <LineId Id="123" Count="0" />
       <LineId Id="103" Count="15" />
+      <LineId Id="140" Count="0" />
+      <LineId Id="142" Count="1" />
+      <LineId Id="139" Count="0" />
       <LineId Id="12" Count="0" />
     </LineIds>
     <LineIds Name="TMS_Mover.ActivateTrack">
