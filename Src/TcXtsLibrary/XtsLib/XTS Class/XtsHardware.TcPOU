@@ -175,6 +175,16 @@ END_VAR
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="GetMoverEnvInterface" Id="{41d843cc-1e86-40a6-a335-47af7a169644}">
+      <Declaration><![CDATA[METHOD PUBLIC GetMoverEnvInterface : I_TcIoXtsXpuMover
+VAR_INPUT
+	MoverNumber : UINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetMoverEnvInterface := XtsIoEnvironment.XpuTcIo(1).MoverTcIo(MoverNumber);]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="getMoversDetected" Id="{f316fb3e-2c49-4310-aa99-6f4cd73010f0}">
       <Declaration><![CDATA[METHOD getMoversDetected : BOOL
 VAR_INPUT
@@ -308,6 +318,9 @@ END_IF]]></ST>
       <LineId Id="6" Count="3" />
       <LineId Id="16" Count="0" />
       <LineId Id="10" Count="5" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsHardware.GetMoverEnvInterface">
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.getMoversDetected">

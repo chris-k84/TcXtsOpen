@@ -3,6 +3,12 @@
   <Itf Name="ITmsMover" Id="{1dd4f0e1-1fa2-4d8b-bd4e-d91c7c33d591}">
     <Declaration><![CDATA[INTERFACE ITmsMover EXTENDS IMover
 ]]></Declaration>
+    <Method Name="SetMoverInterface" Id="{b12088fd-1d05-4423-b53f-cb9b8228c3e3}">
+      <Declaration><![CDATA[METHOD SetMoverInterface : BOOL
+VAR_INPUT
+	MoverInterface : I_TcIoXtsXpuMover;
+END_VAR]]></Declaration>
+    </Method>
     <Method Name="SetTrackId" Id="{6e62ed33-5211-41f4-b2cf-01546af65477}">
       <Declaration><![CDATA[METHOD SetTrackId : BOOL
 VAR_INPUT

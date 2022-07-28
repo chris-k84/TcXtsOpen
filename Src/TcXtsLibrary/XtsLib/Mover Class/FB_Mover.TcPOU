@@ -226,7 +226,7 @@ END_VAR
       </Set>
     </Property>
     <Method Name="ModuloToAbs" Id="{1ab38b34-3edf-4bf3-ac63-8f2c352a45b5}" FolderPath="Methods\">
-      <Declaration><![CDATA[METHOD PRIVATE ModuloToAbs : mc_lreal
+      <Declaration><![CDATA[METHOD PROTECTED ModuloToAbs : mc_lreal
 VAR_INPUT
 	moduloPositionDemand: MC_LREAL;
 	_backwardsAllowed : BOOL;
