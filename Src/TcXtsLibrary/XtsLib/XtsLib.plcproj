@@ -121,13 +121,16 @@
     <Compile Include="Tasks\ITask.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tasks\Mc2MoveToPosition.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\MoveModuloMoverToPosition.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Tasks\MoveMoverToPosition.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\MoveMoverToPositionZoned.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Tasks\MoveSwitchToPosition.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\RemoveAllMoverFromGroup.TcPOU">
@@ -165,13 +168,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Axis Class" />
     <Folder Include="EventLoggerClass" />
     <Folder Include="Mover Class" />
-    <Folder Include="Axis Class" />
-    <Folder Include="SequenceSamples" />
-    <Folder Include="Switch Class" />
     <Folder Include="PackML" />
+    <Folder Include="SequenceSamples" />
     <Folder Include="Station Class" />
+    <Folder Include="Switch Class" />
     <Folder Include="Tasks" />
     <Folder Include="VISUs" />
     <Folder Include="XTS Class" />
@@ -229,8 +232,8 @@
   <ProjectExtensions>
     <PlcProjectOptions>
       <XmlArchive>
-  <Data>
-    <o xml:space="preserve" t="OptionKey">
+        <Data>
+          <o xml:space="preserve" t="OptionKey">
       <v n="Name">"&lt;ProjectRoot&gt;"</v>
       <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
         <v>{192FAD59-8248-4824-A8DE-9177C94C195A}</v>
@@ -291,14 +294,14 @@
       </d>
       <d n="Values" t="Hashtable" />
     </o>
-  </Data>
-  <TypeList>
-    <Type n="Boolean">System.Boolean</Type>
-    <Type n="Hashtable">System.Collections.Hashtable</Type>
-    <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
-    <Type n="String">System.String</Type>
-  </TypeList>
-</XmlArchive>
+        </Data>
+        <TypeList>
+          <Type n="Boolean">System.Boolean</Type>
+          <Type n="Hashtable">System.Collections.Hashtable</Type>
+          <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+          <Type n="String">System.String</Type>
+        </TypeList>
+      </XmlArchive>
     </PlcProjectOptions>
   </ProjectExtensions>
 </Project>

@@ -18,9 +18,10 @@ VAR
 	DisableSequence : XtsDisableSequence(mcCollisionGroup);
 	
 	State :(
-        Init,                                               
+        Init,                                           
 		Ready,                                 
         Enabling,
+		ActivateTracks,
 		Enabled,
 		Resetting,
 		Running,
@@ -28,6 +29,7 @@ VAR
 	i : DINT;
 	AtHome: BOOL;
 	_tracks : INT;
+	iTmsMover : ITmsMover;
 END_VAR
 VAR_IN_OUT
 	MoverArray : ARRAY[*] OF IMover;
@@ -37,7 +39,6 @@ END_VAR]]></Declaration>
 CASE State OF
 	Init:
 		IF XtsTrackHardware.XtsHardwareOK THEN
-			AssignMoverToTrack();
 			GetTMSMoverInterface();
 			State := Ready;
 		END_IF
@@ -51,8 +52,13 @@ CASE State OF
 		
 	Enabling:
 		IF EnableSequence.Done THEN
-			State := Enabled;
+			State := ActivateTracks;
 			StateMachine.StateComplete();
+		END_IF
+		
+	ActivateTracks:
+		IF ActivateTracksInMovers() THEN
+			State := Enabled;
 		END_IF
 		
 	Enabled:
@@ -100,20 +106,20 @@ EnableSequence(arrMovers := MoverArray);
 DisableSequence(arrMovers := MoverArray);
 mcCollisionGroup();]]></ST>
     </Implementation>
-    <Method Name="AssignMoverToTrack" Id="{9ccda3a4-60d1-4f4d-8563-7a430a9cb080}">
-      <Declaration><![CDATA[METHOD PUBLIC AssignMoverToTrack : BOOL
+    <Method Name="ActivateTracksInMovers" Id="{f07dde83-d085-4cf6-bf9b-a6e81e2388f6}">
+      <Declaration><![CDATA[METHOD PUBLIC ActivateTracksInMovers : BOOL
 VAR_INPUT
 END_VAR
 VAR
 	iTmsMover : ITmsMover;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR i := 1 TO UPPER_BOUND(MoverArray,1) DO
 	IF __QUERYINTERFACE(MoverArray[i],iTmsMover) THEN
-		iTmsMover.SetTrackId(XtsTrackHardware.GetMoverTrackId(DINT_TO_INT(i)));
+		iTmsMover.ActivateTrack(newTrack := iTmsMover.ActiveTrack);
 	END_IF
-END_FOR]]></ST>
+END_FOR
+ActivateTracksInMovers := true;]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetTMSMoverInterface" Id="{8a0ffa9f-0aa2-4c3c-a17d-9828995afbc3}">
@@ -191,16 +197,21 @@ END_VAR
     </Property>
     <LineIds Name="XtsTrack">
       <LineId Id="246" Count="3" />
-      <LineId Id="339" Count="0" />
       <LineId Id="371" Count="0" />
-      <LineId Id="250" Count="58" />
+      <LineId Id="250" Count="1" />
+      <LineId Id="412" Count="0" />
+      <LineId Id="253" Count="11" />
+      <LineId Id="414" Count="0" />
+      <LineId Id="416" Count="0" />
+      <LineId Id="421" Count="0" />
+      <LineId Id="423" Count="2" />
+      <LineId Id="266" Count="42" />
       <LineId Id="78" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.AssignMoverToTrack">
+    <LineIds Name="XtsTrack.ActivateTracksInMovers">
+      <LineId Id="8" Count="3" />
       <LineId Id="5" Count="0" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="15" Count="1" />
-      <LineId Id="7" Count="0" />
+      <LineId Id="12" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.GetTMSMoverInterface">
       <LineId Id="6" Count="3" />

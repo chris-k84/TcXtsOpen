@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
-  <POU Name="MoveSwitchToPosition" Id="{c7eeeee5-3b61-4557-b5ce-9b78a6d29876}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK MoveSwitchToPosition
+  <POU Name="Mc2MoveToPosition" Id="{c7eeeee5-3b61-4557-b5ce-9b78a6d29876}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Mc2MoveToPosition
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -176,11 +176,11 @@ moveAbs.Velocity := Velocity;
 _MoveSwitch := MoveTo := true;]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="MoveSwitchToPosition">
+    <LineIds Name="Mc2MoveToPosition">
       <LineId Id="161" Count="25" />
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="MoveSwitchToPosition.Abort">
+    <LineIds Name="Mc2MoveToPosition.Abort">
       <LineId Id="5" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="12" Count="0" />
@@ -188,38 +188,38 @@ _MoveSwitch := MoveTo := true;]]></ST>
       <LineId Id="6" Count="0" />
       <LineId Id="4" Count="0" />
     </LineIds>
-    <LineIds Name="MoveSwitchToPosition.Acceleration.Get">
+    <LineIds Name="Mc2MoveToPosition.Acceleration.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="MoveSwitchToPosition.Acceleration.Set">
+    <LineIds Name="Mc2MoveToPosition.Acceleration.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="MoveSwitchToPosition.Busy.Get">
+    <LineIds Name="Mc2MoveToPosition.Busy.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="MoveSwitchToPosition.Deceleration.Get">
+    <LineIds Name="Mc2MoveToPosition.Deceleration.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="MoveSwitchToPosition.Deceleration.Set">
+    <LineIds Name="Mc2MoveToPosition.Deceleration.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="MoveSwitchToPosition.Done.Get">
+    <LineIds Name="Mc2MoveToPosition.Done.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="MoveSwitchToPosition.Error.Get">
+    <LineIds Name="Mc2MoveToPosition.Error.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="MoveSwitchToPosition.FB_init">
+    <LineIds Name="Mc2MoveToPosition.FB_init">
       <LineId Id="7" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="MoveSwitchToPosition.Jerk.Get">
+    <LineIds Name="Mc2MoveToPosition.Jerk.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="MoveSwitchToPosition.Jerk.Set">
+    <LineIds Name="Mc2MoveToPosition.Jerk.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="MoveSwitchToPosition.MoveTo">
+    <LineIds Name="Mc2MoveToPosition.MoveTo">
       <LineId Id="4" Count="0" />
       <LineId Id="10" Count="1" />
     </LineIds>
