@@ -17,7 +17,6 @@ VAR
 	SwitchVelocity : MC_LREAL := 100.0;
 	switchAxis : MC2_Axis_Base;	
 	arrTrackIds : ARRAY[1..4] OF OTCID := [16#010100F0,16#010100E0,16#010100D0,16#01010790];
-	_stationPosition : BOOL; //1 = upper
 	State :(
         Init,                                               
 		Ready,                                 
@@ -104,16 +103,18 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF __QUERYINTERFACE(_exchangeMover,iTmsMover) THEN
-	IF _stationPosition THEN
-		IF iTmsMover.ActiveTrack = arrTrackIds[1] THEN
-			iTmsMover.ActivateTrack(newTrack := arrTrackIds[5]);
-		ELSIF iTmsMover.ActivateTrack = arrTrackIds[3] THEN
+	IF _positionState = SwitchState.Up THEN
+		IF iTmsMover.ActivateTrack = arrTrackIds[3] THEN
 			iTmsMover.ActivateTrack(newTrack := arrTrackIds[2]);
 		END_IF
-	ELSE
-		IF iTmsMover.ActiveTrack = arrTrackIds[2] THEN
+	ELSIF _positionState = SwitchState.Middle THEN
+		IF iTmsMover.ActiveTrack = arrTrackIds[1] THEN
+			iTmsMover.ActivateTrack(newTrack := arrTrackIds[5]);
+		ELSIF iTmsMover.ActivateTrack = arrTrackIds[2] THEN
 			iTmsMover.ActivateTrack(newTrack := arrTrackIds[3]);
-		ELSIF iTmsMover.ActivateTrack = arrTrackIds[5] THEN
+		END_IF
+	ELSE
+		IF iTmsMover.ActivateTrack = arrTrackIds[5] THEN
 			iTmsMover.ActivateTrack(newTrack := arrTrackIds[1]);	
 		END_IF
 	END_IF
@@ -236,11 +237,13 @@ END_IF]]></ST>
     <LineIds Name="XtsTmsSwitch.FindNewTrack">
       <LineId Id="7" Count="0" />
       <LineId Id="15" Count="0" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="22" Count="2" />
+      <LineId Id="23" Count="1" />
       <LineId Id="16" Count="0" />
       <LineId Id="20" Count="0" />
-      <LineId Id="25" Count="3" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="31" Count="3" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="27" Count="1" />
       <LineId Id="21" Count="0" />
       <LineId Id="17" Count="0" />
       <LineId Id="9" Count="0" />
