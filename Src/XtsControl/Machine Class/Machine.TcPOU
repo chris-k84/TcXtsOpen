@@ -45,7 +45,6 @@ END_FOR
 FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
 	StationArray[i](StateMachine := stateMachine);
 END_FOR
-TmsSwitch();
 ]]></ST>
     </Implementation>
     <Method Name="InitialiseStations" Id="{484207a2-fa7d-4c77-9d9b-69f5cd52cf18}">
@@ -92,7 +91,7 @@ END_VAR
       <LineId Id="431" Count="13" />
       <LineId Id="450" Count="0" />
       <LineId Id="452" Count="2" />
-      <LineId Id="445" Count="4" />
+      <LineId Id="445" Count="3" />
       <LineId Id="25" Count="0" />
     </LineIds>
     <LineIds Name="Machine.InitialiseStations">
