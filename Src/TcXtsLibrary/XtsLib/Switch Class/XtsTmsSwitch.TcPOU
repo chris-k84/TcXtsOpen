@@ -16,6 +16,8 @@ VAR
 	DownPosition : MC_LREAL := 300.0;
 	SwitchVelocity : MC_LREAL := 100.0;
 	switchAxis : MC2_Axis_Base;	
+	arrTrackIds : ARRAY[1..4] OF OTCID := [16#010100F0,16#010100E0,16#010100D0,16#01010790];
+	_stationPosition : BOOL; //1 = upper
 	State :(
         Init,                                               
 		Ready,                                 
@@ -23,6 +25,7 @@ VAR
 		Enabled,
 		Resetting,
 		Waiting,
+		AssignMover,
 		Moving,
 		Done,
 		Disabling); 
@@ -60,7 +63,14 @@ END_VAR
 	
 	Waiting:
 		
+	AssignMover:	
+		FindNewTrack();
+		State := Moving;
+		
 	Moving:	
+		IF switchAxis.isAtPosition() THEN
+			State := Done;
+		END_IF
 	
 	Done:
 		
@@ -85,6 +95,32 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
+    <Method Name="FindNewTrack" Id="{64ec7bf3-c827-4335-99e4-b7418c5014bb}">
+      <Declaration><![CDATA[METHOD PUBLIC FindNewTrack : OTCID
+VAR_INPUT
+END_VAR
+VAR
+	iTmsMover : ITmsMover;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF __QUERYINTERFACE(_exchangeMover,iTmsMover) THEN
+	IF _stationPosition THEN
+		IF iTmsMover.ActiveTrack = arrTrackIds[1] THEN
+			iTmsMover.ActivateTrack(newTrack := arrTrackIds[5]);
+		ELSIF iTmsMover.ActivateTrack = arrTrackIds[3] THEN
+			iTmsMover.ActivateTrack(newTrack := arrTrackIds[2]);
+		END_IF
+	ELSE
+		IF iTmsMover.ActiveTrack = arrTrackIds[2] THEN
+			iTmsMover.ActivateTrack(newTrack := arrTrackIds[3]);
+		ELSIF iTmsMover.ActivateTrack = arrTrackIds[5] THEN
+			iTmsMover.ActivateTrack(newTrack := arrTrackIds[1]);	
+		END_IF
+	END_IF
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="MoveTo" Id="{fd17c823-afe7-4820-9dad-912e69242e2b}">
       <Declaration><![CDATA[METHOD PUBLIC MoveTo : BOOL
 VAR_INPUT
@@ -97,21 +133,21 @@ END_VAR
 		IF NOT switchAxis.isAtPosition(position := DownPosition) THEN
 			IF switchAxis.MoveTo(Position := DownPosition, Velocity := SwitchVelocity) THEN
 				MoveTo := TRUE;
-				State := Moving;
+				State := AssignMover;
 			END_IF
 		END_IF	
 	SwitchState.Middle:
 		IF NOT switchAxis.isAtPosition(position := MiddlePosition) THEN
 			IF switchAxis.MoveTo(Position := MiddlePosition, Velocity := SwitchVelocity) THEN
 				MoveTo := TRUE;
-				State := Moving;
+				State := AssignMover;
 			END_IF
 		END_IF	
 	SwitchState.Up:
 		IF NOT switchAxis.isAtPosition(position := UpPosition) THEN
 			IF switchAxis.MoveTo(Position := UpPosition, Velocity := SwitchVelocity) THEN
 				MoveTo := TRUE;
-				State := Moving;
+				State := AssignMover;
 			END_IF
 		END_IF	
 END_CASE
@@ -119,6 +155,25 @@ END_CASE
 ]]></ST>
       </Implementation>
     </Method>
+    <Property Name="StationPosition" Id="{55f36130-d734-4e76-92bf-b0229dbc1e03}">
+      <Declaration><![CDATA[PROPERTY StationPosition : bool]]></Declaration>
+      <Get Name="Get" Id="{e9f6e250-33d1-41cc-91ca-e2484068b632}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[StationPosition := _stationPosition;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{9aef7419-743c-4457-867e-5daed5c38221}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_stationPosition := StationPosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="Switch" Id="{cea7677b-4e3e-436d-9a14-24ba96282e4e}">
       <Declaration><![CDATA[PROPERTY PUBLIC Switch : SwitchState]]></Declaration>
       <Get Name="Get" Id="{955c8029-4c60-4733-8b6b-b2d2d74760a8}">
@@ -161,9 +216,13 @@ END_IF]]></ST>
       <LineId Id="151" Count="0" />
       <LineId Id="119" Count="0" />
       <LineId Id="200" Count="1" />
-      <LineId Id="203" Count="0" />
-      <LineId Id="205" Count="0" />
-      <LineId Id="126" Count="1" />
+      <LineId Id="232" Count="0" />
+      <LineId Id="243" Count="0" />
+      <LineId Id="237" Count="0" />
+      <LineId Id="239" Count="0" />
+      <LineId Id="244" Count="2" />
+      <LineId Id="240" Count="2" />
+      <LineId Id="238" Count="0" />
       <LineId Id="132" Count="0" />
       <LineId Id="62" Count="1" />
       <LineId Id="30" Count="0" />
@@ -171,6 +230,19 @@ END_IF]]></ST>
     <LineIds Name="XtsTmsSwitch.ExchangeMover">
       <LineId Id="7" Count="1" />
       <LineId Id="11" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTmsSwitch.FindNewTrack">
+      <LineId Id="7" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="22" Count="2" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="25" Count="3" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="17" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
@@ -195,6 +267,12 @@ END_IF]]></ST>
       <LineId Id="81" Count="0" />
       <LineId Id="79" Count="0" />
       <LineId Id="64" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTmsSwitch.StationPosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTmsSwitch.StationPosition.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsTmsSwitch.Switch.Get">
       <LineId Id="5" Count="0" />
