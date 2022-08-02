@@ -81,7 +81,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_Complete := true;]]></ST>
+        <ST><![CDATA[_Complete := SwitchMoveComplete := true;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="TmsSwitchStation">

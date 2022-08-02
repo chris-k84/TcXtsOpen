@@ -9,7 +9,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	_exchangeMover : IMover;
-	_currentStation : IProcess;
+	_currentStation : ITF_SwitchStation;
 	_currentPosition : SwitchState := SwitchState.Middle;
 	_demandPosition : SwitchState;
 	UpPosition : MC_LREAL := 100.0;
@@ -78,7 +78,10 @@ END_VAR
 		END_IF
 	
 	Done:
-		
+		IF _currentStation.SwitchMoveComplete() THEN
+			State := Waiting;
+		END_IF	
+	
 	Disabling:
 		IF NOT switchAxis.isEnabled() THEN
 			State := Init;
@@ -92,7 +95,7 @@ switchAxis();]]></ST>
       <Declaration><![CDATA[METHOD PUBLIC ExchangeMover : IMover
 VAR_INPUT
 	Mover : IMover;
-	currentStation : IProcess;
+	currentStation : ITF_SwitchStation;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -233,7 +236,11 @@ END_IF]]></ST>
       <LineId Id="237" Count="0" />
       <LineId Id="239" Count="0" />
       <LineId Id="244" Count="2" />
-      <LineId Id="240" Count="2" />
+      <LineId Id="240" Count="1" />
+      <LineId Id="337" Count="0" />
+      <LineId Id="336" Count="0" />
+      <LineId Id="242" Count="0" />
+      <LineId Id="318" Count="0" />
       <LineId Id="238" Count="0" />
       <LineId Id="315" Count="2" />
       <LineId Id="132" Count="0" />
