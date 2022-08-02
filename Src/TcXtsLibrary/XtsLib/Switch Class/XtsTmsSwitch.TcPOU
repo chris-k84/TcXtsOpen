@@ -116,17 +116,17 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF __QUERYINTERFACE(_exchangeMover,iTmsMover) THEN
 	IF _currentPosition = SwitchState.Up THEN
-		IF iTmsMover.ActivateTrack = arrTrackIds[3] THEN
+		IF iTmsMover.ActiveTrack = arrTrackIds[3] THEN
 			iTmsMover.ActivateTrack(newTrack := arrTrackIds[2]);
 		END_IF
 	ELSIF _currentPosition = SwitchState.Middle THEN
 		IF iTmsMover.ActiveTrack = arrTrackIds[1] THEN
-			iTmsMover.ActivateTrack(newTrack := arrTrackIds[5]);
-		ELSIF iTmsMover.ActivateTrack = arrTrackIds[2] THEN
+			iTmsMover.ActivateTrack(newTrack := arrTrackIds[4]);
+		ELSIF iTmsMover.ActiveTrack = arrTrackIds[2] THEN
 			iTmsMover.ActivateTrack(newTrack := arrTrackIds[3]);
 		END_IF
 	ELSE
-		IF iTmsMover.ActivateTrack = arrTrackIds[5] THEN
+		IF iTmsMover.ActiveTrack = arrTrackIds[4] THEN
 			iTmsMover.ActivateTrack(newTrack := arrTrackIds[1]);	
 		END_IF
 	END_IF
@@ -168,25 +168,6 @@ _demandPosition := positionState;
 ]]></ST>
       </Implementation>
     </Method>
-    <Property Name="StationPosition" Id="{55f36130-d734-4e76-92bf-b0229dbc1e03}">
-      <Declaration><![CDATA[PROPERTY StationPosition : bool]]></Declaration>
-      <Get Name="Get" Id="{e9f6e250-33d1-41cc-91ca-e2484068b632}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[StationPosition := _stationPosition;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{9aef7419-743c-4457-867e-5daed5c38221}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[_stationPosition := StationPosition;]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
     <Property Name="Switch" Id="{cea7677b-4e3e-436d-9a14-24ba96282e4e}">
       <Declaration><![CDATA[PROPERTY PUBLIC Switch : SwitchState]]></Declaration>
       <Get Name="Get" Id="{955c8029-4c60-4733-8b6b-b2d2d74760a8}">
@@ -289,12 +270,6 @@ END_IF]]></ST>
       <LineId Id="81" Count="0" />
       <LineId Id="79" Count="0" />
       <LineId Id="64" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsTmsSwitch.StationPosition.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsTmsSwitch.StationPosition.Set">
-      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsTmsSwitch.Switch.Get">
       <LineId Id="5" Count="0" />
