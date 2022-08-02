@@ -75,6 +75,15 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
+    <Method Name="SwitchMoveComplete" Id="{b6e4018d-1b11-4436-abf3-c2d1900106a2}">
+      <Declaration><![CDATA[METHOD PUBLIC SwitchMoveComplete : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_Complete := true;]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="TmsSwitchStation">
       <LineId Id="9" Count="1" />
       <LineId Id="12" Count="0" />
@@ -108,6 +117,9 @@ END_IF
       <LineId Id="12" Count="2" />
       <LineId Id="10" Count="1" />
       <LineId Id="8" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsSwitchStation.SwitchMoveComplete">
+      <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

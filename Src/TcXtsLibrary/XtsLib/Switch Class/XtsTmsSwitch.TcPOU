@@ -10,7 +10,8 @@ END_VAR
 VAR
 	_exchangeMover : IMover;
 	_currentStation : IProcess;
-	_positionState : SwitchState := SwitchState.Middle;
+	_currentPosition : SwitchState := SwitchState.Middle;
+	_demandPosition : SwitchState;
 	UpPosition : MC_LREAL := 100.0;
 	MiddlePosition : MC_LREAL := 200.0;
 	DownPosition : MC_LREAL := 300.0;
@@ -61,19 +62,27 @@ END_VAR
 		END_IF	
 	
 	Waiting:
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			switchAxis.DisableAxis();
+			State := Disabling;
+		END_IF
 		
-	AssignMover:	
-		FindNewTrack();
-		State := Moving;
+	AssignMover:
+		IF FindNewTrack() <> 0 THEN
+			State := Moving;
+		END_IF
 		
 	Moving:	
-		IF switchAxis.isAtPosition() THEN
+		IF switchAxis.isAtPosition(_demandPosition) THEN
 			State := Done;
 		END_IF
 	
 	Done:
 		
 	Disabling:
+		IF NOT switchAxis.isEnabled() THEN
+			State := Init;
+		END_IF
 
 END_CASE
 
@@ -103,11 +112,11 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF __QUERYINTERFACE(_exchangeMover,iTmsMover) THEN
-	IF _positionState = SwitchState.Up THEN
+	IF _currentPosition = SwitchState.Up THEN
 		IF iTmsMover.ActivateTrack = arrTrackIds[3] THEN
 			iTmsMover.ActivateTrack(newTrack := arrTrackIds[2]);
 		END_IF
-	ELSIF _positionState = SwitchState.Middle THEN
+	ELSIF _currentPosition = SwitchState.Middle THEN
 		IF iTmsMover.ActiveTrack = arrTrackIds[1] THEN
 			iTmsMover.ActivateTrack(newTrack := arrTrackIds[5]);
 		ELSIF iTmsMover.ActivateTrack = arrTrackIds[2] THEN
@@ -119,7 +128,7 @@ END_VAR]]></Declaration>
 		END_IF
 	END_IF
 END_IF
-]]></ST>
+FindNewTrack := iTmsMover.ActiveTrack;]]></ST>
       </Implementation>
     </Method>
     <Method Name="MoveTo" Id="{fd17c823-afe7-4820-9dad-912e69242e2b}">
@@ -152,7 +161,7 @@ END_VAR
 			END_IF
 		END_IF	
 END_CASE
-
+_demandPosition := positionState;
 ]]></ST>
       </Implementation>
     </Method>
@@ -216,14 +225,17 @@ END_IF]]></ST>
       <LineId Id="152" Count="1" />
       <LineId Id="151" Count="0" />
       <LineId Id="119" Count="0" />
+      <LineId Id="309" Count="1" />
+      <LineId Id="314" Count="0" />
+      <LineId Id="308" Count="0" />
       <LineId Id="200" Count="1" />
-      <LineId Id="232" Count="0" />
-      <LineId Id="243" Count="0" />
+      <LineId Id="305" Count="2" />
       <LineId Id="237" Count="0" />
       <LineId Id="239" Count="0" />
       <LineId Id="244" Count="2" />
       <LineId Id="240" Count="2" />
       <LineId Id="238" Count="0" />
+      <LineId Id="315" Count="2" />
       <LineId Id="132" Count="0" />
       <LineId Id="62" Count="1" />
       <LineId Id="30" Count="0" />
