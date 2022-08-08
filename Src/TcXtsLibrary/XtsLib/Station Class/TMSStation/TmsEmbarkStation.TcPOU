@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="TmsEmbarkStation" Id="{044d9b9f-48a1-452d-b127-28199a3c04bb}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TmsEmbarkStation EXTENDS Process
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="MoverAway" Id="{5d30fab5-165d-4159-bdc5-36df29db049b}">
+      <Declaration><![CDATA[METHOD PUBLIC MoverAway : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF StationMovers = 1 THEN
+	StationMovers := StationMovers - 1;
+	movers[1] := 0;
+	movers[2] := 0;
+	movers[3] := 0;
+ELSIF StationMovers = 2 THEN
+	StationMovers := StationMovers - 1;
+	movers[1] := movers[2];
+	movers[2] := 0;
+	movers[3] := 0;
+ELSIF StationMovers = 3 THEN
+	StationMovers := StationMovers - 1;
+	movers[1] := movers[2];
+	movers[2] := movers[3];
+	movers[3] := 0;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SwitchMoveComplete" Id="{b6e4018d-1b11-4436-abf3-c2d1900106a2}">
+      <Declaration><![CDATA[METHOD PUBLIC SwitchMoveComplete : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_Complete := SwitchMoveComplete := true;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="TmsEmbarkStation">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkStation.MoverAway">
+      <LineId Id="9" Count="0" />
+      <LineId Id="21" Count="2" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="25" Count="2" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="12" Count="2" />
+      <LineId Id="10" Count="1" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkStation.SwitchMoveComplete">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

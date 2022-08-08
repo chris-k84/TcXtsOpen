@@ -66,25 +66,31 @@
     <Compile Include="SequenceSamples\TmsMoverSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Station Class\IProcess.TcIO">
+    <Compile Include="Station Class\Process\IProcess.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Station Class\IStation.TcIO">
+    <Compile Include="Station Class\Process\Process.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Station Class\ITF_SwitchStation.TcIO">
+    <Compile Include="Station Class\Station\IStation.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Station Class\Process.TcPOU">
+    <Compile Include="Station Class\Station\Station.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Station Class\Station.TcPOU">
+    <Compile Include="Station Class\Station\StationSample.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Station Class\StationSample.TcPOU">
+    <Compile Include="Station Class\TMSStation\ITF_SwitchStation.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Station Class\TmsSwitchStation.TcPOU">
+    <Compile Include="Station Class\TMSStation\TmsEmbarkStation.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Station Class\TMSStation\TmsExchange.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Station Class\TMSStation\TmsHoldStation.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Switch Class\ITF_TmsSwitch.TcIO">
@@ -177,6 +183,9 @@
     <Folder Include="PackML" />
     <Folder Include="SequenceSamples" />
     <Folder Include="Station Class" />
+    <Folder Include="Station Class\TMSStation" />
+    <Folder Include="Station Class\Process" />
+    <Folder Include="Station Class\Station" />
     <Folder Include="Switch Class" />
     <Folder Include="Tasks" />
     <Folder Include="VISUs" />

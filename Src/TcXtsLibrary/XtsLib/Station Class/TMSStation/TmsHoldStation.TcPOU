@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="TmsHoldStation" Id="{27770a69-a787-45d0-98d5-3048dc805328}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TmsHoldStation EXTENDS Process
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="MoverArriving" Id="{9da69018-e0b3-43b6-8b40-80f26b1bd5d9}">
+      <Declaration><![CDATA[METHOD PUBLIC MoverArriving : BOOL
+VAR_INPUT
+	mover : IMover;
+END_VAR
+VAR
+	iTmsMover : ITmsMover;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF StationMovers <= 2 THEN
+	StationMovers := StationMovers + 1;
+	IF __QUERYINTERFACE(mover,iTmsMover) THEN
+		movers[StationMovers] := iTmsMover;
+	END_IF
+END_IF
+
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="TmsHoldStation">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsHoldStation.MoverArriving">
+      <LineId Id="8" Count="1" />
+      <LineId Id="23" Count="1" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
