@@ -8,30 +8,18 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	movers : ARRAY[1..3] OF ITmsMover;
-	StationLocation : INT := 1; //1 = low, 2 = high
+	holdingStation : TmsHoldStation;
+	embarkStation : TmsEmbarkStation;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[//Station for tms handling
-//these are implemented at each entry to the switch
-
-//Do i have mover?
-////Do i have switch?
-//////If yes pass mover to switch
-//////If mover on switch send switch
-//////once station done bring rear mover forward
-////Else 
-//////Wait for switch
-//Else
-////Wait for movers
+      <ST><![CDATA[holdingStation();
+embarkStation();
 ]]></ST>
     </Implementation>
     <LineIds Name="TmsExchange">
-      <LineId Id="9" Count="1" />
-      <LineId Id="61" Count="0" />
-      <LineId Id="21" Count="0" />
-      <LineId Id="62" Count="7" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="100" Count="0" />
       <LineId Id="77" Count="0" />
     </LineIds>
   </POU>

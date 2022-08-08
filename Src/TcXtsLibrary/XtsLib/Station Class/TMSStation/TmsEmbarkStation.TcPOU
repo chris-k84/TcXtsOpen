@@ -3,14 +3,38 @@
   <POU Name="TmsEmbarkStation" Id="{044d9b9f-48a1-452d-b127-28199a3c04bb}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK TmsEmbarkStation EXTENDS Process
 VAR_INPUT
+	StateMachine : IPmlStateMachine;
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	State :(
+		Init,                                               
+		Ready,                                 
+        Operating); 
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[CASE State OF
+	Init:
+		_Operating := _Clear := _Complete := _Ready := _HasMover := FALSE;
+		_Positions[1] := _Positions[2] := _Positions[3] := _Positions[4] := 0;
+		NumberOfPositions := 0;
+		AssignedPositions := 1;
+		StationMovers := 0;
+		State := Ready;
+	
+	Ready:	
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Clearing THEN
+			_Operating := _Clear := _Complete := _Ready := _HasMover := FALSE;
+			StationMovers := 0;
+			State := Operating;
+		END_IF
+	
+
+
+		
+END_CASE]]></ST>
     </Implementation>
     <Method Name="MoverAway" Id="{5d30fab5-165d-4159-bdc5-36df29db049b}">
       <Declaration><![CDATA[METHOD PUBLIC MoverAway : BOOL
@@ -47,6 +71,15 @@ END_VAR
       </Implementation>
     </Method>
     <LineIds Name="TmsEmbarkStation">
+      <LineId Id="23" Count="1" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="33" Count="2" />
+      <LineId Id="39" Count="6" />
+      <LineId Id="37" Count="1" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="25" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.MoverAway">
