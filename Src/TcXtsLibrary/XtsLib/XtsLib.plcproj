@@ -51,6 +51,9 @@
     <Compile Include="PackML\IPmlStateMachine.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PackML\PackMLCommand.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PackML\PackMLState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
