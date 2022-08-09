@@ -5,7 +5,7 @@
 {attribute 'strict'}
 TYPE PackMLCommand :
 (
-	Aborted := 1,
+	Abort := 1,
 	Clear:= 2, 
 	Reset := 3,
 	Start := 4

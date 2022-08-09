@@ -4,14 +4,19 @@
     <Declaration><![CDATA[FUNCTION_BLOCK TmsEmbarkStation EXTENDS Process
 VAR_INPUT
 	StateMachine : IPmlStateMachine;
+	holdStation : IProcess;
+	TmsSwitch : ITF_TmsSwitch;
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	StationPosition : INT := 1; //1 is low, 2 is high
 	State :(
 		Init,                                               
 		Ready,                                 
-        Operating); 
+        Waiting,
+		Processing,
+		Clearing); 
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -28,11 +33,27 @@ END_VAR
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Clearing THEN
 			_Operating := _Clear := _Complete := _Ready := _HasMover := FALSE;
 			StationMovers := 0;
-			State := Operating;
+			State := Waiting;
 		END_IF
 	
-
-
+	Waiting:
+		IF _HasMover THEN
+			State := Processing;
+			_Operating := TRUE;
+			_Clear := FALSE;
+			_Ready := FALSE;
+		END_IF
+		
+	Processing:
+		IF StationPosition = 1 AND (TmsSwitch.Switch = SwitchState.Up OR 
+			TmsSwitch.Switch = SwitchState.Middle) THEN
+			
+		ELSIF StationPosition = 2 AND (TmsSwitch.Switch = SwitchState.Middle OR
+			TmsSwitch.Switch = SwitchState.Down) THEN
+			
+		END_IF
+	
+	Clearing:
 		
 END_CASE]]></ST>
     </Implementation>
@@ -42,22 +63,22 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF StationMovers = 1 THEN
-	StationMovers := StationMovers - 1;
-	movers[1] := 0;
-	movers[2] := 0;
-	movers[3] := 0;
-ELSIF StationMovers = 2 THEN
-	StationMovers := StationMovers - 1;
-	movers[1] := movers[2];
-	movers[2] := 0;
-	movers[3] := 0;
-ELSIF StationMovers = 3 THEN
-	StationMovers := StationMovers - 1;
-	movers[1] := movers[2];
-	movers[2] := movers[3];
-	movers[3] := 0;
-END_IF
+        <ST><![CDATA[//IF StationMovers = 1 THEN
+//	StationMovers := StationMovers - 1;
+//	movers[1] := 0;
+//	movers[2] := 0;
+//	movers[3] := 0;
+//ELSIF StationMovers = 2 THEN
+//	StationMovers := StationMovers - 1;
+//	movers[1] := movers[2];
+//	movers[2] := 0;
+//	movers[3] := 0;
+//ELSIF StationMovers = 3 THEN
+//	StationMovers := StationMovers - 1;
+//	movers[1] := movers[2];
+//	movers[2] := movers[3];
+//	movers[3] := 0;
+//END_IF
 ]]></ST>
       </Implementation>
     </Method>
@@ -67,7 +88,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_Complete := SwitchMoveComplete := true;]]></ST>
+        <ST><![CDATA[//_Complete := SwitchMoveComplete := true;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="TmsEmbarkStation">
@@ -78,7 +99,18 @@ END_VAR
       <LineId Id="39" Count="6" />
       <LineId Id="37" Count="1" />
       <LineId Id="36" Count="0" />
+      <LineId Id="67" Count="0" />
+      <LineId Id="70" Count="2" />
+      <LineId Id="68" Count="1" />
+      <LineId Id="59" Count="0" />
       <LineId Id="27" Count="0" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="79" Count="1" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="65" Count="1" />
       <LineId Id="25" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
