@@ -10,13 +10,18 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	Mover : ITmsMover;
 	StationPosition : INT := 1; //1 is low, 2 is high
 	State :(
 		Init,                                               
 		Ready,                                 
         Waiting,
 		Processing,
+		Boarding,
+		Moving,
 		Clearing); 
+	SwitchPosition: MC_LREAL;
+	demandPosition : SwitchState;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -42,19 +47,62 @@ END_VAR
 			_Operating := TRUE;
 			_Clear := FALSE;
 			_Ready := FALSE;
+			_Complete := FALSE;
 		END_IF
 		
 	Processing:
-		IF StationPosition = 1 AND (TmsSwitch.Switch = SwitchState.Up OR 
-			TmsSwitch.Switch = SwitchState.Middle) THEN
-			
-		ELSIF StationPosition = 2 AND (TmsSwitch.Switch = SwitchState.Middle OR
-			TmsSwitch.Switch = SwitchState.Down) THEN
-			
+		IF StationPosition = 1 THEN
+			IF TmsSwitch.Switch = SwitchState.Down THEN
+				IF Mover.ActiveTrack = 16#01010790 THEN
+					State := Boarding;
+				ELSE
+					Mover.ActivateTrack(16#01010790);
+					State := Boarding;
+				END_IF
+				demandPosition := SwitchState.Middle;
+			ELSIF TmsSwitch.Switch = SwitchState.Middle THEN
+				IF Mover.ActiveTrack = 16#010100E0 THEN
+					State := Boarding;
+				ELSE
+					Mover.ActivateTrack(16#010100E0);
+					State := Boarding;
+				END_IF
+				demandPosition := SwitchState.Up;
+			END_IF
+		ELSE
+			IF TmsSwitch.Switch = SwitchState.Up THEN
+				IF Mover.ActiveTrack = 16#010100D0 THEN
+					State := Boarding;
+				ELSE
+					Mover.ActivateTrack(16#010100D0);
+					State := Boarding;
+				END_IF
+				demandPosition := SwitchState.Middle;
+			ELSIF TmsSwitch.Switch = SwitchState.Middle THEN
+				IF Mover.ActiveTrack = 16#010100F0 THEN
+					State := Boarding;
+				ELSE
+					Mover.ActivateTrack(16#010100F0);
+					State := Boarding;
+				END_IF
+				demandPosition := SwitchState.Down;
+			END_IF
 		END_IF
 	
-	Clearing:
+	Boarding:
+		Mover.MoveTo(Position := SwitchPosition, Velocity := 100, BackwardMove := FALSE);
+		State := Moving;
 		
+	Moving:
+		TmsSwitch.MoveTo(positionState := demandPosition);
+		State := Clearing;
+		
+	Clearing:	
+		IF _Complete THEN
+			_Operating := FALSE;
+			_Clear := TRUE;
+			_Ready := TRUE;;
+		END_IF
 END_CASE]]></ST>
     </Implementation>
     <Method Name="MoverAway" Id="{5d30fab5-165d-4159-bdc5-36df29db049b}">
@@ -88,7 +136,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[//_Complete := SwitchMoveComplete := true;]]></ST>
+        <ST><![CDATA[_Complete := SwitchMoveComplete := true;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="TmsEmbarkStation">
@@ -101,17 +149,42 @@ END_VAR
       <LineId Id="36" Count="0" />
       <LineId Id="67" Count="0" />
       <LineId Id="70" Count="2" />
-      <LineId Id="68" Count="1" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="100" Count="0" />
+      <LineId Id="69" Count="0" />
       <LineId Id="59" Count="0" />
       <LineId Id="27" Count="0" />
-      <LineId Id="73" Count="0" />
-      <LineId Id="75" Count="0" />
-      <LineId Id="81" Count="0" />
-      <LineId Id="79" Count="1" />
-      <LineId Id="77" Count="0" />
-      <LineId Id="76" Count="0" />
+      <LineId Id="104" Count="1" />
+      <LineId Id="128" Count="1" />
+      <LineId Id="131" Count="2" />
+      <LineId Id="130" Count="0" />
+      <LineId Id="163" Count="0" />
+      <LineId Id="117" Count="0" />
+      <LineId Id="135" Count="4" />
+      <LineId Id="134" Count="0" />
+      <LineId Id="164" Count="0" />
+      <LineId Id="110" Count="0" />
+      <LineId Id="107" Count="0" />
+      <LineId Id="119" Count="0" />
+      <LineId Id="142" Count="4" />
+      <LineId Id="141" Count="0" />
+      <LineId Id="165" Count="0" />
+      <LineId Id="121" Count="0" />
+      <LineId Id="148" Count="4" />
+      <LineId Id="147" Count="0" />
+      <LineId Id="166" Count="0" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="106" Count="0" />
       <LineId Id="65" Count="1" />
-      <LineId Id="25" Count="0" />
+      <LineId Id="122" Count="1" />
+      <LineId Id="154" Count="1" />
+      <LineId Id="157" Count="0" />
+      <LineId Id="173" Count="0" />
+      <LineId Id="172" Count="0" />
+      <LineId Id="167" Count="0" />
+      <LineId Id="174" Count="0" />
+      <LineId Id="177" Count="2" />
+      <LineId Id="176" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.MoverAway">

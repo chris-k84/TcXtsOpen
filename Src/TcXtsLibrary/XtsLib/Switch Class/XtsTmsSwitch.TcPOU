@@ -13,10 +13,10 @@ VAR
 	_currentPosition : SwitchState := SwitchState.Middle;
 	_demandPosition : SwitchState;
 	UpPosition : MC_LREAL := 100.0;
-	MiddlePosition : MC_LREAL := 200.0;
-	DownPosition : MC_LREAL := 300.0;
+	MiddlePosition : MC_LREAL := 0.0;
+	DownPosition : MC_LREAL := -100.0;
 	SwitchVelocity : MC_LREAL := 100.0;
-	switchAxis : MC2_Axis_Base;	
+	switchAxis : MC2_Axis_Base;
 	arrTrackIds : ARRAY[1..4] OF OTCID := [16#010100F0,16#010100E0,16#010100D0,16#01010790];
 	State :(
         Init,                                               
@@ -75,6 +75,7 @@ END_VAR
 	Moving:	
 		IF switchAxis.isAtPosition(_demandPosition) THEN
 			State := Done;
+			_currentPosition := _demandPosition;
 		END_IF
 	
 	Done:
@@ -216,7 +217,9 @@ END_IF]]></ST>
       <LineId Id="305" Count="2" />
       <LineId Id="237" Count="0" />
       <LineId Id="239" Count="0" />
-      <LineId Id="244" Count="2" />
+      <LineId Id="244" Count="1" />
+      <LineId Id="368" Count="0" />
+      <LineId Id="246" Count="0" />
       <LineId Id="240" Count="1" />
       <LineId Id="337" Count="0" />
       <LineId Id="336" Count="0" />

@@ -3,6 +3,13 @@
   <Itf Name="ITF_TmsSwitch" Id="{a3b3e963-f500-4f93-a60f-67482231ba9a}">
     <Declaration><![CDATA[INTERFACE ITF_TmsSwitch
 ]]></Declaration>
+    <Method Name="MoveTo" Id="{561b54a6-e033-4ebd-8c8d-fc9dd456e3a5}">
+      <Declaration><![CDATA[METHOD MoveTo : BOOL
+VAR_INPUT
+	positionState : SwitchState;
+END_VAR
+]]></Declaration>
+    </Method>
     <Property Name="Switch" Id="{8bd5b25c-6e41-4a6f-a947-10d58c538a26}">
       <Declaration><![CDATA[PROPERTY Switch : SwitchState]]></Declaration>
       <Get Name="Get" Id="{e03707f0-bf4a-48b6-bb5e-159efed2fb82}">
