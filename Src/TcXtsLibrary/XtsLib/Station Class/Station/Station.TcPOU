@@ -25,7 +25,9 @@ END_VAR
     <Method Name="HasMover" Id="{1cb719ab-8b5a-456f-a91b-48331f9d0dc2}">
       <Declaration><![CDATA[{warning 'add method implementation '}
 METHOD HasMover : BOOL
-]]></Declaration>
+VAR_INPUT
+	mover : IMover;
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[StationMovers := StationMovers + 1;
 IF StationMovers = NumberOfPositions THEN

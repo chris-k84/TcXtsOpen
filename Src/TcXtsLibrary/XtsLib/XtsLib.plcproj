@@ -66,9 +66,6 @@
     <Compile Include="SequenceSamples\IndexMoverSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SequenceSamples\TmsMoverSequence.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Station Class\Process\IProcess.TcIO">
       <SubType>Code</SubType>
     </Compile>

@@ -68,7 +68,7 @@ END_VAR]]></Declaration>
 				ELSE
 					State := AtStation;
 				END_IF
-				StationArray[CurrentStation].HasMover();
+				StationArray[CurrentStation].HasMover(ThisMover);
 			ELSE
 				State := QueuedAtStation;
 			END_IF

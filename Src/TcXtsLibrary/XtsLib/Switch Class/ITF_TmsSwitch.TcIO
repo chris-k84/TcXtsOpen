@@ -3,6 +3,14 @@
   <Itf Name="ITF_TmsSwitch" Id="{a3b3e963-f500-4f93-a60f-67482231ba9a}">
     <Declaration><![CDATA[INTERFACE ITF_TmsSwitch
 ]]></Declaration>
+    <Method Name="ExchangeMover" Id="{4b3f6a34-1bd9-4a48-8eb0-d964fa259e0e}">
+      <Declaration><![CDATA[METHOD ExchangeMover : BOOL
+VAR_INPUT
+	Mover : IMover;
+	currentStation : ITF_SwitchStation;
+END_VAR
+]]></Declaration>
+    </Method>
     <Method Name="MoveTo" Id="{561b54a6-e033-4ebd-8c8d-fc9dd456e3a5}">
       <Declaration><![CDATA[METHOD MoveTo : BOOL
 VAR_INPUT

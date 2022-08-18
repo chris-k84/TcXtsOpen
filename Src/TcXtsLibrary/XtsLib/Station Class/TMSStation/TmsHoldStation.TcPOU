@@ -9,6 +9,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	HoldMover : ITmsMover;
 	State :(
 		Init,                                               
 		Ready,                                 
@@ -56,8 +57,8 @@ END_VAR
 		_Complete := FALSE;
 END_CASE]]></ST>
     </Implementation>
-    <Method Name="MoverArriving" Id="{9da69018-e0b3-43b6-8b40-80f26b1bd5d9}">
-      <Declaration><![CDATA[METHOD PUBLIC MoverArriving : BOOL
+    <Method Name="HasMover" Id="{d6e7677f-266a-4e9d-8eb0-14ce723367ea}">
+      <Declaration><![CDATA[METHOD HasMover : BOOL
 VAR_INPUT
 	mover : IMover;
 END_VAR
@@ -65,14 +66,22 @@ VAR
 	iTmsMover : ITmsMover;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[//IF StationMovers <= 2 THEN
-//	StationMovers := StationMovers + 1;
-//	IF __QUERYINTERFACE(mover,iTmsMover) THEN
-//		movers[StationMovers] := iTmsMover;
-//	END_IF
-//END_IF
-
-
+        <ST><![CDATA[IF StationMovers <= 2 THEN
+	StationMovers := StationMovers + 1;
+	IF __QUERYINTERFACE(mover,iTmsMover) THEN
+		HoldMover := iTmsMover;
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="MoverAway" Id="{35040a53-1d76-46c9-8070-dff08158a3cb}">
+      <Declaration><![CDATA[METHOD PUBLIC MoverAway : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StationMovers := StationMovers - 1;
+HoldMover := 0;
 ]]></ST>
       </Implementation>
     </Method>
@@ -96,14 +105,14 @@ END_VAR]]></Declaration>
       <LineId Id="84" Count="0" />
       <LineId Id="23" Count="0" />
     </LineIds>
-    <LineIds Name="TmsHoldStation.MoverArriving">
-      <LineId Id="8" Count="1" />
-      <LineId Id="23" Count="1" />
-      <LineId Id="22" Count="0" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="16" Count="0" />
-      <LineId Id="19" Count="0" />
-      <LineId Id="7" Count="0" />
+    <LineIds Name="TmsHoldStation.HasMover">
+      <LineId Id="9" Count="4" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsHoldStation.MoverAway">
+      <LineId Id="21" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="8" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

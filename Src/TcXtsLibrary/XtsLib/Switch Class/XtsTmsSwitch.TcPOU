@@ -93,7 +93,7 @@ END_CASE
 switchAxis();]]></ST>
     </Implementation>
     <Method Name="ExchangeMover" Id="{b5f9d3d9-6f5f-4aaa-9562-32ebf7d41c8c}">
-      <Declaration><![CDATA[METHOD PUBLIC ExchangeMover : IMover
+      <Declaration><![CDATA[METHOD PUBLIC ExchangeMover : BOOL
 VAR_INPUT
 	Mover : IMover;
 	currentStation : ITF_SwitchStation;

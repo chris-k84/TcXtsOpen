@@ -6,6 +6,7 @@
     <Method Name="HasMover" Id="{899154dd-dc96-481c-8916-04ef12eb0809}">
       <Declaration><![CDATA[METHOD HasMover : BOOL
 VAR_INPUT
+	mover : IMover;
 END_VAR
 ]]></Declaration>
     </Method>
