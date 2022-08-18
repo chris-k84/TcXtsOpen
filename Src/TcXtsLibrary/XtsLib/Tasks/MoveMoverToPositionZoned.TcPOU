@@ -7,7 +7,6 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	i: INT;
 	StartZone: INT;
 	CurrentZone : INT;
 	ZoneTransitionPositions : ARRAY[1..4] OF DINT;

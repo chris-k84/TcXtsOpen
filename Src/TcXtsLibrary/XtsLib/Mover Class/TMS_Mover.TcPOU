@@ -2,23 +2,13 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
   <POU Name="TMS_Mover" Id="{6b131325-7dfb-4240-b139-8c4216101462}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK TMS_Mover EXTENDS FB_Mover IMPLEMENTS ITmsMover
-VAR_INPUT
-	XtsTrack : IXtsTrack;
-	StateMachine : IPmlStateMachine;
-END_VAR
-VAR_OUTPUT
-END_VAR
 VAR
 	_activateTrack : ActivateTrackForMover(_axis);
 	mcReadTrackPositions : Tc3_McCollisionAvoidance.MC_ReadTrackPositions;
 	axesMoveTo2 		: MoveModuloMoverToPosition(_axis) := (Gap := 100.0);
 	_stOptions : ST_MoveAbsoluteCAOptions;
-	bInit : BOOL;
 	ipTcIoXtsMover			: I_TcIoXtsXpuMover;
 	stTmsActPositions			: ST_PositionInfo;
-END_VAR
-VAR_IN_OUT
-	StationArray : ARRAY[*] OF IProcess;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[SUPER^();

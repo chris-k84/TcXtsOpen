@@ -62,8 +62,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT axesGear.Busy THEN
-		axesGear.Sync(MasterPosition := MasterPosition, SlavePosition := SlavePosition);
-		Gear := TRUE;
+		Gear := axesGear.Sync(MasterPosition := MasterPosition, SlavePosition := SlavePosition);
 END_IF
 ]]></ST>
       </Implementation>
@@ -121,7 +120,7 @@ END_VAR
       <LineId Id="60" Count="0" />
     </LineIds>
     <LineIds Name="GearMover.Gear">
-      <LineId Id="9" Count="2" />
+      <LineId Id="9" Count="1" />
       <LineId Id="13" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>

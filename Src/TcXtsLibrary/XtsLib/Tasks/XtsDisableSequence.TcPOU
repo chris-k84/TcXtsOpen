@@ -17,7 +17,6 @@ VAR
 	_busy : BOOL;
 	_done : BOOL;
 	_Error : BOOL;
-	i: DINT;
 	
 	Logger : TcMessage_Ext;
 END_VAR

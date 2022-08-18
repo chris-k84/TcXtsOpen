@@ -29,7 +29,6 @@ VAR
 	i : DINT;
 	AtHome: BOOL;
 	_tracks : INT;
-	iTmsMover : ITmsMover;
 END_VAR
 VAR_IN_OUT
 	MoverArray : ARRAY[*] OF IMover;

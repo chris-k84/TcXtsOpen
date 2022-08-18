@@ -8,8 +8,6 @@ VAR_OUTPUT
 END_VAR
 VAR
     fbMsg : FB_TcMessage; 
-	fbTest : Tc3_EventLogger.FB_TcEvent;
-	fbInfo : Tc3_EventLogger.FB_TcSourceInfo;
 	_loggerLevel : TcEventSeverity := TcEventSeverity.Info;
 END_VAR
 ]]></Declaration>

@@ -14,7 +14,6 @@ VAR
 	_busy : BOOL;
 	_error : BOOL;
 	_done : BOOL;
-	_moverNumber : INT;
 	_errorId: UDINT;
 	Logger : TcMessage_Ext;
 END_VAR

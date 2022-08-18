@@ -239,18 +239,18 @@ IF NOT _backwardsAllowed THEN
 	//---------if SetPos is greater than current actual then move to that position--------------------
 	//---------else current position is greater, increase moduloturn count by 1 before set---------------
 	IF moduloPositionDemand > _axis.NcToPlc.ModuloActPos THEN
-		ModuloToAbs := (DINT_TO_REAL(_Axis.NcToPlc.ModuloActTurns)*_trackLength) + moduloPositionDemand;
+		ModuloToAbs := (DINT_TO_LREAL(_Axis.NcToPlc.ModuloActTurns)*_trackLength) + moduloPositionDemand;
 	ELSE
-		ModuloToAbs := (DINT_TO_REAL(_Axis.NcToPlc.ModuloActTurns + 1)*_trackLength) + moduloPositionDemand;
+		ModuloToAbs := (DINT_TO_LREAL(_Axis.NcToPlc.ModuloActTurns + 1)*_trackLength) + moduloPositionDemand;
 	END_IF
 ELSE
 	//--------if you want to go backwards--------------------------------
 	//--------if setPos is less than current actual then move to that position---------------------
 	//---------else current position is less, decrease moduloturn count by 1 before set------------
 	IF moduloPositionDemand < _axis.NcToPlc.ModuloActPos THEN
-		ModuloToAbs := (DINT_TO_REAL(_Axis.NcToPlc.ModuloActTurns)*_trackLength) + moduloPositionDemand;
+		ModuloToAbs := (DINT_TO_LREAL(_Axis.NcToPlc.ModuloActTurns)*_trackLength) + moduloPositionDemand;
 	ELSE
-		ModuloToAbs := (DINT_TO_REAL(_Axis.NcToPlc.ModuloActTurns-1)*_trackLength) + moduloPositionDemand;
+		ModuloToAbs := (DINT_TO_LREAL(_Axis.NcToPlc.ModuloActTurns-1)*_trackLength) + moduloPositionDemand;
 		//ModuloToAbsolute := ((_Axis.NcToPlc.ModuloActTurns - 1)*GVLAxesRefs.iXTSTrackLength) + moduloPositionDemand;
 	END_IF
 END_IF]]></ST>
@@ -306,7 +306,7 @@ axesHalt.Abort();]]></ST>
       </Implementation>
     </Method>
     <Property Name="TrackLength" Id="{7929754e-f474-406b-9ccc-2835a01be62c}" FolderPath="Properties\">
-      <Declaration><![CDATA[PROPERTY PUBLIC TrackLength : real]]></Declaration>
+      <Declaration><![CDATA[PROPERTY PUBLIC TrackLength : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{74c84618-ed54-44f2-8255-e9174e3733ee}">
         <Declaration><![CDATA[VAR
 END_VAR

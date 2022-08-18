@@ -47,11 +47,7 @@ END_CASE
 haltMover(Axis := _axis);]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{227e6d6b-7b18-4f8c-88eb-28da926ffa20}">
-      <Declaration><![CDATA[METHOD Abort : BOOL
-
-VAR
-	Position: INT;
-END_VAR]]></Declaration>
+      <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
       <Implementation>
         <ST><![CDATA[haltMover.Execute := FALSE;
 _busy := FALSE;
