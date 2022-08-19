@@ -4,11 +4,11 @@
     <Declaration><![CDATA[FUNCTION_BLOCK TmsEmbarkStation EXTENDS Process IMPLEMENTS ITF_SwitchStation
 VAR_INPUT
 	StateMachine : IPmlStateMachine;
+	TmsSwitch : ITF_TmsSwitch;
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	TmsSwitch : ITF_TmsSwitch;
 	DepartMover : ITmsMover;
 	StationPosition : INT := 1; //1 is low, 2 is high
 	State :(

@@ -4,23 +4,51 @@
     <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC TmsExchange EXTENDS Process
 VAR_INPUT
 	TmsSwitch : ITF_TmsSwitch;
+	StateMachine : IPmlStateMachine;
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
 	holdingStation : TmsHoldStation;
-	embarkStation : TmsEmbarkStation;
+	embarkingStation : TmsEmbarkStation;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[holdingStation();
-embarkStation();
+      <ST><![CDATA[holdingStation(StateMachine := StateMachine, embarkStation := embarkingStation);
+embarkingStation(StateMachine := StateMachine, TmsSwitch := TmsSwitch);
 ]]></ST>
     </Implementation>
+    <Property Name="EmbarkStation" Id="{ad3c6c49-301b-4ffc-ba92-cb113791b6b6}">
+      <Declaration><![CDATA[PROPERTY EmbarkStation : IProcess]]></Declaration>
+      <Get Name="Get" Id="{affd081c-0ef5-41a6-95e9-3ca51e2a37b1}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[EmbarkStation := embarkingStation;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="HoldStation" Id="{fd38c671-f96a-44ac-a7b5-6af55bf1cbe4}">
+      <Declaration><![CDATA[PROPERTY HoldStation : IProcess]]></Declaration>
+      <Get Name="Get" Id="{4becc177-9df4-4fa7-ab85-81067137af39}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[HoldStation := holdingStation;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <LineIds Name="TmsExchange">
-      <LineId Id="69" Count="0" />
-      <LineId Id="100" Count="0" />
+      <LineId Id="123" Count="1" />
       <LineId Id="77" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.EmbarkStation.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.HoldStation.Get">
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

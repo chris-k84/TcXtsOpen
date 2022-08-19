@@ -70,6 +70,7 @@ END_VAR]]></Declaration>
 	StationMovers := StationMovers + 1;
 	IF __QUERYINTERFACE(mover,iTmsMover) THEN
 		HoldMover := iTmsMover;
+		_HasMover := TRUE;
 	END_IF
 END_IF]]></ST>
       </Implementation>
@@ -106,7 +107,9 @@ HoldMover := 0;
       <LineId Id="23" Count="0" />
     </LineIds>
     <LineIds Name="TmsHoldStation.HasMover">
-      <LineId Id="9" Count="4" />
+      <LineId Id="9" Count="3" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="13" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="TmsHoldStation.MoverAway">
