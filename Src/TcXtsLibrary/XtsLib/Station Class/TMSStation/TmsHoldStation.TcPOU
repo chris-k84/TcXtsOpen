@@ -30,7 +30,8 @@ END_VAR
 	
 	Ready:	
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Clearing THEN
-			_Operating := _Clear := _Complete := _Ready := _HasMover := FALSE;
+			_Operating := _Complete := _HasMover := FALSE;
+			_Clear := _Ready := TRUE;
 			StationMovers := 0;
 			State := Waiting;
 		END_IF
@@ -88,7 +89,9 @@ HoldMover := 0;
     </Method>
     <LineIds Name="TmsHoldStation">
       <LineId Id="25" Count="9" />
-      <LineId Id="40" Count="1" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="101" Count="0" />
+      <LineId Id="41" Count="0" />
       <LineId Id="43" Count="0" />
       <LineId Id="42" Count="0" />
       <LineId Id="35" Count="2" />

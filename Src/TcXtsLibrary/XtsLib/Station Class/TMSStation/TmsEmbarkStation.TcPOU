@@ -36,7 +36,8 @@ END_VAR
 	
 	Ready:	
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Clearing THEN
-			_Operating := _Clear := _Complete := _Ready := _HasMover := FALSE;
+			_Operating := _Complete := _HasMover := FALSE;
+			_Clear := _Ready := TRUE;
 			StationMovers := 0;
 			State := Waiting;
 		END_IF
@@ -122,6 +123,7 @@ END_VAR]]></Declaration>
 	StationMovers := StationMovers + 1;
 	IF __QUERYINTERFACE(mover,iTmsMover) THEN
 		DepartMover := iTmsMover;
+		_HasMover := true;
 	END_IF
 END_IF]]></ST>
       </Implementation>
@@ -147,11 +149,15 @@ END_VAR
       </Implementation>
     </Method>
     <LineIds Name="TmsEmbarkStation">
-      <LineId Id="231" Count="81" />
+      <LineId Id="231" Count="11" />
+      <LineId Id="336" Count="0" />
+      <LineId Id="243" Count="69" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.HasMover">
-      <LineId Id="9" Count="4" />
+      <LineId Id="9" Count="3" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="13" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.MoverAway">
