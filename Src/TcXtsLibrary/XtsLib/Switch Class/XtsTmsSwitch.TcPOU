@@ -81,6 +81,7 @@ END_VAR
 	Done:
 		IF _currentStation.SwitchMoveComplete() THEN
 			State := Waiting;
+			_exchangeMover := 0;
 		END_IF	
 	
 	Disabling:
@@ -223,6 +224,7 @@ END_IF]]></ST>
       <LineId Id="240" Count="1" />
       <LineId Id="337" Count="0" />
       <LineId Id="336" Count="0" />
+      <LineId Id="398" Count="0" />
       <LineId Id="242" Count="0" />
       <LineId Id="318" Count="0" />
       <LineId Id="238" Count="0" />

@@ -106,7 +106,8 @@ END_VAR
 		IF _Complete THEN
 			_Operating := FALSE;
 			_Clear := TRUE;
-			_Ready := TRUE;;
+			_Ready := TRUE;
+			State := Waiting;
 		END_IF
 END_CASE]]></ST>
     </Implementation>
@@ -151,7 +152,9 @@ END_VAR
     <LineIds Name="TmsEmbarkStation">
       <LineId Id="231" Count="11" />
       <LineId Id="336" Count="0" />
-      <LineId Id="243" Count="69" />
+      <LineId Id="243" Count="68" />
+      <LineId Id="337" Count="0" />
+      <LineId Id="312" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.HasMover">
