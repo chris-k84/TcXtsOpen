@@ -18,7 +18,7 @@
     <Company>ChrisK</Company>
     <Released>false</Released>
     <Title>Xts Library</Title>
-    <ProjectVersion>0.0.0.3</ProjectVersion>
+    <ProjectVersion>0.0.0.4</ProjectVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Axis Class\MC2_Axis_Base.TcPOU">

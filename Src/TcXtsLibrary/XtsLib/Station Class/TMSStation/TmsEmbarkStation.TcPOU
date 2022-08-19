@@ -18,8 +18,8 @@ VAR
 		Processing,
 		Register,
 		Boarding,
-		Moving,
-		Clearing); 
+		BoardingComplete,
+		Moving); 
 	SwitchPosition: MC_LREAL;
 	demandPosition : SwitchState;
 END_VAR
@@ -96,19 +96,22 @@ END_VAR
 	
 	Boarding:
 		DepartMover.MoveTo(Position := SwitchPosition, Velocity := 100, BackwardMove := FALSE);
-		State := Moving;
+		IF DepartMover.isAtPosition(position := SwitchPosition) THEN
+			State := BoardingComplete;
+		END_IF
+		
+	BoardingComplete:
+		IF TmsSwitch.MoveTo(positionState := demandPosition) THEN
+			State := Moving;
+		END_IF
 		
 	Moving:
-		TmsSwitch.MoveTo(positionState := demandPosition);
-		State := Clearing;
-		
-	Clearing:	
 		IF _Complete THEN
 			_Operating := FALSE;
 			_Clear := TRUE;
 			_Ready := TRUE;
 			State := Waiting;
-		END_IF
+		END_IF		
 END_CASE]]></ST>
     </Implementation>
     <Method Name="HasMover" Id="{6096dfca-b0c2-4998-b7bb-2c09860d3176}">
@@ -152,9 +155,14 @@ END_VAR
     <LineIds Name="TmsEmbarkStation">
       <LineId Id="231" Count="11" />
       <LineId Id="336" Count="0" />
-      <LineId Id="243" Count="68" />
-      <LineId Id="337" Count="0" />
-      <LineId Id="312" Count="0" />
+      <LineId Id="243" Count="57" />
+      <LineId Id="344" Count="1" />
+      <LineId Id="301" Count="0" />
+      <LineId Id="338" Count="2" />
+      <LineId Id="342" Count="1" />
+      <LineId Id="302" Count="1" />
+      <LineId Id="346" Count="4" />
+      <LineId Id="305" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.HasMover">
