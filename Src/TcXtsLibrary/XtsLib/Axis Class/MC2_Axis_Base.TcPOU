@@ -72,7 +72,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF _axis.NcToPlc.ModuloActPos < position + 0.2 AND _axis.NcToPlc.ModuloActPos > position - 0.2 THEN
+        <ST><![CDATA[IF _axis.NcToPlc.ActPos < position + 0.2 AND _axis.NcToPlc.ActPos > position - 0.2 THEN
 	isAtPosition := TRUE;
 END_IF  
 
