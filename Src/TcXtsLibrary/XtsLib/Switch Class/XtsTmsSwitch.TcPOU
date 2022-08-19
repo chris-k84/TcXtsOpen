@@ -11,7 +11,7 @@ VAR
 	_exchangeMover : IMover;
 	_currentStation : ITF_SwitchStation;
 	_currentPosition : SwitchState := SwitchState.Middle;
-	_demandPosition : SwitchState;
+	_demandPosition : MC_LREAL;
 	UpPosition : MC_LREAL := 100.0;
 	MiddlePosition : MC_LREAL := 0.0;
 	DownPosition : MC_LREAL := -100.0;
@@ -75,13 +75,13 @@ END_VAR
 	Moving:	
 		IF switchAxis.isAtPosition(_demandPosition) THEN
 			State := Done;
-			_currentPosition := _demandPosition;
 		END_IF
 	
 	Done:
 		IF _currentStation.SwitchMoveComplete() THEN
 			State := Waiting;
 			_exchangeMover := 0;
+			_currentStation := 0;
 		END_IF	
 	
 	Disabling:
@@ -117,11 +117,11 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF __QUERYINTERFACE(_exchangeMover,iTmsMover) THEN
-	IF _currentPosition = SwitchState.Up THEN
+	IF Switch = SwitchState.Up THEN
 		IF iTmsMover.ActiveTrack = arrTrackIds[3] THEN
 			iTmsMover.ActivateTrack(newTrack := arrTrackIds[2]);
 		END_IF
-	ELSIF _currentPosition = SwitchState.Middle THEN
+	ELSIF Switch = SwitchState.Middle THEN
 		IF iTmsMover.ActiveTrack = arrTrackIds[1] THEN
 			iTmsMover.ActivateTrack(newTrack := arrTrackIds[4]);
 		ELSIF iTmsMover.ActiveTrack = arrTrackIds[2] THEN
@@ -149,6 +149,7 @@ END_VAR
 			IF switchAxis.MoveTo(Position := DownPosition, Velocity := SwitchVelocity) THEN
 				MoveTo := TRUE;
 				State := AssignMover;
+				_demandPosition := DownPosition;
 			END_IF
 		END_IF	
 	SwitchState.Middle:
@@ -156,6 +157,7 @@ END_VAR
 			IF switchAxis.MoveTo(Position := MiddlePosition, Velocity := SwitchVelocity) THEN
 				MoveTo := TRUE;
 				State := AssignMover;
+				_demandPosition := MiddlePosition;
 			END_IF
 		END_IF	
 	SwitchState.Up:
@@ -163,11 +165,10 @@ END_VAR
 			IF switchAxis.MoveTo(Position := UpPosition, Velocity := SwitchVelocity) THEN
 				MoveTo := TRUE;
 				State := AssignMover;
+				_demandPosition := UpPosition;
 			END_IF
 		END_IF	
-END_CASE
-_demandPosition := positionState;
-]]></ST>
+END_CASE]]></ST>
       </Implementation>
     </Method>
     <Property Name="Switch" Id="{cea7677b-4e3e-436d-9a14-24ba96282e4e}">
@@ -218,13 +219,12 @@ END_IF]]></ST>
       <LineId Id="305" Count="2" />
       <LineId Id="237" Count="0" />
       <LineId Id="239" Count="0" />
-      <LineId Id="244" Count="1" />
-      <LineId Id="368" Count="0" />
-      <LineId Id="246" Count="0" />
+      <LineId Id="244" Count="2" />
       <LineId Id="240" Count="1" />
       <LineId Id="337" Count="0" />
       <LineId Id="336" Count="0" />
       <LineId Id="398" Count="0" />
+      <LineId Id="428" Count="0" />
       <LineId Id="242" Count="0" />
       <LineId Id="318" Count="0" />
       <LineId Id="238" Count="0" />
@@ -260,21 +260,22 @@ END_IF]]></ST>
       <LineId Id="106" Count="0" />
       <LineId Id="108" Count="1" />
       <LineId Id="122" Count="0" />
+      <LineId Id="129" Count="0" />
       <LineId Id="107" Count="0" />
       <LineId Id="84" Count="0" />
       <LineId Id="82" Count="0" />
       <LineId Id="110" Count="2" />
       <LineId Id="123" Count="0" />
+      <LineId Id="130" Count="0" />
       <LineId Id="113" Count="0" />
       <LineId Id="90" Count="0" />
       <LineId Id="83" Count="0" />
       <LineId Id="114" Count="2" />
       <LineId Id="124" Count="0" />
+      <LineId Id="131" Count="0" />
       <LineId Id="117" Count="0" />
       <LineId Id="96" Count="0" />
       <LineId Id="81" Count="0" />
-      <LineId Id="79" Count="0" />
-      <LineId Id="64" Count="0" />
     </LineIds>
     <LineIds Name="XtsTmsSwitch.Switch.Get">
       <LineId Id="5" Count="0" />
