@@ -29,6 +29,25 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="ExchangePosition" Id="{a9874efe-b6f7-44a3-97fb-b9da1b2bb67f}">
+      <Declaration><![CDATA[PROPERTY ExchangePosition : int]]></Declaration>
+      <Get Name="Get" Id="{b227262b-022a-4f6f-949f-c433e85e026a}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ExchangePosition := embarkingStation.StationPosition;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{1749dfec-ed0e-4ade-93c1-5b9f22c6671c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[embarkingStation.StationPosition := ExchangePosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="HoldStation" Id="{fd38c671-f96a-44ac-a7b5-6af55bf1cbe4}">
       <Declaration><![CDATA[PROPERTY HoldStation : IProcess]]></Declaration>
       <Get Name="Get" Id="{4becc177-9df4-4fa7-ab85-81067137af39}">
@@ -40,6 +59,25 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="SwitchPosition" Id="{1475f196-d2b7-4273-b2f6-2690b7930f9c}">
+      <Declaration><![CDATA[PROPERTY SwitchPosition : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{6209c32e-023d-4b82-9ce1-001f86156112}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[SwitchPosition := embarkingStation.SwitchPosition;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{55de1914-4dbc-4c4e-8277-42747693dd1e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[embarkingStation.SwitchPosition := SwitchPosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <LineIds Name="TmsExchange">
       <LineId Id="123" Count="1" />
       <LineId Id="77" Count="0" />
@@ -47,7 +85,19 @@ END_VAR
     <LineIds Name="TmsExchange.EmbarkStation.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
+    <LineIds Name="TmsExchange.ExchangePosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.ExchangePosition.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
     <LineIds Name="TmsExchange.HoldStation.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.SwitchPosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.SwitchPosition.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
