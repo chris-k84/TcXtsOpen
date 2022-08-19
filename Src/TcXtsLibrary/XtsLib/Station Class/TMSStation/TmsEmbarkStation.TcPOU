@@ -10,7 +10,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	DepartMover : ITmsMover;
-	StationPosition : INT := 1; //1 is low, 2 is high
+	_stationPosition : INT := 1; //1 is low, 2 is high
 	State :(
 		Init,                                               
 		Ready,                                 
@@ -20,7 +20,7 @@ VAR
 		Boarding,
 		BoardingComplete,
 		Moving); 
-	SwitchPosition: MC_LREAL;
+	_switchPosition: MC_LREAL;
 	demandPosition : SwitchState;
 END_VAR
 ]]></Declaration>
@@ -52,7 +52,7 @@ END_VAR
 		END_IF
 		
 	Processing:
-		IF StationPosition = 1 THEN
+		IF _stationPosition = 1 THEN
 			IF TmsSwitch.Switch = SwitchState.Down THEN
 				IF DepartMover.ActiveTrack = 16#01010790 THEN
 					State := Register;
@@ -95,8 +95,8 @@ END_VAR
 		State := Boarding;
 	
 	Boarding:
-		DepartMover.MoveTo(Position := SwitchPosition, Velocity := 100, BackwardMove := FALSE);
-		IF DepartMover.isAtPosition(position := SwitchPosition) THEN
+		DepartMover.MoveTo(Position := _switchPosition, Velocity := 100, BackwardMove := FALSE);
+		IF DepartMover.isAtPosition(position := _switchPosition) THEN
 			State := BoardingComplete;
 		END_IF
 		
@@ -143,6 +143,27 @@ DepartMover := 0;
 ]]></ST>
       </Implementation>
     </Method>
+    <Property Name="StationPosition" Id="{04b01043-8abc-480b-b7a1-3b47b2f6b3d3}">
+      <Declaration><![CDATA[{warning 'add property implementation'}
+PROPERTY StationPosition : INT
+]]></Declaration>
+      <Get Name="Get" Id="{63f29fcb-9246-41b7-8237-0e14a4d877b8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[StationPosition := _stationPosition;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{8dad77b7-b3d3-4e11-af0a-1ace0eb16549}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_stationPosition := StationPosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Method Name="SwitchMoveComplete" Id="{b6e4018d-1b11-4436-abf3-c2d1900106a2}">
       <Declaration><![CDATA[METHOD PUBLIC SwitchMoveComplete : BOOL
 VAR_INPUT
@@ -152,17 +173,29 @@ END_VAR
         <ST><![CDATA[_Complete := SwitchMoveComplete := true;]]></ST>
       </Implementation>
     </Method>
+    <Property Name="SwitchPosition" Id="{77eb7d82-50db-4968-86fb-d2f009644fbf}">
+      <Declaration><![CDATA[{warning 'add property implementation'}
+PROPERTY SwitchPosition : mc_lreal
+]]></Declaration>
+      <Get Name="Get" Id="{5e9136b4-3bc6-41b5-a233-22f210e01c6b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[SwitchPosition := _switchPosition;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{58d1b30d-be8b-4b08-b209-84e887ca28ad}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_switchPosition := SwitchPosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <LineIds Name="TmsEmbarkStation">
-      <LineId Id="231" Count="11" />
-      <LineId Id="336" Count="0" />
-      <LineId Id="243" Count="57" />
-      <LineId Id="344" Count="1" />
-      <LineId Id="301" Count="0" />
-      <LineId Id="338" Count="2" />
-      <LineId Id="342" Count="1" />
-      <LineId Id="302" Count="1" />
-      <LineId Id="346" Count="4" />
-      <LineId Id="305" Count="0" />
+      <LineId Id="504" Count="86" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.HasMover">
@@ -176,8 +209,20 @@ END_VAR
       <LineId Id="11" Count="0" />
       <LineId Id="8" Count="0" />
     </LineIds>
+    <LineIds Name="TmsEmbarkStation.StationPosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkStation.StationPosition.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
     <LineIds Name="TmsEmbarkStation.SwitchMoveComplete">
       <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkStation.SwitchPosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkStation.SwitchPosition.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
