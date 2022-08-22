@@ -69,9 +69,7 @@ CASE State OF
 		END_IF
 		
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Resetting THEN
-			FOR i := LOWER_BOUND(MoverArray,1) TO UPPER_BOUND(MoverArray,1) DO
-				MoverArray[i].MoveTo(Position := _homePosition, Velocity := HomeSpeed, BackwardMove := FALSE);
-			END_FOR 
+			MoverHomeSequence();
 			State := Resetting;
 		END_IF
 		
@@ -155,6 +153,18 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Method Name="MoverHomeSequence" Id="{75121f0d-c39e-4602-b6e8-ef3881ab6657}">
+      <Declaration><![CDATA[METHOD PUBLIC MoverHomeSequence : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR i := LOWER_BOUND(MoverArray,1) TO UPPER_BOUND(MoverArray,1) DO
+	MoverArray[i].MoveTo(Position := _homePosition, Velocity := HomeSpeed, BackwardMove := FALSE);
+END_FOR 
+MoverHomeSequence := TRUE;]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="TrackLength" Id="{4f244eb1-0239-423a-8574-4ccb93081483}">
       <Declaration><![CDATA[PROPERTY PUBLIC TrackLength : mc_lreal]]></Declaration>
       <Get Name="Get" Id="{962af0e5-68fc-457e-92c4-2ae643ddac5e}">
@@ -204,7 +214,8 @@ END_VAR
       <LineId Id="416" Count="0" />
       <LineId Id="421" Count="0" />
       <LineId Id="423" Count="2" />
-      <LineId Id="266" Count="42" />
+      <LineId Id="266" Count="8" />
+      <LineId Id="277" Count="31" />
       <LineId Id="78" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.ActivateTracksInMovers">
@@ -221,6 +232,11 @@ END_VAR
     </LineIds>
     <LineIds Name="XtsTrack.HomePosition.Set">
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.MoverHomeSequence">
+      <LineId Id="6" Count="1" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.TrackLength.Get">
       <LineId Id="2" Count="0" />
