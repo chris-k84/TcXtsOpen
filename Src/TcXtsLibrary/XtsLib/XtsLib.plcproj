@@ -175,9 +175,6 @@
     <Compile Include="XTS Class\XtsHardware.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="XTS Class\XtsTmsTrack.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="XTS Class\XtsTrack.TcPOU">
       <SubType>Code</SubType>
     </Compile>
