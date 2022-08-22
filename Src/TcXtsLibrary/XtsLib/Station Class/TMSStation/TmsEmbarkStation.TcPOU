@@ -91,9 +91,10 @@ END_VAR
 		END_IF
 		
 	Register:
-		TmsSwitch.ExchangeMover(Mover := DepartMover, currentStation := THIS^);
-		State := Boarding;
-	
+		IF TmsSwitch.ExchangeMover(Mover := DepartMover, currentStation := THIS^) THEN
+			State := Boarding;
+		END_IF
+
 	Boarding:
 		DepartMover.MoveTo(Position := _switchPosition, Velocity := 100, BackwardMove := FALSE);
 		IF DepartMover.isAtPosition(position := _switchPosition) THEN
@@ -106,7 +107,7 @@ END_VAR
 		END_IF
 		
 	Moving:
-		IF _Complete THEN
+		IF _Complete AND NOT _HasMover THEN
 			_Operating := FALSE;
 			_Clear := TRUE;
 			_Ready := TRUE;
@@ -139,6 +140,9 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[StationMovers := StationMovers - 1;
+IF StationMovers = 0 THEN
+	_HasMover := FALSE;
+END_IF
 DepartMover := 0;
 ]]></ST>
       </Implementation>
@@ -195,7 +199,9 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="TmsEmbarkStation">
-      <LineId Id="504" Count="86" />
+      <LineId Id="504" Count="65" />
+      <LineId Id="613" Count="2" />
+      <LineId Id="572" Count="18" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.HasMover">
@@ -206,6 +212,7 @@ END_VAR
     </LineIds>
     <LineIds Name="TmsEmbarkStation.MoverAway">
       <LineId Id="31" Count="0" />
+      <LineId Id="35" Count="2" />
       <LineId Id="11" Count="0" />
       <LineId Id="8" Count="0" />
     </LineIds>

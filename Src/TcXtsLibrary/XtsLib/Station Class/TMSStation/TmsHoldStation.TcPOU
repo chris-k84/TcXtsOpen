@@ -83,6 +83,9 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[StationMovers := StationMovers - 1;
+IF StationMovers = 0 THEN
+	_HasMover := FALSE;
+END_IF
 HoldMover := 0;
 ]]></ST>
       </Implementation>
@@ -117,6 +120,8 @@ HoldMover := 0;
     </LineIds>
     <LineIds Name="TmsHoldStation.MoverAway">
       <LineId Id="21" Count="0" />
+      <LineId Id="36" Count="1" />
+      <LineId Id="35" Count="0" />
       <LineId Id="31" Count="0" />
       <LineId Id="8" Count="0" />
     </LineIds>

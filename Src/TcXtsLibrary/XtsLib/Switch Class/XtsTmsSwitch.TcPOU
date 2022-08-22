@@ -104,6 +104,7 @@ END_VAR
         <ST><![CDATA[IF _exchangeMover = 0 THEN
 	_exchangeMover := Mover;	
 	_currentStation := currentStation;
+	ExchangeMover := TRUE;
 END_IF
 ]]></ST>
       </Implementation>
@@ -185,7 +186,7 @@ ELSIF switchAxis.isAtPosition(position := MiddlePosition) THEN
 ELSIF switchAxis.isAtPosition(position := DownPosition) THEN
 	Switch := SwitchState.Down;
 ELSE
-	Switch	 := 0;
+	Switch := SwitchState.Moving;
 END_IF]]></ST>
         </Implementation>
       </Get>
@@ -236,6 +237,7 @@ END_IF]]></ST>
     <LineIds Name="XtsTmsSwitch.ExchangeMover">
       <LineId Id="7" Count="1" />
       <LineId Id="11" Count="0" />
+      <LineId Id="17" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
@@ -282,7 +284,8 @@ END_IF]]></ST>
       <LineId Id="8" Count="0" />
       <LineId Id="6" Count="0" />
       <LineId Id="9" Count="0" />
-      <LineId Id="11" Count="3" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="17" Count="1" />
       <LineId Id="7" Count="0" />
     </LineIds>
   </POU>

@@ -7,7 +7,8 @@ TYPE SwitchState :
 (
 	Up := 0,
 	Middle := 1,
-	Down := 2
+	Down := 2,
+	Moving := 3
 );
 END_TYPE
 ]]></Declaration>
