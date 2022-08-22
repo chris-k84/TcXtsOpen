@@ -183,27 +183,27 @@ END_VAR
       <Implementation>
         <ST><![CDATA[CASE positionState OF
 	SwitchState.Down:
-		IF NOT switchAxis.isAtPosition(position := DownPosition) THEN
-			IF switchAxis.MoveTo(Position := DownPosition, Velocity := SwitchVelocity) THEN
+		IF NOT switchAxis.isAtPosition(position := _downPosition) THEN
+			IF switchAxis.MoveTo(Position := _downPosition, Velocity := SwitchVelocity) THEN
 				MoveTo := TRUE;
 				State := AssignMover;
-				_demandPosition := DownPosition;
+				_demandPosition := _downPosition;
 			END_IF
 		END_IF	
 	SwitchState.Middle:
-		IF NOT switchAxis.isAtPosition(position := MiddlePosition) THEN
-			IF switchAxis.MoveTo(Position := MiddlePosition, Velocity := SwitchVelocity) THEN
+		IF NOT switchAxis.isAtPosition(position := _middlePosition) THEN
+			IF switchAxis.MoveTo(Position := _middlePosition, Velocity := SwitchVelocity) THEN
 				MoveTo := TRUE;
 				State := AssignMover;
-				_demandPosition := MiddlePosition;
+				_demandPosition := _middlePosition;
 			END_IF
 		END_IF	
 	SwitchState.Up:
-		IF NOT switchAxis.isAtPosition(position := UpPosition) THEN
-			IF switchAxis.MoveTo(Position := UpPosition, Velocity := SwitchVelocity) THEN
+		IF NOT switchAxis.isAtPosition(position := _upPosition) THEN
+			IF switchAxis.MoveTo(Position := _upPosition, Velocity := SwitchVelocity) THEN
 				MoveTo := TRUE;
 				State := AssignMover;
-				_demandPosition := UpPosition;
+				_demandPosition := _upPosition;
 			END_IF
 		END_IF	
 END_CASE]]></ST>
@@ -216,11 +216,11 @@ END_CASE]]></ST>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[IF switchAxis.isAtPosition(position := UpPosition) THEN
+          <ST><![CDATA[IF switchAxis.isAtPosition(position := _upPosition) THEN
 	Switch := SwitchState.Up;
-ELSIF switchAxis.isAtPosition(position := MiddlePosition) THEN
+ELSIF switchAxis.isAtPosition(position := _middlePosition) THEN
 	Switch := SwitchState.Middle;
-ELSIF switchAxis.isAtPosition(position := DownPosition) THEN
+ELSIF switchAxis.isAtPosition(position := _downPosition) THEN
 	Switch := SwitchState.Down;
 ELSE
 	Switch := SwitchState.Moving;
