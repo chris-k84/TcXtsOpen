@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
-  <POU Name="XtsTmsSwitch" Id="{73ef316f-86b5-4cc1-962a-15251e072db1}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK XtsTmsSwitch IMPLEMENTS ITF_TmsSwitch
+  <POU Name="DualModuleTmsSwitch" Id="{73ef316f-86b5-4cc1-962a-15251e072db1}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK DualModuleTmsSwitch IMPLEMENTS ITF_TmsSwitch
 VAR_INPUT
 	StateMachine : IPmlStateMachine;
 END_VAR
@@ -10,11 +10,10 @@ END_VAR
 VAR
 	_exchangeMover : IMover;
 	_currentStation : ITF_SwitchStation;
-	_currentPosition : SwitchState := SwitchState.Middle;
 	_demandPosition : MC_LREAL;
-	UpPosition : MC_LREAL := 100.0;
-	MiddlePosition : MC_LREAL := 0.0;
-	DownPosition : MC_LREAL := -100.0;
+	_upPosition : MC_LREAL;
+	_middlePosition : MC_LREAL;
+	_downPosition : MC_LREAL;
 	SwitchVelocity : MC_LREAL := 100.0;
 	switchAxis : MC2_Axis_Base;
 	arrTrackIds : ARRAY[1..4] OF OTCID := [16#010100F0,16#010100E0,16#010100D0,16#01010790];
@@ -51,7 +50,7 @@ END_VAR
 		
 	Enabled:
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Resetting THEN
-			IF switchAxis.MoveTo(Position := MiddlePosition, Velocity := 100.0) THEN
+			IF switchAxis.MoveTo(Position := _middlePosition, Velocity := 100.0) THEN
 				State := Resetting;
 			END_IF
 		END_IF
@@ -93,6 +92,25 @@ END_CASE
 
 switchAxis();]]></ST>
     </Implementation>
+    <Property Name="DownPosition" Id="{513dbdb6-135b-46f3-8125-fc598ca8ce55}">
+      <Declaration><![CDATA[PROPERTY DownPosition : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{0db03243-0f6a-422c-b802-c5cc5c312e69}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[DownPosition := _downPosition;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{bbe8d847-123b-4a68-86bf-de9a0ef6b8f8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_downPosition := DownPosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Method Name="ExchangeMover" Id="{b5f9d3d9-6f5f-4aaa-9562-32ebf7d41c8c}">
       <Declaration><![CDATA[METHOD PUBLIC ExchangeMover : BOOL
 VAR_INPUT
@@ -137,6 +155,25 @@ END_IF
 FindNewTrack := iTmsMover.ActiveTrack;]]></ST>
       </Implementation>
     </Method>
+    <Property Name="MiddlePosition" Id="{a99e862a-0b65-4510-8ab1-7f0732d4e0cc}">
+      <Declaration><![CDATA[PROPERTY PUBLIC MiddlePosition : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{b34f701f-b631-47d2-ae36-146e9c98f154}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MiddlePosition := _middlePosition;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{9fbf98f9-449b-4537-a874-c25bab15bdec}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_middlePosition := MiddlePosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Method Name="MoveTo" Id="{fd17c823-afe7-4820-9dad-912e69242e2b}">
       <Declaration><![CDATA[METHOD PUBLIC MoveTo : BOOL
 VAR_INPUT
@@ -191,7 +228,26 @@ END_IF]]></ST>
         </Implementation>
       </Get>
     </Property>
-    <LineIds Name="XtsTmsSwitch">
+    <Property Name="UpperPosition" Id="{60deb3c6-3252-44f3-b5cb-16a8e597aa4b}">
+      <Declaration><![CDATA[PROPERTY PUBLIC UpperPosition : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{f099d5c2-280a-458c-acd7-5c600c7a7194}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[UpperPosition := _upPosition;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{bab004d1-8ed7-4888-a7ae-1210a1689e53}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_upPosition := UpperPosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="DualModuleTmsSwitch">
       <LineId Id="74" Count="1" />
       <LineId Id="80" Count="0" />
       <LineId Id="133" Count="1" />
@@ -234,14 +290,20 @@ END_IF]]></ST>
       <LineId Id="62" Count="1" />
       <LineId Id="30" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTmsSwitch.ExchangeMover">
+    <LineIds Name="DualModuleTmsSwitch.DownPosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.DownPosition.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.ExchangeMover">
       <LineId Id="7" Count="1" />
       <LineId Id="11" Count="0" />
       <LineId Id="17" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTmsSwitch.FindNewTrack">
+    <LineIds Name="DualModuleTmsSwitch.FindNewTrack">
       <LineId Id="7" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="23" Count="1" />
@@ -256,7 +318,13 @@ END_IF]]></ST>
       <LineId Id="9" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTmsSwitch.MoveTo">
+    <LineIds Name="DualModuleTmsSwitch.MiddlePosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.MiddlePosition.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.MoveTo">
       <LineId Id="78" Count="0" />
       <LineId Id="80" Count="0" />
       <LineId Id="106" Count="0" />
@@ -279,7 +347,7 @@ END_IF]]></ST>
       <LineId Id="96" Count="0" />
       <LineId Id="81" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTmsSwitch.Switch.Get">
+    <LineIds Name="DualModuleTmsSwitch.Switch.Get">
       <LineId Id="5" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="6" Count="0" />
@@ -287,6 +355,12 @@ END_IF]]></ST>
       <LineId Id="11" Count="1" />
       <LineId Id="17" Count="1" />
       <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.UpperPosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.UpperPosition.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

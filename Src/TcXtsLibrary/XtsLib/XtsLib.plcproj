@@ -99,7 +99,7 @@
     <Compile Include="Switch Class\SwitchState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Switch Class\XtsTmsSwitch.TcPOU">
+    <Compile Include="Switch Class\DualModuleTmsSwitch.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SystemParameters.TcGVL">

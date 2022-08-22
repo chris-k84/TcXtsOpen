@@ -148,8 +148,7 @@ DepartMover := 0;
       </Implementation>
     </Method>
     <Property Name="StationPosition" Id="{04b01043-8abc-480b-b7a1-3b47b2f6b3d3}">
-      <Declaration><![CDATA[{warning 'add property implementation'}
-PROPERTY StationPosition : INT
+      <Declaration><![CDATA[PROPERTY StationPosition : INT
 ]]></Declaration>
       <Get Name="Get" Id="{63f29fcb-9246-41b7-8237-0e14a4d877b8}">
         <Declaration><![CDATA[VAR
@@ -178,8 +177,7 @@ END_VAR
       </Implementation>
     </Method>
     <Property Name="SwitchPosition" Id="{77eb7d82-50db-4968-86fb-d2f009644fbf}">
-      <Declaration><![CDATA[{warning 'add property implementation'}
-PROPERTY SwitchPosition : mc_lreal
+      <Declaration><![CDATA[PROPERTY SwitchPosition : mc_lreal
 ]]></Declaration>
       <Get Name="Get" Id="{5e9136b4-3bc6-41b5-a233-22f210e01c6b}">
         <Declaration><![CDATA[VAR
