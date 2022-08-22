@@ -72,8 +72,7 @@ AddMover := _addMover := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Busy" Id="{afcd1b54-e22b-49a3-9c9c-b3f0c79b4568}">
-      <Declaration><![CDATA[
-PROPERTY Busy : BOOL
+      <Declaration><![CDATA[PROPERTY Busy : BOOL
 ]]></Declaration>
       <Get Name="Get" Id="{4b50b697-dd2d-42bd-9737-bd8b1caa6957}">
         <Declaration><![CDATA[VAR
@@ -85,8 +84,7 @@ END_VAR
       </Get>
     </Property>
     <Property Name="Done" Id="{2659b571-fe6f-4583-a3e6-2e6986ef714f}">
-      <Declaration><![CDATA[
-PROPERTY Done : BOOL
+      <Declaration><![CDATA[PROPERTY Done : BOOL
 ]]></Declaration>
       <Get Name="Get" Id="{2ae1ed02-cc28-4c24-8907-5b99691b0028}">
         <Declaration><![CDATA[VAR
@@ -98,8 +96,7 @@ END_VAR
       </Get>
     </Property>
     <Property Name="Error" Id="{8e6f5a82-522c-424d-96f2-7406cd982aac}">
-      <Declaration><![CDATA[
-PROPERTY Error : BOOL
+      <Declaration><![CDATA[PROPERTY Error : BOOL
 ]]></Declaration>
       <Get Name="Get" Id="{a14355d3-234a-4c04-9d54-25389bdf30c6}">
         <Declaration><![CDATA[VAR

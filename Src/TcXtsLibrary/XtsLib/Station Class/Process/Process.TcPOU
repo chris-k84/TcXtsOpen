@@ -36,8 +36,7 @@ END_VAR
       </Set>
     </Property>
     <Property Name="IsProcess" Id="{82549bd7-942d-4761-8c09-dc22c9d610d0}">
-      <Declaration><![CDATA[{warning 'add property implementation'}
-PROPERTY IsProcess : BOOL
+      <Declaration><![CDATA[PROPERTY IsProcess : BOOL
 ]]></Declaration>
       <Get Name="Get" Id="{180f94a2-c956-4574-91d5-be594d5ef0a4}">
         <Declaration><![CDATA[VAR

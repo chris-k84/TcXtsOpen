@@ -48,8 +48,7 @@ END_CASE
 mcActivateTrack(Axis := _axis);]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{feb92e4a-5af0-464c-bf77-407b1ff76646}">
-      <Declaration><![CDATA[{warning 'add method implementation '}
-METHOD Abort : BOOL
+      <Declaration><![CDATA[METHOD Abort : BOOL
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[mcActivateTrack.Execute := FALSE;
@@ -60,8 +59,7 @@ State := 0;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Busy" Id="{ba2dc81f-a76e-4b6f-a981-60a2cf3b69aa}">
-      <Declaration><![CDATA[{warning 'add property implementation'}
-PROPERTY Busy : BOOL
+      <Declaration><![CDATA[PROPERTY Busy : BOOL
 ]]></Declaration>
       <Get Name="Get" Id="{f6a8b8bb-a66d-46ae-9807-89fa205ab02d}">
         <Declaration><![CDATA[VAR
@@ -73,8 +71,7 @@ END_VAR
       </Get>
     </Property>
     <Property Name="Done" Id="{c1a82c72-356d-44af-9a2d-d30258c82752}">
-      <Declaration><![CDATA[{warning 'add property implementation'}
-PROPERTY Done : BOOL
+      <Declaration><![CDATA[PROPERTY Done : BOOL
 ]]></Declaration>
       <Get Name="Get" Id="{8cbf4d9c-de32-4a6d-b644-3c51b27ace4f}">
         <Declaration><![CDATA[VAR
@@ -86,8 +83,7 @@ END_VAR
       </Get>
     </Property>
     <Property Name="Error" Id="{4f8688ec-7f9e-4273-a9cd-cdb8dfc358a0}">
-      <Declaration><![CDATA[{warning 'add property implementation'}
-PROPERTY Error : BOOL
+      <Declaration><![CDATA[PROPERTY Error : BOOL
 ]]></Declaration>
       <Get Name="Get" Id="{30faecb5-a98b-47f8-b354-59f7ea76abb6}">
         <Declaration><![CDATA[VAR

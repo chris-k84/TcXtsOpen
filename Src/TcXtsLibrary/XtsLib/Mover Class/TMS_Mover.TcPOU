@@ -85,46 +85,6 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="ModuloToAbs" Id="{e9552041-082e-41cb-bbe3-2647c17c6f1c}">
-      <Declaration><![CDATA[METHOD protected ModuloToAbs : LREAL
-VAR_INPUT
-	moduloPositionDemand: MC_LREAL;
-	_backwardsAllowed : BOOL;
-END_VAR
-
-VAR
-	moduloTurn: LREAL;
-	moduloPos: DINT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[//Create moduloturns value:
-//moduloTurn := LREAL_TO_DINT(stTmsActPositions.fTrackPosition/_trackLength);
-//moduloTurn := stTmsActPositions.fTrackPosition/_trackLength;
-//Create modulo position 
-moduloPos := LREAL_TO_DINT(stTmsActPositions.fTrackPosition) MOD LREAL_TO_DINT(_trackLength);
-
-//---------code to set actual position from modulo command----------------------
-IF NOT _backwardsAllowed THEN
-	//--------if you want to go forward-------------------------------------------------------------
-	//---------if SetPos is greater than current actual then move to that position--------------------
-	//---------else current position is greater, increase moduloturn count by 1 before set---------------
-	IF moduloPositionDemand > moduloPos THEN
-		ModuloToAbs := (moduloTurn*_trackLength) + moduloPositionDemand;
-	ELSE
-		ModuloToAbs := ((moduloTurn + 1)*_trackLength) + moduloPositionDemand;
-	END_IF
-ELSE
-	//--------if you want to go backwards--------------------------------
-	//--------if setPos is less than current actual then move to that position---------------------
-	//---------else current position is less, decrease moduloturn count by 1 before set------------
-	IF moduloPositionDemand < moduloPos THEN
-		ModuloToAbs := (moduloTurn*_trackLength) + moduloPositionDemand;
-	ELSE
-		ModuloToAbs := ((moduloTurn)*_trackLength) + moduloPositionDemand;
-	END_IF
-END_IF]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="MoveTo" Id="{cb5563f4-b88f-463c-953d-1f3d7238a315}">
       <Declaration><![CDATA[METHOD PUBLIC MoveTo : BOOL
 VAR_INPUT
@@ -174,17 +134,6 @@ END_VAR
       <LineId Id="20" Count="1" />
       <LineId Id="15" Count="0" />
       <LineId Id="7" Count="0" />
-    </LineIds>
-    <LineIds Name="TMS_Mover.ModuloToAbs">
-      <LineId Id="28" Count="0" />
-      <LineId Id="31" Count="0" />
-      <LineId Id="46" Count="0" />
-      <LineId Id="36" Count="0" />
-      <LineId Id="35" Count="0" />
-      <LineId Id="29" Count="0" />
-      <LineId Id="8" Count="17" />
-      <LineId Id="27" Count="0" />
-      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="TMS_Mover.MoveTo">
       <LineId Id="53" Count="0" />

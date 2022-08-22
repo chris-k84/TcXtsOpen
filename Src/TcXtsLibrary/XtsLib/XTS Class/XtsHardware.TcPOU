@@ -3,7 +3,7 @@
   <POU Name="XtsHardware" Id="{d04838d8-bc5b-437f-a587-8af72b2fc644}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XtsHardware
 VAR_INPUT
-	Tracks : INT;
+	Tracks : UDINT;
 	TmsSwitch : ITF_TmsSwitch;
 END_VAR
 VAR_OUTPUT
@@ -17,13 +17,13 @@ VAR
 	bMoverIdDetectionError		: BOOL;
 	bMoverIdDetectionActive		: BOOL;
 	bMoverIdDetected : BOOL;
-	f24V: ARRAY[1..SystemParameters.nModuleNumber] OF LREAL;
-	f48V: ARRAY[1..SystemParameters.nModuleNumber] OF LREAL;
-	CurrentLive : ARRAY[1..SystemParameters.nModuleNumber] OF LREAL;
+	f24V: ARRAY[1..SystemParameters.nModuleNumber] OF UINT;
+	f48V: ARRAY[1..SystemParameters.nModuleNumber] OF UINT;
+	CurrentLive : ARRAY[1..SystemParameters.nModuleNumber] OF DINT;
 	MaxCurrent : ARRAY [1..SystemParameters.nModuleNumber] OF DINT;
-	nModuleCounter : INT := 1;
+	nModuleCounter : UINT := 1;
 	nForCounter1 : UDINT;
-	i: INT;
+	i: UINT;
 	State :(
         Init,                                               
 		Redetect,
@@ -96,7 +96,6 @@ CASE State OF
 		XtsHardwareOK := TRUE;
 END_CASE
 
-//Logger();
 getModuleInfoData();
 
 
@@ -125,13 +124,13 @@ IF XtsIoEnvironment.XpuTcIo(1).GetTrackCount() = 1 THEN
 	GetActiveTracks := TRUE;
 ELSE
 	CASE TmsSwitch.Switch OF
-		0: 
+		SwitchState.Up: 
 			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(6).SetIsIncludedInDetection(TRUE);
 			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(5).SetIsIncludedInDetection(TRUE);
-		1:
+		SwitchState.Middle:
 			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(1).SetIsIncludedInDetection(TRUE);
 			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(2).SetIsIncludedInDetection(TRUE);
-		2:
+		SwitchState.Down:
 			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(3).SetIsIncludedInDetection(TRUE);
 			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(4).SetIsIncludedInDetection(TRUE);
 	END_CASE
@@ -267,7 +266,8 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="XtsHardware">
-      <LineId Id="577" Count="65" />
+      <LineId Id="577" Count="58" />
+      <LineId Id="637" Count="5" />
       <LineId Id="58" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.GetActiveTracks">

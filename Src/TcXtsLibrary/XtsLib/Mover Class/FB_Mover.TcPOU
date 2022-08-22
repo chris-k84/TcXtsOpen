@@ -251,7 +251,6 @@ ELSE
 		ModuloToAbs := (DINT_TO_LREAL(_Axis.NcToPlc.ModuloActTurns)*_trackLength) + moduloPositionDemand;
 	ELSE
 		ModuloToAbs := (DINT_TO_LREAL(_Axis.NcToPlc.ModuloActTurns-1)*_trackLength) + moduloPositionDemand;
-		//ModuloToAbsolute := ((_Axis.NcToPlc.ModuloActTurns - 1)*GVLAxesRefs.iXTSTrackLength) + moduloPositionDemand;
 	END_IF
 END_IF]]></ST>
       </Implementation>
@@ -437,7 +436,8 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Mover.ModuloToAbs">
-      <LineId Id="6" Count="19" />
+      <LineId Id="6" Count="17" />
+      <LineId Id="25" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Mover.MoverErrorId.Get">

@@ -77,8 +77,7 @@ END_VAR
       </Implementation>
     </Method>
     <Property Name="Position" Id="{4a10e32c-305e-441b-9332-8642baafa7cc}">
-      <Declaration><![CDATA[{warning 'add property implementation'}
-PROPERTY Position : MC_LREAL
+      <Declaration><![CDATA[PROPERTY Position : MC_LREAL
 ]]></Declaration>
       <Get Name="Get" Id="{6760ec00-0cdd-4667-9f90-fd015738ea5e}">
         <Declaration><![CDATA[VAR
