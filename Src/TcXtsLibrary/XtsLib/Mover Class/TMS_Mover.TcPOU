@@ -71,14 +71,14 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[//Create modulo position 
-moduloPos := LREAL_TO_DINT(stTmsActPositions.fTrackPosition) MOD LREAL_TO_DINT(_trackLength);
+//moduloPos := LREAL_TO_DINT(stTmsActPositions.fTrackPosition) MOD LREAL_TO_DINT(_trackLength);
 IF position > 1 THEN
-	IF moduloPos < position + 1 AND moduloPos > position - 1 THEN
+	IF stTmsActPositions.fTrackPosition < position + 1 AND stTmsActPositions.fTrackPosition > position - 1 THEN
 		isAtPosition := TRUE;
 	END_IF  
 ELSE
-	IF moduloPos < position + 1 AND moduloPos > 0.0  
-		OR moduloPos < _trackLength AND moduloPos > _trackLength - 1 THEN
+	IF stTmsActPositions.fTrackPosition < position + 1 AND stTmsActPositions.fTrackPosition > 0.0  
+		OR stTmsActPositions.fTrackPosition < _trackLength AND stTmsActPositions.fTrackPosition > _trackLength - 1 THEN
 		isAtPosition := TRUE;
 	END_IF
 END_IF
