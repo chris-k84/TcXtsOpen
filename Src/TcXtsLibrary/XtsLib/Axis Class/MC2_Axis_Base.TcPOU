@@ -88,6 +88,15 @@ END_VAR
         <ST><![CDATA[isEnabled := not _axis.Status.Disabled;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="isStationary" Id="{661f784b-bf25-48a6-90ba-3f0c2188d68e}">
+      <Declaration><![CDATA[METHOD PUBLIC isStationary : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[isStationary := _axis.NcToPlc.SetVelo = 0;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="MoveTo" Id="{10981345-e84c-491a-ba3f-6d3f1f0223b2}">
       <Declaration><![CDATA[METHOD PUBLIC MoveTo : BOOL
 VAR_INPUT
@@ -132,6 +141,9 @@ END_IF
       <LineId Id="8" Count="0" />
     </LineIds>
     <LineIds Name="MC2_Axis_Base.isEnabled">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="MC2_Axis_Base.isStationary">
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="MC2_Axis_Base.MoveTo">

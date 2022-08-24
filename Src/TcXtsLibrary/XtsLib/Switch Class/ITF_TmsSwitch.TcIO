@@ -11,6 +11,18 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Method Name="HasMover" Id="{36a16690-d64d-4cbd-b6d9-7805b86f4b70}">
+      <Declaration><![CDATA[METHOD HasMover : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="IsStationary" Id="{85bf30a8-7b01-4f7c-bdf9-3812eb577c16}">
+      <Declaration><![CDATA[METHOD IsStationary : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
     <Method Name="MoveTo" Id="{561b54a6-e033-4ebd-8c8d-fc9dd456e3a5}">
       <Declaration><![CDATA[METHOD MoveTo : BOOL
 VAR_INPUT

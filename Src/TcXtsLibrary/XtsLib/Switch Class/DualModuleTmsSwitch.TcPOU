@@ -67,22 +67,28 @@ END_VAR
 		END_IF
 		
 	AssignMover:
-		IF FindNewTrack() <> 0 THEN
+		IF HasMover() THEN
+			IF FindNewTrack() <> 0 THEN
+				State := Moving;
+			END_IF
+		ELSE
 			State := Moving;
 		END_IF
-		
+
 	Moving:	
 		IF switchAxis.isAtPosition(_demandPosition) THEN
 			State := Done;
 		END_IF
 	
 	Done:
-		IF _currentStation.SwitchMoveComplete() THEN
-			State := Waiting;
-			_exchangeMover := 0;
-			_currentStation := 0;
-		END_IF	
-	
+		IF _currentStation <> 0 THEN
+			IF _currentStation.SwitchMoveComplete() THEN
+				_exchangeMover := 0;
+				_currentStation := 0;
+			END_IF	
+		END_IF
+		State := Waiting;
+
 	Disabling:
 		IF NOT switchAxis.isEnabled() THEN
 			State := Init;
@@ -153,6 +159,24 @@ END_VAR]]></Declaration>
 	END_IF
 END_IF
 FindNewTrack := iTmsMover.ActiveTrack;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="HasMover" Id="{b10d08e7-730c-4533-8c1b-4e180c646997}">
+      <Declaration><![CDATA[METHOD HasMover : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[HasMover := _exchangeMover <> 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="IsStationary" Id="{2f8bbf6e-5cce-4ab8-a9ba-43f43839d347}">
+      <Declaration><![CDATA[METHOD IsStationary : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IsStationary := switchAxis.isStationary();]]></ST>
       </Implementation>
     </Method>
     <Property Name="MiddlePosition" Id="{a99e862a-0b65-4510-8ab1-7f0732d4e0cc}">
@@ -273,16 +297,18 @@ END_VAR
       <LineId Id="314" Count="0" />
       <LineId Id="308" Count="0" />
       <LineId Id="200" Count="1" />
-      <LineId Id="305" Count="2" />
+      <LineId Id="457" Count="1" />
+      <LineId Id="461" Count="3" />
+      <LineId Id="459" Count="0" />
       <LineId Id="237" Count="0" />
       <LineId Id="239" Count="0" />
       <LineId Id="244" Count="2" />
       <LineId Id="240" Count="1" />
-      <LineId Id="337" Count="0" />
-      <LineId Id="336" Count="0" />
-      <LineId Id="398" Count="0" />
-      <LineId Id="428" Count="0" />
-      <LineId Id="242" Count="0" />
+      <LineId Id="465" Count="0" />
+      <LineId Id="468" Count="0" />
+      <LineId Id="470" Count="2" />
+      <LineId Id="467" Count="0" />
+      <LineId Id="474" Count="0" />
       <LineId Id="318" Count="0" />
       <LineId Id="238" Count="0" />
       <LineId Id="315" Count="2" />
@@ -316,6 +342,12 @@ END_VAR
       <LineId Id="21" Count="0" />
       <LineId Id="17" Count="0" />
       <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.HasMover">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.IsStationary">
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.MiddlePosition.Get">
