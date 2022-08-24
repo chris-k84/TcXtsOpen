@@ -8,7 +8,7 @@ VAR_GLOBAL CONSTANT
 	NumberOfStations : INT := 6;
 	TrackLength : LREAL := 4000.0;
 	TrackHomePosition : LREAL := 800.0;
-	Tracks : INT := 1;
+	Tracks : UDINT := 1;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

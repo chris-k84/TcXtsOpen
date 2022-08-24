@@ -3,29 +3,11 @@
   <Itf Name="ITF_SwitchStation" Id="{a4cd9fdb-f0b5-4075-bf63-91413cfe4e9a}">
     <Declaration><![CDATA[INTERFACE ITF_SwitchStation EXTENDS __SYSTEM.IQueryInterface
 ]]></Declaration>
-    <Property Name="StationPosition" Id="{7d604911-96f5-425d-baa2-10f316cca180}">
-      <Declaration><![CDATA[PROPERTY StationPosition : int]]></Declaration>
-      <Get Name="Get" Id="{10090a66-cce1-411f-8f51-f148bdfd1de4}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-      <Set Name="Set" Id="{1676bf33-66a7-4f27-83b5-2a8b95e8dd10}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Set>
-    </Property>
     <Method Name="SwitchMoveComplete" Id="{3217cd50-c1a2-47a5-b916-b18302ef9cee}">
       <Declaration><![CDATA[METHOD SwitchMoveComplete : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Property Name="SwitchPosition" Id="{5d71d2fa-724f-4b60-9c38-1e8b80031b20}">
-      <Declaration><![CDATA[PROPERTY SwitchPosition : mc_lreal]]></Declaration>
-      <Get Name="Get" Id="{a6e54725-5b69-4d3b-99c5-ae7946d08d75}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-      <Set Name="Set" Id="{3892db31-8b61-4c5f-b6e8-7757d5f848fc}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Set>
-    </Property>
   </Itf>
 </TcPlcObject>

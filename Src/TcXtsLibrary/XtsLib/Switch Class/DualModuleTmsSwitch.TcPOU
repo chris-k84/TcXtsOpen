@@ -115,13 +115,13 @@ END_VAR
       <Declaration><![CDATA[METHOD PUBLIC ExchangeMover : BOOL
 VAR_INPUT
 	Mover : IMover;
-	currentStation : ITF_SwitchStation;
+	CurrentStation : ITF_SwitchStation;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF _exchangeMover = 0 THEN
 	_exchangeMover := Mover;	
-	_currentStation := currentStation;
+	_currentStation := CurrentStation;
 	ExchangeMover := TRUE;
 END_IF
 ]]></ST>
