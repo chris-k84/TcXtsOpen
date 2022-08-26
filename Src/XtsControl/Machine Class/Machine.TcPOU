@@ -14,7 +14,6 @@ VAR
 	MoverSequences : ARRAY[1..SystemParameters.NumberOfMovers] OF IndexMoverSequence;
 	StationArray : ARRAY[1..SystemParameters.NumberOfStations] OF StationSample;
 	iStationArray : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess;
-	TmsSwitch : XtsTmsSwitch;
 	i: INT;
 	bInit: BOOL;
 END_VAR]]></Declaration>
@@ -34,7 +33,7 @@ END_VAR]]></Declaration>
 END_IF
 
 stateMachine();
-Xts(MoverArray := iMovers, StateMachine := stateMachine, TmsSwitch := TmsSwitch);
+Xts(MoverArray := iMovers, StateMachine := stateMachine);
 FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
 	Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i]();
 	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i](ThisMover := Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i], 
