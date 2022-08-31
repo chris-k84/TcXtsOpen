@@ -16,7 +16,7 @@ VAR
 	_downPosition : MC_LREAL;
 	SwitchVelocity : MC_LREAL := 100.0;
 	switchAxis : MC2_Axis_Base;
-	arrTrackIds : ARRAY[1..4] OF OTCID := [16#010100F0,16#010100E0,16#010100D0,16#01010790];
+	arrTrackIds : ARRAY[1..4] OF OTCID := [16#01010100,16#010100F0,16#010100E0,16#01010790];
 	State :(
         Init,                                               
 		Ready,                                 
@@ -144,17 +144,17 @@ END_VAR]]></Declaration>
         <ST><![CDATA[IF __QUERYINTERFACE(_exchangeMover,iTmsMover) THEN
 	IF Switch = SwitchState.Up THEN
 		IF iTmsMover.ActiveTrack = arrTrackIds[3] THEN
-			iTmsMover.ActivateTrack(newTrack := arrTrackIds[2]);
+			iTmsMover.ActivateTrack(newTrack := arrTrackIds[1]);
 		END_IF
 	ELSIF Switch = SwitchState.Middle THEN
 		IF iTmsMover.ActiveTrack = arrTrackIds[1] THEN
-			iTmsMover.ActivateTrack(newTrack := arrTrackIds[4]);
-		ELSIF iTmsMover.ActiveTrack = arrTrackIds[2] THEN
 			iTmsMover.ActivateTrack(newTrack := arrTrackIds[3]);
+		ELSIF iTmsMover.ActiveTrack = arrTrackIds[2] THEN
+			iTmsMover.ActivateTrack(newTrack := arrTrackIds[4]);
 		END_IF
 	ELSE
 		IF iTmsMover.ActiveTrack = arrTrackIds[4] THEN
-			iTmsMover.ActivateTrack(newTrack := arrTrackIds[1]);	
+			iTmsMover.ActivateTrack(newTrack := arrTrackIds[2]);	
 		END_IF
 	END_IF
 END_IF

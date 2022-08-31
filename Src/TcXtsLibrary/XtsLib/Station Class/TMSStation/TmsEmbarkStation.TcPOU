@@ -23,6 +23,10 @@ VAR
 		Moving); 
 	_switchPosition: MC_LREAL;
 	demandPosition : SwitchState;
+	arrTrackIds : ARRAY[1..4] OF OTCID := [16#01010100,16#010100F0,16#010100E0,16#01010790];
+	isUpAllowed : BOOL := TRUE;
+	isDownAllowed : BOOL := FALSE;
+	isMiddleAllowed : BOOL := TRUE;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -73,37 +77,37 @@ END_VAR
 	
 	Processing:
 		IF _stationPosition = 1 THEN
-			IF TmsSwitch.Switch = SwitchState.Down THEN
-				IF DepartMover.ActiveTrack = 16#01010790 THEN
+			IF TmsSwitch.Switch = SwitchState.Down and isMiddleAllowed THEN
+				IF DepartMover.ActiveTrack = arrTrackIds[4] THEN
 					State := Boarding;
 				ELSE
-					DepartMover.ActivateTrack(16#01010790);
+					DepartMover.ActivateTrack(arrTrackIds[4]);
 					State := Boarding;
 				END_IF
 				demandPosition := SwitchState.Middle;
-			ELSIF TmsSwitch.Switch = SwitchState.Middle THEN
-				IF DepartMover.ActiveTrack = 16#010100E0 THEN
+			ELSIF TmsSwitch.Switch = SwitchState.Middle AND isUpAllowed THEN
+				IF DepartMover.ActiveTrack = arrTrackIds[1] THEN
 					State := Boarding;
 				ELSE
-					DepartMover.ActivateTrack(16#010100E0);
+					DepartMover.ActivateTrack(arrTrackIds[1]);
 					State := Boarding;
 				END_IF
 				demandPosition := SwitchState.Up;
 			END_IF
 		ELSE
-			IF TmsSwitch.Switch = SwitchState.Up THEN
-				IF DepartMover.ActiveTrack = 16#010100D0 THEN
+			IF TmsSwitch.Switch = SwitchState.Up AND isMiddleAllowed THEN
+				IF DepartMover.ActiveTrack = arrTrackIds[3] THEN
 					State := Boarding;
 				ELSE
-					DepartMover.ActivateTrack(16#010100D0);
+					DepartMover.ActivateTrack(arrTrackIds[3]);
 					State := Boarding;
 				END_IF
 				demandPosition := SwitchState.Middle;
-			ELSIF TmsSwitch.Switch = SwitchState.Middle THEN
-				IF DepartMover.ActiveTrack = 16#010100F0 THEN
+			ELSIF TmsSwitch.Switch = SwitchState.Middle AND isDownAllowed THEN
+				IF DepartMover.ActiveTrack = arrTrackIds[2] THEN
 					State := Boarding;
 				ELSE
-					DepartMover.ActivateTrack(16#010100F0);
+					DepartMover.ActivateTrack(arrTrackIds[2]);
 					State := Boarding;
 				END_IF
 				demandPosition := SwitchState.Down;
