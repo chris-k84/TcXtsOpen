@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <DUT Name="CAGroupInfo" Id="{407202d8-64bc-48e8-b821-fda14eae8b99}">
+    <Declaration><![CDATA[TYPE CAGroupInfo :
+STRUCT
+	sName 		: STRING;
+	nId			: OTCID;
+	eGroupState	: MC_GROUP_STATE;
+	nAxesCount 	: INT; 
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

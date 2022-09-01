@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="Mc2Halt" Id="{a1da82b8-b5e2-423a-81ce-89f8e220d6ba}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'hide_all_locals'}
+FUNCTION_BLOCK Mc2Halt IMPLEMENTS ITask
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	mcHalt : Tc2_MC2.MC_Halt;
+	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
+	state : INT;
+	_Halt : BOOL;
+	_busy : BOOL;
+	_error : BOOL;
+	_done : BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE State OF
+	0:
+		IF _Halt THEN
+			_done := FALSE;
+			_error := FALSE;
+			_busy := TRUE;
+			mcHalt.Execute := TRUE;
+			IF mcHalt.Busy THEN
+				State := 10;
+				_Halt := FALSE;
+			END_IF
+		END_IF
+	
+	10:
+		IF NOT mcHalt.Busy THEN
+			IF mcHalt.Done THEN
+				_done := TRUE;
+			ELSIF mcHalt.Error THEN
+				_error := TRUE;
+			END_IF
+			_busy := FALSE;
+			mcHalt.Execute := FALSE;
+			State := 0;
+		END_IF
+END_CASE
+
+mcHalt(Axis := _axis);]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{f78f1251-51d0-4d67-9a04-2fb8762c04c1}">
+      <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mchalt.Execute := FALSE;
+_busy := FALSE;
+_Halt := FALSE;
+Abort := TRUE;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Busy" Id="{f843ded0-5888-4336-bd21-e9aa23104f0f}">
+      <Declaration><![CDATA[PROPERTY Busy : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{0f3afe00-44c7-41a2-8979-aa6a3d6425e4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Busy := _busy;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Done" Id="{9f9fc477-3b41-4ccc-aaf5-766332978512}">
+      <Declaration><![CDATA[PROPERTY Done : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{2818a6d5-861c-4572-b3f9-f518bb6ab23e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Done := _done;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Error" Id="{94be30aa-a628-4c09-b7e9-934324455a04}">
+      <Declaration><![CDATA[
+PROPERTY Error : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{cf7ffe82-a81e-4b98-9cda-a1e338f0becf}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Error := _error;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Execute" Id="{ac08f8cb-3ea1-46cb-8397-98b2e5ffacc4}">
+      <Declaration><![CDATA[METHOD Execute : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Execute := _Halt := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{54531f04-5f04-4e0e-b4c4-371c5398b9d6}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	axis : reference TO AXIS_REF;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_axis REF= axis;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="Mc2Halt">
+      <LineId Id="149" Count="25" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="Mc2Halt.Abort">
+      <LineId Id="5" Count="0" />
+      <LineId Id="13" Count="1" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="Mc2Halt.Busy.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Mc2Halt.Done.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Mc2Halt.Error.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Mc2Halt.Execute">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="Mc2Halt.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

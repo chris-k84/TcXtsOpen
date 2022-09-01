@@ -7,6 +7,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	stGroupInformation : CAGroupInfo;
 	_caGroup : Tc3_McCoordinatedMotion.AXES_GROUP_REF;
 	readStatus : Tc3_McCoordinatedMotion.MC_GroupReadStatus;
 	resetCAGroup : ResetGroup(THIS^);
@@ -20,7 +21,13 @@ END_VAR
 	Enable:= TRUE );
 resetCAGroup();
 enableCAGroup();
-disableCAGroup();]]></ST>
+disableCAGroup();
+
+//Cyclic get CaGroup information
+stGroupInformation.sName := 'MainCAGroup';
+stGroupInformation.eGroupState := _caGroup.NcToPlc.Common.GroupStatus.State;
+stGroupInformation.nAxesCount	:= UDINT_TO_INT(_caGroup.NcToPlc.Common.GroupAxesCount);
+stGroupInformation.nId			:= _caGroup.NcToPlc.Common.GroupOID;	]]></ST>
     </Implementation>
     <Method Name="Disable" Id="{4f23215c-02ff-4fed-8568-47c96a9530ee}">
       <Declaration><![CDATA[METHOD Disable : BOOL
@@ -95,6 +102,10 @@ END_IF]]></ST>
       <LineId Id="12" Count="2" />
       <LineId Id="25" Count="0" />
       <LineId Id="38" Count="1" />
+      <LineId Id="53" Count="1" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="55" Count="1" />
+      <LineId Id="52" Count="0" />
     </LineIds>
     <LineIds Name="CollisionGroup.Disable">
       <LineId Id="5" Count="2" />

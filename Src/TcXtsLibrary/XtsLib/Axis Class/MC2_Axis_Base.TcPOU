@@ -11,7 +11,7 @@ VAR
 	axesEnable		: MC_Power;
 	axesReset		: AxesReset(_axis);
 	axesMoveTo 		: Mc2MoveToPosition(_axis);
-	axesHalt 		: HaltMover(_axis);
+	axesHalt 		: Mc2Halt(_axis);
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_MoverErrorId: DWORD;
 END_VAR
