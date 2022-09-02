@@ -102,6 +102,12 @@
     <Compile Include="Switch Class\SwitchState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Switch Class\TmsSwitchMode.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Switch Class\TmsSwitchState.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SystemParameters.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>

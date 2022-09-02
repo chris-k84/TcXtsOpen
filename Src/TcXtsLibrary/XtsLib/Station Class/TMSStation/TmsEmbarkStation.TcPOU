@@ -195,15 +195,15 @@ END_VAR
         <ST><![CDATA[_Complete := SwitchMoveComplete := true;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="SwitchPosition" Id="{77eb7d82-50db-4968-86fb-d2f009644fbf}">
-      <Declaration><![CDATA[PROPERTY SwitchPosition : mc_lreal
+    <Property Name="SwitchTravelPosition" Id="{77eb7d82-50db-4968-86fb-d2f009644fbf}">
+      <Declaration><![CDATA[PROPERTY SwitchTravelPosition : mc_lreal
 ]]></Declaration>
       <Get Name="Get" Id="{5e9136b4-3bc6-41b5-a233-22f210e01c6b}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[SwitchPosition := _switchPosition;]]></ST>
+          <ST><![CDATA[SwitchTravelPosition := _switchPosition;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{58d1b30d-be8b-4b08-b209-84e887ca28ad}">
@@ -211,7 +211,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[_switchPosition := SwitchPosition;]]></ST>
+          <ST><![CDATA[_switchPosition := SwitchTravelPosition;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -257,10 +257,10 @@ END_VAR
     <LineIds Name="TmsEmbarkStation.SwitchMoveComplete">
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="TmsEmbarkStation.SwitchPosition.Get">
+    <LineIds Name="TmsEmbarkStation.SwitchTravelPosition.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="TmsEmbarkStation.SwitchPosition.Set">
+    <LineIds Name="TmsEmbarkStation.SwitchTravelPosition.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

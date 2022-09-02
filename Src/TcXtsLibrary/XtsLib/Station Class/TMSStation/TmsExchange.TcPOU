@@ -59,14 +59,14 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Property Name="SwitchPosition" Id="{1475f196-d2b7-4273-b2f6-2690b7930f9c}">
-      <Declaration><![CDATA[PROPERTY SwitchPosition : MC_LREAL]]></Declaration>
+    <Property Name="SwitchTravelPosition" Id="{1475f196-d2b7-4273-b2f6-2690b7930f9c}">
+      <Declaration><![CDATA[PROPERTY SwitchTravelPosition : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{6209c32e-023d-4b82-9ce1-001f86156112}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[SwitchPosition := embarkingStation.SwitchPosition;]]></ST>
+          <ST><![CDATA[SwitchTravelPosition := embarkingStation.SwitchTravelPosition;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{55de1914-4dbc-4c4e-8277-42747693dd1e}">
@@ -74,7 +74,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[embarkingStation.SwitchPosition := SwitchPosition;]]></ST>
+          <ST><![CDATA[embarkingStation.SwitchTravelPosition := SwitchTravelPosition;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -94,10 +94,10 @@ END_VAR
     <LineIds Name="TmsExchange.HoldStation.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="TmsExchange.SwitchPosition.Get">
+    <LineIds Name="TmsExchange.SwitchTravelPosition.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="TmsExchange.SwitchPosition.Set">
+    <LineIds Name="TmsExchange.SwitchTravelPosition.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

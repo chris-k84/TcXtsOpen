@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <DUT Name="SwitchMode" Id="{81200de8-1b01-4f67-9d34-07e975957c74}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE SwitchMode :
+(
+	Automatic := 0,
+	Manual := 1
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

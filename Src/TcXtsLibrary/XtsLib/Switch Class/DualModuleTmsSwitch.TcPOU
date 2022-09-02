@@ -17,81 +17,72 @@ VAR
 	SwitchVelocity : MC_LREAL := 100.0;
 	switchAxis : MC2_Axis_Base;
 	arrTrackIds : ARRAY[1..4] OF OTCID := [16#01010100,16#010100F0,16#010100E0,16#01010790];
-	State :(
-        Init,                                               
-		Ready,                                 
-        Enabling,
-		Enabled,
-		Resetting,
-		Waiting,
-		AssignMover,
-		Moving,
-		Done,
-		Disabling); 
+	State : TmsSwitchState;
+	Mode : TmsSwitchMode := TmsSwitchMode.Automatic;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[CASE State OF
-	Init:
+	TmsSwitchState.Init:
 		IF NOT switchAxis.hasError() THEN
-			State := Ready;
+			State := TmsSwitchState.Ready;
 		END_IF
 		
-	Ready:
+	TmsSwitchState.Ready:
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Clearing THEN
 			switchAxis.EnableAxis();
-			State := Enabling;
+			State := TmsSwitchState.Enabling;
 		END_IF	
 		
-	Enabling:
+	TmsSwitchState.Enabling:
 		IF switchAxis.isEnabled() THEN
-			State := Enabled;
+			State := TmsSwitchState.Enabled;
 		END_IF
 		
-	Enabled:
+	TmsSwitchState.Enabled:
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Resetting THEN
 			IF switchAxis.MoveTo(Position := _middlePosition, Velocity := 100.0) OR switchAxis.isAtPosition(position := _middlePosition) THEN
-				State := Resetting;
+				State := TmsSwitchState.Resetting;
 			END_IF
 		END_IF
 		
-	Resetting:
+	TmsSwitchState.Resetting:
 		IF switchAxis.isAtPosition(position := MiddlePosition) THEN
-			State := Waiting;
+			State := TmsSwitchState.Waiting;
 		END_IF	
 	
-	Waiting:
+	TmsSwitchState.Waiting:
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			switchAxis.DisableAxis();
-			State := Disabling;
+			State := TmsSwitchState.Disabling;
 		END_IF
 		
-	AssignMover:
+	TmsSwitchState.AssignMover:
 		IF HasMover() THEN
 			IF FindNewTrack() <> 0 THEN
-				State := Moving;
+				State := TmsSwitchState.Moving;
 			END_IF
 		ELSE
-			State := Moving;
+			State := TmsSwitchState.Moving;
 		END_IF
 
-	Moving:	
+	TmsSwitchState.Moving:	
 		IF switchAxis.isAtPosition(_demandPosition) THEN
-			State := Done;
+			State := TmsSwitchState.Done;
 		END_IF
 	
-	Done:
+	TmsSwitchState.Done:
 		IF _currentStation <> 0 THEN
 			IF _currentStation.SwitchMoveComplete() THEN
 				_exchangeMover := 0;
 				_currentStation := 0;
 			END_IF	
 		END_IF
-		State := Waiting;
+		State := TmsSwitchState.Waiting;
 
-	Disabling:
+	TmsSwitchState.Disabling:
 		IF NOT switchAxis.isEnabled() THEN
-			State := Init;
+			State := TmsSwitchState.Init;
 		END_IF
 
 END_CASE
@@ -125,7 +116,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF _exchangeMover = 0 AND State = Waiting THEN
+        <ST><![CDATA[IF _exchangeMover = 0 AND State = TmsSwitchState.Waiting AND NOT (Mode = TmsSwitchMode.Manual) THEN
 	_exchangeMover := Mover;	
 	_currentStation := CurrentStation;
 	ExchangeMover := TRUE;
@@ -210,7 +201,7 @@ END_VAR
 		IF NOT switchAxis.isAtPosition(position := _downPosition) THEN
 			IF switchAxis.MoveTo(Position := _downPosition, Velocity := SwitchVelocity) THEN
 				MoveTo := TRUE;
-				State := AssignMover;
+				State := TmsSwitchState.AssignMover;
 				_demandPosition := _downPosition;
 			END_IF
 		END_IF	
@@ -218,7 +209,7 @@ END_VAR
 		IF NOT switchAxis.isAtPosition(position := _middlePosition) THEN
 			IF switchAxis.MoveTo(Position := _middlePosition, Velocity := SwitchVelocity) THEN
 				MoveTo := TRUE;
-				State := AssignMover;
+				State := TmsSwitchState.AssignMover;
 				_demandPosition := _middlePosition;
 			END_IF
 		END_IF	
@@ -226,7 +217,7 @@ END_VAR
 		IF NOT switchAxis.isAtPosition(position := _upPosition) THEN
 			IF switchAxis.MoveTo(Position := _upPosition, Velocity := SwitchVelocity) THEN
 				MoveTo := TRUE;
-				State := AssignMover;
+				State := TmsSwitchState.AssignMover;
 				_demandPosition := _upPosition;
 			END_IF
 		END_IF	
