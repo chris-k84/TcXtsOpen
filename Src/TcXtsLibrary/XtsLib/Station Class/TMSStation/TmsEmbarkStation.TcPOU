@@ -22,7 +22,7 @@ VAR
 		BoardingComplete,
 		Moving); 
 	_switchPosition: MC_LREAL;
-	demandPosition : SwitchState;
+	demandPosition : TmsSwitchPosition;
 	arrTrackIds : ARRAY[1..4] OF OTCID := [16#01010100,16#010100F0,16#010100E0,16#01010790];
 	isUpAllowed : BOOL := TRUE;
 	isDownAllowed : BOOL := FALSE;
@@ -57,8 +57,8 @@ END_VAR
 		END_IF
 	
 	HasSwitch:
-		IF (_stationPosition = 1 AND (TmsSwitch.Switch = SwitchState.Down OR TmsSwitch.Switch = SwitchState.Middle))
-			OR (_stationPosition = 2 AND (TmsSwitch.Switch = SwitchState.Up OR TmsSwitch.Switch = SwitchState.Middle)) THEN
+		IF (_stationPosition = 1 AND (TmsSwitch.Switch = TmsSwitchPosition.Down OR TmsSwitch.Switch = TmsSwitchPosition.Middle))
+			OR (_stationPosition = 2 AND (TmsSwitch.Switch = TmsSwitchPosition.Up OR TmsSwitch.Switch = TmsSwitchPosition.Middle)) THEN
 				IF TmsSwitch.ExchangeMover(Mover := DepartMover, currentStation := THIS^) THEN
 					State := Processing;
 				END_IF
@@ -68,7 +68,7 @@ END_VAR
 		
 	Call:
 		IF NOT TmsSwitch.HasMover() AND TmsSwitch.IsStationary() THEN
-			IF TmsSwitch.MoveTo(positionState := SwitchState.Middle) THEN
+			IF TmsSwitch.MoveTo(positionState := TmsSwitchPosition.Middle) THEN
 				State := HasSwitch;
 			END_IF
 		ELSE
@@ -77,40 +77,40 @@ END_VAR
 	
 	Processing:
 		IF _stationPosition = 1 THEN
-			IF TmsSwitch.Switch = SwitchState.Down and isMiddleAllowed THEN
+			IF TmsSwitch.Switch = TmsSwitchPosition.Down and isMiddleAllowed THEN
 				IF DepartMover.ActiveTrack = arrTrackIds[4] THEN
 					State := Boarding;
 				ELSE
 					DepartMover.ActivateTrack(arrTrackIds[4]);
 					State := Boarding;
 				END_IF
-				demandPosition := SwitchState.Middle;
-			ELSIF TmsSwitch.Switch = SwitchState.Middle AND isUpAllowed THEN
+				demandPosition := TmsSwitchPosition.Middle;
+			ELSIF TmsSwitch.Switch = TmsSwitchPosition.Middle AND isUpAllowed THEN
 				IF DepartMover.ActiveTrack = arrTrackIds[1] THEN
 					State := Boarding;
 				ELSE
 					DepartMover.ActivateTrack(arrTrackIds[1]);
 					State := Boarding;
 				END_IF
-				demandPosition := SwitchState.Up;
+				demandPosition := TmsSwitchPosition.Up;
 			END_IF
 		ELSE
-			IF TmsSwitch.Switch = SwitchState.Up AND isMiddleAllowed THEN
+			IF TmsSwitch.Switch = TmsSwitchPosition.Up AND isMiddleAllowed THEN
 				IF DepartMover.ActiveTrack = arrTrackIds[3] THEN
 					State := Boarding;
 				ELSE
 					DepartMover.ActivateTrack(arrTrackIds[3]);
 					State := Boarding;
 				END_IF
-				demandPosition := SwitchState.Middle;
-			ELSIF TmsSwitch.Switch = SwitchState.Middle AND isDownAllowed THEN
+				demandPosition := TmsSwitchPosition.Middle;
+			ELSIF TmsSwitch.Switch = TmsSwitchPosition.Middle AND isDownAllowed THEN
 				IF DepartMover.ActiveTrack = arrTrackIds[2] THEN
 					State := Boarding;
 				ELSE
 					DepartMover.ActivateTrack(arrTrackIds[2]);
 					State := Boarding;
 				END_IF
-				demandPosition := SwitchState.Down;
+				demandPosition := TmsSwitchPosition.Down;
 			END_IF
 		END_IF
 		
@@ -216,24 +216,7 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="TmsEmbarkStation">
-      <LineId Id="504" Count="24" />
-      <LineId Id="638" Count="1" />
-      <LineId Id="643" Count="0" />
-      <LineId Id="684" Count="0" />
-      <LineId Id="680" Count="1" />
-      <LineId Id="659" Count="0" />
-      <LineId Id="685" Count="1" />
-      <LineId Id="640" Count="0" />
-      <LineId Id="687" Count="0" />
-      <LineId Id="702" Count="0" />
-      <LineId Id="690" Count="0" />
-      <LineId Id="695" Count="1" />
-      <LineId Id="693" Count="0" />
-      <LineId Id="697" Count="1" />
-      <LineId Id="692" Count="0" />
-      <LineId Id="642" Count="0" />
-      <LineId Id="530" Count="38" />
-      <LineId Id="573" Count="17" />
+      <LineId Id="886" Count="101" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.HasMover">

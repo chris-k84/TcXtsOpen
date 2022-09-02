@@ -17,58 +17,57 @@ VAR
 	SwitchVelocity : MC_LREAL := 100.0;
 	switchAxis : MC2_Axis_Base;
 	arrTrackIds : ARRAY[1..4] OF OTCID := [16#01010100,16#010100F0,16#010100E0,16#01010790];
-	State : TmsSwitchState;
-	Mode : TmsSwitchMode := TmsSwitchMode.Automatic;
+	stSwitchInfo : TmsSwitchInfo;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE State OF
+      <ST><![CDATA[CASE stSwitchInfo.State OF
 	TmsSwitchState.Init:
 		IF NOT switchAxis.hasError() THEN
-			State := TmsSwitchState.Ready;
+			stSwitchInfo.State := TmsSwitchState.Ready;
 		END_IF
 		
 	TmsSwitchState.Ready:
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Clearing THEN
 			switchAxis.EnableAxis();
-			State := TmsSwitchState.Enabling;
+			stSwitchInfo.State := TmsSwitchState.Enabling;
 		END_IF	
 		
 	TmsSwitchState.Enabling:
 		IF switchAxis.isEnabled() THEN
-			State := TmsSwitchState.Enabled;
+			stSwitchInfo.State := TmsSwitchState.Enabled;
 		END_IF
 		
 	TmsSwitchState.Enabled:
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Resetting THEN
 			IF switchAxis.MoveTo(Position := _middlePosition, Velocity := 100.0) OR switchAxis.isAtPosition(position := _middlePosition) THEN
-				State := TmsSwitchState.Resetting;
+				stSwitchInfo.State := TmsSwitchState.Resetting;
 			END_IF
 		END_IF
 		
 	TmsSwitchState.Resetting:
 		IF switchAxis.isAtPosition(position := MiddlePosition) THEN
-			State := TmsSwitchState.Waiting;
+			stSwitchInfo.State := TmsSwitchState.Waiting;
 		END_IF	
 	
 	TmsSwitchState.Waiting:
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			switchAxis.DisableAxis();
-			State := TmsSwitchState.Disabling;
+			stSwitchInfo.State := TmsSwitchState.Disabling;
 		END_IF
 		
 	TmsSwitchState.AssignMover:
 		IF HasMover() THEN
 			IF FindNewTrack() <> 0 THEN
-				State := TmsSwitchState.Moving;
+				stSwitchInfo.State := TmsSwitchState.Moving;
 			END_IF
 		ELSE
-			State := TmsSwitchState.Moving;
+			stSwitchInfo.State := TmsSwitchState.Moving;
 		END_IF
 
 	TmsSwitchState.Moving:	
 		IF switchAxis.isAtPosition(_demandPosition) THEN
-			State := TmsSwitchState.Done;
+			stSwitchInfo.State := TmsSwitchState.Done;
 		END_IF
 	
 	TmsSwitchState.Done:
@@ -78,16 +77,20 @@ END_VAR
 				_currentStation := 0;
 			END_IF	
 		END_IF
-		State := TmsSwitchState.Waiting;
+		stSwitchInfo.State := TmsSwitchState.Waiting;
 
 	TmsSwitchState.Disabling:
 		IF NOT switchAxis.isEnabled() THEN
-			State := TmsSwitchState.Init;
+			stSwitchInfo.State := TmsSwitchState.Init;
 		END_IF
 
 END_CASE
 
-switchAxis();]]></ST>
+switchAxis();
+
+//Cyclic get switch info
+stSwitchInfo.ActPos := switchAxis._axis.NcToPlc.ActPos;
+stSwitchInfo.Position := Switch;]]></ST>
     </Implementation>
     <Property Name="DownPosition" Id="{e0b661ce-ed86-4d1f-9222-494e093bbcab}">
       <Declaration><![CDATA[PROPERTY DownPosition : MC_LREAL]]></Declaration>
@@ -116,7 +119,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF _exchangeMover = 0 AND State = TmsSwitchState.Waiting AND NOT (Mode = TmsSwitchMode.Manual) THEN
+        <ST><![CDATA[IF _exchangeMover = 0 AND State = TmsSwitchState.Waiting AND NOT (stSwitchInfo.Mode = TmsSwitchMode.Manual) THEN
 	_exchangeMover := Mover;	
 	_currentStation := CurrentStation;
 	ExchangeMover := TRUE;
@@ -133,11 +136,11 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF __QUERYINTERFACE(_exchangeMover,iTmsMover) THEN
-	IF Switch = SwitchState.Up THEN
+	IF Switch = TmsSwitchPosition.Up THEN
 		IF iTmsMover.ActiveTrack = arrTrackIds[3] THEN
 			iTmsMover.ActivateTrack(newTrack := arrTrackIds[1]);
 		END_IF
-	ELSIF Switch = SwitchState.Middle THEN
+	ELSIF Switch = TmsSwitchPosition.Middle THEN
 		IF iTmsMover.ActiveTrack = arrTrackIds[1] THEN
 			iTmsMover.ActivateTrack(newTrack := arrTrackIds[3]);
 		ELSIF iTmsMover.ActiveTrack = arrTrackIds[2] THEN
@@ -192,32 +195,32 @@ END_VAR
     <Method Name="MoveTo" Id="{14737c8e-a13f-4ad0-b4be-4cc0c0734079}">
       <Declaration><![CDATA[METHOD PUBLIC MoveTo : BOOL
 VAR_INPUT
-	positionState : SwitchState;
+	positionState : TmsSwitchPosition;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[CASE positionState OF
-	SwitchState.Down:
+	TmsSwitchPosition.Down:
 		IF NOT switchAxis.isAtPosition(position := _downPosition) THEN
 			IF switchAxis.MoveTo(Position := _downPosition, Velocity := SwitchVelocity) THEN
 				MoveTo := TRUE;
-				State := TmsSwitchState.AssignMover;
+				stSwitchInfo.State := TmsSwitchState.AssignMover;
 				_demandPosition := _downPosition;
 			END_IF
 		END_IF	
-	SwitchState.Middle:
+	TmsSwitchPosition.Middle:
 		IF NOT switchAxis.isAtPosition(position := _middlePosition) THEN
 			IF switchAxis.MoveTo(Position := _middlePosition, Velocity := SwitchVelocity) THEN
 				MoveTo := TRUE;
-				State := TmsSwitchState.AssignMover;
+				stSwitchInfo.State := TmsSwitchState.AssignMover;
 				_demandPosition := _middlePosition;
 			END_IF
 		END_IF	
-	SwitchState.Up:
+	TmsSwitchPosition.Up:
 		IF NOT switchAxis.isAtPosition(position := _upPosition) THEN
 			IF switchAxis.MoveTo(Position := _upPosition, Velocity := SwitchVelocity) THEN
 				MoveTo := TRUE;
-				State := TmsSwitchState.AssignMover;
+				stSwitchInfo.State := TmsSwitchState.AssignMover;
 				_demandPosition := _upPosition;
 			END_IF
 		END_IF	
@@ -225,20 +228,20 @@ END_CASE]]></ST>
       </Implementation>
     </Method>
     <Property Name="Switch" Id="{8f864557-44eb-4f80-a745-5cd005f038e1}">
-      <Declaration><![CDATA[PROPERTY PUBLIC Switch : SwitchState]]></Declaration>
+      <Declaration><![CDATA[PROPERTY PUBLIC Switch : TmsSwitchPosition]]></Declaration>
       <Get Name="Get" Id="{aede540a-2b76-416f-bd6c-7ccdd9753ba7}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[IF switchAxis.isAtPosition(position := _upPosition) THEN
-	Switch := SwitchState.Up;
+	Switch := TmsSwitchPosition.Up;
 ELSIF switchAxis.isAtPosition(position := _middlePosition) THEN
-	Switch := SwitchState.Middle;
+	Switch := TmsSwitchPosition.Middle;
 ELSIF switchAxis.isAtPosition(position := _downPosition) THEN
-	Switch := SwitchState.Down;
+	Switch := TmsSwitchPosition.Down;
 ELSE
-	Switch := SwitchState.Moving;
+	Switch := TmsSwitchPosition.Moving;
 END_IF]]></ST>
         </Implementation>
       </Get>
@@ -307,6 +310,9 @@ END_VAR
       <LineId Id="132" Count="0" />
       <LineId Id="62" Count="1" />
       <LineId Id="30" Count="0" />
+      <LineId Id="569" Count="0" />
+      <LineId Id="568" Count="0" />
+      <LineId Id="566" Count="1" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.DownPosition.Get">
       <LineId Id="2" Count="0" />
@@ -322,18 +328,7 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.FindNewTrack">
-      <LineId Id="7" Count="0" />
-      <LineId Id="15" Count="0" />
-      <LineId Id="23" Count="1" />
-      <LineId Id="16" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="29" Count="0" />
-      <LineId Id="31" Count="3" />
-      <LineId Id="30" Count="0" />
-      <LineId Id="27" Count="1" />
-      <LineId Id="21" Count="0" />
-      <LineId Id="17" Count="0" />
-      <LineId Id="9" Count="0" />
+      <LineId Id="40" Count="16" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.HasMover">
@@ -349,35 +344,11 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.MoveTo">
-      <LineId Id="78" Count="0" />
-      <LineId Id="80" Count="0" />
-      <LineId Id="106" Count="0" />
-      <LineId Id="108" Count="1" />
-      <LineId Id="122" Count="0" />
-      <LineId Id="129" Count="0" />
-      <LineId Id="107" Count="0" />
-      <LineId Id="84" Count="0" />
-      <LineId Id="82" Count="0" />
-      <LineId Id="110" Count="2" />
-      <LineId Id="123" Count="0" />
-      <LineId Id="130" Count="0" />
-      <LineId Id="113" Count="0" />
-      <LineId Id="90" Count="0" />
-      <LineId Id="83" Count="0" />
-      <LineId Id="114" Count="2" />
-      <LineId Id="124" Count="0" />
-      <LineId Id="131" Count="0" />
-      <LineId Id="117" Count="0" />
-      <LineId Id="96" Count="0" />
+      <LineId Id="140" Count="24" />
       <LineId Id="81" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.Switch.Get">
-      <LineId Id="5" Count="0" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="6" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="11" Count="1" />
-      <LineId Id="17" Count="1" />
+      <LineId Id="21" Count="7" />
       <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.UpperPosition.Get">

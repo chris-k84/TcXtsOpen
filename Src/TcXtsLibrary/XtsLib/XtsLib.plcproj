@@ -99,7 +99,10 @@
     <Compile Include="Switch Class\ITF_TmsSwitch.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Switch Class\SwitchState.TcDUT">
+    <Compile Include="Switch Class\TmsSwitchPosition.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Switch Class\TmsSwitchInfo.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Switch Class\TmsSwitchMode.TcDUT">
