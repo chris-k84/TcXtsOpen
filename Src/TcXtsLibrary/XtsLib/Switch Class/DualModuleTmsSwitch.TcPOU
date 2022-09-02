@@ -119,7 +119,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF _exchangeMover = 0 AND State = TmsSwitchState.Waiting AND NOT (stSwitchInfo.Mode = TmsSwitchMode.Manual) THEN
+        <ST><![CDATA[IF _exchangeMover = 0 AND stSwitchInfo.State = TmsSwitchState.Waiting AND NOT (stSwitchInfo.Mode = TmsSwitchMode.Manual) THEN
 	_exchangeMover := Mover;	
 	_currentStation := CurrentStation;
 	ExchangeMover := TRUE;
@@ -225,6 +225,24 @@ END_VAR
 			END_IF
 		END_IF	
 END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetAutomaticMode" Id="{4315b6ae-6a13-4868-8566-545fcca9f612}">
+      <Declaration><![CDATA[METHOD SetAutomaticMode : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stSwitchInfo.Mode := TmsSwitchMode.Automatic;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetManualMode" Id="{b6a48dc9-eb31-4dbf-8ead-7a1910fc9604}">
+      <Declaration><![CDATA[METHOD SetManualMode : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stSwitchInfo.Mode := TmsSwitchMode.Manual;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Switch" Id="{8f864557-44eb-4f80-a745-5cd005f038e1}">
@@ -346,6 +364,12 @@ END_VAR
     <LineIds Name="DualModuleTmsSwitch.MoveTo">
       <LineId Id="140" Count="24" />
       <LineId Id="81" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.SetAutomaticMode">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.SetManualMode">
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.Switch.Get">
       <LineId Id="21" Count="7" />
