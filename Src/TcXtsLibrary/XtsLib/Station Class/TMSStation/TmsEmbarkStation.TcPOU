@@ -27,6 +27,7 @@ VAR
 	isUpAllowed : BOOL := TRUE;
 	isDownAllowed : BOOL := FALSE;
 	isMiddleAllowed : BOOL := TRUE;
+	BoardVelocity : MC_LREAL := 100.0;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -115,7 +116,7 @@ END_VAR
 		END_IF
 		
 	Boarding:
-		DepartMover.MoveTo(Position := _switchPosition, Velocity := 100, BackwardMove := FALSE);
+		DepartMover.MoveTo(Position := _switchPosition, Velocity := BoardVelocity, BackwardMove := FALSE);
 		IF DepartMover.isAtPosition(position := _switchPosition) THEN
 			State := BoardingComplete;
 		END_IF
@@ -216,7 +217,7 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="TmsEmbarkStation">
-      <LineId Id="886" Count="101" />
+      <LineId Id="1015" Count="101" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.HasMover">

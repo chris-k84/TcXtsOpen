@@ -97,8 +97,8 @@ END_VAR
         <ST><![CDATA[isStationary := _axis.NcToPlc.SetVelo = 0;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="MoveTo" Id="{10981345-e84c-491a-ba3f-6d3f1f0223b2}">
-      <Declaration><![CDATA[METHOD PUBLIC MoveTo : BOOL
+    <Method Name="MoveToPosition" Id="{10981345-e84c-491a-ba3f-6d3f1f0223b2}">
+      <Declaration><![CDATA[METHOD PUBLIC MoveToPosition : BOOL
 VAR_INPUT
 	Position : MC_LREAL;
 	Velocity : MC_LREAL;
@@ -108,7 +108,7 @@ END_VAR
         <ST><![CDATA[IF NOT isAtPosition(position := Position) THEN
 	IF NOT axesMoveTo.Busy THEN
 		axesMoveTo.MoveTo(Position := Position, Velocity := Velocity);
-		MoveTo := TRUE;
+		MoveToPosition := TRUE;
 	END_IF
 END_IF
 ]]></ST>
@@ -146,10 +146,8 @@ END_IF
     <LineIds Name="MC2_Axis_Base.isStationary">
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="MC2_Axis_Base.MoveTo">
-      <LineId Id="106" Count="3" />
-      <LineId Id="111" Count="0" />
-      <LineId Id="79" Count="0" />
+    <LineIds Name="MC2_Axis_Base.MoveToPosition">
+      <LineId Id="122" Count="5" />
       <LineId Id="64" Count="0" />
     </LineIds>
   </POU>
