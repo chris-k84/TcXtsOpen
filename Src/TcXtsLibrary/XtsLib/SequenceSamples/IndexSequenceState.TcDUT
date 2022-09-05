@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <DUT Name="IndexSequenceState" Id="{1769d416-2c8a-404f-995b-9ad20f4eb1d0}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE IndexSequenceState :
+(
+	Init := 0,                                               
+	Available := 1,
+	MovingToStart := 2, 
+	AtStart := 3,                                 
+	MovingToStation := 4,
+	QueuedAtStation := 5,
+	AtStation := 6,
+	AtProcess := 7,
+	InProcess := 8,
+	GetNextMove := 9,
+	GoToNextStation := 10,
+	Aborting := 11
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

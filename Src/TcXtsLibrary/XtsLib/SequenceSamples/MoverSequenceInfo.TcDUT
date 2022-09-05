@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <DUT Name="MoverSequenceInfo" Id="{e076e401-8b1f-40c9-8216-2b6b2d9b9748}">
+    <Declaration><![CDATA[TYPE MoverSequenceInfo :
+STRUCT
+	MoverId : UdINT;
+	CurrentStation : INT;
+	Velocity : MC_LREAL;
+	State : INT;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
