@@ -22,10 +22,10 @@ VAR
 	CurrentLive : ARRAY[1..SystemParameters.nModuleNumber] OF DINT;
 	MaxCurrent : ARRAY [1..SystemParameters.nModuleNumber] OF DINT;
 	nModuleCounter : UINT := 1;
-	nForCounter1 : UDINT;
-	i: UINT;
+	i: UDINT;
 	State :(
-        Init,                                               
+        Init,
+		SetDetection,                                               
 		Redetect,
 		MoversValid,                                 
         AllMoversFound,
@@ -34,6 +34,11 @@ VAR
 		CheckModuleVoltages,
 		HWReady);
 	Logger : TcMessage_Ext;
+	DetectedParts: UDINT;
+	DetectedTracks : UDINT;
+	DetectedModules : ARRAY[1..10] OF UDINT;
+	PartIndex: UINT := 1;
+	ModuleIndex : INT := 1;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF NOT bInit THEN
@@ -46,7 +51,12 @@ END_IF
 
 CASE State OF
 	Init:
-		IF GetActiveTracks() THEN
+		IF GetTrackAssembly() THEN
+			State := SetDetection;
+		END_IF
+	
+	SetDetection:
+		IF SetTracksForDetection() THEN
 			State := Redetect;
 		END_IF
 		
@@ -103,45 +113,6 @@ getModuleInfoData();
 
 ]]></ST>
     </Implementation>
-    <Method Name="GetActiveTracks" Id="{86f5a3e9-8b84-41a1-b836-5c029b738ae6}">
-      <Declaration><![CDATA[METHOD PUBLIC GetActiveTracks : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF XtsIoEnvironment.XpuTcIo(1).GetTrackCount() <> Tracks THEN
-	Logger.Send(TC_EVENTS.XtsHardwareEvents.XtsTracksCountError,'');
-	RETURN; 
-END_IF
-
-FOR nForCounter1:=1 TO XtsIoEnvironment.XpuTcIo(1).GetTrackCount() DO
-	XtsIoEnvironment.XpuTcIo(1).TrackTcIo(UDINT_TO_UINT(nForCounter1)).SetIsIncludedInDetection(FALSE);
-END_FOR
-
-IF XtsIoEnvironment.XpuTcIo(1).GetTrackCount() = 1 THEN
-	XtsIoEnvironment.XpuTcIo(1).TrackTcIo(1).SetIsIncludedInDetection(TRUE);
-	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(XtsIoEnvironment.XpuTcIo(1).GetTrackCount()));
-	GetActiveTracks := TRUE;
-ELSE
-	CASE TmsSwitch.Switch OF
-		TmsSwitchPosition.Up: 
-			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(6).SetIsIncludedInDetection(TRUE);
-			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(5).SetIsIncludedInDetection(TRUE);
-		TmsSwitchPosition.Middle:
-			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(1).SetIsIncludedInDetection(TRUE);
-			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(2).SetIsIncludedInDetection(TRUE);
-		TmsSwitchPosition.Down:
-			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(3).SetIsIncludedInDetection(TRUE);
-			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(4).SetIsIncludedInDetection(TRUE);
-	END_CASE
-	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(XtsIoEnvironment.XpuTcIo(1).GetTrackCount()));
-	GetActiveTracks := TRUE;
-END_IF
-
-
-]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="getAllMoversValid" Id="{9dcfa32f-5a01-4e44-a98d-5148d4af1d1c}">
       <Declaration><![CDATA[METHOD getAllMoversValid : BOOL
 VAR_INPUT
@@ -157,19 +128,24 @@ END_VAR
     <Method Name="getModuleInfoData" Id="{b00af8fa-afc5-4832-90b7-0b785a21c099}">
       <Declaration><![CDATA[METHOD getModuleInfoData : BOOL
 VAR_INPUT
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF XtsIoEnvironment.XpuTcIo(1).PartTcIo(1).ModuleCoE(nModuleCounter).InfoData.Update() THEN
-	CurrentLive[nModuleCounter]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(1).ModuleCoE(nModuleCounter).InfoData.OverallCurrent;
-	MaxCurrent[nModuleCounter]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(1).ModuleCoE(nModuleCounter).InfoData.MaxOverallCurrentLast500ms;
-	f24V[nModuleCounter]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(1).ModuleCoE(nModuleCounter).InfoData.AuxiliaryVoltage24V;
-	f48V[nModuleCounter]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(1).ModuleCoE(nModuleCounter).InfoData.DcLinkVoltage;
-	//Increase Module count
-	IF nModuleCounter = SystemParameters.nModuleNumber THEN
-		nModuleCounter:=1;
+        <ST><![CDATA[IF XtsIoEnvironment.XpuTcIo(1).PartTcIo(PartIndex).ModuleCoE(nModuleCounter).InfoData.Update() THEN
+	CurrentLive[ModuleIndex]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(PartIndex).ModuleCoE(nModuleCounter).InfoData.OverallCurrent;
+	MaxCurrent[ModuleIndex]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(PartIndex).ModuleCoE(nModuleCounter).InfoData.MaxOverallCurrentLast500ms;
+	f24V[ModuleIndex]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(PartIndex).ModuleCoE(nModuleCounter).InfoData.AuxiliaryVoltage24V;
+	f48V[ModuleIndex]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(PartIndex).ModuleCoE(nModuleCounter).InfoData.DcLinkVoltage;
+	ModuleIndex := ModuleIndex + 1;
+	IF nModuleCounter = DetectedModules[PartIndex] THEN
+		nModuleCounter := 1;
+		IF PartIndex = DetectedParts THEN
+			PartIndex := 1;
+			ModuleIndex := 1;
+		ELSE
+			PartIndex := PartIndex + 1;
+		END_IF
 	ELSE
-		nModuleCounter:=nModuleCounter+1;
+		nModuleCounter := nModuleCounter + 1;
 	END_IF
 END_IF]]></ST>
       </Implementation>
@@ -199,6 +175,26 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="GetTrackAssembly" Id="{86f5a3e9-8b84-41a1-b836-5c029b738ae6}">
+      <Declaration><![CDATA[METHOD PUBLIC GetTrackAssembly : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[DetectedTracks :=  XtsIoEnvironment.XpuTcIo(1).GetTrackCount();
+IF DetectedTracks <> Tracks THEN
+	Logger.Send(TC_EVENTS.XtsHardwareEvents.XtsTracksCountError,'');
+	RETURN; 
+END_IF
+DetectedParts := XtsIoEnvironment.XpuTcIo(1).GetPartCount();
+FOR i := 1 TO UDINT_TO_UINT(DetectedParts) DO
+	DetectedModules[i] := XtsIoEnvironment.XpuTcIo(1).PartTcIo(1).GetModuleCount();
+END_FOR
+GetTrackAssembly := TRUE;
+
+]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="IsInSim" Id="{7079e35e-0b08-4e1a-90dd-d5ff9bd0268d}">
       <Declaration><![CDATA[METHOD IsInSim : BOOL
 VAR_INPUT
@@ -210,6 +206,35 @@ END_VAR
 	Logger.Send(TC_EVENTS.XtsHardwareEvents.XtsInSimulationMode,'');
 ELSE
 	IsInSim := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetTracksForDetection" Id="{51fb8179-4891-4124-a519-72890ea8063e}">
+      <Declaration><![CDATA[METHOD SetTracksForDetection : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR i:=1 TO XtsIoEnvironment.XpuTcIo(1).GetTrackCount() DO
+	XtsIoEnvironment.XpuTcIo(1).TrackTcIo(UDINT_TO_UINT(i)).SetIsIncludedInDetection(FALSE);
+END_FOR
+
+IF XtsIoEnvironment.XpuTcIo(1).GetTrackCount() = 1 THEN
+	XtsIoEnvironment.XpuTcIo(1).TrackTcIo(1).SetIsIncludedInDetection(TRUE);
+	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(XtsIoEnvironment.XpuTcIo(1).GetTrackCount()));
+	SetTracksForDetection := TRUE;
+ELSE
+	CASE TmsSwitch.Switch OF
+		TmsSwitchPosition.Up: 
+			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(3).SetIsIncludedInDetection(TRUE);
+		TmsSwitchPosition.Middle:
+			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(1).SetIsIncludedInDetection(TRUE);
+			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(2).SetIsIncludedInDetection(TRUE);
+		TmsSwitchPosition.Down:
+			;
+	END_CASE
+	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(XtsIoEnvironment.XpuTcIo(1).GetTrackCount()));
+	SetTracksForDetection := TRUE;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -266,23 +291,30 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="XtsHardware">
-      <LineId Id="577" Count="58" />
+      <LineId Id="577" Count="12" />
+      <LineId Id="750" Count="2" />
+      <LineId Id="754" Count="1" />
+      <LineId Id="590" Count="45" />
       <LineId Id="637" Count="5" />
       <LineId Id="58" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsHardware.GetActiveTracks">
-      <LineId Id="83" Count="29" />
-      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.getAllMoversValid">
       <LineId Id="9" Count="2" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.getModuleInfoData">
-      <LineId Id="6" Count="3" />
-      <LineId Id="16" Count="0" />
-      <LineId Id="10" Count="5" />
-      <LineId Id="5" Count="0" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="74" Count="2" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="82" Count="1" />
+      <LineId Id="87" Count="1" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="90" Count="1" />
+      <LineId Id="89" Count="0" />
+      <LineId Id="85" Count="1" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="73" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.GetMoverEnvInterface">
       <LineId Id="5" Count="0" />
@@ -291,9 +323,22 @@ END_IF]]></ST>
       <LineId Id="16" Count="5" />
       <LineId Id="10" Count="0" />
     </LineIds>
+    <LineIds Name="XtsHardware.GetTrackAssembly">
+      <LineId Id="120" Count="4" />
+      <LineId Id="126" Count="3" />
+      <LineId Id="131" Count="0" />
+      <LineId Id="130" Count="0" />
+      <LineId Id="26" Count="0" />
+    </LineIds>
     <LineIds Name="XtsHardware.IsInSim">
       <LineId Id="3" Count="4" />
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsHardware.SetTracksForDetection">
+      <LineId Id="6" Count="11" />
+      <LineId Id="19" Count="3" />
+      <LineId Id="24" Count="3" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.TriggerMoverDetection">
       <LineId Id="11" Count="2" />
