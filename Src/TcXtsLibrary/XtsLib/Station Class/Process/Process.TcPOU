@@ -14,7 +14,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[SUPER^();]]></ST>
     </Implementation>
     <Property Name="EndPosition" Id="{65043570-5e02-48d8-bfb0-5c560a6a952b}">
       <Declaration><![CDATA[PROPERTY EndPosition : MC_LREAL]]></Declaration>

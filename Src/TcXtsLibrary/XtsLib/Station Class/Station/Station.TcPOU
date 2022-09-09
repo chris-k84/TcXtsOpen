@@ -15,12 +15,17 @@ VAR
 	NumberOfPositions : INT;
 	AssignedPositions : INT := 1;
 	StationMovers : INT;
-
+	stInfo : stStationInfo;
 	_HasMover : BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[//Cyclic info
+stInfo.Clear := _clear;
+stInfo.Complete := _Complete;
+stInfo.HasMover := _HasMover;
+stInfo.Operating := _Operating;
+stInfo.Ready := _Ready;]]></ST>
     </Implementation>
     <Method Name="HasMover" Id="{1cb719ab-8b5a-456f-a91b-48331f9d0dc2}">
       <Declaration><![CDATA[METHOD HasMover : BOOL
@@ -99,7 +104,9 @@ END_IF]]></ST>
       </Set>
     </Property>
     <LineIds Name="Station">
-      <LineId Id="27" Count="0" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="61" Count="3" />
+      <LineId Id="48" Count="0" />
     </LineIds>
     <LineIds Name="Station.HasMover">
       <LineId Id="7" Count="2" />

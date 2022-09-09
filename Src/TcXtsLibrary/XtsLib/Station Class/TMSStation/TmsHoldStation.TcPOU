@@ -56,7 +56,8 @@ END_VAR
 		_Clear := TRUE;
 		_Ready := TRUE;
 		_Complete := FALSE;
-END_CASE]]></ST>
+END_CASE
+SUPER^();]]></ST>
     </Implementation>
     <Method Name="HasMover" Id="{d6e7677f-266a-4e9d-8eb0-14ce723367ea}">
       <Declaration><![CDATA[METHOD HasMover : BOOL
@@ -111,6 +112,7 @@ HoldMover := 0;
       <LineId Id="78" Count="0" />
       <LineId Id="84" Count="0" />
       <LineId Id="23" Count="0" />
+      <LineId Id="118" Count="0" />
     </LineIds>
     <LineIds Name="TmsHoldStation.HasMover">
       <LineId Id="9" Count="3" />

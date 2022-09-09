@@ -18,7 +18,7 @@
     <Company>ChrisK</Company>
     <Released>false</Released>
     <Title>Xts Library</Title>
-    <ProjectVersion>1.0.0.2</ProjectVersion>
+    <ProjectVersion>1.0.0.3</ProjectVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Axis Class\MC2_Axis_Base.TcPOU">
@@ -85,6 +85,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Station Class\Station\StationSample.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Station Class\Station\stStationInfo.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Station Class\TMSStation\ITF_SwitchStation.TcIO">

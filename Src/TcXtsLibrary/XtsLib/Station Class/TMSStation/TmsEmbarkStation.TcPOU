@@ -133,7 +133,8 @@ END_VAR
 			_Ready := TRUE;
 			State := Waiting;
 		END_IF		
-END_CASE]]></ST>
+END_CASE
+SUPER^();]]></ST>
     </Implementation>
     <Method Name="HasMover" Id="{6096dfca-b0c2-4998-b7bb-2c09860d3176}">
       <Declaration><![CDATA[METHOD HasMover : BOOL
@@ -219,6 +220,7 @@ END_VAR
     <LineIds Name="TmsEmbarkStation">
       <LineId Id="1015" Count="101" />
       <LineId Id="9" Count="0" />
+      <LineId Id="1145" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.HasMover">
       <LineId Id="9" Count="3" />
