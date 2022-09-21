@@ -23,22 +23,14 @@ VAR
 	MaxCurrent : ARRAY [1..SystemParameters.nModuleNumber] OF DINT;
 	nModuleCounter : UINT := 1;
 	i: UDINT;
-	State :(
-        Init,
-		SetDetection,                                               
-		Redetect,
-		MoversValid,                                 
-        AllMoversFound,
-		MoverIdDetection,
-		XTSMode,
-		CheckModuleVoltages,
-		HWReady);
+	State : XtsHardwareState;
 	Logger : TcMessage_Ext;
 	DetectedParts: UDINT;
 	DetectedTracks : UDINT;
 	DetectedModules : ARRAY[1..10] OF UDINT;
 	PartIndex: UINT := 1;
 	ModuleIndex : INT := 1;
+	XtsHWInfo : XtsHardwareInfo;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF NOT bInit THEN
@@ -50,44 +42,44 @@ END_VAR]]></Declaration>
 END_IF
 
 CASE State OF
-	Init:
+	XtsHardwareState.Init:
 		IF GetTrackAssembly() THEN
-			State := SetDetection;
+			State := XtsHardwareState.SetDetection;
 		END_IF
 	
-	SetDetection:
+	XtsHardwareState.SetDetection:
 		IF SetTracksForDetection() THEN
-			State := Redetect;
+			State := XtsHardwareState.Redetect;
 		END_IF
 		
-	Redetect:
+	XtsHardwareState.Redetect:
 		IF TriggerMoverDetection() THEN
-			State := MoversValid;
+			State := XtsHardwareState.MoversValid;
 		END_IF
 		
-	MoversValid:
+	XtsHardwareState.MoversValid:
 		IF getAllMoversValid() THEN
-			State := AllMoversFound;
+			State := XtsHardwareState.AllMoversFound;
 		END_IF
 	
-	AllMoversFound:
+	XtsHardwareState.AllMoversFound:
 		IF getMoversDetected() THEN
-			State := MoverIdDetection;
+			State := XtsHardwareState.MoverIdDetection;
 		END_IF
 		
-	MoverIdDetection:
+	XtsHardwareState.MoverIdDetection:
 		IF TriggerMoverID() THEN
-			State := XtsMode;
+			State := XtsHardwareState.XtsMode;
 		END_IF
 	
-	XtsMode:
+	XtsHardwareState.XtsMode:
 		IF IsInSim() THEN
-			State := HWReady;
+			State := XtsHardwareState.HWReady;
 		ELSE
-			State := CheckModuleVoltages;
+			State := XtsHardwareState.CheckModuleVoltages;
 		END_IF
 		
-	CheckModuleVoltages:
+	XtsHardwareState.CheckModuleVoltages:
 		Xts48VStanding := TRUE;
 		Xts24VStanding := TRUE;
 		FOR i := 1 TO SystemParameters.nModuleNumber DO
@@ -99,16 +91,17 @@ CASE State OF
 			END_IF
 		END_FOR
 		IF Xts24VStanding AND Xts48VStanding THEN
-			State := HWReady;
+			State := XtsHardwareState.HWReady;
 		END_IF
 	
-	HWReady:
+	XtsHardwareState.HWReady:
 		XtsHardwareOK := TRUE;
 END_CASE
 
 getModuleInfoData();
 
-
+//CYCLIC update of info
+XtsHWInfo.HWState := State;
 
 
 ]]></ST>
@@ -191,6 +184,10 @@ FOR i := 1 TO UDINT_TO_UINT(DetectedParts) DO
 	DetectedModules[i] := XtsIoEnvironment.XpuTcIo(1).PartTcIo(1).GetModuleCount();
 END_FOR
 GetTrackAssembly := TRUE;
+
+XtsHWInfo.NoOfModules := DetectedModules;
+XtsHWInfo.NoOfParts := DetectedParts;
+XtsHWInfo.NoOfTracks := DetectedTracks;
 
 ]]></ST>
       </Implementation>
@@ -295,7 +292,9 @@ END_IF]]></ST>
       <LineId Id="750" Count="2" />
       <LineId Id="754" Count="1" />
       <LineId Id="590" Count="45" />
-      <LineId Id="637" Count="5" />
+      <LineId Id="637" Count="3" />
+      <LineId Id="795" Count="0" />
+      <LineId Id="641" Count="1" />
       <LineId Id="58" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.getAllMoversValid">
@@ -327,6 +326,9 @@ END_IF]]></ST>
       <LineId Id="120" Count="4" />
       <LineId Id="126" Count="3" />
       <LineId Id="131" Count="0" />
+      <LineId Id="136" Count="0" />
+      <LineId Id="135" Count="0" />
+      <LineId Id="137" Count="1" />
       <LineId Id="130" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
