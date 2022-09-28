@@ -181,7 +181,7 @@ IF DetectedTracks <> Tracks THEN
 END_IF
 DetectedParts := XtsIoEnvironment.XpuTcIo(1).GetPartCount();
 FOR i := 1 TO UDINT_TO_UINT(DetectedParts) DO
-	DetectedModules[i] := XtsIoEnvironment.XpuTcIo(1).PartTcIo(1).GetModuleCount();
+	DetectedModules[i] := XtsIoEnvironment.XpuTcIo(1).PartTcIo(UDINT_TO_UINT(i)).GetModuleCount();
 END_FOR
 GetTrackAssembly := TRUE;
 
