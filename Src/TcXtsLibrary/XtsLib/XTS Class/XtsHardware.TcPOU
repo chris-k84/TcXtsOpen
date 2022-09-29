@@ -86,7 +86,7 @@ CASE State OF
 			IF f48V[i] < 46000 THEN
 				Xts48VStanding := FALSE;
 			END_IF
-			IF f24V[i] < 22000 THEN
+			IF f24V[i] < 20400 THEN
 				Xts24VStanding := FALSE;
 			END_IF
 		END_FOR
