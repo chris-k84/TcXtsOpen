@@ -20,7 +20,8 @@ VAR
 		Processing,
 		Boarding,
 		BoardingComplete,
-		Moving); 
+		Moving,
+		Aborting); 
 	_switchPosition: MC_LREAL;
 	demandPosition : TmsSwitchPosition;
 	arrTrackIds : ARRAY[1..4] OF OTCID := [16#01010100,16#010100F0,16#010100E0,16#01010790];
@@ -47,6 +48,9 @@ END_VAR
 			StationMovers := 0;
 			State := Waiting;
 		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
 	
 	Waiting:
 		IF _HasMover THEN
@@ -55,6 +59,9 @@ END_VAR
 			_Clear := FALSE;
 			_Ready := FALSE;
 			_Complete := FALSE;
+		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
 		END_IF
 	
 	HasSwitch:
@@ -65,6 +72,9 @@ END_VAR
 				END_IF
 		ELSE
 			State := Call;
+		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
 		END_IF	
 		
 	Call:
@@ -74,6 +84,9 @@ END_VAR
 			END_IF
 		ELSE
 			State := Waiting;
+		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
 		END_IF
 	
 	Processing:
@@ -114,6 +127,9 @@ END_VAR
 				demandPosition := TmsSwitchPosition.Down;
 			END_IF
 		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
 		
 	Boarding:
 		DepartMover.MoveTo(Position := _switchPosition, Velocity := BoardVelocity, BackwardMove := FALSE);
@@ -125,6 +141,9 @@ END_VAR
 		IF TmsSwitch.MoveTo(positionState := demandPosition) THEN
 			State := Moving;
 		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
 		
 	Moving:
 		IF _Complete AND NOT _HasMover THEN
@@ -132,7 +151,19 @@ END_VAR
 			_Clear := TRUE;
 			_Ready := TRUE;
 			State := Waiting;
-		END_IF		
+		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF	
+
+	Aborting:
+		State := Waiting;	
+		_Operating := _Clear := _Complete := _Ready := _HasMover := FALSE;
+		_Positions[1] := _Positions[2] := _Positions[3] := _Positions[4] := 0;
+		NumberOfPositions := 0;
+		AssignedPositions := 1;
+		StationMovers := 0;	
+		DepartMover := 0;
 END_CASE
 SUPER^();]]></ST>
     </Implementation>
@@ -218,7 +249,33 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="TmsEmbarkStation">
-      <LineId Id="1015" Count="101" />
+      <LineId Id="1015" Count="15" />
+      <LineId Id="1175" Count="1" />
+      <LineId Id="1174" Count="0" />
+      <LineId Id="1031" Count="8" />
+      <LineId Id="1188" Count="1" />
+      <LineId Id="1187" Count="0" />
+      <LineId Id="1040" Count="9" />
+      <LineId Id="1191" Count="1" />
+      <LineId Id="1190" Count="0" />
+      <LineId Id="1050" Count="8" />
+      <LineId Id="1194" Count="1" />
+      <LineId Id="1193" Count="0" />
+      <LineId Id="1059" Count="38" />
+      <LineId Id="1197" Count="1" />
+      <LineId Id="1196" Count="0" />
+      <LineId Id="1098" Count="10" />
+      <LineId Id="1200" Count="1" />
+      <LineId Id="1199" Count="0" />
+      <LineId Id="1109" Count="7" />
+      <LineId Id="1203" Count="1" />
+      <LineId Id="1202" Count="0" />
+      <LineId Id="1179" Count="0" />
+      <LineId Id="1178" Count="0" />
+      <LineId Id="1180" Count="0" />
+      <LineId Id="1182" Count="3" />
+      <LineId Id="1181" Count="0" />
+      <LineId Id="1186" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="1145" Count="0" />
     </LineIds>

@@ -43,6 +43,10 @@ END_VAR
 				stSwitchInfo.State := TmsSwitchState.Resetting;
 			END_IF
 		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			SUPER^.DisableAxis();
+			stSwitchInfo.State := TmsSwitchState.Disabling;
+		END_IF
 		
 	TmsSwitchState.Resetting:
 		IF SUPER^.isAtPosition(position := MiddlePosition) THEN
@@ -274,7 +278,10 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="DualModuleTmsSwitch">
-      <LineId Id="589" Count="66" />
+      <LineId Id="589" Count="22" />
+      <LineId Id="676" Count="2" />
+      <LineId Id="675" Count="0" />
+      <LineId Id="612" Count="43" />
       <LineId Id="567" Count="0" />
       <LineId Id="657" Count="0" />
       <LineId Id="656" Count="0" />

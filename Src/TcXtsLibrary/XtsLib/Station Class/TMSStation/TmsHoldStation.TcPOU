@@ -35,6 +35,9 @@ END_VAR
 			StationMovers := 0;
 			State := Waiting;
 		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Clearing;
+		END_IF
 	
 	Waiting:
 		IF _HasMover THEN
@@ -43,10 +46,16 @@ END_VAR
 			_Clear := FALSE;
 			_Ready := FALSE;
 		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Clearing;
+		END_IF
 		
 	Processing:
 		IF embarkStation.IsClear() THEN
 			_Complete := TRUE;
+			State := Clearing;
+		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Clearing;
 		END_IF
 		
@@ -56,6 +65,7 @@ END_VAR
 		_Clear := TRUE;
 		_Ready := TRUE;
 		_Complete := FALSE;
+		HoldMover := 0;
 END_CASE
 SUPER^();]]></ST>
     </Implementation>
@@ -98,19 +108,29 @@ HoldMover := 0;
       <LineId Id="41" Count="0" />
       <LineId Id="43" Count="0" />
       <LineId Id="42" Count="0" />
-      <LineId Id="35" Count="2" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="136" Count="0" />
+      <LineId Id="138" Count="0" />
+      <LineId Id="135" Count="0" />
+      <LineId Id="36" Count="1" />
       <LineId Id="59" Count="0" />
       <LineId Id="64" Count="0" />
       <LineId Id="80" Count="1" />
       <LineId Id="79" Count="0" />
-      <LineId Id="65" Count="2" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="140" Count="1" />
+      <LineId Id="139" Count="0" />
+      <LineId Id="66" Count="1" />
       <LineId Id="69" Count="1" />
       <LineId Id="73" Count="0" />
       <LineId Id="71" Count="0" />
+      <LineId Id="143" Count="1" />
+      <LineId Id="142" Count="0" />
       <LineId Id="75" Count="2" />
       <LineId Id="82" Count="1" />
       <LineId Id="78" Count="0" />
       <LineId Id="84" Count="0" />
+      <LineId Id="145" Count="0" />
       <LineId Id="23" Count="0" />
       <LineId Id="118" Count="0" />
     </LineIds>
