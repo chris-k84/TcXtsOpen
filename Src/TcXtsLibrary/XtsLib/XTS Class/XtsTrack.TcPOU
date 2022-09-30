@@ -69,8 +69,9 @@ CASE State OF
 		END_IF
 		
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Resetting THEN
-			MoverHomeSequence();
-			State := Resetting;
+			IF MoverHomeSequence() THEN
+				State := Resetting;
+			END_IF
 		END_IF
 		
 	Resetting:
@@ -215,7 +216,9 @@ END_VAR
       <LineId Id="421" Count="0" />
       <LineId Id="423" Count="2" />
       <LineId Id="266" Count="8" />
-      <LineId Id="277" Count="31" />
+      <LineId Id="277" Count="0" />
+      <LineId Id="457" Count="1" />
+      <LineId Id="279" Count="29" />
       <LineId Id="78" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.ActivateTracksInMovers">

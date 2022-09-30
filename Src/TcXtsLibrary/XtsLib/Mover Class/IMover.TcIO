@@ -27,6 +27,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Method Name="HasCommand" Id="{55812044-93fd-4ee0-bc25-5adf14691c4a}">
+      <Declaration><![CDATA[METHOD HasCommand : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
     <Method Name="hasError" Id="{6ce8cbaf-56ff-4c29-bc90-56e86ffa4550}">
       <Declaration><![CDATA[METHOD hasError : BOOL
 VAR_INPUT

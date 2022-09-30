@@ -125,7 +125,17 @@ END_VAR
         <ST><![CDATA[IF NOT axesHalt.Busy THEN
 	axesHalt.Execute();
 	HaltAxis := TRUE;
+	axesMoveTo.Abort();
 END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="HasCommand" Id="{844de5ea-f5c0-4a84-91ef-26224d069b5b}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PUBLIC HasCommand : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[HasCommand := axesMoveTo.Busy;]]></ST>
       </Implementation>
     </Method>
     <Method Name="hasError" Id="{0731dcbf-a6a0-405e-88ac-62fdc749ce1d}" FolderPath="Methods\">
@@ -398,7 +408,11 @@ END_VAR
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="11" Count="0" />
+      <LineId Id="15" Count="0" />
       <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.HasCommand">
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Mover.hasError">
       <LineId Id="5" Count="0" />

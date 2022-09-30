@@ -60,6 +60,15 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Method Name="HasCommand" Id="{5a17fcc3-6110-4d5b-bc24-ae196e62ddf3}">
+      <Declaration><![CDATA[METHOD PUBLIC HasCommand : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[HasCommand := axesMoveTo2.Busy;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="isAtPosition" Id="{1cb134b7-8afd-4d69-a68f-d63401be7671}">
       <Declaration><![CDATA[METHOD isAtPosition : BOOL
 VAR_INPUT
@@ -123,6 +132,9 @@ END_VAR
     </LineIds>
     <LineIds Name="TMS_Mover.ActiveTrack.Get">
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TMS_Mover.HasCommand">
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="TMS_Mover.isAtPosition">
       <LineId Id="27" Count="1" />
