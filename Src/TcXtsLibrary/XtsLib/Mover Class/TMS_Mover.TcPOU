@@ -46,6 +46,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF NOT _activateTrack.Busy THEN
 	_activateTrack.Execute(Track := newTrack);
+	ActivateTrack := TRUE;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -128,7 +129,9 @@ END_VAR
       <LineId Id="12" Count="0" />
     </LineIds>
     <LineIds Name="TMS_Mover.ActivateTrack">
-      <LineId Id="5" Count="2" />
+      <LineId Id="5" Count="1" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="TMS_Mover.ActiveTrack.Get">
       <LineId Id="2" Count="0" />
