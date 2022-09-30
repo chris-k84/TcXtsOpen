@@ -158,10 +158,8 @@ END_VAR
 
 	Aborting:
 		State := Waiting;	
-		_Operating := _Clear := _Complete := _Ready := _HasMover := FALSE;
-		_Positions[1] := _Positions[2] := _Positions[3] := _Positions[4] := 0;
-		NumberOfPositions := 0;
-		AssignedPositions := 1;
+		_Operating := _Complete := _HasMover := FALSE;
+		_Clear := _Ready := TRUE;
 		StationMovers := 0;	
 		DepartMover := 0;
 END_CASE
@@ -273,8 +271,7 @@ END_VAR
       <LineId Id="1179" Count="0" />
       <LineId Id="1178" Count="0" />
       <LineId Id="1180" Count="0" />
-      <LineId Id="1236" Count="0" />
-      <LineId Id="1183" Count="2" />
+      <LineId Id="1236" Count="1" />
       <LineId Id="1181" Count="0" />
       <LineId Id="1186" Count="0" />
       <LineId Id="9" Count="0" />
