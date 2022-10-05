@@ -24,7 +24,9 @@ VAR
 		ActivateTracks,
 		Enabled,
 		Resetting,
+		Idle,
 		Running,
+		Starting,
 		Disabling);  	
 	i : DINT;
 	AtHome: BOOL;
@@ -80,11 +82,26 @@ CASE State OF
 				AtHome := AtHome AND MoverArray[i].isStationary();
 		END_FOR 
 		IF AtHome THEN
-			State := Running;
+			State := Idle;
 			StateMachine.SetStateComplete();	
 		END_IF
 		
-	Running:	
+	Idle:	
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			DisableSequence.Disable();
+			IF DisableSequence.Busy THEN
+				State := Disabling;
+			END_IF
+		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Starting THEN
+			State := Starting;
+		END_IF
+		
+	Starting:
+		StateMachine.SetStateComplete();
+		State := Running;
+		
+	Running:
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			DisableSequence.Disable();
 			IF DisableSequence.Busy THEN
@@ -206,7 +223,15 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="XtsTrack">
-      <LineId Id="490" Count="67" />
+      <LineId Id="490" Count="56" />
+      <LineId Id="568" Count="1" />
+      <LineId Id="567" Count="0" />
+      <LineId Id="570" Count="2" />
+      <LineId Id="574" Count="0" />
+      <LineId Id="559" Count="1" />
+      <LineId Id="562" Count="4" />
+      <LineId Id="561" Count="0" />
+      <LineId Id="547" Count="10" />
       <LineId Id="78" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.ActivateTracksInMovers">

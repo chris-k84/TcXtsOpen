@@ -27,7 +27,7 @@ END_VAR]]></Declaration>
 		END_IF
 		
 	IndexSequenceState.Available:
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Starting THEN
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Execute THEN
 			State := IndexSequenceState.MovingToStart;
 		END_IF
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
@@ -152,7 +152,9 @@ stSequenceInfo.State := State;
 stSequenceInfo.Velocity := MoverVelocity;]]></ST>
     </Implementation>
     <LineIds Name="IndexMoverSequence">
-      <LineId Id="810" Count="9" />
+      <LineId Id="810" Count="5" />
+      <LineId Id="1028" Count="2" />
+      <LineId Id="816" Count="0" />
       <LineId Id="968" Count="1" />
       <LineId Id="967" Count="0" />
       <LineId Id="820" Count="4" />
