@@ -20,7 +20,10 @@ VAR_IN_OUT
 	StationArray : ARRAY[*] OF IProcess;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE State OF
+      <ST><![CDATA[IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+	State := IndexSequenceState.Aborting;
+END_IF
+CASE State OF
 	IndexSequenceState.Init:
 		IF ThisMover.isDetected() THEN
 			State := IndexSequenceState.Available;
@@ -30,26 +33,17 @@ END_VAR]]></Declaration>
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Execute THEN
 			State := IndexSequenceState.MovingToStart;
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-			State := IndexSequenceState.Aborting;
-		END_IF
 		
 	IndexSequenceState.MovingToStart:
 		IF ThisMover.isAtPosition(position := XtsTrack.HomePosition) THEN
 			State := IndexSequenceState.AtStart;
-		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-			State := IndexSequenceState.Aborting;
 		END_IF
 			
 	IndexSequenceState.AtStart:
 		IF StationArray[LOWER_BOUND(StationArray,1)].IsReady() THEN
 			State := IndexSequenceState.GetNextMove;
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-			State := IndexSequenceState.Aborting;
-		END_IF
-		
+
 	IndexSequenceState.MovingToStation:
 		IF ThisMover.isStationary() THEN 
 			IF ThisMover.isAtPosition(TargetStationPosition) THEN
@@ -63,24 +57,15 @@ END_VAR]]></Declaration>
 				State := IndexSequenceState.QueuedAtStation;
 			END_IF
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-			State := IndexSequenceState.Aborting;
-		END_IF
 		
 	IndexSequenceState.QueuedAtStation:
 		IF NOT ThisMover.isStationary() THEN
 				State := IndexSequenceState.MovingToStation;
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-			State := IndexSequenceState.Aborting;
-		END_IF
 
 	IndexSequenceState.AtStation:
 		IF StationArray[CurrentStation].isComplete() THEN
 			State := IndexSequenceState.GetNextMove;
-		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-			State := IndexSequenceState.Aborting;
 		END_IF
 
 	IndexSequenceState.AtProcess:
@@ -88,18 +73,12 @@ END_VAR]]></Declaration>
 								Velocity := StationArray[CurrentStation].ProcessVelocity,
 								BackwardMove := FALSE);
 		State := IndexSequenceState.InProcess;
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-			State := IndexSequenceState.Aborting;
-		END_IF
 								
 	IndexSequenceState.InProcess:
 		IF ThisMover.isStationary() THEN 
 			IF ThisMover.isAtPosition(StationArray[CurrentStation].EndPosition) THEN
 				State := IndexSequenceState.GetNextMove;
 			END_IF
-		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-			State := IndexSequenceState.Aborting;
 		END_IF
 	
 	IndexSequenceState.GetNextMove:
@@ -113,9 +92,6 @@ END_VAR]]></Declaration>
 			END_IF
 		ELSE
 			State := IndexSequenceState.GoToNextStation;
-		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-			State := IndexSequenceState.Aborting;
 		END_IF
 		
 	IndexSequenceState.GoToNextStation:
@@ -133,9 +109,6 @@ END_VAR]]></Declaration>
 			CurrentStation := CurrentStation + 1;
 			State := IndexSequenceState.MovingToStation;
 		END_IF				
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-			State := IndexSequenceState.Aborting;
-		END_IF
 		
 	IndexSequenceState.Aborting:
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborted THEN
@@ -152,20 +125,18 @@ stSequenceInfo.State := State;
 stSequenceInfo.Velocity := MoverVelocity;]]></ST>
     </Implementation>
     <LineIds Name="IndexMoverSequence">
+      <LineId Id="1049" Count="1" />
+      <LineId Id="1048" Count="0" />
       <LineId Id="810" Count="5" />
       <LineId Id="1028" Count="2" />
       <LineId Id="816" Count="0" />
-      <LineId Id="968" Count="1" />
-      <LineId Id="967" Count="0" />
-      <LineId Id="820" Count="4" />
-      <LineId Id="965" Count="1" />
-      <LineId Id="964" Count="0" />
-      <LineId Id="825" Count="4" />
-      <LineId Id="962" Count="1" />
-      <LineId Id="961" Count="0" />
-      <LineId Id="830" Count="83" />
-      <LineId Id="970" Count="1" />
-      <LineId Id="915" Count="0" />
+      <LineId Id="820" Count="23" />
+      <LineId Id="847" Count="4" />
+      <LineId Id="855" Count="4" />
+      <LineId Id="863" Count="5" />
+      <LineId Id="872" Count="6" />
+      <LineId Id="882" Count="12" />
+      <LineId Id="898" Count="15" />
       <LineId Id="960" Count="0" />
       <LineId Id="916" Count="5" />
       <LineId Id="39" Count="0" />
