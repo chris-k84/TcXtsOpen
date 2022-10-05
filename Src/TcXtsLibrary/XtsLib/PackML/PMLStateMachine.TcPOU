@@ -8,15 +8,21 @@ VAR_OUTPUT
 END_VAR
 VAR
 	_pmlStateMachine : Tc3_PackML_V2.PML_StateMachine;
-	
+	_Mode : E_PMLProtectedUnitMode := E_PMLProtectedUnitMode.ePMLProtUnitMode_Production;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[_pmlStateMachine();
-
-
-]]></ST>
+      <ST><![CDATA[_pmlStateMachine();]]></ST>
     </Implementation>
+    <Method Name="GetCurrentMode" Id="{a328d1d9-ecc8-4538-a2cc-179227c6ea57}">
+      <Declaration><![CDATA[METHOD PRIVATE GetCurrentMode : E_PmlProtectedUnitMode
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetCurrentMode := _Mode;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="GetCurrentState" Id="{8c64c6da-7bfe-4eb7-ad2f-8614ebc2ae80}">
       <Declaration><![CDATA[METHOD PUBLIC GetCurrentState : E_PMLState
 VAR_INPUT
@@ -50,8 +56,18 @@ END_VAR
         <ST><![CDATA[_pmlStateMachine.eCommand := Command;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="StateComplete" Id="{ca883fc1-f163-42f5-8b56-82749a1c7d47}">
-      <Declaration><![CDATA[METHOD PUBLIC StateComplete : BOOL
+    <Method Name="SetMode" Id="{8f9efc6b-7148-4714-b677-c65effb81184}">
+      <Declaration><![CDATA[METHOD PUBLIC SetMode : Bool
+VAR_INPUT
+	Mode : E_PMLProtectedUnitMode;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_pmlStateMachine.eMode := _Mode := Mode;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetStateComplete" Id="{ca883fc1-f163-42f5-8b56-82749a1c7d47}">
+      <Declaration><![CDATA[METHOD PUBLIC SetStateComplete : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -61,9 +77,9 @@ END_VAR
     </Method>
     <LineIds Name="PMLStateMachine">
       <LineId Id="9" Count="0" />
-      <LineId Id="23" Count="0" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="12" Count="0" />
+    </LineIds>
+    <LineIds Name="PMLStateMachine.GetCurrentMode">
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="PMLStateMachine.GetCurrentState">
       <LineId Id="5" Count="0" />
@@ -76,7 +92,10 @@ END_VAR
     <LineIds Name="PMLStateMachine.PMLCommand">
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="PMLStateMachine.StateComplete">
+    <LineIds Name="PMLStateMachine.SetMode">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PMLStateMachine.SetStateComplete">
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>

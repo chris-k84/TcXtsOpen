@@ -52,7 +52,7 @@ CASE State OF
 	Enabling:
 		IF EnableSequence.Done THEN
 			State := ActivateTracks;
-			StateMachine.StateComplete();
+			StateMachine.SetStateComplete();
 		END_IF
 		
 	ActivateTracks:
@@ -81,7 +81,7 @@ CASE State OF
 		END_FOR 
 		IF AtHome THEN
 			State := Running;
-			StateMachine.StateComplete();	
+			StateMachine.SetStateComplete();	
 		END_IF
 		
 	Running:	
@@ -95,7 +95,7 @@ CASE State OF
 	Disabling:
 		IF DisableSequence.Done THEN
 			State := Ready;
-			StateMachine.StateComplete();
+			StateMachine.SetStateComplete();
 		END_IF
 	
 END_CASE
@@ -206,19 +206,7 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="XtsTrack">
-      <LineId Id="246" Count="3" />
-      <LineId Id="371" Count="0" />
-      <LineId Id="250" Count="1" />
-      <LineId Id="412" Count="0" />
-      <LineId Id="253" Count="11" />
-      <LineId Id="414" Count="0" />
-      <LineId Id="416" Count="0" />
-      <LineId Id="421" Count="0" />
-      <LineId Id="423" Count="2" />
-      <LineId Id="266" Count="8" />
-      <LineId Id="277" Count="0" />
-      <LineId Id="457" Count="1" />
-      <LineId Id="279" Count="29" />
+      <LineId Id="490" Count="67" />
       <LineId Id="78" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.ActivateTracksInMovers">
