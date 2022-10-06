@@ -15,7 +15,7 @@ END_VAR
       <ST><![CDATA[_pmlStateMachine();]]></ST>
     </Implementation>
     <Method Name="GetCurrentMode" Id="{a328d1d9-ecc8-4538-a2cc-179227c6ea57}">
-      <Declaration><![CDATA[METHOD PRIVATE GetCurrentMode : E_PmlProtectedUnitMode
+      <Declaration><![CDATA[METHOD PUBLIC GetCurrentMode : E_PmlProtectedUnitMode
 VAR_INPUT
 END_VAR
 ]]></Declaration>

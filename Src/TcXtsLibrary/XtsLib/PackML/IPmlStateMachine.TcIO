@@ -4,7 +4,7 @@
     <Declaration><![CDATA[INTERFACE IPmlStateMachine
 ]]></Declaration>
     <Method Name="GetCurrentMode" Id="{30cd7fb2-9a81-454b-9afd-826c85901336}">
-      <Declaration><![CDATA[METHOD GetCurrentMode : E_PmlProtectedUnitMode
+      <Declaration><![CDATA[METHOD public GetCurrentMode : E_PmlProtectedUnitMode
 VAR_INPUT
 END_VAR
 ]]></Declaration>
