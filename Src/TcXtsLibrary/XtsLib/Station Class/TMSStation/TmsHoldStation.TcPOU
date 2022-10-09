@@ -60,7 +60,7 @@ END_VAR
 		END_IF
 		
 	Clearing:
-		State := Waiting;
+		State := Ready;
 		_Operating := FALSE;
 		_Clear := TRUE;
 		_Ready := TRUE;

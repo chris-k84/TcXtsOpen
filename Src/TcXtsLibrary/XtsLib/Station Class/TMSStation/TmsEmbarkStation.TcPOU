@@ -157,7 +157,7 @@ END_VAR
 		END_IF	
 
 	Aborting:
-		State := Waiting;	
+		State := Ready;	
 		_Operating := _Complete := _HasMover := FALSE;
 		_Clear := _Ready := TRUE;
 		StationMovers := 0;	
