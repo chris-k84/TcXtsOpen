@@ -21,11 +21,12 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[//Cyclic info
-stInfo.Clear := _clear;
-stInfo.Complete := _Complete;
-stInfo.HasMover := _HasMover;
-stInfo.Operating := _Operating;
-stInfo.Ready := _Ready;]]></ST>
+stInfo.StationPosition := _Positions[1];
+stInfo.StationStatus.Clear := _clear;
+stInfo.StationStatus.Complete := _Complete;
+stInfo.StationStatus.HasMover := _HasMover;
+stInfo.StationStatus.Operating := _Operating;
+stInfo.StationStatus.Ready := _Ready;]]></ST>
     </Implementation>
     <Method Name="HasMover" Id="{1cb719ab-8b5a-456f-a91b-48331f9d0dc2}">
       <Declaration><![CDATA[METHOD HasMover : BOOL
@@ -105,6 +106,7 @@ END_IF]]></ST>
     </Property>
     <LineIds Name="Station">
       <LineId Id="65" Count="0" />
+      <LineId Id="100" Count="0" />
       <LineId Id="61" Count="3" />
       <LineId Id="48" Count="0" />
     </LineIds>

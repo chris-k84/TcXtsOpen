@@ -1,13 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
-  <DUT Name="stStationInfo" Id="{533a335d-24db-4b41-ade9-236dde69feb4}">
+  <DUT Name="stStationInfo" Id="{f96117a6-d990-46af-b4ce-cb74ecc8299b}">
     <Declaration><![CDATA[TYPE stStationInfo :
 STRUCT
-	Clear : BOOL;
-	Complete : BOOL;
-	Operating : BOOL;
-	Ready : BOOL;
-	HasMover : BOOL;
+	StationProcessTime : TIME;
+	StationPosition : MC_LREAL;
+	StationStatus : stStationStatus;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

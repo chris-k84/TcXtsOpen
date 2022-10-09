@@ -90,6 +90,9 @@
     <Compile Include="Station Class\Station\stStationInfo.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Station Class\Station\stStationStatus.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Station Class\TMSStation\ITF_SwitchStation.TcIO">
       <SubType>Code</SubType>
     </Compile>
