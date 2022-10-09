@@ -84,6 +84,7 @@ END_VAR
 
 	TmsSwitchState.Disabling:
 		IF NOT THIS^.isEnabled() THEN
+			THIS^.ResetAxis();
 			stSwitchInfo.State := TmsSwitchState.Init;
 		END_IF
 
@@ -281,7 +282,9 @@ END_VAR
       <LineId Id="589" Count="22" />
       <LineId Id="676" Count="2" />
       <LineId Id="675" Count="0" />
-      <LineId Id="612" Count="43" />
+      <LineId Id="612" Count="36" />
+      <LineId Id="696" Count="0" />
+      <LineId Id="649" Count="6" />
       <LineId Id="567" Count="0" />
       <LineId Id="657" Count="0" />
       <LineId Id="656" Count="0" />

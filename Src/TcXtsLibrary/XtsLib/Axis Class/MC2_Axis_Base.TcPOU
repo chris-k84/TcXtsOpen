@@ -52,6 +52,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF NOT axesHalt.Busy THEN
 	axesHalt.Execute();
+	axesMoveTo.Abort();
 	HaltAxis := TRUE;
 END_IF]]></ST>
       </Implementation>
@@ -114,6 +115,17 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
+    <Method Name="ResetAxis" Id="{e5b92d6f-98cd-494e-8388-4130cfbf8f6f}">
+      <Declaration><![CDATA[METHOD PUBLIC ResetAxis : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[axesReset.Execute();
+axesMoveTo.Abort();
+axesHalt.Abort();]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="MC2_Axis_Base">
       <LineId Id="38" Count="4" />
       <LineId Id="30" Count="0" />
@@ -129,6 +141,7 @@ END_IF
     <LineIds Name="MC2_Axis_Base.HaltAxis">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
+      <LineId Id="15" Count="0" />
       <LineId Id="11" Count="0" />
       <LineId Id="10" Count="0" />
     </LineIds>
@@ -149,6 +162,10 @@ END_IF
     <LineIds Name="MC2_Axis_Base.MoveToPosition">
       <LineId Id="122" Count="5" />
       <LineId Id="64" Count="0" />
+    </LineIds>
+    <LineIds Name="MC2_Axis_Base.ResetAxis">
+      <LineId Id="6" Count="1" />
+      <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
