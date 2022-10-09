@@ -17,25 +17,31 @@ END_VAR
       <ST><![CDATA[IF _isProcess THEN
 	;
 ELSE
-	IF _HasMover THEN
-		_Operating := TRUE;
-		_Clear := FALSE;
-		_Ready := FALSE;
-		Operation.IN := TRUE;
-		IF Operation.Q THEN
-			_Complete := TRUE;
-			IF StationMovers = 0 THEN
-				_HasMover := FALSE;
-				Operation.IN := FALSE;
+	CASE State OF
+		0:
+			IF _HasMover THEN
+				_Operating := TRUE;
+				_Clear := FALSE;
+				_Ready := FALSE;
+				Operation.IN := TRUE;
+				State := 1;
 			END_IF
-		END_IF
-	ELSE
-		_Complete := FALSE;
-		_Clear := TRUE;
-		_Operating := FALSE;
-		_Ready := TRUE;
-	END_IF
-	
+		1:
+			IF Operation.Q THEN
+				_Complete := TRUE;
+				IF StationMovers = 0 THEN
+					_HasMover := FALSE;
+					Operation.IN := FALSE;
+				END_IF
+				State := 2;
+			END_IF
+		2:
+			_Complete := FALSE;
+			_Clear := TRUE;
+			_Operating := FALSE;
+			_Ready := TRUE;
+			State := 0;
+	END_CASE	
 	Operation(PT := _OperationTime);
 END_IF
 
@@ -44,7 +50,7 @@ IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborted THEN
 	_Clear := TRUE;
 	_Operating := FALSE;
 	_Ready := TRUE;
-	StationMovers := 0;
+	StationMovers := State := 0;
 END_IF
 
 SUPER^();]]></ST>
@@ -72,7 +78,20 @@ END_VAR
       <LineId Id="31" Count="0" />
       <LineId Id="33" Count="0" />
       <LineId Id="36" Count="0" />
-      <LineId Id="38" Count="18" />
+      <LineId Id="102" Count="1" />
+      <LineId Id="107" Count="0" />
+      <LineId Id="110" Count="2" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="113" Count="0" />
+      <LineId Id="109" Count="0" />
+      <LineId Id="105" Count="0" />
+      <LineId Id="115" Count="6" />
+      <LineId Id="114" Count="0" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="123" Count="2" />
+      <LineId Id="122" Count="0" />
+      <LineId Id="126" Count="0" />
+      <LineId Id="104" Count="0" />
       <LineId Id="37" Count="0" />
       <LineId Id="34" Count="0" />
       <LineId Id="32" Count="0" />
