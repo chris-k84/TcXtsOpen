@@ -3,10 +3,10 @@
   <DUT Name="MoverSequenceInfo" Id="{e076e401-8b1f-40c9-8216-2b6b2d9b9748}">
     <Declaration><![CDATA[TYPE MoverSequenceInfo :
 STRUCT
-	MoverId : UdINT;
+	MoverId : UDINT;
 	CurrentStation : INT;
 	Velocity : MC_LREAL;
-	State : INT;
+	State : IndexSequenceState;
 END_STRUCT
 END_TYPE
 ]]></Declaration>
