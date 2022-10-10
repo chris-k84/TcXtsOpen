@@ -15,7 +15,8 @@ VAR
 		Ready,                                 
         Waiting,
 		Processing,
-		Clearing); 
+		Clearing,
+		Aborting); 
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -60,11 +61,15 @@ END_VAR
 		END_IF
 		
 	Clearing:
-		State := Ready;
+		State := Waiting;
 		_Operating := FALSE;
 		_Clear := TRUE;
 		_Ready := TRUE;
 		_Complete := FALSE;
+		HoldMover := 0;
+		
+	Aborting:
+		State := Init;
 		HoldMover := 0;
 END_CASE
 SUPER^();]]></ST>
@@ -131,6 +136,9 @@ HoldMover := 0;
       <LineId Id="78" Count="0" />
       <LineId Id="84" Count="0" />
       <LineId Id="145" Count="0" />
+      <LineId Id="163" Count="1" />
+      <LineId Id="166" Count="0" />
+      <LineId Id="165" Count="0" />
       <LineId Id="23" Count="0" />
       <LineId Id="118" Count="0" />
     </LineIds>

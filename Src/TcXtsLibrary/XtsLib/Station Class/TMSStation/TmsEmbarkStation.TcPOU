@@ -65,8 +65,8 @@ END_VAR
 		END_IF
 	
 	HasSwitch:
-		IF (_stationPosition = 1 AND (TmsSwitch.Switch = TmsSwitchPosition.Down OR TmsSwitch.Switch = TmsSwitchPosition.Middle))
-			OR (_stationPosition = 2 AND (TmsSwitch.Switch = TmsSwitchPosition.Up OR TmsSwitch.Switch = TmsSwitchPosition.Middle)) THEN
+		IF (_stationPosition = 1 AND (TmsSwitch.Switch = TmsSwitchPosition.Down OR (TmsSwitch.Switch = TmsSwitchPosition.Middle AND isUpAllowed)))
+			OR (_stationPosition = 2 AND (TmsSwitch.Switch = TmsSwitchPosition.Up OR (TmsSwitch.Switch = TmsSwitchPosition.Middle AND isDownAllowed))) THEN
 				IF TmsSwitch.ExchangeMover(Mover := DepartMover, currentStation := THIS^) THEN
 					State := Processing;
 				END_IF
@@ -157,10 +157,7 @@ END_VAR
 		END_IF	
 
 	Aborting:
-		State := Ready;	
-		_Operating := _Complete := _HasMover := FALSE;
-		_Clear := _Ready := TRUE;
-		StationMovers := 0;	
+		State := Init;	
 		DepartMover := 0;
 END_CASE
 SUPER^();]]></ST>
@@ -271,8 +268,6 @@ END_VAR
       <LineId Id="1179" Count="0" />
       <LineId Id="1178" Count="0" />
       <LineId Id="1180" Count="0" />
-      <LineId Id="1236" Count="1" />
-      <LineId Id="1181" Count="0" />
       <LineId Id="1186" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="1145" Count="0" />
