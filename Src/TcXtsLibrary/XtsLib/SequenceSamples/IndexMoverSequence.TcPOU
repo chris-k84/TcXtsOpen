@@ -122,7 +122,7 @@ END_CASE
 stSequenceInfo.CurrentStation := CurrentStation;
 stSequenceInfo.MoverId := ThisMover.AxisRef.NcToPlc.AxisId;
 stSequenceInfo.State := State;
-stSequenceInfo.Velocity := MoverVelocity;]]></ST>
+stSequenceInfo.Velocity := ThisMover.AxisRef.NcToPlc.ActVelo;]]></ST>
     </Implementation>
     <LineIds Name="IndexMoverSequence">
       <LineId Id="1049" Count="1" />
