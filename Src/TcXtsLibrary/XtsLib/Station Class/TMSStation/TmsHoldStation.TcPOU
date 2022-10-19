@@ -24,7 +24,6 @@ END_VAR
 	Init:
 		_Operating := _Clear := _Complete := _Ready := _HasMover := FALSE;
 		_Positions[1] := _Positions[2] := _Positions[3] := _Positions[4] := 0;
-		NumberOfPositions := 0;
 		AssignedPositions := 1;
 		StationMovers := 0;
 		State := Ready;
@@ -37,7 +36,7 @@ END_VAR
 			State := Waiting;
 		END_IF
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-			State := Clearing;
+			State := Aborting;
 		END_IF
 	
 	Waiting:
@@ -48,7 +47,7 @@ END_VAR
 			_Ready := FALSE;
 		END_IF
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-			State := Clearing;
+			State := Aborting;
 		END_IF
 		
 	Processing:
@@ -57,7 +56,7 @@ END_VAR
 			State := Clearing;
 		END_IF
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-			State := Clearing;
+			State := Aborting;
 		END_IF
 		
 	Clearing:
@@ -69,8 +68,9 @@ END_VAR
 		HoldMover := 0;
 		
 	Aborting:
-		State := Init;
+		State := Ready;
 		HoldMover := 0;
+		_HasMover := FALSE;
 END_CASE
 SUPER^();]]></ST>
     </Implementation>
@@ -107,7 +107,8 @@ HoldMover := 0;
       </Implementation>
     </Method>
     <LineIds Name="TmsHoldStation">
-      <LineId Id="25" Count="9" />
+      <LineId Id="25" Count="3" />
+      <LineId Id="30" Count="4" />
       <LineId Id="40" Count="0" />
       <LineId Id="101" Count="0" />
       <LineId Id="41" Count="0" />
@@ -139,6 +140,7 @@ HoldMover := 0;
       <LineId Id="163" Count="1" />
       <LineId Id="166" Count="0" />
       <LineId Id="165" Count="0" />
+      <LineId Id="184" Count="0" />
       <LineId Id="23" Count="0" />
       <LineId Id="118" Count="0" />
     </LineIds>

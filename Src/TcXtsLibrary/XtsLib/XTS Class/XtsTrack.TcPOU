@@ -108,6 +108,9 @@ CASE State OF
 				State := Disabling;
 			END_IF
 		END_IF
+		IF StateMachine.GetCurrentMode() = E_PMLState.ePMLState_Stopping THEN
+			State := Enabled;
+		END_IF
 		
 	Disabling:
 		IF DisableSequence.Done THEN
@@ -231,6 +234,9 @@ END_VAR
       <LineId Id="559" Count="1" />
       <LineId Id="562" Count="4" />
       <LineId Id="561" Count="0" />
+      <LineId Id="608" Count="0" />
+      <LineId Id="613" Count="0" />
+      <LineId Id="610" Count="0" />
       <LineId Id="547" Count="10" />
       <LineId Id="78" Count="0" />
     </LineIds>

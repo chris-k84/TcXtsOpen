@@ -157,7 +157,7 @@ END_VAR
 		END_IF	
 
 	Aborting:
-		State := Init;	
+		State := Ready;	
 		DepartMover := 0;
 END_CASE
 SUPER^();]]></ST>
