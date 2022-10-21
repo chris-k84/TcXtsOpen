@@ -17,6 +17,9 @@ VAR
 	StationMovers : INT;
 	stInfo : stStationInfo;
 	_HasMover : BOOL;
+	ProductCounter : R_TRIG;
+	Products : DINT;
+	LastStation : BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -26,7 +29,14 @@ stInfo.StationStatus.Clear := _clear;
 stInfo.StationStatus.Complete := _Complete;
 stInfo.StationStatus.HasMover := _HasMover;
 stInfo.StationStatus.Operating := _Operating;
-stInfo.StationStatus.Ready := _Ready;]]></ST>
+stInfo.StationStatus.Ready := _Ready;
+
+IF LastStation THEN
+	ProductCounter(CLK := _Complete);
+	IF ProductCounter.Q THEN
+		Products := Products + 1;
+	END_IF
+END_IF]]></ST>
     </Implementation>
     <Method Name="HasMover" Id="{1cb719ab-8b5a-456f-a91b-48331f9d0dc2}">
       <Declaration><![CDATA[METHOD HasMover : BOOL
@@ -54,6 +64,25 @@ END_IF]]></ST>
         <ST><![CDATA[isComplete := _Complete;]]></ST>
       </Implementation>
     </Method>
+    <Property Name="IsLastStation" Id="{a73398cf-8042-40d8-a8fb-0a856e7df54f}">
+      <Declaration><![CDATA[PROPERTY PUBLIC IsLastStation : BOOL]]></Declaration>
+      <Get Name="Get" Id="{9cd8ec45-e245-4fd5-a342-74a5c351fecb}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsLastStation := LastStation;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{71583b8e-176c-4a77-8f64-6a07e8be2663}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[LastStation := IsLastStation;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Method Name="IsOperating" Id="{46f6a6eb-2d48-45d2-a61c-982a5af29ec7}">
       <Declaration><![CDATA[METHOD IsOperating : BOOL
 ]]></Declaration>
@@ -109,6 +138,8 @@ END_IF]]></ST>
       <LineId Id="100" Count="0" />
       <LineId Id="61" Count="3" />
       <LineId Id="48" Count="0" />
+      <LineId Id="119" Count="5" />
+      <LineId Id="118" Count="0" />
     </LineIds>
     <LineIds Name="Station.HasMover">
       <LineId Id="7" Count="2" />
@@ -119,6 +150,12 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="Station.isComplete">
       <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="Station.IsLastStation.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Station.IsLastStation.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="Station.IsOperating">
       <LineId Id="4" Count="0" />

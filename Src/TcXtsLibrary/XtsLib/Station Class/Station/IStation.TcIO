@@ -22,6 +22,15 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Property Name="IsLastStation" Id="{53217bec-eab6-4401-b1af-a6e405784e44}">
+      <Declaration><![CDATA[PROPERTY IsLastStation : BOOL]]></Declaration>
+      <Get Name="Get" Id="{16b9a74e-183d-4495-8d6b-7aad46c030c0}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{0aad8e63-8a10-47b1-88ed-3a7470833511}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
     <Method Name="IsOperating" Id="{e194a704-bfb6-44e5-ad98-14da5789c4a2}">
       <Declaration><![CDATA[METHOD IsOperating : BOOL
 VAR_INPUT
