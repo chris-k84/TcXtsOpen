@@ -95,6 +95,20 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
+    <Method Name="isPastPosition" Id="{99c090fe-960e-4a77-8c44-cc361d9f893e}">
+      <Declaration><![CDATA[METHOD PUBLIC isPastPosition : BOOL
+VAR_INPUT
+	position : MC_LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF position > 1 THEN
+	IF stTmsActPositions.fTrackPosition > position THEN
+		isPastPosition := TRUE;
+	END_IF  
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="MoveTo" Id="{cb5563f4-b88f-463c-953d-1f3d7238a315}">
       <Declaration><![CDATA[METHOD PUBLIC MoveTo : BOOL
 VAR_INPUT
@@ -149,6 +163,10 @@ END_VAR
       <LineId Id="20" Count="1" />
       <LineId Id="15" Count="0" />
       <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="TMS_Mover.isPastPosition">
+      <LineId Id="7" Count="3" />
+      <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="TMS_Mover.MoveTo">
       <LineId Id="53" Count="0" />

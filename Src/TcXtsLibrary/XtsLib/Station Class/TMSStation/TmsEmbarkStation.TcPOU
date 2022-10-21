@@ -132,8 +132,8 @@ END_VAR
 		END_IF
 		
 	Boarding:
-		DepartMover.MoveTo(Position := _switchPosition, Velocity := BoardVelocity, BackwardMove := FALSE);
-		IF DepartMover.isAtPosition(position := _switchPosition) THEN
+		DepartMover.MoveTo(Position := (_switchPosition+220.0), Velocity := 500.0, BackwardMove := FALSE);
+		IF DepartMover.isPastPosition(position := _switchPosition+30.0) THEN
 			State := BoardingComplete;
 		END_IF
 		
@@ -145,6 +145,19 @@ END_VAR
 			State := Aborting;
 		END_IF
 		
+//	Boarding:
+//		DepartMover.MoveTo(Position := _switchPosition, Velocity := BoardVelocity, BackwardMove := FALSE);
+//		IF DepartMover.isAtPosition(position := _switchPosition) THEN
+//			State := BoardingComplete;
+//		END_IF
+		
+//	BoardingComplete:
+//		IF TmsSwitch.MoveTo(positionState := demandPosition) THEN
+//			State := Moving;
+//		END_IF
+//		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+//			State := Aborting;
+//		END_IF
 	Moving:
 		IF _Complete AND NOT _HasMover THEN
 			_Operating := FALSE;
@@ -262,6 +275,8 @@ END_VAR
       <LineId Id="1098" Count="10" />
       <LineId Id="1200" Count="1" />
       <LineId Id="1199" Count="0" />
+      <LineId Id="1275" Count="0" />
+      <LineId Id="1234" Count="11" />
       <LineId Id="1109" Count="7" />
       <LineId Id="1203" Count="1" />
       <LineId Id="1202" Count="0" />

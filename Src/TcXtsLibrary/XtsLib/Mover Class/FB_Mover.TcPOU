@@ -207,6 +207,20 @@ END_VAR
         <ST><![CDATA[isEnabled := not _axis.Status.Disabled;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="isPastPosition" Id="{e98ee30c-01c3-4bc5-a45f-19f156a6d04e}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PUBLIC isPastPosition : BOOL
+VAR_INPUT
+	position : MC_LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF position > 1 THEN
+	IF _axis.NcToPlc.ModuloActPos > position THEN
+		isPastPosition := TRUE;
+	END_IF  
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="isStationary" Id="{cc970b73-1098-42f9-b684-982f1c612571}" FolderPath="Methods\">
       <Declaration><![CDATA[METHOD PUBLIC isStationary : BOOL
 VAR_INPUT
@@ -438,6 +452,10 @@ END_VAR
       <LineId Id="9" Count="2" />
     </LineIds>
     <LineIds Name="FB_Mover.isEnabled">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.isPastPosition">
+      <LineId Id="8" Count="3" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Mover.isStationary">

@@ -67,6 +67,13 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Method Name="isPastPosition" Id="{cd0a46e2-b049-48e1-88bc-2f89d172c5d2}">
+      <Declaration><![CDATA[METHOD isPastPosition : BOOL
+VAR_INPUT
+	position : MC_LREAL;
+END_VAR
+]]></Declaration>
+    </Method>
     <Method Name="isStationary" Id="{084ecc92-5a03-45dc-a717-4a98c85ba393}">
       <Declaration><![CDATA[METHOD isStationary : BOOL
 VAR_INPUT
