@@ -20,7 +20,8 @@ VAR_IN_OUT
 	StationArray : ARRAY[*] OF IProcess;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+      <ST><![CDATA[IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
+	OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
 	State := IndexSequenceState.Aborting;
 END_IF
 CASE State OF
@@ -125,6 +126,7 @@ stSequenceInfo.State := State;
 stSequenceInfo.Velocity := ThisMover.AxisRef.NcToPlc.ActVelo;]]></ST>
     </Implementation>
     <LineIds Name="IndexMoverSequence">
+      <LineId Id="1068" Count="0" />
       <LineId Id="1049" Count="1" />
       <LineId Id="1048" Count="0" />
       <LineId Id="810" Count="5" />

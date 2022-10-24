@@ -43,7 +43,8 @@ END_VAR
 				stSwitchInfo.State := TmsSwitchState.Resetting;
 			END_IF
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
+			OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
 			SUPER^.DisableAxis();
 			stSwitchInfo.State := TmsSwitchState.Disabling;
 		END_IF
@@ -54,7 +55,8 @@ END_VAR
 		END_IF	
 	
 	TmsSwitchState.Waiting:
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
+			OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
 			SUPER^.DisableAxis();
 			stSwitchInfo.State := TmsSwitchState.Disabling;
 		END_IF
@@ -280,9 +282,12 @@ END_VAR
     </Property>
     <LineIds Name="DualModuleTmsSwitch">
       <LineId Id="589" Count="22" />
+      <LineId Id="714" Count="0" />
       <LineId Id="676" Count="2" />
       <LineId Id="675" Count="0" />
-      <LineId Id="612" Count="36" />
+      <LineId Id="612" Count="6" />
+      <LineId Id="715" Count="0" />
+      <LineId Id="619" Count="29" />
       <LineId Id="696" Count="0" />
       <LineId Id="649" Count="6" />
       <LineId Id="567" Count="0" />

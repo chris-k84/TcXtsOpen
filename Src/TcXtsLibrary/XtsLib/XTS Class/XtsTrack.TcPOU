@@ -63,7 +63,8 @@ CASE State OF
 		END_IF
 		
 	Enabled:
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
+			OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
 			DisableSequence.Disable();
 			IF DisableSequence.Busy THEN
 				State := Disabling;
@@ -87,7 +88,8 @@ CASE State OF
 		END_IF
 		
 	Idle:	
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
+			OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN		
 			DisableSequence.Disable();
 			IF DisableSequence.Busy THEN
 				State := Disabling;
@@ -102,7 +104,8 @@ CASE State OF
 		State := Running;
 		
 	Running:
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
+			OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
 			DisableSequence.Disable();
 			IF DisableSequence.Busy THEN
 				State := Disabling;
@@ -226,12 +229,17 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="XtsTrack">
-      <LineId Id="490" Count="56" />
+      <LineId Id="490" Count="27" />
+      <LineId Id="647" Count="0" />
+      <LineId Id="518" Count="22" />
+      <LineId Id="649" Count="0" />
+      <LineId Id="541" Count="5" />
       <LineId Id="568" Count="1" />
       <LineId Id="567" Count="0" />
       <LineId Id="570" Count="2" />
       <LineId Id="574" Count="0" />
       <LineId Id="559" Count="1" />
+      <LineId Id="650" Count="0" />
       <LineId Id="562" Count="4" />
       <LineId Id="561" Count="0" />
       <LineId Id="608" Count="0" />
