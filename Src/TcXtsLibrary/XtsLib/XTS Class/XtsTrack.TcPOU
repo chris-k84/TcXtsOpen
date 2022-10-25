@@ -16,7 +16,7 @@ VAR
 	XtsTrackHardware : XtsHardware;
 	EnableSequence : XtsEnableSequence(mcCollisionGroup);
 	DisableSequence : XtsDisableSequence(mcCollisionGroup);
-	
+	GroupStop : StopMoverGroup(mcCollisionGroup);
 	State :(
         Init,                                           
 		Ready,                                 
@@ -27,6 +27,9 @@ VAR
 		Idle,
 		Running,
 		Starting,
+		Stop,
+		Stopping,
+		Disable,
 		Disabling);  	
 	i : DINT;
 	AtHome: BOOL;
@@ -64,11 +67,8 @@ CASE State OF
 		
 	Enabled:
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
-			OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
-			DisableSequence.Disable();
-			IF DisableSequence.Busy THEN
-				State := Disabling;
-			END_IF
+			OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN		
+				State := Disable;
 		END_IF
 		
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Resetting THEN
@@ -90,10 +90,7 @@ CASE State OF
 	Idle:	
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
 			OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN		
-			DisableSequence.Disable();
-			IF DisableSequence.Busy THEN
-				State := Disabling;
-			END_IF
+				State := Disable;
 		END_IF
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Starting THEN
 			State := Starting;
@@ -106,25 +103,36 @@ CASE State OF
 	Running:
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
 			OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
-			DisableSequence.Disable();
-			IF DisableSequence.Busy THEN
-				State := Disabling;
-			END_IF
+				State := Disable;
 		END_IF
 		IF StateMachine.GetCurrentMode() = E_PMLState.ePMLState_Stopping THEN
 			State := Enabled;
 		END_IF
+		
+	Stop:
+		GroupStop.Execute();
+		State := Stopping;
+		
+	Stopping:
+		IF GroupStop.Done THEN
+			State := Enabled;
+			StateMachine.SetStateComplete();
+		END_IF
+		
+	Disable:
+		DisableSequence.Disable();
+		State := Disabling;
 		
 	Disabling:
 		IF DisableSequence.Done THEN
 			State := Ready;
 			StateMachine.SetStateComplete();
 		END_IF
-	
 END_CASE
 
 EnableSequence(arrMovers := MoverArray);
 DisableSequence(arrMovers := MoverArray);
+GroupStop();
 mcCollisionGroup();]]></ST>
     </Implementation>
     <Method Name="ActivateTracksInMovers" Id="{f07dde83-d085-4cf6-bf9b-a6e81e2388f6}">
@@ -231,21 +239,38 @@ END_VAR
     <LineIds Name="XtsTrack">
       <LineId Id="490" Count="27" />
       <LineId Id="647" Count="0" />
-      <LineId Id="518" Count="22" />
+      <LineId Id="520" Count="0" />
+      <LineId Id="522" Count="18" />
       <LineId Id="649" Count="0" />
-      <LineId Id="541" Count="5" />
+      <LineId Id="541" Count="0" />
+      <LineId Id="544" Count="0" />
+      <LineId Id="546" Count="0" />
       <LineId Id="568" Count="1" />
       <LineId Id="567" Count="0" />
       <LineId Id="570" Count="2" />
       <LineId Id="574" Count="0" />
       <LineId Id="559" Count="1" />
       <LineId Id="650" Count="0" />
-      <LineId Id="562" Count="4" />
+      <LineId Id="562" Count="0" />
+      <LineId Id="565" Count="0" />
       <LineId Id="561" Count="0" />
       <LineId Id="608" Count="0" />
       <LineId Id="613" Count="0" />
       <LineId Id="610" Count="0" />
-      <LineId Id="547" Count="10" />
+      <LineId Id="702" Count="2" />
+      <LineId Id="707" Count="0" />
+      <LineId Id="709" Count="3" />
+      <LineId Id="714" Count="0" />
+      <LineId Id="713" Count="0" />
+      <LineId Id="697" Count="2" />
+      <LineId Id="701" Count="0" />
+      <LineId Id="547" Count="1" />
+      <LineId Id="690" Count="0" />
+      <LineId Id="692" Count="0" />
+      <LineId Id="694" Count="0" />
+      <LineId Id="691" Count="0" />
+      <LineId Id="554" Count="3" />
+      <LineId Id="706" Count="0" />
       <LineId Id="78" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.ActivateTracksInMovers">
