@@ -40,6 +40,12 @@ VAR_IN_OUT
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[XtsTrackHardware(Tracks := _tracks, TmsSwitch := TmsSwitch);
+IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN		
+		State := Disable;
+END_IF
+IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN		
+		State := Stop;
+END_IF
 CASE State OF
 	Init:
 		IF XtsTrackHardware.XtsHardwareOK THEN
@@ -66,11 +72,6 @@ CASE State OF
 		END_IF
 		
 	Enabled:
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
-			OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN		
-				State := Disable;
-		END_IF
-		
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Resetting THEN
 			IF MoverHomeSequence() THEN
 				State := Resetting;
@@ -88,10 +89,6 @@ CASE State OF
 		END_IF
 		
 	Idle:	
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
-			OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN		
-				State := Disable;
-		END_IF
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Starting THEN
 			State := Starting;
 		END_IF
@@ -101,13 +98,7 @@ CASE State OF
 		State := Running;
 		
 	Running:
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
-			OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
-				State := Disable;
-		END_IF
-		IF StateMachine.GetCurrentMode() = E_PMLState.ePMLState_Stopping THEN
-			State := Enabled;
-		END_IF
+
 		
 	Stop:
 		GroupStop.Execute();
@@ -237,25 +228,21 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="XtsTrack">
-      <LineId Id="490" Count="27" />
-      <LineId Id="647" Count="0" />
-      <LineId Id="520" Count="0" />
-      <LineId Id="522" Count="18" />
-      <LineId Id="649" Count="0" />
-      <LineId Id="541" Count="0" />
-      <LineId Id="544" Count="0" />
-      <LineId Id="546" Count="0" />
+      <LineId Id="490" Count="0" />
+      <LineId Id="716" Count="0" />
+      <LineId Id="718" Count="0" />
+      <LineId Id="715" Count="0" />
+      <LineId Id="720" Count="0" />
+      <LineId Id="722" Count="0" />
+      <LineId Id="719" Count="0" />
+      <LineId Id="491" Count="25" />
+      <LineId Id="524" Count="16" />
       <LineId Id="568" Count="1" />
       <LineId Id="567" Count="0" />
       <LineId Id="570" Count="2" />
       <LineId Id="574" Count="0" />
-      <LineId Id="559" Count="1" />
-      <LineId Id="650" Count="0" />
-      <LineId Id="562" Count="0" />
-      <LineId Id="565" Count="0" />
-      <LineId Id="561" Count="0" />
-      <LineId Id="608" Count="0" />
-      <LineId Id="613" Count="0" />
+      <LineId Id="559" Count="0" />
+      <LineId Id="723" Count="0" />
       <LineId Id="610" Count="0" />
       <LineId Id="702" Count="2" />
       <LineId Id="707" Count="0" />
