@@ -45,7 +45,8 @@ ELSE
 	Operation(PT := _OperationTime);
 END_IF
 
-IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborted THEN
+IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborted 
+	OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
 	_Complete := FALSE;
 	_Clear := TRUE;
 	_Operating := FALSE;
@@ -97,6 +98,7 @@ END_VAR
       <LineId Id="34" Count="0" />
       <LineId Id="32" Count="0" />
       <LineId Id="70" Count="0" />
+      <LineId Id="140" Count="0" />
       <LineId Id="74" Count="2" />
       <LineId Id="71" Count="0" />
       <LineId Id="77" Count="0" />
