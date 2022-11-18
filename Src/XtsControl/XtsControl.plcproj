@@ -16,6 +16,7 @@
     <Implicit_KindOfTask>{bf908b3e-fed4-4893-8a3b-8e475b0946a1}</Implicit_KindOfTask>
     <Implicit_Jitter_Distribution>{00f1c187-ce26-4c8d-a045-194473879630}</Implicit_Jitter_Distribution>
     <LibraryReferences>{3f6e0c75-4a9c-4b5f-8039-17a6f22e412c}</LibraryReferences>
+    <Released>false</Released>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Machine Class\GrippingMachine.TcPOU">
@@ -52,13 +53,17 @@
       <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_Module</Namespace>
     </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_PackML_V2">
+      <DefaultResolution>Tc3_PackML_V2, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc3_PackML_V2</Namespace>
+    </PlaceholderReference>
     <PlaceholderReference Include="Xts Library">
       <DefaultResolution>Xts Library, * (ChrisK)</DefaultResolution>
       <Namespace>Xts_Library</Namespace>
       <Parameters>
-        <Parameter ListName="SYSTEMPARAMETERS" xmlns="">
+        <Parameter ListName="SYSTEMPARAMETERS">
           <Key>TRACKLENGTH</Key>
-          <Value>3000</Value>
+          <Value>4000</Value>
         </Parameter>
       </Parameters>
     </PlaceholderReference>

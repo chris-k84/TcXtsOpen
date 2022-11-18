@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="Machine" Id="{e8d4edde-6e68-4e80-9f5b-2e9346044142}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK Machine IMPLEMENTS IMachine
 VAR_INPUT
@@ -23,12 +23,8 @@ END_VAR]]></Declaration>
 		iMovers[i] := Movers[i];
 		Movers[i].TrackLength := Xts.TrackLength;
 	END_FOR
-	FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
-		iStationArray[i] := StationArray[i];
-	END_FOR
-	IF stateMachine.Initialise() THEN
+	IF InitialiseStations() THEN
 		bInit := TRUE;
-		InitialiseStations();
 	END_IF
 END_IF
 
@@ -52,23 +48,32 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[StationArray[1].Position := 1000.0;
-StationArray[1].TempPropTime := T#1000MS;
+        <ST><![CDATA[FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
+	iStationArray[i] := StationArray[i];
+END_FOR
+
+
+StationArray[1].Position := 1000.0;
+StationArray[1].TempPropTime := T#1S;
 
 StationArray[2].Position := 1200.0;
-StationArray[2].TempPropTime := T#1000MS;
+StationArray[2].TempPropTime := T#2S;
 
-StationArray[3].Position := 1500.0;
-StationArray[3].TempPropTime := T#500MS;
+StationArray[3].Position := 1400.0;
+StationArray[3].TempPropTime := T#2S;
 
-StationArray[4].Position := 1800.0;
-StationArray[4].TempPropTime := T#1000MS;
+StationArray[4].Position := 2200.0;
+StationArray[4].TempPropTime := T#1S;
 
-StationArray[5].Position := 2500.0;
-StationArray[5].TempPropTime := T#500MS;
+StationArray[5].Position := 2600.0;
+StationArray[5].TempPropTime := T#1S;
 
-StationArray[6].Position := 2750.0;
-StationArray[6].TempPropTime := T#1000MS;]]></ST>
+StationArray[6].Position := 3200.0;
+StationArray[6].TempPropTime := T#1S;
+
+
+
+InitialiseStations := true;]]></ST>
       </Implementation>
     </Method>
     <Property Name="PMLState" Id="{ba36824d-caae-4e6e-b5dc-fb0feef88a75}">
@@ -84,33 +89,63 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Method Name="SetPackML" Id="{53c56351-61ed-4063-8940-94e0a76b1fed}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable':='1'}
+METHOD SetPackML : BOOL
+VAR_INPUT
+	state : PackMLCommand;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE state OF
+	PackMLCommand.Abort:
+		stateMachine.PMLCommand(Command := E_PMLCommand.ePMLCommand_Abort);
+	
+	PackMLCommand.Reset: 
+		stateMachine.PMLCommand(Command := E_PMLCommand.ePMLCommand_Reset);
+	
+	PackMLCommand.Clear:
+		stateMachine.PMLCommand(Command := E_PMLCommand.ePMLCommand_Clear);
+	
+	PackMLCommand.Start:
+		stateMachine.PMLCommand(Command := E_PMLCommand.ePMLCommand_Start);
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="Machine">
       <LineId Id="425" Count="2" />
       <LineId Id="455" Count="0" />
-      <LineId Id="431" Count="13" />
+      <LineId Id="431" Count="0" />
+      <LineId Id="435" Count="1" />
+      <LineId Id="438" Count="6" />
       <LineId Id="450" Count="0" />
       <LineId Id="452" Count="2" />
       <LineId Id="445" Count="3" />
       <LineId Id="25" Count="0" />
     </LineIds>
     <LineIds Name="Machine.InitialiseStations">
-      <LineId Id="51" Count="0" />
-      <LineId Id="53" Count="1" />
-      <LineId Id="116" Count="0" />
-      <LineId Id="46" Count="0" />
-      <LineId Id="124" Count="0" />
-      <LineId Id="119" Count="0" />
-      <LineId Id="118" Count="0" />
-      <LineId Id="125" Count="0" />
-      <LineId Id="122" Count="0" />
-      <LineId Id="121" Count="0" />
-      <LineId Id="130" Count="1" />
-      <LineId Id="129" Count="0" />
-      <LineId Id="133" Count="1" />
+      <LineId Id="193" Count="1" />
+      <LineId Id="153" Count="0" />
+      <LineId Id="155" Count="13" />
+      <LineId Id="198" Count="1" />
+      <LineId Id="202" Count="0" />
+      <LineId Id="200" Count="1" />
+      <LineId Id="195" Count="0" />
+      <LineId Id="191" Count="1" />
       <LineId Id="132" Count="0" />
     </LineIds>
     <LineIds Name="Machine.PMLState.Get">
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Machine.SetPackML">
+      <LineId Id="5" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="12" Count="4" />
+      <LineId Id="7" Count="1" />
     </LineIds>
   </POU>
 </TcPlcObject>

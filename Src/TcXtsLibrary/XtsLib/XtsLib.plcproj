@@ -181,31 +181,31 @@
     <Compile Include="Tasks\XtsEnableSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="XTS Class\CAGroupInfo.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="XTS Class\CAGroupStatus.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="XTS Class\CollisionGroup.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="XTS Class\ICollisionGroup.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="XTS Class\ITF_StartUpSequence.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="XTS Class\IXtsTrack.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="XTS Class\XtsHardware.TcPOU">
+    <Compile Include="XTS Class\Xts Collision Group\CAGroupInfo.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="XTS Class\XtsHardwareInfo.TcDUT">
+    <Compile Include="XTS Class\Xts Collision Group\CAGroupStatus.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="XTS Class\XtsHardwareState.TcDUT">
+    <Compile Include="XTS Class\Xts Collision Group\CollisionGroup.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XTS Class\Xts Collision Group\ICollisionGroup.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XTS Class\Xts Hardware\XtsHardware.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XTS Class\Xts Hardware\XtsHardwareInfo.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XTS Class\Xts Hardware\XtsHardwareState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="XTS Class\XtsTrack.TcPOU">
@@ -226,6 +226,8 @@
     <Folder Include="Tasks" />
     <Folder Include="VISUs" />
     <Folder Include="XTS Class" />
+    <Folder Include="XTS Class\Xts Collision Group" />
+    <Folder Include="XTS Class\Xts Hardware" />
   </ItemGroup>
   <ItemGroup>
     <PlaceholderReference Include="Tc2_Standard">
