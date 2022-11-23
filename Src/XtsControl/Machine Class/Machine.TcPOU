@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="Machine" Id="{e8d4edde-6e68-4e80-9f5b-2e9346044142}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK Machine IMPLEMENTS IMachine
+    <Declaration><![CDATA[FUNCTION_BLOCK Machine
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -76,19 +76,6 @@ StationArray[6].TempPropTime := T#1S;
 InitialiseStations := true;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="PMLState" Id="{ba36824d-caae-4e6e-b5dc-fb0feef88a75}">
-      <Declaration><![CDATA[{warning 'add property implementation'}
-PROPERTY PMLState : PackMLState
-]]></Declaration>
-      <Get Name="Get" Id="{ffdc919f-10da-4d02-addd-3d5827ea1ee1}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[//PMLState := State;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="SetPackML" Id="{53c56351-61ed-4063-8940-94e0a76b1fed}">
       <Declaration><![CDATA[{attribute 'TcRpcEnable':='1'}
 METHOD SetPackML : BOOL
@@ -133,9 +120,6 @@ END_CASE]]></ST>
       <LineId Id="195" Count="0" />
       <LineId Id="191" Count="1" />
       <LineId Id="132" Count="0" />
-    </LineIds>
-    <LineIds Name="Machine.PMLState.Get">
-      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="Machine.SetPackML">
       <LineId Id="5" Count="0" />

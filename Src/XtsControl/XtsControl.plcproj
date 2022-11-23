@@ -22,9 +22,6 @@
     <Compile Include="Machine Class\GrippingMachine.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Machine Class\IMachine.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Machine Class\Machine.TcPOU">
       <SubType>Code</SubType>
     </Compile>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="PMLStateMachine" Id="{60400ea6-a6d0-4d71-8555-f15b7929c342}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK PMLStateMachine IMPLEMENTS IPmlStateMachine
 VAR_INPUT
@@ -8,11 +8,12 @@ VAR_OUTPUT
 END_VAR
 VAR
 	_pmlStateMachine : Tc3_PackML_V2.PML_StateMachine;
-	_Mode : E_PMLProtectedUnitMode := E_PMLProtectedUnitMode.ePMLProtUnitMode_Production;
+	_pmlModeMachine : Tc3_PackML_V2.PML_UnitModeManager;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[_pmlStateMachine();]]></ST>
+      <ST><![CDATA[_pmlStateMachine(eMode := _pmlModeMachine.eModeStatus);
+_pmlModeMachine(eState := _pmlStateMachine.eState);]]></ST>
     </Implementation>
     <Method Name="GetCurrentMode" Id="{a328d1d9-ecc8-4538-a2cc-179227c6ea57}">
       <Declaration><![CDATA[METHOD PUBLIC GetCurrentMode : E_PmlProtectedUnitMode
@@ -20,7 +21,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[GetCurrentMode := _Mode;]]></ST>
+        <ST><![CDATA[GetCurrentMode := _pmlModeMachine.eModeStatus;]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetCurrentState" Id="{8c64c6da-7bfe-4eb7-ad2f-8614ebc2ae80}">
@@ -32,24 +33,24 @@ END_VAR
         <ST><![CDATA[GetCurrentState := _pmlStateMachine.eState;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="PMLCommand" Id="{54af98e0-d3e9-44c6-81e2-5076efd7e22a}">
-      <Declaration><![CDATA[METHOD PUBLIC PMLCommand : BOOL
+    <Method Name="PmlModeCommand" Id="{8f9efc6b-7148-4714-b677-c65effb81184}">
+      <Declaration><![CDATA[METHOD PUBLIC PmlModeCommand : Bool
+VAR_INPUT
+	Mode : E_PMLProtectedUnitMode;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_pmlModeMachine.eModeCommand := Mode;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="PmlStateCommand" Id="{54af98e0-d3e9-44c6-81e2-5076efd7e22a}">
+      <Declaration><![CDATA[METHOD PUBLIC PmlStateCommand : BOOL
 VAR_INPUT
 	Command : E_PMLCommand;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[_pmlStateMachine.eCommand := Command;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="SetMode" Id="{8f9efc6b-7148-4714-b677-c65effb81184}">
-      <Declaration><![CDATA[METHOD PUBLIC SetMode : Bool
-VAR_INPUT
-	Mode : E_PMLProtectedUnitMode;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[_pmlStateMachine.eMode := _Mode := Mode;]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetStateComplete" Id="{ca883fc1-f163-42f5-8b56-82749a1c7d47}">
@@ -63,6 +64,7 @@ END_VAR
     </Method>
     <LineIds Name="PMLStateMachine">
       <LineId Id="9" Count="0" />
+      <LineId Id="21" Count="0" />
     </LineIds>
     <LineIds Name="PMLStateMachine.GetCurrentMode">
       <LineId Id="5" Count="0" />
@@ -70,10 +72,10 @@ END_VAR
     <LineIds Name="PMLStateMachine.GetCurrentState">
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="PMLStateMachine.PMLCommand">
+    <LineIds Name="PMLStateMachine.PmlModeCommand">
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="PMLStateMachine.SetMode">
+    <LineIds Name="PMLStateMachine.PmlStateCommand">
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="PMLStateMachine.SetStateComplete">

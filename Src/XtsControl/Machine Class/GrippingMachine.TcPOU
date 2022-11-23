@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="GrippingMachine" Id="{cef35bf0-d94b-4472-a52e-67d847177915}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK GrippingMachine IMPLEMENTS IMachine
+    <Declaration><![CDATA[FUNCTION_BLOCK GrippingMachine
 VAR_INPUT
 END_VAR
 VAR_OUTPUT

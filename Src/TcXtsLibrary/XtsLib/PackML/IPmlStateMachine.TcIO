@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <Itf Name="IPmlStateMachine" Id="{a572c756-2ee2-4617-b1ba-a370e2347b9e}">
     <Declaration><![CDATA[INTERFACE IPmlStateMachine
 ]]></Declaration>
@@ -15,8 +15,15 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="PMLCommand" Id="{f841f4da-d94f-47fd-a3c7-c8897a849506}">
-      <Declaration><![CDATA[METHOD PMLCommand : bool
+    <Method Name="PmlModeCommand" Id="{e47f0040-a872-4910-963e-7f43c8de5a43}">
+      <Declaration><![CDATA[METHOD PmlModeCommand : BOOL
+VAR_INPUT
+	Mode : E_PMLProtectedUnitMode;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="PmlStateCommand" Id="{f841f4da-d94f-47fd-a3c7-c8897a849506}">
+      <Declaration><![CDATA[METHOD PmlStateCommand : bool
 VAR_INPUT
 	Command : E_PMLCommand;
 END_VAR
