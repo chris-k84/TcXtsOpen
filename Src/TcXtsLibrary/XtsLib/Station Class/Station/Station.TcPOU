@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="Station" Id="{15da8106-0d22-4ca5-af9c-31c3d97b8668}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK Station IMPLEMENTS IStation
 VAR_INPUT
@@ -20,6 +20,7 @@ VAR
 	ProductCounter : R_TRIG;
 	Products : DINT;
 	LastStation : BOOL;
+	MyMover : IMover;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -47,7 +48,8 @@ END_VAR]]></Declaration>
         <ST><![CDATA[StationMovers := StationMovers + 1;
 IF StationMovers = NumberOfPositions THEN
 	_HasMover := TRUE;
-END_IF]]></ST>
+END_IF
+MyMover := mover;]]></ST>
       </Implementation>
     </Method>
     <Method Name="IsClear" Id="{76a4496f-67c0-45fc-9e15-a528954fd797}">
@@ -103,7 +105,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[StationMovers := StationMovers - 1;]]></ST>
+        <ST><![CDATA[StationMovers := StationMovers - 1;
+MyMover := 0;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Position" Id="{4a10e32c-305e-441b-9332-8642baafa7cc}">
@@ -144,6 +147,7 @@ END_IF]]></ST>
     <LineIds Name="Station.HasMover">
       <LineId Id="7" Count="2" />
       <LineId Id="4" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="Station.IsClear">
       <LineId Id="4" Count="0" />
@@ -165,6 +169,7 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="Station.MoverAway">
       <LineId Id="2" Count="0" />
+      <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="Station.Position.Get">
       <LineId Id="5" Count="3" />
