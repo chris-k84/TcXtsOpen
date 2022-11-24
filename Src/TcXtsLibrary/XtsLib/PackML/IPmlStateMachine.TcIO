@@ -1,35 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
-  <Itf Name="IPmlStateMachine" Id="{a572c756-2ee2-4617-b1ba-a370e2347b9e}">
+  <Itf Name="IPmlStateMachine" Id="{7e2b1c7d-267d-4392-8169-76a1c12f03ae}">
     <Declaration><![CDATA[INTERFACE IPmlStateMachine
 ]]></Declaration>
-    <Method Name="GetCurrentMode" Id="{30cd7fb2-9a81-454b-9afd-826c85901336}">
+    <Method Name="GetCurrentMode" Id="{f1f4ccb0-642a-4e5b-acff-8f93b5b5a0f4}">
       <Declaration><![CDATA[METHOD public GetCurrentMode : E_PmlProtectedUnitMode
 VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="GetCurrentState" Id="{8896b180-4065-4462-9182-dfc33f7be59c}">
+    <Method Name="GetCurrentState" Id="{3bcf9aaf-f393-4f73-8f07-eae51822d950}">
       <Declaration><![CDATA[METHOD GetCurrentState : E_PMLState
 VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="PmlModeCommand" Id="{e47f0040-a872-4910-963e-7f43c8de5a43}">
+    <Method Name="PmlModeCommand" Id="{d5097a7d-108f-4698-9387-fdc5d50a5284}">
       <Declaration><![CDATA[METHOD PmlModeCommand : BOOL
 VAR_INPUT
 	Mode : E_PMLProtectedUnitMode;
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="PmlStateCommand" Id="{f841f4da-d94f-47fd-a3c7-c8897a849506}">
+    <Method Name="PmlStateCommand" Id="{3bfa8a1b-e306-4768-8b44-32bbf6fc97ed}">
       <Declaration><![CDATA[METHOD PmlStateCommand : bool
 VAR_INPUT
 	Command : E_PMLCommand;
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="SetStateComplete" Id="{5723ee2f-d368-4970-a6c6-2e134230c395}">
+    <Method Name="SetStateComplete" Id="{f37f01c1-8d49-4387-90dd-ff582e05c4ae}">
       <Declaration><![CDATA[METHOD SetStateComplete : BOOL
 VAR_INPUT
 END_VAR
