@@ -80,23 +80,11 @@ InitialiseStations := true;]]></ST>
       <Declaration><![CDATA[{attribute 'TcRpcEnable':='1'}
 METHOD SetPackML : BOOL
 VAR_INPUT
-	state : PackMLCommand;
+	state : E_PMLCommand;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE state OF
-	PackMLCommand.Abort:
-		stateMachine.PMLCommand(Command := E_PMLCommand.ePMLCommand_Abort);
-	
-	PackMLCommand.Reset: 
-		stateMachine.PMLCommand(Command := E_PMLCommand.ePMLCommand_Reset);
-	
-	PackMLCommand.Clear:
-		stateMachine.PMLCommand(Command := E_PMLCommand.ePMLCommand_Clear);
-	
-	PackMLCommand.Start:
-		stateMachine.PMLCommand(Command := E_PMLCommand.ePMLCommand_Start);
-END_CASE]]></ST>
+        <ST><![CDATA[stateMachine.PmlStateCommand(Command := state);]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="Machine">
@@ -122,14 +110,7 @@ END_CASE]]></ST>
       <LineId Id="132" Count="0" />
     </LineIds>
     <LineIds Name="Machine.SetPackML">
-      <LineId Id="5" Count="0" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="22" Count="0" />
-      <LineId Id="21" Count="0" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="23" Count="0" />
-      <LineId Id="12" Count="4" />
-      <LineId Id="7" Count="1" />
+      <LineId Id="29" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
