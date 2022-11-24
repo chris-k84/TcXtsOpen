@@ -7,8 +7,8 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	Xts : XtsTrack := (PackMLStateMachine := stateMachine, TrackLength := SystemParameters.TrackLength, HomePosition := SystemParameters.TrackHomePosition, Tracks := SystemParameters.Tracks);
-	stateMachine : PMLStateMachine;
+	Xts : XtsTrack := (PackMLStateMachine := xtsStateMachine, TrackLength := SystemParameters.TrackLength, HomePosition := SystemParameters.TrackHomePosition, Tracks := SystemParameters.Tracks);
+	xtsStateMachine : PMLStateMachine;
 	Movers : ARRAY[1..SystemParameters.NumberOfMovers] OF FB_Mover;
 	iMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover;// := [indexMovers[1], indexMovers[2]];
 	MoverSequences : ARRAY[1..SystemParameters.NumberOfMovers] OF IndexMoverSequence;
@@ -24,21 +24,22 @@ END_VAR]]></Declaration>
 		Movers[i].TrackLength := Xts.TrackLength;
 	END_FOR
 	IF InitialiseStations() THEN
+		xtsStateMachine.PmlModeCommand(Mode := E_PMLProtectedUnitMode.ePMLProtUnitMode_Production);
 		bInit := TRUE;
 	END_IF
 END_IF
 
-stateMachine();
+xtsStateMachine();
 Xts(MoverArray := iMovers);
 FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
 	Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i]();
 	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i](ThisMover := Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i], 
 																		XtsTrack := Xts, 
-																		StateMachine := stateMachine, 
+																		StateMachine := xtsStateMachine, 
 																		StationArray := iStationArray);																
 END_FOR
 FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
-	StationArray[i](StateMachine := stateMachine);
+	StationArray[i](StateMachine := xtsStateMachine);
 END_FOR
 ]]></ST>
     </Implementation>
@@ -84,18 +85,11 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[stateMachine.PmlStateCommand(Command := state);]]></ST>
+        <ST><![CDATA[xtsStateMachine.PmlStateCommand(Command := state);]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="Machine">
-      <LineId Id="425" Count="2" />
-      <LineId Id="455" Count="0" />
-      <LineId Id="431" Count="0" />
-      <LineId Id="435" Count="1" />
-      <LineId Id="438" Count="6" />
-      <LineId Id="450" Count="0" />
-      <LineId Id="452" Count="2" />
-      <LineId Id="445" Count="3" />
+      <LineId Id="487" Count="22" />
       <LineId Id="25" Count="0" />
     </LineIds>
     <LineIds Name="Machine.InitialiseStations">

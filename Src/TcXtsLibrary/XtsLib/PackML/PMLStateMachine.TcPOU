@@ -12,6 +12,7 @@ VAR
 	_subUnits : ARRAY[0..9] OF IPmlStateMachine;
 	subUnitArray : ARRAY[0..9] OF ST_PMLSubUnitInfo;
 	_SubUnitReference: ST_PMLSubUnitInfoRef;
+	modeChangeTrigger : Tc2_Standard.R_TRIG;
 	i: DINT;
 END_VAR
 ]]></Declaration>
@@ -28,7 +29,8 @@ END_VAR
 END_IF
 
 _pmlStateMachine(eMode := _pmlModeMachine.eModeStatus, stSubUnitInfoRef := _SubUnitReference);
-_pmlModeMachine(eState := _pmlStateMachine.eState);]]></ST>
+_pmlModeMachine(eState := _pmlStateMachine.eState, bExecute := modeChangeTrigger.Q);
+modeChangeTrigger();]]></ST>
     </Implementation>
     <Method Name="GetCurrentMode" Id="{7b17abef-31a4-4387-93cc-006ed2905222}">
       <Declaration><![CDATA[METHOD PUBLIC GetCurrentMode : E_PmlProtectedUnitMode
@@ -55,7 +57,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_pmlModeMachine.eModeCommand := Mode;]]></ST>
+        <ST><![CDATA[_pmlModeMachine.eModeCommand := Mode;
+modeChangeTrigger.CLK := true;]]></ST>
       </Implementation>
     </Method>
     <Method Name="PmlStateCommand" Id="{01ffd23f-e5b1-49e5-90a0-bce9c38c4bb2}">
@@ -101,6 +104,7 @@ END_VAR
       <LineId Id="47" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="21" Count="0" />
+      <LineId Id="72" Count="0" />
     </LineIds>
     <LineIds Name="PMLStateMachine.GetCurrentMode">
       <LineId Id="5" Count="0" />
@@ -110,6 +114,7 @@ END_VAR
     </LineIds>
     <LineIds Name="PMLStateMachine.PmlModeCommand">
       <LineId Id="5" Count="0" />
+      <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="PMLStateMachine.PmlStateCommand">
       <LineId Id="5" Count="0" />
