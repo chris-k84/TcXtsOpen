@@ -16,29 +16,6 @@ VAR
 	EnableSequence : XtsEnableSequence(mcCollisionGroup);
 	DisableSequence : XtsDisableSequence(mcCollisionGroup);
 	GroupStop : StopMoverGroup(mcCollisionGroup);
-//	State :(                                           
-//		Ready,                                 
-//        Enabling,
-//		ActivateTracks,
-//		Enabled,
-//		Resetting,
-//		Idle,
-//		Running,
-//		Starting,
-//		Stop,
-//		Stopping,
-//		Disable,
-//		Disabling);  
-//	State :(
-//		Disable,
-//		Disabling,                                          
-//		Ready,                                 
-//        Enabling,
-//		ActivateTracks,
-//		Enabled,
-//		Resetting,
-//		Running,
-//		Stopping);  
 	State : INT;	
 	i : DINT;
 	AtHome: BOOL;
