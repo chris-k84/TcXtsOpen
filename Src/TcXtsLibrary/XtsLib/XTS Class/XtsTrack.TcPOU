@@ -235,6 +235,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF XtsTrackHardware.XtsHardwareOK THEN
 	GetTMSMoverInterface();
+	ipackml.PmlStateCommand(Command := E_PMLCommand.ePMLCommand_Abort);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -301,7 +302,7 @@ END_IF]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.Undefined">
-      <LineId Id="6" Count="1" />
+      <LineId Id="6" Count="2" />
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
