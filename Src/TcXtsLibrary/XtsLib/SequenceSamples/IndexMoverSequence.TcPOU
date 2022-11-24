@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="IndexMoverSequence" Id="{4ed28eae-b2a7-40a7-8856-6ea87acd0ba0}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK IndexMoverSequence
 VAR_INPUT
@@ -20,9 +20,10 @@ VAR_IN_OUT
 	StationArray : ARRAY[*] OF IProcess;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
-	OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
+      <ST><![CDATA[IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 	State := IndexSequenceState.Aborting;
+ELSIF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
+	State := IndexSequenceState.Stopping;
 END_IF
 CASE State OF
 	IndexSequenceState.Init:
@@ -109,7 +110,14 @@ CASE State OF
 			END_IF		
 			CurrentStation := CurrentStation + 1;
 			State := IndexSequenceState.MovingToStation;
-		END_IF				
+		END_IF	
+
+	IndexSequenceState.Stopping:
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopped THEN
+			State := IndexSequenceState.Available;
+			CurrentStation := 0;
+			TargetStationPosition := 0.0;
+		END_IF			
 		
 	IndexSequenceState.Aborting:
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborted THEN
@@ -127,6 +135,7 @@ stSequenceInfo.Velocity := ThisMover.AxisRef.NcToPlc.ActVelo;]]></ST>
     </Implementation>
     <LineIds Name="IndexMoverSequence">
       <LineId Id="1068" Count="0" />
+      <LineId Id="1086" Count="0" />
       <LineId Id="1049" Count="1" />
       <LineId Id="1048" Count="0" />
       <LineId Id="810" Count="5" />
@@ -139,6 +148,10 @@ stSequenceInfo.Velocity := ThisMover.AxisRef.NcToPlc.ActVelo;]]></ST>
       <LineId Id="872" Count="6" />
       <LineId Id="882" Count="12" />
       <LineId Id="898" Count="15" />
+      <LineId Id="1088" Count="0" />
+      <LineId Id="1087" Count="0" />
+      <LineId Id="1090" Count="3" />
+      <LineId Id="1089" Count="0" />
       <LineId Id="960" Count="0" />
       <LineId Id="916" Count="5" />
       <LineId Id="39" Count="0" />

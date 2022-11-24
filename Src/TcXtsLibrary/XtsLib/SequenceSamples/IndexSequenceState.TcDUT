@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <DUT Name="IndexSequenceState" Id="{1769d416-2c8a-404f-995b-9ad20f4eb1d0}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 {attribute 'strict'}
@@ -16,7 +16,8 @@ TYPE IndexSequenceState :
 	InProcess := 8,
 	GetNextMove := 9,
 	GoToNextStation := 10,
-	Aborting := 11
+	Stopping := 11,
+	Aborting := 12
 );
 END_TYPE
 ]]></Declaration>
