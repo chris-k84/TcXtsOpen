@@ -16,8 +16,7 @@ VAR
 	EnableSequence : XtsEnableSequence(mcCollisionGroup);
 	DisableSequence : XtsDisableSequence(mcCollisionGroup);
 	GroupStop : StopMoverGroup(mcCollisionGroup);
-	State :(
-        Init,                                           
+	State :(                                           
 		Ready,                                 
         Enabling,
 		ActivateTracks,
@@ -38,105 +37,8 @@ VAR_IN_OUT
 	MoverArray : ARRAY[*] OF IMover;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[XtsTrackHardware(Tracks := _tracks, TmsSwitch := TmsSwitch);
-CASE State OF
-	Init:
-		IF XtsTrackHardware.XtsHardwareOK THEN
-			GetTMSMoverInterface();
-			State := Ready;
-		END_IF
-		
-	Ready:
-		IF ipackml.GetCurrentState() = E_PMLState.ePMLState_Clearing THEN
-			IF EnableSequence.Enable() THEN
-				State := Enabling;
-			END_IF	
-		END_IF
-		IF ipackml.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN		
-			State := Disable;
-		END_IF
-		IF ipackml.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN		
-			State := Stop;
-		END_IF
-		
-	Enabling:
-		IF EnableSequence.Done THEN
-			State := ActivateTracks;
-			ipackml.SetStateComplete();
-		END_IF
-		
-	ActivateTracks:
-		IF ActivateTracksInMovers() THEN
-			State := Enabled;
-		END_IF
-		
-	Enabled:
-		IF ipackml.GetCurrentState() = E_PMLState.ePMLState_Resetting THEN
-			IF MoverHomeSequence() THEN
-				State := Resetting;
-			END_IF
-		END_IF
-		IF ipackml.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN		
-			State := Disable;
-		END_IF
-		IF ipackml.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN		
-			State := Stop;
-		END_IF
-		
-	Resetting:
-		AtHome := TRUE;
-		FOR i := LOWER_BOUND(MoverArray,1) TO UPPER_BOUND(MoverArray,1) DO
-				AtHome := AtHome AND MoverArray[i].isStationary();
-		END_FOR 
-		IF AtHome THEN
-			State := Idle;
-			ipackml.SetStateComplete();	
-		END_IF
-		
-	Idle:	
-		IF ipackml.GetCurrentState() = E_PMLState.ePMLState_Starting THEN
-			State := Starting;
-		END_IF
-		IF ipackml.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN		
-			State := Disable;
-		END_IF
-		IF ipackml.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN		
-			State := Stop;
-		END_IF
-		
-	Starting:
-		ipackml.SetStateComplete();
-		State := Running;
-		
-	Running:
-		IF ipackml.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN		
-			State := Disable;
-		END_IF
-		IF ipackml.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN		
-			State := Stop;
-		END_IF
-		
-	Stop:
-		GroupStop.Execute();
-		State := Stopping;
-		
-	Stopping:
-		IF GroupStop.Done THEN
-			State := Enabled;
-			ipackml.SetStateComplete();
-		END_IF
-		
-	Disable:
-		DisableSequence.Disable();
-		State := Disabling;
-		
-	Disabling:
-		IF DisableSequence.Done THEN
-			State := Ready;
-			ipackml.SetStateComplete();
-		END_IF
-END_CASE
-
+      <ST><![CDATA[Cycle();
+XtsTrackHardware(Tracks := _tracks, TmsSwitch := TmsSwitch);
 EnableSequence(arrMovers := MoverArray);
 DisableSequence(arrMovers := MoverArray);
 GroupStop();
@@ -145,6 +47,23 @@ mcCollisionGroup();]]></ST>
     <Folder Name="Action States" Id="{d2e90aa7-a109-454e-9f75-959543a1e09f}" />
     <Folder Name="Operations" Id="{416b7ceb-32d0-4517-b09b-a66e23161c2e}" />
     <Folder Name="Wait States" Id="{95e71483-3166-4f6e-a443-761880040333}" />
+    <Method Name="Aborting" Id="{b99e0521-987a-4d72-a1dd-c5af875fc6fb}" FolderPath="Action States\">
+      <Declaration><![CDATA[METHOD PROTECTED Aborting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Disable:
+	DisableSequence.Disable();
+	State := Disabling;
+		
+Disabling:
+	IF DisableSequence.Done THEN
+		State := Ready;
+		ipackml.SetStateComplete();
+	END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="ActivateTracksInMovers" Id="{f07dde83-d085-4cf6-bf9b-a6e81e2388f6}" FolderPath="Operations\">
       <Declaration><![CDATA[METHOD PUBLIC ActivateTracksInMovers : BOOL
 VAR_INPUT
@@ -159,6 +78,29 @@ END_VAR]]></Declaration>
 	END_IF
 END_FOR
 ActivateTracksInMovers := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Clearing" Id="{6c462925-88a1-4bf3-a41d-1dd22d631ab8}" FolderPath="Action States\">
+      <Declaration><![CDATA[METHOD PROTECTED Clearing : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Ready:
+	IF EnableSequence.Enable() THEN
+		State := Enabling;
+	END_IF	
+	
+Enabling:
+	IF EnableSequence.Done THEN
+		State := ActivateTracks;
+	END_IF
+	
+ActivateTracks:
+	IF ActivateTracksInMovers() THEN
+		ipackml.SetStateComplete();
+		State := Enabled;
+	END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetTMSMoverInterface" Id="{8a0ffa9f-0aa2-4c3c-a17d-9828995afbc3}" FolderPath="Operations\">
@@ -207,6 +149,45 @@ END_FOR
 MoverHomeSequence := TRUE;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="Resetting" Id="{22756c6e-a78b-42b3-9ed5-8fc95da8c2cb}" FolderPath="Action States\">
+      <Declaration><![CDATA[METHOD PROTECTED Resetting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Enabled:
+	IF MoverHomeSequence() THEN
+		State := Resetting;
+	END_IF
+
+Resetting:
+	AtHome := TRUE;
+	FOR i := LOWER_BOUND(MoverArray,1) TO UPPER_BOUND(MoverArray,1) DO
+			AtHome := AtHome AND MoverArray[i].isStationary();
+	END_FOR 
+	IF AtHome THEN
+		State := Idle;
+		ipackml.SetStateComplete();	
+	END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Stopping" Id="{baffc46c-ec7e-42a9-8efd-6e0c5b17da9f}" FolderPath="Action States\">
+      <Declaration><![CDATA[METHOD PROTECTED Stopping : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Stop:
+	GroupStop.Execute();
+	State := Stopping;
+	
+Stopping:
+	IF GroupStop.Done THEN
+		State := Enabled;
+		ipackml.SetStateComplete();
+	END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="TrackLength" Id="{4f244eb1-0239-423a-8574-4ccb93081483}">
       <Declaration><![CDATA[PROPERTY PUBLIC TrackLength : mc_lreal]]></Declaration>
       <Get Name="Get" Id="{962af0e5-68fc-457e-92c4-2ae643ddac5e}">
@@ -246,45 +227,41 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Method Name="Undefined" Id="{8abde942-7373-4a42-9ae3-0ea7bf1578ed}" FolderPath="Wait States\">
+      <Declaration><![CDATA[METHOD PROTECTED Undefined : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF XtsTrackHardware.XtsHardwareOK THEN
+	GetTMSMoverInterface();
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="XtsTrack">
-      <LineId Id="490" Count="13" />
-      <LineId Id="805" Count="4" />
-      <LineId Id="804" Count="0" />
-      <LineId Id="504" Count="12" />
-      <LineId Id="524" Count="4" />
-      <LineId Id="799" Count="4" />
-      <LineId Id="798" Count="0" />
-      <LineId Id="529" Count="11" />
-      <LineId Id="568" Count="1" />
-      <LineId Id="567" Count="0" />
-      <LineId Id="811" Count="4" />
-      <LineId Id="810" Count="0" />
-      <LineId Id="570" Count="2" />
-      <LineId Id="574" Count="0" />
-      <LineId Id="559" Count="0" />
-      <LineId Id="723" Count="0" />
-      <LineId Id="816" Count="4" />
-      <LineId Id="610" Count="0" />
-      <LineId Id="702" Count="2" />
-      <LineId Id="707" Count="0" />
-      <LineId Id="709" Count="3" />
-      <LineId Id="714" Count="0" />
-      <LineId Id="713" Count="0" />
-      <LineId Id="697" Count="2" />
-      <LineId Id="701" Count="0" />
-      <LineId Id="547" Count="1" />
-      <LineId Id="690" Count="0" />
-      <LineId Id="692" Count="0" />
-      <LineId Id="694" Count="0" />
-      <LineId Id="691" Count="0" />
-      <LineId Id="554" Count="3" />
+      <LineId Id="857" Count="0" />
+      <LineId Id="490" Count="0" />
+      <LineId Id="556" Count="1" />
       <LineId Id="706" Count="0" />
       <LineId Id="78" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.Aborting">
+      <LineId Id="11" Count="7" />
+      <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.ActivateTracksInMovers">
       <LineId Id="8" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="12" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.Clearing">
+      <LineId Id="19" Count="0" />
+      <LineId Id="21" Count="2" />
+      <LineId Id="31" Count="3" />
+      <LineId Id="36" Count="3" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="18" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.GetTMSMoverInterface">
       <LineId Id="6" Count="3" />
@@ -301,6 +278,16 @@ END_VAR
       <LineId Id="5" Count="0" />
       <LineId Id="8" Count="0" />
     </LineIds>
+    <LineIds Name="XtsTrack.Resetting">
+      <LineId Id="17" Count="0" />
+      <LineId Id="19" Count="2" />
+      <LineId Id="29" Count="8" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.Stopping">
+      <LineId Id="10" Count="7" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
     <LineIds Name="XtsTrack.TrackLength.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
@@ -312,6 +299,10 @@ END_VAR
     </LineIds>
     <LineIds Name="XtsTrack.Tracks.Set">
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.Undefined">
+      <LineId Id="6" Count="1" />
+      <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
