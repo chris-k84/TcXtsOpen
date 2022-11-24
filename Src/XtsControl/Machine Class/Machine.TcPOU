@@ -7,7 +7,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	Xts : XtsTrack := (TrackLength := SystemParameters.TrackLength, HomePosition := SystemParameters.TrackHomePosition, Tracks := SystemParameters.Tracks);
+	Xts : XtsTrack := (PackMLStateMachine := stateMachine, TrackLength := SystemParameters.TrackLength, HomePosition := SystemParameters.TrackHomePosition, Tracks := SystemParameters.Tracks);
 	stateMachine : PMLStateMachine;
 	Movers : ARRAY[1..SystemParameters.NumberOfMovers] OF FB_Mover;
 	iMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover;// := [indexMovers[1], indexMovers[2]];
@@ -29,7 +29,7 @@ END_VAR]]></Declaration>
 END_IF
 
 stateMachine();
-Xts(MoverArray := iMovers, StateMachine := stateMachine);
+Xts(MoverArray := iMovers);
 FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
 	Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i]();
 	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i](ThisMover := Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i], 

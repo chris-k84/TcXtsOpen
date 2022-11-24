@@ -1,9 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="XtsTrack" Id="{9b564055-e4ef-49ec-91fa-4e16cb16a3f0}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK XtsTrack IMPLEMENTS IXtsTrack
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsTrack EXTENDS PML_Method_Base IMPLEMENTS IXtsTrack 
 VAR_INPUT
-	StateMachine : IPmlStateMachine;
 	TmsSwitch : ITF_TmsSwitch;
 END_VAR
 VAR_OUTPUT
@@ -48,22 +47,22 @@ CASE State OF
 		END_IF
 		
 	Ready:
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Clearing THEN
+		IF ipackml.GetCurrentState() = E_PMLState.ePMLState_Clearing THEN
 			IF EnableSequence.Enable() THEN
 				State := Enabling;
 			END_IF	
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN		
+		IF ipackml.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN		
 			State := Disable;
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN		
+		IF ipackml.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN		
 			State := Stop;
 		END_IF
 		
 	Enabling:
 		IF EnableSequence.Done THEN
 			State := ActivateTracks;
-			StateMachine.SetStateComplete();
+			ipackml.SetStateComplete();
 		END_IF
 		
 	ActivateTracks:
@@ -72,15 +71,15 @@ CASE State OF
 		END_IF
 		
 	Enabled:
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Resetting THEN
+		IF ipackml.GetCurrentState() = E_PMLState.ePMLState_Resetting THEN
 			IF MoverHomeSequence() THEN
 				State := Resetting;
 			END_IF
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN		
+		IF ipackml.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN		
 			State := Disable;
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN		
+		IF ipackml.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN		
 			State := Stop;
 		END_IF
 		
@@ -91,29 +90,29 @@ CASE State OF
 		END_FOR 
 		IF AtHome THEN
 			State := Idle;
-			StateMachine.SetStateComplete();	
+			ipackml.SetStateComplete();	
 		END_IF
 		
 	Idle:	
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Starting THEN
+		IF ipackml.GetCurrentState() = E_PMLState.ePMLState_Starting THEN
 			State := Starting;
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN		
+		IF ipackml.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN		
 			State := Disable;
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN		
+		IF ipackml.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN		
 			State := Stop;
 		END_IF
 		
 	Starting:
-		StateMachine.SetStateComplete();
+		ipackml.SetStateComplete();
 		State := Running;
 		
 	Running:
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN		
+		IF ipackml.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN		
 			State := Disable;
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN		
+		IF ipackml.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN		
 			State := Stop;
 		END_IF
 		
@@ -124,7 +123,7 @@ CASE State OF
 	Stopping:
 		IF GroupStop.Done THEN
 			State := Enabled;
-			StateMachine.SetStateComplete();
+			ipackml.SetStateComplete();
 		END_IF
 		
 	Disable:
@@ -134,7 +133,7 @@ CASE State OF
 	Disabling:
 		IF DisableSequence.Done THEN
 			State := Ready;
-			StateMachine.SetStateComplete();
+			ipackml.SetStateComplete();
 		END_IF
 END_CASE
 
@@ -143,7 +142,10 @@ DisableSequence(arrMovers := MoverArray);
 GroupStop();
 mcCollisionGroup();]]></ST>
     </Implementation>
-    <Method Name="ActivateTracksInMovers" Id="{f07dde83-d085-4cf6-bf9b-a6e81e2388f6}">
+    <Folder Name="Action States" Id="{d2e90aa7-a109-454e-9f75-959543a1e09f}" />
+    <Folder Name="Operations" Id="{416b7ceb-32d0-4517-b09b-a66e23161c2e}" />
+    <Folder Name="Wait States" Id="{95e71483-3166-4f6e-a443-761880040333}" />
+    <Method Name="ActivateTracksInMovers" Id="{f07dde83-d085-4cf6-bf9b-a6e81e2388f6}" FolderPath="Operations\">
       <Declaration><![CDATA[METHOD PUBLIC ActivateTracksInMovers : BOOL
 VAR_INPUT
 END_VAR
@@ -159,7 +161,7 @@ END_FOR
 ActivateTracksInMovers := true;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="GetTMSMoverInterface" Id="{8a0ffa9f-0aa2-4c3c-a17d-9828995afbc3}">
+    <Method Name="GetTMSMoverInterface" Id="{8a0ffa9f-0aa2-4c3c-a17d-9828995afbc3}" FolderPath="Operations\">
       <Declaration><![CDATA[METHOD PUBLIC GetTMSMoverInterface : BOOL
 VAR_INPUT
 END_VAR
@@ -193,7 +195,7 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Method Name="MoverHomeSequence" Id="{75121f0d-c39e-4602-b6e8-ef3881ab6657}">
+    <Method Name="MoverHomeSequence" Id="{75121f0d-c39e-4602-b6e8-ef3881ab6657}" FolderPath="Operations\">
       <Declaration><![CDATA[METHOD PUBLIC MoverHomeSequence : BOOL
 VAR_INPUT
 END_VAR
