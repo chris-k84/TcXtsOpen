@@ -11,7 +11,7 @@ VAR
 	_Complete : BOOL;
 	_Operating : BOOL;
 	_Ready : BOOL;
-	_Positions : ARRAY[1..4] OF MC_LREAL;
+	_Positions : ARRAY[1..4] OF MC_LREAL := [0.0,0.0,0.0,0.0];
 	NumberOfPositions : INT := 0;
 	AssignedPositions : INT := 1;
 	StationMovers : INT;

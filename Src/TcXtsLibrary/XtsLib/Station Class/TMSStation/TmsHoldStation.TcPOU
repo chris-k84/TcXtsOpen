@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="TmsHoldStation" Id="{27770a69-a787-45d0-98d5-3048dc805328}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK TmsHoldStation EXTENDS Process 
 VAR_INPUT
@@ -23,8 +23,6 @@ END_VAR
       <ST><![CDATA[CASE State OF
 	Init:
 		_Operating := _Clear := _Complete := _Ready := _HasMover := FALSE;
-		_Positions[1] := _Positions[2] := _Positions[3] := _Positions[4] := 0;
-		AssignedPositions := 1;
 		StationMovers := 0;
 		State := Ready;
 	
@@ -107,8 +105,8 @@ HoldMover := 0;
       </Implementation>
     </Method>
     <LineIds Name="TmsHoldStation">
-      <LineId Id="25" Count="3" />
-      <LineId Id="30" Count="4" />
+      <LineId Id="25" Count="2" />
+      <LineId Id="31" Count="3" />
       <LineId Id="40" Count="0" />
       <LineId Id="101" Count="0" />
       <LineId Id="41" Count="0" />

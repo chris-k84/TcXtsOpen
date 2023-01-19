@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="TmsEmbarkStation" Id="{044d9b9f-48a1-452d-b127-28199a3c04bb}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK TmsEmbarkStation EXTENDS Process IMPLEMENTS ITF_SwitchStation
 VAR_INPUT
@@ -35,9 +35,6 @@ END_VAR
       <ST><![CDATA[CASE State OF
 	Init:
 		_Operating := _Clear := _Complete := _Ready := _HasMover := FALSE;
-		_Positions[1] := _Positions[2] := _Positions[3] := _Positions[4] := 0;
-		NumberOfPositions := 0;
-		AssignedPositions := 1;
 		StationMovers := 0;
 		State := Ready;
 	
@@ -131,9 +128,22 @@ END_VAR
 			State := Aborting;
 		END_IF
 		
+//	Boarding:
+//		DepartMover.MoveTo(Position := (_switchPosition+220.0), Velocity := 500.0, BackwardMove := FALSE);
+//		IF DepartMover.isPastPosition(position := _switchPosition+30.0) THEN
+//			State := BoardingComplete;
+//		END_IF
+		
+//	BoardingComplete:
+//		IF TmsSwitch.MoveTo(positionState := demandPosition) THEN
+//			State := Moving;
+//		END_IF
+//		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+//			State := Aborting;
+//		END_IF		
 	Boarding:
-		DepartMover.MoveTo(Position := (_switchPosition+220.0), Velocity := 500.0, BackwardMove := FALSE);
-		IF DepartMover.isPastPosition(position := _switchPosition+30.0) THEN
+		DepartMover.MoveTo(Position := _switchPosition, Velocity := BoardVelocity, BackwardMove := FALSE);
+		IF DepartMover.isAtPosition(position := _switchPosition) THEN
 			State := BoardingComplete;
 		END_IF
 		
@@ -145,19 +155,6 @@ END_VAR
 			State := Aborting;
 		END_IF
 		
-//	Boarding:
-//		DepartMover.MoveTo(Position := _switchPosition, Velocity := BoardVelocity, BackwardMove := FALSE);
-//		IF DepartMover.isAtPosition(position := _switchPosition) THEN
-//			State := BoardingComplete;
-//		END_IF
-		
-//	BoardingComplete:
-//		IF TmsSwitch.MoveTo(positionState := demandPosition) THEN
-//			State := Moving;
-//		END_IF
-//		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-//			State := Aborting;
-//		END_IF
 	Moving:
 		IF _Complete AND NOT _HasMover THEN
 			_Operating := FALSE;
@@ -257,7 +254,8 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="TmsEmbarkStation">
-      <LineId Id="1015" Count="15" />
+      <LineId Id="1015" Count="2" />
+      <LineId Id="1021" Count="9" />
       <LineId Id="1175" Count="1" />
       <LineId Id="1174" Count="0" />
       <LineId Id="1031" Count="8" />
@@ -275,9 +273,10 @@ END_VAR
       <LineId Id="1098" Count="10" />
       <LineId Id="1200" Count="1" />
       <LineId Id="1199" Count="0" />
-      <LineId Id="1275" Count="0" />
       <LineId Id="1234" Count="11" />
-      <LineId Id="1109" Count="7" />
+      <LineId Id="1109" Count="0" />
+      <LineId Id="1305" Count="0" />
+      <LineId Id="1110" Count="6" />
       <LineId Id="1203" Count="1" />
       <LineId Id="1202" Count="0" />
       <LineId Id="1179" Count="0" />
