@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="TmsExchange" Id="{27fb18f6-f27b-4462-bf40-a5ac4ef58917}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC TmsExchange EXTENDS Process
 VAR_INPUT
@@ -29,14 +29,14 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Property Name="ExchangePosition" Id="{a9874efe-b6f7-44a3-97fb-b9da1b2bb67f}">
-      <Declaration><![CDATA[PROPERTY ExchangePosition : int]]></Declaration>
+    <Property Name="ExchangeTrackLevel" Id="{a9874efe-b6f7-44a3-97fb-b9da1b2bb67f}">
+      <Declaration><![CDATA[PROPERTY ExchangeTrackLevel : int]]></Declaration>
       <Get Name="Get" Id="{b227262b-022a-4f6f-949f-c433e85e026a}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[ExchangePosition := embarkingStation.StationPosition;]]></ST>
+          <ST><![CDATA[ExchangeTrackLevel := embarkingStation.TrackLevel;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{1749dfec-ed0e-4ade-93c1-5b9f22c6671c}">
@@ -44,7 +44,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[embarkingStation.StationPosition := ExchangePosition;]]></ST>
+          <ST><![CDATA[embarkingStation.TrackLevel := ExchangeTrackLevel;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -85,10 +85,10 @@ END_VAR
     <LineIds Name="TmsExchange.EmbarkStation.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="TmsExchange.ExchangePosition.Get">
+    <LineIds Name="TmsExchange.ExchangeTrackLevel.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="TmsExchange.ExchangePosition.Set">
+    <LineIds Name="TmsExchange.ExchangeTrackLevel.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="TmsExchange.HoldStation.Get">

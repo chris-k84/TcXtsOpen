@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="IGearMover" Id="{4e4fd1de-f8b6-49dc-859b-119d358594ce}">
+    <Declaration><![CDATA[INTERFACE IGearMover EXTENDS IMover
+]]></Declaration>
+    <Method Name="Gear" Id="{63c7a8e0-32fa-4e3f-84fe-4a57add5caa7}">
+      <Declaration><![CDATA[METHOD Gear : BOOL
+VAR_INPUT
+	MasterPosition : MC_LREAL;
+	SlavePosition : MC_LREAL;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="inGear" Id="{e8756b16-d7d4-489b-bbed-8933bde7e4d7}">
+      <Declaration><![CDATA[METHOD inGear : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="isMaster" Id="{ff5c1c63-a0cf-49dc-80c7-eb87f1062306}">
+      <Declaration><![CDATA[METHOD isMaster : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="masterAxis" Id="{842662f0-2f7b-4c05-82fc-6c80262ae0e0}">
+      <Declaration><![CDATA[METHOD masterAxis : UDINT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>
