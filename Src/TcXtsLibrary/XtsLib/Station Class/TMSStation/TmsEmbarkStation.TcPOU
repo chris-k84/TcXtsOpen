@@ -24,7 +24,7 @@ VAR
 		Aborting); 
 	_switchPosition: MC_LREAL;
 	demandPosition : TmsSwitchPosition;
-	arrTrackIds : ARRAY[1..4] OF OTCID := [16#01010100,16#010100F0,16#010100E0,16#01010790];
+	arrTrackIds : ARRAY[1..4] OF OTCID;
 	isUpAllowed : BOOL := TRUE;
 	isDownAllowed : BOOL := FALSE;
 	isMiddleAllowed : BOOL := TRUE;
@@ -220,6 +220,25 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Property Name="TrackIds" Id="{c2f75818-b938-43f0-b96e-fbc18d8f8be1}">
+      <Declaration><![CDATA[PROPERTY TrackIds : array[1..4] of otcid]]></Declaration>
+      <Get Name="Get" Id="{c81104ca-1620-4a20-a6d3-101acd28bca5}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[TrackIds := arrTrackIds;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{faf9b2c6-cecd-42f6-8211-78955a69b3e2}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[arrTrackIds := TrackIds;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="TrackLevel" Id="{04b01043-8abc-480b-b7a1-3b47b2f6b3d3}">
       <Declaration><![CDATA[PROPERTY TrackLevel : INT
 ]]></Declaration>
@@ -263,6 +282,12 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.SwitchTravelPosition.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkStation.TrackIds.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkStation.TrackIds.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.TrackLevel.Get">

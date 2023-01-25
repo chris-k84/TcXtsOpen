@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="DualModuleTmsSwitch" Id="{277d4c84-a32d-4184-90e2-a93e1f285faf}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK DualModuleTmsSwitch EXTENDS MC2_Axis_Base IMPLEMENTS ITF_TmsSwitch
 VAR_INPUT
@@ -15,7 +15,7 @@ VAR
 	_middlePosition : MC_LREAL;
 	_downPosition : MC_LREAL;
 	SwitchVelocity : MC_LREAL := 100.0;
-	arrTrackIds : ARRAY[1..4] OF OTCID := [16#01010100,16#010100F0,16#010100E0,16#01010790];
+	arrTrackIds : ARRAY[1..4] OF OTCID;
 	stSwitchInfo : TmsSwitchInfo;
 END_VAR
 ]]></Declaration>
@@ -261,6 +261,25 @@ END_IF]]></ST>
         </Implementation>
       </Get>
     </Property>
+    <Property Name="TrackIds" Id="{6c19cc87-575d-4c2f-958f-95e0717e2b70}">
+      <Declaration><![CDATA[PROPERTY TrackIds : array[1..4] of otcid]]></Declaration>
+      <Get Name="Get" Id="{285900ce-0f02-4b40-b12e-896f1d3769e1}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[TrackIds := arrTrackIds;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{48fd3d44-35f7-4e16-9868-8b7bd6784d45}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[arrTrackIds := TrackIds;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="UpperPosition" Id="{80967e98-671b-4a73-822c-40bc0a4eddd0}">
       <Declaration><![CDATA[PROPERTY PUBLIC UpperPosition : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{142ba753-3293-4702-b2a5-74b9d29694a2}">
@@ -333,6 +352,12 @@ END_VAR
     <LineIds Name="DualModuleTmsSwitch.Switch.Get">
       <LineId Id="21" Count="7" />
       <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.TrackIds.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.TrackIds.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.UpperPosition.Get">
       <LineId Id="2" Count="0" />

@@ -78,6 +78,25 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Property Name="TrackIds" Id="{0c15a2fd-aa1d-4708-8d0a-773d8a252368}">
+      <Declaration><![CDATA[PROPERTY PUBLIC TrackIds : Array[1..4] of OTCID]]></Declaration>
+      <Get Name="Get" Id="{3d8bfebc-0d4e-46cf-a36b-1a81b8d1e206}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[TrackIds := embarkingStation.TrackIds;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{ede1a077-ad41-498e-847b-749cd5cf861f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[embarkingStation.TrackIds := TrackIds;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <LineIds Name="TmsExchange">
       <LineId Id="123" Count="1" />
       <LineId Id="77" Count="0" />
@@ -98,6 +117,12 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="TmsExchange.SwitchTravelPosition.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.TrackIds.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.TrackIds.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
