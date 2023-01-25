@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="TMS_Mover" Id="{6b131325-7dfb-4240-b139-8c4216101462}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK TMS_Mover EXTENDS FB_Mover IMPLEMENTS ITmsMover
 VAR
-	_activateTrack : ActivateTrackForMover(_axis);
+	ActivateATrack : ActivateTrackForMover(_axis);
 	mcReadTrackPositions : Tc3_McCollisionAvoidance.MC_ReadTrackPositions;
-	axesMoveTo2 		: MoveModuloMoverToPosition(_axis) := (Gap := 100.0);
+	axesMoveModuloTo 		: MoveModuloMoverToPosition(_axis) := (Gap := 100.0);
 	_stOptions : ST_MoveAbsoluteCAOptions;
 	ipTcIoXtsMover			: I_TcIoXtsXpuMover;
 	stTmsActPositions			: ST_PositionInfo;
@@ -25,17 +25,17 @@ IF _identInGroup <> 0 THEN
 		Error=> , 
 		ErrorId=> );
 END_IF
-_activateTrack();
-IF _activateTrack.Done THEN 
-	_stOptions.PositionReferenceSystem :=  _activateTrack.NewTrackId;
-	axesMoveTo2.Options := _stOptions;
+ActivateATrack();
+IF ActivateATrack.Done THEN 
+	_stOptions.PositionReferenceSystem :=  ActivateATrack.NewTrackId;
+	axesMoveModuloTo.Options := _stOptions;
 END_IF
 
 IF ipTcIoXtsMover <> 0 THEN
 	stTmsActPositions:=ipTcIoXtsMover.GetPositionInfo();
 END_IF
 
-axesMoveTo2();]]></ST>
+axesMoveModuloTo();]]></ST>
     </Implementation>
     <Method Name="ActivateTrack" Id="{5f8dc4a4-b7cd-44e5-baab-59a89ea4550d}">
       <Declaration><![CDATA[METHOD ActivateTrack : BOOL
@@ -44,8 +44,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT _activateTrack.Busy THEN
-	_activateTrack.Execute(Track := newTrack);
+        <ST><![CDATA[IF NOT ActivateATrack.Busy THEN
+	ActivateATrack.Execute(Track := newTrack);
 	ActivateTrack := TRUE;
 END_IF]]></ST>
       </Implementation>
@@ -67,7 +67,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[HasCommand := axesMoveTo2.Busy;]]></ST>
+        <ST><![CDATA[HasCommand := axesMoveModuloTo.Busy;]]></ST>
       </Implementation>
     </Method>
     <Method Name="isAtPosition" Id="{1cb134b7-8afd-4d69-a68f-d63401be7671}">
@@ -119,8 +119,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT THIS^.isAtPosition(position := Position) THEN
-	IF NOT axesMoveTo2.Busy THEN
-		THIS^.axesMoveTo2.MoveTo(Position := Position, Velocity := Velocity, Direction := Tc2_MC2.MC_Direction.MC_Positive_Direction, Turns := 0);
+	IF NOT axesMoveModuloTo.Busy THEN
+		THIS^.axesMoveModuloTo.MoveTo(Position := Position, Velocity := Velocity, Direction := Tc2_MC2.MC_Direction.MC_Positive_Direction, Turns := 0);
 		MoveTo := TRUE;
 		_targetPos := Position;
 	END_IF
@@ -138,8 +138,7 @@ END_VAR
       </Implementation>
     </Method>
     <LineIds Name="TMS_Mover">
-      <LineId Id="218" Count="17" />
-      <LineId Id="237" Count="5" />
+      <LineId Id="291" Count="23" />
       <LineId Id="12" Count="0" />
     </LineIds>
     <LineIds Name="TMS_Mover.ActivateTrack">
@@ -169,10 +168,7 @@ END_VAR
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="TMS_Mover.MoveTo">
-      <LineId Id="53" Count="0" />
-      <LineId Id="26" Count="2" />
-      <LineId Id="71" Count="0" />
-      <LineId Id="5" Count="0" />
+      <LineId Id="78" Count="5" />
       <LineId Id="64" Count="0" />
     </LineIds>
     <LineIds Name="TMS_Mover.SetMoverInterface">

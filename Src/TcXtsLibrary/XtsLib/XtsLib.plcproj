@@ -18,7 +18,19 @@
     <Company>ChrisK</Company>
     <Released>false</Released>
     <Title>Xts Library</Title>
-    <ProjectVersion>1.0.0.4</ProjectVersion>
+    <ProjectVersion>1.0.0.5</ProjectVersion>
+    <LibraryCategories>
+      <LibraryCategory xmlns="">
+        <Id>{4c30be10-0c29-4796-921e-62ecfda40191}</Id>
+        <Version>0.0.0.1</Version>
+        <DefaultName>BeckhoffUK</DefaultName>
+      </LibraryCategory>
+    </LibraryCategories>
+    <SelectedLibraryCategories>
+      <Id xmlns="">{4c30be10-0c29-4796-921e-62ecfda40191}</Id>
+    </SelectedLibraryCategories>
+    <Author>ChrisK</Author>
+    <Description>Xts framework implementation</Description>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Axis Class\MC2_Axis_Base.TcPOU">
