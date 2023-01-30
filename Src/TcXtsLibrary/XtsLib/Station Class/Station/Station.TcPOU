@@ -39,6 +39,19 @@ IF LastStation THEN
 	END_IF
 END_IF]]></ST>
     </Implementation>
+    <Method Name="Abort" Id="{38f6b9e4-2f32-4b37-b901-e23947342ba9}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_Complete := FALSE;
+_Clear := TRUE;
+_Operating := FALSE;
+_Ready := TRUE;
+]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="HasMover" Id="{1cb719ab-8b5a-456f-a91b-48331f9d0dc2}">
       <Declaration><![CDATA[METHOD HasMover : BOOL
 VAR_INPUT
@@ -143,6 +156,10 @@ END_IF]]></ST>
       <LineId Id="48" Count="0" />
       <LineId Id="119" Count="5" />
       <LineId Id="118" Count="0" />
+    </LineIds>
+    <LineIds Name="Station.Abort">
+      <LineId Id="6" Count="3" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="Station.HasMover">
       <LineId Id="7" Count="2" />

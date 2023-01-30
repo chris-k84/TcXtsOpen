@@ -133,6 +133,21 @@ stSequenceInfo.MoverId := ThisMover.AxisRef.NcToPlc.AxisId;
 stSequenceInfo.State := State;
 stSequenceInfo.Velocity := ThisMover.AxisRef.NcToPlc.ActVelo;]]></ST>
     </Implementation>
+    <Method Name="Abort" Id="{397c3846-e217-40d7-9923-29b7d6a40cc1}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[State := IndexSequenceState.Available;
+CurrentStation := 0;
+TargetStationPosition := 0.0;
+stSequenceInfo.CurrentStation := CurrentStation;
+stSequenceInfo.MoverId := ThisMover.AxisRef.NcToPlc.AxisId;
+stSequenceInfo.State := State;
+stSequenceInfo.Velocity := ThisMover.AxisRef.NcToPlc.ActVelo;]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="IndexMoverSequence">
       <LineId Id="1068" Count="0" />
       <LineId Id="1086" Count="0" />
@@ -158,6 +173,12 @@ stSequenceInfo.Velocity := ThisMover.AxisRef.NcToPlc.ActVelo;]]></ST>
       <LineId Id="1002" Count="0" />
       <LineId Id="1001" Count="0" />
       <LineId Id="1003" Count="3" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.Abort">
+      <LineId Id="6" Count="1" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="2" />
+      <LineId Id="8" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

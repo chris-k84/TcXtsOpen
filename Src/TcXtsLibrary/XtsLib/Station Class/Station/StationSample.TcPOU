@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="StationSample" Id="{2455d108-358d-48f3-a683-d527519dc5b8}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK StationSample EXTENDS Process
 VAR_INPUT
@@ -57,6 +57,16 @@ END_IF
 SUPER^();
 stInfo.StationProcessTime := _OperationTime;]]></ST>
     </Implementation>
+    <Method Name="Abort" Id="{3728aaec-7d37-460f-b16a-a399001ba6b4}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^();
+StationMovers := State := 0;]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="TempPropTime" Id="{e0ccb7b2-ab4d-4401-a6ea-ec63ab2ed8d6}">
       <Declaration><![CDATA[PROPERTY TempPropTime : time]]></Declaration>
       <Get Name="Get" Id="{d09bc174-9f05-4e5a-bc80-e72251b6839f}">
@@ -106,6 +116,9 @@ END_VAR
       <LineId Id="90" Count="0" />
       <LineId Id="89" Count="0" />
       <LineId Id="128" Count="0" />
+    </LineIds>
+    <LineIds Name="StationSample.Abort">
+      <LineId Id="5" Count="1" />
     </LineIds>
     <LineIds Name="StationSample.TempPropTime.Get">
       <LineId Id="2" Count="0" />

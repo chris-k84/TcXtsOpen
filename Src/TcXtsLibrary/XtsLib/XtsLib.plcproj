@@ -18,7 +18,7 @@
     <Company>ChrisK</Company>
     <Released>false</Released>
     <Title>Xts Library</Title>
-    <ProjectVersion>1.0.0.5</ProjectVersion>
+    <ProjectVersion>1.0.0.6</ProjectVersion>
     <LibraryCategories>
       <LibraryCategory xmlns="">
         <Id>{4c30be10-0c29-4796-921e-62ecfda40191}</Id>
@@ -46,6 +46,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mover Class\GearMover.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Mover Class\IDynamics.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mover Class\IGearMover.TcIO">

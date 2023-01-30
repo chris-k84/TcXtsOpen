@@ -1,8 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <Itf Name="IStation" Id="{485e049e-0dbf-4cb2-92d5-eeadda868244}">
     <Declaration><![CDATA[INTERFACE IStation
 ]]></Declaration>
+    <Method Name="Abort" Id="{b28dc0f6-87fc-48d7-a2b8-a7b3817f6bfc}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
     <Method Name="HasMover" Id="{899154dd-dc96-481c-8916-04ef12eb0809}">
       <Declaration><![CDATA[METHOD HasMover : BOOL
 VAR_INPUT
