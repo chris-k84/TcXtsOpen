@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="XtsDisableSequence" Id="{73e2f204-8f47-4c35-9b5f-a5e50b2f6f82}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XtsDisableSequence IMPLEMENTS ITask
 VAR_INPUT
@@ -65,10 +65,16 @@ END_VAR]]></Declaration>
 		END_FOR
 		IF AllMoversDisabled THEN
 			logger.Send(TC_EVENTS.XtsCAGroupEvents.AllMoversDisabled,'');
-			State := 50;
+			State := 40;
 			_collisionGroup.Disable();
 			logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupDisable,'');
 		END_IF
+	40:
+		IF _collisionGroup.GroupState = CAGroupStatus.mcGroupStateErrorStop THEN
+			_collisionGroup.Reset();
+			Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupReset,'');
+		END_IF	
+		State := 50;
 		
 	50:
 		IF _collisionGroup.GroupState = 1 THEN
@@ -177,7 +183,11 @@ grpStop.Jerk := Tc3_Mc3Definitions.MC_MAXIMUM;]]></ST>
       <LineId Id="86" Count="0" />
       <LineId Id="40" Count="1" />
       <LineId Id="111" Count="0" />
-      <LineId Id="42" Count="4" />
+      <LineId Id="42" Count="1" />
+      <LineId Id="157" Count="2" />
+      <LineId Id="156" Count="0" />
+      <LineId Id="160" Count="1" />
+      <LineId Id="44" Count="2" />
       <LineId Id="48" Count="1" />
       <LineId Id="87" Count="0" />
       <LineId Id="50" Count="3" />
