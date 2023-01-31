@@ -43,7 +43,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[SUPER^();
+        <ST><![CDATA[SUPER^.Cycle();
 IF _identInGroup <> 0 THEN
 	mcReadTrackPositions(
 		Axis:= THIS^._axis, 

@@ -53,7 +53,7 @@ ELSE
 	CurrentLimit := 12000;
 END_IF
 
-SUPER^();
+SUPER^.Cycle();
 axesGear(_MasterAxis := MoverArray[MoverToGearTo].AxisRef, _SlaveAxis := THIS^.AxisRef);
 moverSequence(ThisMover := THIS^,
 				XtsTrack := XtsTrack,
