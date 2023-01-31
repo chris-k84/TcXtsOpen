@@ -13,7 +13,7 @@ VAR
 	State : IndexSequenceState;  
 	CurrentStation : INT;
 	TargetStationPosition : MC_LREAL;
-	MoverVelocity : MC_LREAL := 1000.0;
+	_MoverVelocity : MC_LREAL := 1000.0;
 	stSequenceInfo : MoverSequenceInfo;
 END_VAR
 VAR_IN_OUT
@@ -86,7 +86,7 @@ CASE State OF
 	IndexSequenceState.GetNextMove:
 		IF CurrentStation = UPPER_BOUND(StationArray,1) THEN
 			IF ThisMover.MoveTo(Position := XtsTrack.HomePosition,
-							Velocity := MoverVelocity,
+							Velocity := _MoverVelocity,
 							BackwardMove := FALSE) THEN
 				State := IndexSequenceState.MovingToStart;
 				StationArray[CurrentStation].MoverAway();
@@ -103,7 +103,7 @@ CASE State OF
 			TargetStationPosition := StationArray[CurrentStation + 1].Position;
 		END_IF
 		IF 	ThisMover.MoveTo(Position := TargetStationPosition,
-							Velocity := MoverVelocity,
+							Velocity := _MoverVelocity,
 							BackwardMove := FALSE) THEN
 			IF CurrentStation <> 0 THEN
 				StationArray[CurrentStation].MoverAway();	
@@ -148,37 +148,40 @@ stSequenceInfo.State := State;
 stSequenceInfo.Velocity := ThisMover.AxisRef.NcToPlc.ActVelo;]]></ST>
       </Implementation>
     </Method>
+    <Property Name="MoverVelocity" Id="{c303dc01-7139-45a4-8651-17c52d290c79}">
+      <Declaration><![CDATA[PROPERTY MoverVelocity : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{25572cf6-6ba9-4a2c-b7d5-aa1f6ca55ed0}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MoverVelocity := _MoverVelocity;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{9398706a-cb62-4c73-8150-7069a2b23126}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_MoverVelocity := MoverVelocity;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <LineIds Name="IndexMoverSequence">
-      <LineId Id="1068" Count="0" />
-      <LineId Id="1086" Count="0" />
-      <LineId Id="1049" Count="1" />
-      <LineId Id="1048" Count="0" />
-      <LineId Id="810" Count="5" />
-      <LineId Id="1028" Count="2" />
-      <LineId Id="816" Count="0" />
-      <LineId Id="820" Count="23" />
-      <LineId Id="847" Count="4" />
-      <LineId Id="855" Count="4" />
-      <LineId Id="863" Count="5" />
-      <LineId Id="872" Count="6" />
-      <LineId Id="882" Count="12" />
-      <LineId Id="898" Count="15" />
-      <LineId Id="1088" Count="0" />
-      <LineId Id="1087" Count="0" />
-      <LineId Id="1090" Count="3" />
-      <LineId Id="1089" Count="0" />
-      <LineId Id="960" Count="0" />
-      <LineId Id="916" Count="5" />
-      <LineId Id="39" Count="0" />
-      <LineId Id="1002" Count="0" />
-      <LineId Id="1001" Count="0" />
-      <LineId Id="1003" Count="3" />
+      <LineId Id="1128" Count="110" />
+      <LineId Id="1006" Count="0" />
     </LineIds>
     <LineIds Name="IndexMoverSequence.Abort">
       <LineId Id="6" Count="1" />
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="2" />
       <LineId Id="8" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.MoverVelocity.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.MoverVelocity.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
