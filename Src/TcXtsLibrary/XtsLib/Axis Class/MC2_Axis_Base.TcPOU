@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="MC2_Axis_Base" Id="{ee6e7337-5f5f-4c5d-9917-89dff0d4a6cd}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK MC2_Axis_Base
+    <Declaration><![CDATA[FUNCTION_BLOCK MC2_Axis_Base EXTENDS CyclicBase
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -17,13 +17,22 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[axesMoveTo();
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Cycle" Id="{67c68ac5-ccdc-400c-8bf7-3061a1ea7458}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[axesMoveTo();
 axesHalt();
 axesReset();
 _axis.ReadStatus();
 axesEnable(Axis := _axis);
 axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _MoverErrorId);]]></ST>
-    </Implementation>
+      </Implementation>
+    </Method>
     <Method Name="DisableAxis" Id="{dc075f9c-b535-4f77-a77b-3a861aeac30a}">
       <Declaration><![CDATA[METHOD PUBLIC DisableAxis : BOOL
 VAR_INPUT
@@ -127,8 +136,11 @@ axesHalt.Abort();]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="MC2_Axis_Base">
-      <LineId Id="38" Count="4" />
       <LineId Id="30" Count="0" />
+    </LineIds>
+    <LineIds Name="MC2_Axis_Base.Cycle">
+      <LineId Id="9" Count="4" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="MC2_Axis_Base.DisableAxis">
       <LineId Id="31" Count="0" />

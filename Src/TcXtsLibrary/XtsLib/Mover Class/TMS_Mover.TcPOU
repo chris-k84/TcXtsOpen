@@ -11,31 +11,7 @@ VAR
 	stTmsActPositions			: ST_PositionInfo;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[SUPER^();
-IF _identInGroup <> 0 THEN
-	mcReadTrackPositions(
-		Axis:= THIS^._axis, 
-		Enable:= TRUE, 
-		Valid=> , 
-		Busy=> , 
-		TrackPosition=> , 
-		TrackId=> , 
-		PartPosition=> , 
-		PartId=> , 
-		Error=> , 
-		ErrorId=> );
-END_IF
-ActivateATrack();
-IF ActivateATrack.Done THEN 
-	_stOptions.PositionReferenceSystem :=  ActivateATrack.NewTrackId;
-	axesMoveModuloTo.Options := _stOptions;
-END_IF
-
-IF ipTcIoXtsMover <> 0 THEN
-	stTmsActPositions:=ipTcIoXtsMover.GetPositionInfo();
-END_IF
-
-axesMoveModuloTo();]]></ST>
+      <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="ActivateTrack" Id="{5f8dc4a4-b7cd-44e5-baab-59a89ea4550d}">
       <Declaration><![CDATA[METHOD ActivateTrack : BOOL
@@ -61,6 +37,39 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Method Name="Cycle" Id="{5ef04be8-b6db-4923-86bd-24d4d67b24fa}">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^();
+IF _identInGroup <> 0 THEN
+	mcReadTrackPositions(
+		Axis:= THIS^._axis, 
+		Enable:= TRUE, 
+		Valid=> , 
+		Busy=> , 
+		TrackPosition=> , 
+		TrackId=> , 
+		PartPosition=> , 
+		PartId=> , 
+		Error=> , 
+		ErrorId=> );
+END_IF
+ActivateATrack();
+IF ActivateATrack.Done THEN 
+	_stOptions.PositionReferenceSystem :=  ActivateATrack.NewTrackId;
+	axesMoveModuloTo.Options := _stOptions;
+END_IF
+
+IF ipTcIoXtsMover <> 0 THEN
+	stTmsActPositions:=ipTcIoXtsMover.GetPositionInfo();
+END_IF
+
+axesMoveModuloTo();]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="HasCommand" Id="{5a17fcc3-6110-4d5b-bc24-ae196e62ddf3}">
       <Declaration><![CDATA[METHOD PUBLIC HasCommand : BOOL
 VAR_INPUT
@@ -138,7 +147,6 @@ END_VAR
       </Implementation>
     </Method>
     <LineIds Name="TMS_Mover">
-      <LineId Id="291" Count="23" />
       <LineId Id="12" Count="0" />
     </LineIds>
     <LineIds Name="TMS_Mover.ActivateTrack">
@@ -148,6 +156,10 @@ END_VAR
     </LineIds>
     <LineIds Name="TMS_Mover.ActiveTrack.Get">
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TMS_Mover.Cycle">
+      <LineId Id="6" Count="23" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="TMS_Mover.HasCommand">
       <LineId Id="5" Count="0" />

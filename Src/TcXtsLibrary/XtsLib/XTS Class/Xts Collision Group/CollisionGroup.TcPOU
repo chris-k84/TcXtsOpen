@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="CollisionGroup" Id="{b63d0f8a-da32-4cf6-8258-15f9bf9b31c8}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK CollisionGroup IMPLEMENTS ICollisionGroup
+    <Declaration><![CDATA[FUNCTION_BLOCK CollisionGroup extends CyclicBase IMPLEMENTS ICollisionGroup
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -16,7 +16,15 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[readStatus(
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Cycle" Id="{87a2985d-1599-4989-9544-cd536ce8ed4b}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[readStatus(
 	AxesGroup:= _caGroup, 
 	Enable:= TRUE );
 resetCAGroup();
@@ -28,7 +36,8 @@ stGroupInformation.sName := 'MainCAGroup';
 stGroupInformation.eGroupState := _caGroup.NcToPlc.Common.GroupStatus.State;
 stGroupInformation.nAxesCount	:= UDINT_TO_INT(_caGroup.NcToPlc.Common.GroupAxesCount);
 stGroupInformation.nId			:= _caGroup.NcToPlc.Common.GroupOID;	]]></ST>
-    </Implementation>
+      </Implementation>
+    </Method>
     <Method Name="Disable" Id="{4f23215c-02ff-4fed-8568-47c96a9530ee}">
       <Declaration><![CDATA[METHOD Disable : BOOL
 VAR_INPUT
@@ -99,13 +108,11 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="CollisionGroup">
-      <LineId Id="12" Count="2" />
-      <LineId Id="25" Count="0" />
-      <LineId Id="38" Count="1" />
-      <LineId Id="53" Count="1" />
-      <LineId Id="69" Count="0" />
-      <LineId Id="55" Count="1" />
       <LineId Id="52" Count="0" />
+    </LineIds>
+    <LineIds Name="CollisionGroup.Cycle">
+      <LineId Id="6" Count="10" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="CollisionGroup.Disable">
       <LineId Id="5" Count="2" />

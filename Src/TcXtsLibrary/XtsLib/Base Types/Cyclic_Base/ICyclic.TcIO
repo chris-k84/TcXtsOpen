@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="ICyclic" Id="{a1f6641c-3c6a-4953-a0ac-4f34e2b0fd36}">
+    <Declaration><![CDATA[INTERFACE ICyclic
+]]></Declaration>
+    <Method Name="Cycle" Id="{c912d89e-069b-475e-a18e-97360fb08eed}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

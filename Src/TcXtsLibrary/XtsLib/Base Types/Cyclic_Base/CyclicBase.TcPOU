@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="CyclicBase" Id="{99312e67-14c0-45fd-9386-851ad24e0c0b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK ABSTRACT CyclicBase IMPLEMENTS ICyclic
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Cycle" Id="{2c231b79-b18c-464a-8764-d74ad790a470}">
+      <Declaration><![CDATA[METHOD PUBLIC ABSTRACT Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="CyclicBase">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="CyclicBase.Cycle">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

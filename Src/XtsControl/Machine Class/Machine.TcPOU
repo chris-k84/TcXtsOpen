@@ -7,13 +7,19 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	Xts : XtsTrack := (PackMLStateMachine := xtsStateMachine, TrackLength := SystemParameters.TrackLength, HomePosition := SystemParameters.TrackHomePosition, Tracks := SystemParameters.Tracks);
 	xtsStateMachine : PMLStateMachine;
 	Movers : ARRAY[1..SystemParameters.NumberOfMovers] OF FB_Mover;
 	iMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover;// := [indexMovers[1], indexMovers[2]];
 	MoverSequences : ARRAY[1..SystemParameters.NumberOfMovers] OF IndexMoverSequence;
 	StationArray : ARRAY[1..SystemParameters.NumberOfStations] OF StationSample;
 	iStationArray : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess;
+	XtsTrackHardware : XtsHardware := (Tracks := SystemParameters.Tracks);
+	Xts : XtsTrack := (PackMLStateMachine := xtsStateMachine, 
+						TrackLength := SystemParameters.TrackLength, 
+						HomePosition := SystemParameters.TrackHomePosition, 
+						Tracks := SystemParameters.Tracks,
+						XtsHardware := XtsTrackHardware);
+	
 	i: INT;
 	bInit: BOOL;
 END_VAR]]></Declaration>
@@ -22,6 +28,7 @@ END_VAR]]></Declaration>
 	FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
 		iMovers[i] := Movers[i];
 		Movers[i].TrackLength := Xts.TrackLength;
+		Xts.MoverArray := iMovers;
 	END_FOR
 	IF InitialiseStations() THEN
 		xtsStateMachine.PmlModeCommand(Mode := E_PMLProtectedUnitMode.ePMLProtUnitMode_Production);
@@ -30,9 +37,9 @@ END_VAR]]></Declaration>
 END_IF
 
 xtsStateMachine();
-Xts(MoverArray := iMovers);
+xts.Cycle();
 FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
-	Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i]();
+	Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].Cycle();
 	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i](ThisMover := Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i], 
 																		XtsTrack := Xts, 
 																		StateMachine := xtsStateMachine, 
@@ -69,7 +76,7 @@ StationArray[4].TempPropTime := T#1S;
 StationArray[5].Position := 2600.0;
 StationArray[5].TempPropTime := T#1S;
 
-StationArray[6].Position := 3200.0;
+StationArray[6].Position := 100.0;
 StationArray[6].TempPropTime := T#1S;
 
 
@@ -89,7 +96,11 @@ END_VAR
       </Implementation>
     </Method>
     <LineIds Name="Machine">
-      <LineId Id="487" Count="22" />
+      <LineId Id="487" Count="3" />
+      <LineId Id="532" Count="0" />
+      <LineId Id="491" Count="7" />
+      <LineId Id="525" Count="0" />
+      <LineId Id="500" Count="9" />
       <LineId Id="25" Count="0" />
     </LineIds>
     <LineIds Name="Machine.InitialiseStations">

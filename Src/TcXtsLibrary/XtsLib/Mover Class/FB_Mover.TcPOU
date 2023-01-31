@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="FB_Mover" Id="{85f62a02-889f-4b30-9036-53b84a79c2ee}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_Mover IMPLEMENTS IMover, IDynamics
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Mover EXTENDS CyclicBase IMPLEMENTS IMover, IDynamics
 VAR
 	axesEnable		: MC_Power;
 	axesReset		: AxesReset(_axis);
@@ -18,13 +18,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[axesMoveTo();
-axesHalt();
-axesReset();
-_axis.ReadStatus();
-axesEnable(Axis := _axis);
-axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _MoverErrorId);
-]]></ST>
+      <ST><![CDATA[]]></ST>
     </Implementation>
     <Folder Name="Methods" Id="{d990f5ad-a7ee-4f95-bbee-90adbd32272b}" />
     <Folder Name="Properties" Id="{9a91c5be-52fe-48a0-bc15-6ebc4b6012ce}" />
@@ -58,6 +52,21 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Method Name="Cycle" Id="{0a28da3c-cab5-465d-8685-aa08c4774497}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[axesMoveTo();
+axesHalt();
+axesReset();
+_axis.ReadStatus();
+axesEnable(Axis := _axis);
+axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _MoverErrorId);
+]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="Deceleration" Id="{00007a36-41b4-4823-a8e6-8b128b9220ef}" FolderPath="Properties\">
       <Declaration><![CDATA[PROPERTY PUBLIC Deceleration : mc_lreal]]></Declaration>
       <Get Name="Get" Id="{0743f223-d07f-40e0-ae56-9ad8fd39c497}">
@@ -386,7 +395,6 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="FB_Mover">
-      <LineId Id="530" Count="5" />
       <LineId Id="95" Count="0" />
     </LineIds>
     <LineIds Name="FB_Mover.Acceleration.Get">
@@ -397,6 +405,10 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Mover.AxisRef.Get">
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.Cycle">
+      <LineId Id="6" Count="5" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Mover.Deceleration.Get">
       <LineId Id="2" Count="0" />

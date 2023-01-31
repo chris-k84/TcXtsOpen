@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="GearMover" Id="{0fe93f55-b780-4d7c-972c-ecf14934b0c1}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK GearMover EXTENDS FB_Mover IMPLEMENTS IGearMover
 VAR_INPUT
@@ -22,7 +22,15 @@ VAR_IN_OUT
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF NOT bInit THEN
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Cycle" Id="{ed7be304-48cc-4cd9-be81-cb4be58807e7}">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT bInit THEN
 	IF THIS^._axis.NcToPlc.AxisId <> 0 THEN
 		IF (THIS^._axis.NcToPlc.AxisId MOD 2)<>1 THEN
 			Mode.8 := TRUE;
@@ -52,7 +60,8 @@ moverSequence(ThisMover := THIS^,
 				StateMachine := StateMachine,
 				MoverArray := MoverArray);
 			]]></ST>
-    </Implementation>
+      </Implementation>
+    </Method>
     <Method Name="Gear" Id="{7681a46f-476d-4db2-a300-5813fc91eee6}">
       <Declaration><![CDATA[METHOD PUBLIC Gear : BOOL
 VAR_INPUT
@@ -95,29 +104,11 @@ END_VAR
       </Implementation>
     </Method>
     <LineIds Name="GearMover">
-      <LineId Id="9" Count="0" />
-      <LineId Id="124" Count="0" />
-      <LineId Id="71" Count="1" />
-      <LineId Id="101" Count="0" />
-      <LineId Id="103" Count="1" />
-      <LineId Id="102" Count="0" />
-      <LineId Id="70" Count="0" />
-      <LineId Id="126" Count="0" />
-      <LineId Id="125" Count="0" />
-      <LineId Id="21" Count="0" />
-      <LineId Id="128" Count="0" />
-      <LineId Id="134" Count="0" />
-      <LineId Id="158" Count="0" />
-      <LineId Id="135" Count="2" />
-      <LineId Id="159" Count="2" />
-      <LineId Id="130" Count="0" />
-      <LineId Id="24" Count="0" />
-      <LineId Id="23" Count="0" />
-      <LineId Id="26" Count="0" />
-      <LineId Id="25" Count="0" />
-      <LineId Id="27" Count="1" />
-      <LineId Id="43" Count="0" />
       <LineId Id="60" Count="0" />
+    </LineIds>
+    <LineIds Name="GearMover.Cycle">
+      <LineId Id="6" Count="28" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="GearMover.Gear">
       <LineId Id="9" Count="1" />

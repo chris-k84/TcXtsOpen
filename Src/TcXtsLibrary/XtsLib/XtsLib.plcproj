@@ -18,7 +18,7 @@
     <Company>ChrisK</Company>
     <Released>false</Released>
     <Title>Xts Library</Title>
-    <ProjectVersion>1.0.0.6</ProjectVersion>
+    <ProjectVersion>9.9.9.9</ProjectVersion>
     <LibraryCategories>
       <LibraryCategory xmlns="">
         <Id>{4c30be10-0c29-4796-921e-62ecfda40191}</Id>
@@ -34,6 +34,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Axis Class\MC2_Axis_Base.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Base Types\Cyclic_Base\CyclicBase.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Base Types\Cyclic_Base\ICyclic.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="EventLoggerClass\ITcMessage_Ext.TcIO">
@@ -211,6 +217,9 @@
     <Compile Include="XTS Class\Xts Collision Group\ICollisionGroup.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="XTS Class\Xts Hardware\IXtsHardware.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="XTS Class\Xts Hardware\XtsHardware.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -226,8 +235,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Axis Class" />
+    <Folder Include="Base Types\Cyclic_Base" />
     <Folder Include="EventLoggerClass" />
     <Folder Include="Mover Class" />
+    <Folder Include="Base Types" />
     <Folder Include="PackML" />
     <Folder Include="PackML_Method_Pattern" />
     <Folder Include="SequenceSamples" />
