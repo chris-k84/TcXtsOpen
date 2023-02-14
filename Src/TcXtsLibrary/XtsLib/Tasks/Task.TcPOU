@@ -2,11 +2,11 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="Task" Id="{fbf26ffd-7a30-4e38-9264-b2fd1838bbf2}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK ABSTRACT Task
-VAR_INPUT
-END_VAR
-VAR_OUTPUT
-END_VAR
 VAR
+	_busy : BOOL;
+	_error : BOOL;
+	_done : BOOL;
+	State: INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -28,7 +28,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[]]></ST>
+          <ST><![CDATA[Busy := _busy;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -39,7 +39,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[]]></ST>
+          <ST><![CDATA[Done := _done;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -50,7 +50,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[]]></ST>
+          <ST><![CDATA[Error := _error;]]></ST>
         </Implementation>
       </Get>
     </Property>
