@@ -27,7 +27,7 @@ END_VAR
         <ST><![CDATA[readStatus(
 	AxesGroup:= _caGroup, 
 	Enable:= TRUE );
-resetCAGroup();
+resetCAGroup.Cycle();
 enableCAGroup.Cycle();
 disableCAGroup.Cycle();
 

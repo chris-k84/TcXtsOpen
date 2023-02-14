@@ -100,7 +100,7 @@ END_VAR
 _XtsTrackHardware.Cycle();
 EnableSequence(arrMovers := MoverArray);
 DisableSequence(arrMovers := MoverArray);
-GroupStop();
+GroupStop.Cycle();
 mcCollisionGroup.Cycle();]]></ST>
       </Implementation>
     </Method>
