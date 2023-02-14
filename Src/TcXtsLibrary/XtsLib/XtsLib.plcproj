@@ -193,6 +193,9 @@
     <Compile Include="Tasks\StopMoverGroup.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tasks\Task.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Tasks\XtsDisableSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
