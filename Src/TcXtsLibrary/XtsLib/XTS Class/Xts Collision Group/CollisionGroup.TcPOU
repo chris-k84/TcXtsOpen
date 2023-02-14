@@ -28,8 +28,8 @@ END_VAR
 	AxesGroup:= _caGroup, 
 	Enable:= TRUE );
 resetCAGroup();
-enableCAGroup();
-disableCAGroup();
+enableCAGroup.Cycle();
+disableCAGroup.Cycle();
 
 //Cyclic get CaGroup information
 stGroupInformation.sName := 'MainCAGroup';

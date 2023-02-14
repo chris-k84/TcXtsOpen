@@ -87,7 +87,7 @@ END_VAR]]></Declaration>
 		END_IF
 END_CASE
 
-addMover();]]></ST>
+addMover.Cycle();]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{cafb98cb-e0e4-409c-b6f8-122c787fc07d}">
       <Declaration><![CDATA[METHOD Abort : BOOL

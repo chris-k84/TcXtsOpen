@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="GearInCA" Id="{85cd067d-c270-434d-ae38-a08ddeb32de2}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC GearInCA EXTENDS TaskBase
+    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC GearInCA IMPLEMENTS ITask
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -10,31 +10,17 @@ VAR
 	gearInCA : Tc3_McCollisionAvoidance.MC_GearInPosCA;
 	_syncStrategy : Tc3_Mc3Definitions.MC_SYNC_STRATEGY := Tc3_Mc3Definitions.MC_SYNC_STRATEGY.mcSyncStrategyEarly;
 	_GearMover: BOOL;
+	State : INT;
+	_busy : BOOL;
+	_done : BOOL;
+	_Error : BOOL;
 END_VAR
 VAR_IN_OUT
 	_MasterAxis : Tc2_MC2.AXIS_REF;
 	_SlaveAxis : Tc2_MC2.AXIS_REF;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
-    </Implementation>
-    <Method Name="Abort" Id="{1ef9ec2a-01a5-4187-8738-1e40cc26313d}">
-      <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[gearInCA.Execute := FALSE;
-_GearMover := FALSE;
-_busy := false;
-Abort := true;
-State := 0;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="Cycle" Id="{513f10b5-5639-4702-9078-ce691c024138}">
-      <Declaration><![CDATA[METHOD Cycle : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[CASE State OF
+      <ST><![CDATA[CASE State OF
 	0:
 		IF _GearMover THEN
 			_done := FALSE;
@@ -60,8 +46,50 @@ END_CASE
 IF __ISVALIDREF(_MasterAxis) AND __ISVALIDREF(_SlaveAxis) THEN
 	gearInCA(Master := _MasterAxis, Slave := _SlaveAxis, SyncStrategy := _syncStrategy, Velocity := 2000.0, RatioNumerator := 1, Gap := 60.0);
 END_IF ]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{1ef9ec2a-01a5-4187-8738-1e40cc26313d}">
+      <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[gearInCA.Execute := FALSE;
+_GearMover := FALSE;
+_busy := false;
+Abort := true;
+State := 0;]]></ST>
       </Implementation>
     </Method>
+    <Property Name="Busy" Id="{0531cfd7-cbbd-4be7-9657-6ba46e24a10b}">
+      <Declaration><![CDATA[PROPERTY Busy : BOOL]]></Declaration>
+      <Get Name="Get" Id="{11cf9b2b-f143-4579-9f1b-3e1403a2dfcb}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Busy := _busy;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Done" Id="{0a29bbc3-168d-426b-ab59-9b8a9f0b9de9}">
+      <Declaration><![CDATA[PROPERTY Done : BOOL]]></Declaration>
+      <Get Name="Get" Id="{5e6346ac-b608-489d-86fa-e58b619dc74e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Done := _done;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Error" Id="{55094d01-24ff-405b-a91a-ef6667924390}">
+      <Declaration><![CDATA[PROPERTY Error : BOOL]]></Declaration>
+      <Get Name="Get" Id="{c3e4dab4-bc6a-4f12-a68a-ee4fd5a4fb15}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Error := _Error;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Method Name="Sync" Id="{640dcb9d-e008-41e8-9eb9-9bab468a9c53}">
       <Declaration><![CDATA[METHOD PUBLIC Sync : BOOL
 VAR_INPUT
@@ -95,15 +123,21 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="GearInCA">
+      <LineId Id="82" Count="24" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="GearInCA.Abort">
       <LineId Id="3" Count="3" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="GearInCA.Cycle">
-      <LineId Id="6" Count="24" />
-      <LineId Id="5" Count="0" />
+    <LineIds Name="GearInCA.Busy.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="GearInCA.Done.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="GearInCA.Error.Get">
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="GearInCA.Sync">
       <LineId Id="5" Count="0" />

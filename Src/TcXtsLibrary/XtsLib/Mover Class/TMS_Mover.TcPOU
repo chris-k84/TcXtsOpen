@@ -57,7 +57,7 @@ IF _identInGroup <> 0 THEN
 		Error=> , 
 		ErrorId=> );
 END_IF
-ActivateATrack();
+ActivateATrack.Cycle();
 IF ActivateATrack.Done THEN 
 	_stOptions.PositionReferenceSystem :=  ActivateATrack.NewTrackId;
 	axesMoveModuloTo.Options := _stOptions;
@@ -67,7 +67,7 @@ IF ipTcIoXtsMover <> 0 THEN
 	stTmsActPositions:=ipTcIoXtsMover.GetPositionInfo();
 END_IF
 
-axesMoveModuloTo();]]></ST>
+axesMoveModuloTo.Cycle();]]></ST>
       </Implementation>
     </Method>
     <Method Name="HasCommand" Id="{5a17fcc3-6110-4d5b-bc24-ae196e62ddf3}">

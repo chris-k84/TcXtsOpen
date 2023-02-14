@@ -86,8 +86,8 @@ END_VAR]]></Declaration>
 		END_IF
 END_CASE
 
-removeAllAxes();
-grpStop();]]></ST>
+removeAllAxes.Cycle();
+grpStop.Cycle();]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{afd537cd-f397-4f71-a0b8-6dd2d52942e4}">
       <Declaration><![CDATA[METHOD Abort : BOOL

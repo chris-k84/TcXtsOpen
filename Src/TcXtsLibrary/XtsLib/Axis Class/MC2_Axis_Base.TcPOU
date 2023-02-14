@@ -25,9 +25,9 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[axesMoveTo();
-axesHalt();
-axesReset();
+        <ST><![CDATA[axesMoveTo.Cycle();
+axesHalt.Cycle();
+axesReset.Cycle();
 _axis.ReadStatus();
 axesEnable(Axis := _axis);
 axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _MoverErrorId);]]></ST>
