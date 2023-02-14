@@ -13,33 +13,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE State OF
-	0:
-		IF _MoveSwitch THEN
-			_done := FALSE;
-			_error := FALSE;
-			_busy := TRUE;
-			moveAbs.Execute := TRUE;
-			IF moveAbs.Busy THEN
-				State := 10;
-				_MoveSwitch := FALSE;
-			END_IF
-		END_IF
-		
-	10:
-		IF NOT moveAbs.Busy THEN
-			IF moveAbs.Done THEN
-				_done := TRUE;
-			ELSIF moveAbs.Error THEN
-				_error := TRUE;
-			END_IF
-			_busy := FALSE;
-			moveAbs.Execute := FALSE;
-			State := 0;
-		END_IF
-END_CASE
-
-moveAbs(Axis := _axis);]]></ST>
+      <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{fce17614-0d2c-4f6c-a59d-598919ecd7bc}">
       <Declaration><![CDATA[METHOD Abort : BOOL
@@ -72,6 +46,41 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Method Name="Cycle" Id="{bb98cc99-17bf-43ea-a2ec-2a730c488908}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
+	0:
+		IF _MoveSwitch THEN
+			_done := FALSE;
+			_error := FALSE;
+			_busy := TRUE;
+			moveAbs.Execute := TRUE;
+			IF moveAbs.Busy THEN
+				State := 10;
+				_MoveSwitch := FALSE;
+			END_IF
+		END_IF
+		
+	10:
+		IF NOT moveAbs.Busy THEN
+			IF moveAbs.Done THEN
+				_done := TRUE;
+			ELSIF moveAbs.Error THEN
+				_error := TRUE;
+			END_IF
+			_busy := FALSE;
+			moveAbs.Execute := FALSE;
+			State := 0;
+		END_IF
+END_CASE
+
+moveAbs(Axis := _axis);]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="Deceleration" Id="{9eb34121-a694-49aa-bead-7e740482330e}">
       <Declaration><![CDATA[PROPERTY PUBLIC Deceleration : mc_lreal]]></Declaration>
       <Get Name="Get" Id="{7bb899ac-4236-4501-ba6e-0e47f4aced93}">
@@ -137,7 +146,6 @@ _MoveSwitch := MoveTo := true;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="Mc2MoveToPosition">
-      <LineId Id="161" Count="25" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="Mc2MoveToPosition.Abort">
@@ -153,6 +161,10 @@ _MoveSwitch := MoveTo := true;]]></ST>
     </LineIds>
     <LineIds Name="Mc2MoveToPosition.Acceleration.Set">
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Mc2MoveToPosition.Cycle">
+      <LineId Id="6" Count="25" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="Mc2MoveToPosition.Deceleration.Get">
       <LineId Id="2" Count="0" />

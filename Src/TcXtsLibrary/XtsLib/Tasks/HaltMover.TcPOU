@@ -14,7 +14,25 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE State OF
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{227e6d6b-7b18-4f8c-88eb-28da926ffa20}">
+      <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[haltMover.Execute := FALSE;
+_busy := FALSE;
+_HaltMover := FALSE;
+Abort := TRUE;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{38691d81-87bd-49a8-9c03-466a2ca5bd73}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
 	0:
 		IF _HaltMover THEN
 			_done := FALSE;
@@ -41,15 +59,6 @@ END_VAR
 END_CASE
 
 haltMover(Axis := _axis);]]></ST>
-    </Implementation>
-    <Method Name="Abort" Id="{227e6d6b-7b18-4f8c-88eb-28da926ffa20}">
-      <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[haltMover.Execute := FALSE;
-_busy := FALSE;
-_HaltMover := FALSE;
-Abort := TRUE;
-State := 0;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Execute" Id="{1da23db6-3173-436e-9b1a-85386d5bceac}">
@@ -74,12 +83,6 @@ END_VAR
       </Implementation>
     </Method>
     <LineIds Name="HaltMover">
-      <LineId Id="17" Count="5" />
-      <LineId Id="58" Count="2" />
-      <LineId Id="62" Count="0" />
-      <LineId Id="24" Count="2" />
-      <LineId Id="61" Count="0" />
-      <LineId Id="32" Count="11" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="HaltMover.Abort">
@@ -87,6 +90,10 @@ END_VAR
       <LineId Id="13" Count="1" />
       <LineId Id="7" Count="0" />
       <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="HaltMover.Cycle">
+      <LineId Id="6" Count="25" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="HaltMover.Execute">
       <LineId Id="5" Count="0" />

@@ -14,33 +14,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE State OF
-	0:
-		IF _MoveMover THEN
-			_done := FALSE;
-			_error := FALSE;
-			_busy := TRUE;
-			moveAbs.Execute := TRUE;
-			IF moveAbs.Busy THEN
-				State := 10;
-				_MoveMover := FALSE;
-			END_IF
-		END_IF
-		
-	10:
-		IF NOT moveAbs.Busy THEN
-			IF moveAbs.Done THEN
-				_done := TRUE;
-			ELSIF moveAbs.Error THEN
-				_error := TRUE;
-			END_IF
-			_busy := FALSE;
-			moveAbs.Execute := FALSE;
-			State := 0;
-		END_IF
-END_CASE
-
-moveAbs(Axis := _axis, Options := _stOptions);]]></ST>
+      <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{f9d68d1b-cca9-4afb-b897-7620e260f1b1}">
       <Declaration><![CDATA[METHOD Abort : BOOL
@@ -73,6 +47,41 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Method Name="Cycle" Id="{db03c956-545a-477a-aa1d-95b3f3c1f311}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
+	0:
+		IF _MoveMover THEN
+			_done := FALSE;
+			_error := FALSE;
+			_busy := TRUE;
+			moveAbs.Execute := TRUE;
+			IF moveAbs.Busy THEN
+				State := 10;
+				_MoveMover := FALSE;
+			END_IF
+		END_IF
+		
+	10:
+		IF NOT moveAbs.Busy THEN
+			IF moveAbs.Done THEN
+				_done := TRUE;
+			ELSIF moveAbs.Error THEN
+				_error := TRUE;
+			END_IF
+			_busy := FALSE;
+			moveAbs.Execute := FALSE;
+			State := 0;
+		END_IF
+END_CASE
+
+moveAbs(Axis := _axis, Options := _stOptions);]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="Deceleration" Id="{ef0b52f9-9843-49fb-a892-4640ff914923}">
       <Declaration><![CDATA[PROPERTY PUBLIC Deceleration : mc_lreal]]></Declaration>
       <Get Name="Get" Id="{bbf33e15-becc-4893-bb90-eb050f77761a}">
@@ -176,13 +185,6 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="MoveMoverToPosition">
-      <LineId Id="57" Count="5" />
-      <LineId Id="99" Count="3" />
-      <LineId Id="64" Count="1" />
-      <LineId Id="118" Count="0" />
-      <LineId Id="103" Count="0" />
-      <LineId Id="72" Count="10" />
-      <LineId Id="84" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="MoveMoverToPosition.Abort">
@@ -198,6 +200,10 @@ END_VAR
     </LineIds>
     <LineIds Name="MoveMoverToPosition.Acceleration.Set">
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="MoveMoverToPosition.Cycle">
+      <LineId Id="6" Count="25" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="MoveMoverToPosition.Deceleration.Get">
       <LineId Id="2" Count="0" />

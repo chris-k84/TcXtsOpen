@@ -15,7 +15,24 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE State OF
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{b71dbe64-bf42-4f8d-bc93-a820b314190e}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[groupEnable.Execute := FALSE;
+Abort := TRUE;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{d88f196e-a0b5-47b2-9ec6-4749f970f130}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
 	0:
 		IF _enableGroup THEN
 			_done := FALSE;
@@ -46,14 +63,6 @@ END_CASE
 
 
 groupEnable(AxesGroup := _caGroup.GroupRef);]]></ST>
-    </Implementation>
-    <Method Name="Abort" Id="{b71dbe64-bf42-4f8d-bc93-a820b314190e}">
-      <Declaration><![CDATA[METHOD Abort : BOOL
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[groupEnable.Execute := FALSE;
-Abort := TRUE;
-State := 0;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Execute" Id="{46988e83-7049-4ed9-931d-ac6221516616}">
@@ -76,20 +85,14 @@ END_VAR
       </Implementation>
     </Method>
     <LineIds Name="EnableGroup">
-      <LineId Id="111" Count="5" />
-      <LineId Id="154" Count="1" />
-      <LineId Id="158" Count="1" />
-      <LineId Id="176" Count="0" />
-      <LineId Id="118" Count="2" />
-      <LineId Id="160" Count="0" />
-      <LineId Id="126" Count="2" />
-      <LineId Id="178" Count="0" />
-      <LineId Id="129" Count="1" />
-      <LineId Id="179" Count="0" />
-      <LineId Id="131" Count="8" />
+      <LineId Id="139" Count="0" />
     </LineIds>
     <LineIds Name="EnableGroup.Abort">
       <LineId Id="4" Count="2" />
+    </LineIds>
+    <LineIds Name="EnableGroup.Cycle">
+      <LineId Id="6" Count="29" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="EnableGroup.Execute">
       <LineId Id="4" Count="0" />

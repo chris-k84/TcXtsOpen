@@ -14,7 +14,26 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE State OF
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{feb92e4a-5af0-464c-bf77-407b1ff76646}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mcActivateTrack.Execute := FALSE;
+_busy := FALSE;
+_ActivateTrack := FALSE;
+Abort := TRUE;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{00cbd5e7-3f8c-43ca-956a-49ab7f25eb3b}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
 	0:
 		IF _ActivateTrack THEN
 			_done := FALSE;
@@ -42,16 +61,6 @@ END_VAR
 END_CASE
 
 mcActivateTrack(Axis := _axis);]]></ST>
-    </Implementation>
-    <Method Name="Abort" Id="{feb92e4a-5af0-464c-bf77-407b1ff76646}">
-      <Declaration><![CDATA[METHOD Abort : BOOL
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[mcActivateTrack.Execute := FALSE;
-_busy := FALSE;
-_ActivateTrack := FALSE;
-Abort := TRUE;
-State := 0;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Execute" Id="{5bda0256-96a6-4784-813e-6a9b4c7cbfd1}">
@@ -90,14 +99,15 @@ END_VAR
       </Get>
     </Property>
     <LineIds Name="ActivateTrackForMover">
-      <LineId Id="55" Count="16" />
-      <LineId Id="98" Count="0" />
-      <LineId Id="72" Count="8" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="ActivateTrackForMover.Abort">
       <LineId Id="5" Count="3" />
       <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="ActivateTrackForMover.Cycle">
+      <LineId Id="6" Count="26" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="ActivateTrackForMover.Execute">
       <LineId Id="5" Count="0" />

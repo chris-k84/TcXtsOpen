@@ -15,7 +15,24 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE State OF
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{3e18b1e4-3090-4bb5-ab59-aa6e4e12c0ef}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[State := 0;
+groupDisable.Execute := FALSE;
+Abort := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{9c133c94-c3ff-49e8-9819-2dfd126960ef}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
 	0:
 		IF _disableGroup THEN
 			_done := FALSE;
@@ -46,14 +63,6 @@ END_CASE
 
 
 groupDisable(AxesGroup := _caGroup.GroupRef);]]></ST>
-    </Implementation>
-    <Method Name="Abort" Id="{3e18b1e4-3090-4bb5-ab59-aa6e4e12c0ef}">
-      <Declaration><![CDATA[METHOD Abort : BOOL
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[State := 0;
-groupDisable.Execute := FALSE;
-Abort := true;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Execute" Id="{75a1aef5-6794-4797-8c10-1d2b68a1a592}">
@@ -77,21 +86,14 @@ END_VAR
       </Implementation>
     </Method>
     <LineIds Name="DisableGroup">
-      <LineId Id="106" Count="5" />
-      <LineId Id="150" Count="3" />
-      <LineId Id="171" Count="0" />
-      <LineId Id="112" Count="0" />
-      <LineId Id="114" Count="1" />
-      <LineId Id="154" Count="0" />
-      <LineId Id="121" Count="2" />
-      <LineId Id="172" Count="0" />
-      <LineId Id="124" Count="1" />
-      <LineId Id="173" Count="0" />
-      <LineId Id="126" Count="7" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="DisableGroup.Abort">
       <LineId Id="4" Count="2" />
+    </LineIds>
+    <LineIds Name="DisableGroup.Cycle">
+      <LineId Id="6" Count="29" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="DisableGroup.Execute">
       <LineId Id="5" Count="1" />

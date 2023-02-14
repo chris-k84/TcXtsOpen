@@ -15,7 +15,37 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE State OF
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{ae830af7-f8b8-45b2-a2b9-e3017e78eb0f}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[AddtoGrp.Execute := FALSE;
+Abort := true;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="AddMover" Id="{51a205d2-594e-409d-8da4-1e5f87f7831a}">
+      <Declaration><![CDATA[METHOD AddMover : BOOL
+VAR_INPUT
+	MoverToAdd : IMover;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_axis REF= MoverToAdd.AxisRef;
+_moverNumber := INT_TO_UDINT(MoverToAdd.IdentInGroup);
+_busy := TRUE;
+AddMover := _addMover := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{71cccf4f-8aec-4950-9af4-82745edb0207}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
 	0:
 		IF _addMover THEN
 			_done := FALSE;
@@ -44,27 +74,6 @@ END_CASE
 AddtoGrp(AxesGroup := _caGroup.GroupRef,
 			Axis := _axis,
 			IdentInGroup := UDINT_TO_IDENTINGROUP(_moverNumber));]]></ST>
-    </Implementation>
-    <Method Name="Abort" Id="{ae830af7-f8b8-45b2-a2b9-e3017e78eb0f}">
-      <Declaration><![CDATA[METHOD Abort : BOOL
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[AddtoGrp.Execute := FALSE;
-Abort := true;
-State := 0;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="AddMover" Id="{51a205d2-594e-409d-8da4-1e5f87f7831a}">
-      <Declaration><![CDATA[METHOD AddMover : BOOL
-VAR_INPUT
-	MoverToAdd : IMover;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[_axis REF= MoverToAdd.AxisRef;
-_moverNumber := INT_TO_UDINT(MoverToAdd.IdentInGroup);
-_busy := TRUE;
-AddMover := _addMover := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_init" Id="{3a068e92-ba3f-4b22-90e4-bf7f0af1aaec}">
@@ -80,23 +89,6 @@ END_VAR
       </Implementation>
     </Method>
     <LineIds Name="AddMoverToGroupTask">
-      <LineId Id="63" Count="4" />
-      <LineId Id="114" Count="0" />
-      <LineId Id="109" Count="3" />
-      <LineId Id="69" Count="2" />
-      <LineId Id="113" Count="0" />
-      <LineId Id="82" Count="1" />
-      <LineId Id="87" Count="0" />
-      <LineId Id="85" Count="0" />
-      <LineId Id="89" Count="0" />
-      <LineId Id="86" Count="0" />
-      <LineId Id="88" Count="0" />
-      <LineId Id="92" Count="0" />
-      <LineId Id="90" Count="0" />
-      <LineId Id="84" Count="0" />
-      <LineId Id="73" Count="0" />
-      <LineId Id="75" Count="1" />
-      <LineId Id="14" Count="0" />
       <LineId Id="77" Count="0" />
     </LineIds>
     <LineIds Name="AddMoverToGroupTask.Abort">
@@ -109,6 +101,10 @@ END_VAR
       <LineId Id="15" Count="0" />
       <LineId Id="20" Count="0" />
       <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="AddMoverToGroupTask.Cycle">
+      <LineId Id="6" Count="27" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="AddMoverToGroupTask.FB_init">
       <LineId Id="7" Count="0" />

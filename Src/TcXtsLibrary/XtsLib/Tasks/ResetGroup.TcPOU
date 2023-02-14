@@ -15,7 +15,24 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE State OF
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{e1b95705-1b45-487a-ada9-22fe010e1325}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[groupReset.Execute := FALSE;
+State := 0;
+Abort := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{e176cdc3-4666-4fc1-8627-29227cdf7f7d}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
 	0:
 		IF _resetGroup THEN
 			_done := FALSE;
@@ -46,14 +63,6 @@ END_CASE
 
 
 groupReset(AxesGroup := _caGroup.GroupRef);]]></ST>
-    </Implementation>
-    <Method Name="Abort" Id="{e1b95705-1b45-487a-ada9-22fe010e1325}">
-      <Declaration><![CDATA[METHOD Abort : BOOL
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[groupReset.Execute := FALSE;
-State := 0;
-Abort := true;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Execute" Id="{b94d2efe-3ffd-45f1-b278-c7e4c306cd7f}">
@@ -76,20 +85,14 @@ END_VAR
       </Implementation>
     </Method>
     <LineIds Name="ResetGroup">
-      <LineId Id="102" Count="5" />
-      <LineId Id="145" Count="3" />
-      <LineId Id="166" Count="0" />
-      <LineId Id="109" Count="2" />
-      <LineId Id="149" Count="0" />
-      <LineId Id="117" Count="2" />
-      <LineId Id="167" Count="0" />
-      <LineId Id="120" Count="1" />
-      <LineId Id="168" Count="0" />
-      <LineId Id="122" Count="7" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="ResetGroup.Abort">
       <LineId Id="4" Count="2" />
+    </LineIds>
+    <LineIds Name="ResetGroup.Cycle">
+      <LineId Id="6" Count="29" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="ResetGroup.Execute">
       <LineId Id="4" Count="0" />

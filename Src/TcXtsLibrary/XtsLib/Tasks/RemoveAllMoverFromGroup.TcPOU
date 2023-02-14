@@ -15,7 +15,24 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE State OF
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{5bfcf5d7-ad93-4041-89c5-a1c0c5514d79}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[RemoveAllFromGrp.Execute := FALSE;
+Abort := true;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{e726e52b-3385-4c7c-89cc-433311ee88a9}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
 	0:
 		IF _removeAllMovers THEN
 			_done := FALSE;
@@ -47,14 +64,6 @@ END_CASE
 
 
 RemoveAllFromGrp(AxesGroup := _caGroup.GroupRef);]]></ST>
-    </Implementation>
-    <Method Name="Abort" Id="{5bfcf5d7-ad93-4041-89c5-a1c0c5514d79}">
-      <Declaration><![CDATA[METHOD Abort : BOOL
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[RemoveAllFromGrp.Execute := FALSE;
-Abort := true;
-State := 0;]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_init" Id="{21970abf-5278-4aab-8753-fe6ec776ee38}">
@@ -77,24 +86,16 @@ END_VAR
       </Implementation>
     </Method>
     <LineIds Name="RemoveAllMoverFromGroup">
-      <LineId Id="274" Count="5" />
-      <LineId Id="320" Count="3" />
-      <LineId Id="360" Count="0" />
-      <LineId Id="280" Count="0" />
-      <LineId Id="282" Count="0" />
-      <LineId Id="324" Count="0" />
-      <LineId Id="283" Count="0" />
-      <LineId Id="289" Count="2" />
-      <LineId Id="359" Count="0" />
-      <LineId Id="292" Count="1" />
-      <LineId Id="341" Count="0" />
-      <LineId Id="361" Count="0" />
-      <LineId Id="294" Count="8" />
+      <LineId Id="302" Count="0" />
     </LineIds>
     <LineIds Name="RemoveAllMoverFromGroup.Abort">
       <LineId Id="4" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="RemoveAllMoverFromGroup.Cycle">
+      <LineId Id="6" Count="30" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="RemoveAllMoverFromGroup.FB_init">
       <LineId Id="7" Count="0" />

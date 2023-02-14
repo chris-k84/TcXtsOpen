@@ -14,7 +14,25 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE State OF
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{f78f1251-51d0-4d67-9a04-2fb8762c04c1}">
+      <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mchalt.Execute := FALSE;
+_busy := FALSE;
+_Halt := FALSE;
+Abort := TRUE;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{de80207a-320b-426e-a8d0-0a658b69f5c9}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
 	0:
 		IF _Halt THEN
 			_done := FALSE;
@@ -41,54 +59,8 @@ END_VAR
 END_CASE
 
 mcHalt(Axis := _axis);]]></ST>
-    </Implementation>
-    <Method Name="Abort" Id="{f78f1251-51d0-4d67-9a04-2fb8762c04c1}">
-      <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[mchalt.Execute := FALSE;
-_busy := FALSE;
-_Halt := FALSE;
-Abort := TRUE;
-State := 0;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Busy" Id="{f843ded0-5888-4336-bd21-e9aa23104f0f}">
-      <Declaration><![CDATA[PROPERTY Busy : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{0f3afe00-44c7-41a2-8979-aa6a3d6425e4}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Busy := _busy;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Done" Id="{9f9fc477-3b41-4ccc-aaf5-766332978512}">
-      <Declaration><![CDATA[PROPERTY Done : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{2818a6d5-861c-4572-b3f9-f518bb6ab23e}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Done := _done;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Error" Id="{94be30aa-a628-4c09-b7e9-934324455a04}">
-      <Declaration><![CDATA[
-PROPERTY Error : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{cf7ffe82-a81e-4b98-9cda-a1e338f0becf}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Error := _error;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="Execute" Id="{ac08f8cb-3ea1-46cb-8397-98b2e5ffacc4}">
       <Declaration><![CDATA[METHOD Execute : BOOL
 VAR_INPUT
@@ -111,7 +83,6 @@ END_VAR
       </Implementation>
     </Method>
     <LineIds Name="Mc2Halt">
-      <LineId Id="149" Count="25" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="Mc2Halt.Abort">
@@ -120,14 +91,9 @@ END_VAR
       <LineId Id="7" Count="0" />
       <LineId Id="4" Count="0" />
     </LineIds>
-    <LineIds Name="Mc2Halt.Busy.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="Mc2Halt.Done.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="Mc2Halt.Error.Get">
-      <LineId Id="2" Count="0" />
+    <LineIds Name="Mc2Halt.Cycle">
+      <LineId Id="6" Count="25" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="Mc2Halt.Execute">
       <LineId Id="5" Count="0" />

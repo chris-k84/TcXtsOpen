@@ -14,7 +14,26 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE State OF
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{1e191aa0-5300-47ad-a5cc-fd578ced08bc}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[resetMover.Execute := FALSE;
+_busy := FALSE;
+_ResetMover := FALSE;
+Abort := TRUE;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{2e841b9b-cedd-4585-abb6-efaa2e8e5cc4}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
 	0:
 		IF _ResetMover THEN
 			_done := FALSE;
@@ -41,16 +60,6 @@ END_VAR
 END_CASE
 
 resetMover(Axis := _axis);]]></ST>
-    </Implementation>
-    <Method Name="Abort" Id="{1e191aa0-5300-47ad-a5cc-fd578ced08bc}">
-      <Declaration><![CDATA[METHOD Abort : BOOL
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[resetMover.Execute := FALSE;
-_busy := FALSE;
-_ResetMover := FALSE;
-Abort := TRUE;
-State := 0;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Execute" Id="{6a1f36ad-1cf4-4393-9c94-06ccb247a97f}">
@@ -75,12 +84,15 @@ END_VAR
       </Implementation>
     </Method>
     <LineIds Name="AxesReset">
-      <LineId Id="12" Count="25" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="AxesReset.Abort">
       <LineId Id="5" Count="3" />
       <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="AxesReset.Cycle">
+      <LineId Id="6" Count="25" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="AxesReset.Execute">
       <LineId Id="5" Count="0" />

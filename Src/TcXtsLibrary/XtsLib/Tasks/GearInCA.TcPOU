@@ -16,7 +16,25 @@ VAR_IN_OUT
 	_SlaveAxis : Tc2_MC2.AXIS_REF;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE State OF
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{1ef9ec2a-01a5-4187-8738-1e40cc26313d}">
+      <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[gearInCA.Execute := FALSE;
+_GearMover := FALSE;
+_busy := false;
+Abort := true;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{513f10b5-5639-4702-9078-ce691c024138}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
 	0:
 		IF _GearMover THEN
 			_done := FALSE;
@@ -42,15 +60,6 @@ END_CASE
 IF __ISVALIDREF(_MasterAxis) AND __ISVALIDREF(_SlaveAxis) THEN
 	gearInCA(Master := _MasterAxis, Slave := _SlaveAxis, SyncStrategy := _syncStrategy, Velocity := 2000.0, RatioNumerator := 1, Gap := 60.0);
 END_IF ]]></ST>
-    </Implementation>
-    <Method Name="Abort" Id="{1ef9ec2a-01a5-4187-8738-1e40cc26313d}">
-      <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[gearInCA.Execute := FALSE;
-_GearMover := FALSE;
-_busy := false;
-Abort := true;
-State := 0;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Sync" Id="{640dcb9d-e008-41e8-9eb9-9bab468a9c53}">
@@ -86,16 +95,15 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="GearInCA">
-      <LineId Id="3" Count="14" />
-      <LineId Id="39" Count="0" />
-      <LineId Id="58" Count="2" />
-      <LineId Id="40" Count="0" />
-      <LineId Id="18" Count="4" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="GearInCA.Abort">
       <LineId Id="3" Count="3" />
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="GearInCA.Cycle">
+      <LineId Id="6" Count="24" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="GearInCA.Sync">
       <LineId Id="5" Count="0" />

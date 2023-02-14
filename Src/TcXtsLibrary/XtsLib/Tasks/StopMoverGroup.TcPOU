@@ -16,7 +16,24 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE State OF
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{72cda355-8b53-47d8-a9a5-10a15a81f986}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[groupStop.Execute := FALSE;
+State := 0;
+Abort := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{1b69b692-0cbb-4a51-a184-3fdd67c7fdf9}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
 	0:
 		IF _stopGroup THEN
 			_done := FALSE;
@@ -46,14 +63,6 @@ END_CASE
 
 
 groupStop(AxesGroup := _caGroup.GroupRef);]]></ST>
-    </Implementation>
-    <Method Name="Abort" Id="{72cda355-8b53-47d8-a9a5-10a15a81f986}">
-      <Declaration><![CDATA[METHOD Abort : BOOL
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[groupStop.Execute := FALSE;
-State := 0;
-Abort := true;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Deceleration" Id="{bfbefcb0-fbdf-4b0b-910d-3a760f3dacc8}">
@@ -114,25 +123,14 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="StopMoverGroup">
-      <LineId Id="200" Count="5" />
-      <LineId Id="274" Count="3" />
-      <LineId Id="295" Count="0" />
-      <LineId Id="273" Count="0" />
-      <LineId Id="208" Count="1" />
-      <LineId Id="224" Count="0" />
-      <LineId Id="248" Count="0" />
-      <LineId Id="296" Count="0" />
-      <LineId Id="250" Count="1" />
-      <LineId Id="297" Count="0" />
-      <LineId Id="249" Count="0" />
-      <LineId Id="252" Count="1" />
-      <LineId Id="255" Count="1" />
-      <LineId Id="254" Count="0" />
-      <LineId Id="225" Count="2" />
       <LineId Id="231" Count="0" />
     </LineIds>
     <LineIds Name="StopMoverGroup.Abort">
       <LineId Id="4" Count="2" />
+    </LineIds>
+    <LineIds Name="StopMoverGroup.Cycle">
+      <LineId Id="6" Count="28" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="StopMoverGroup.Deceleration.Get">
       <LineId Id="2" Count="0" />
