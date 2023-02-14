@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="MoveModuloMoverToPosition" Id="{996fe608-f005-43b0-b7bb-f33f237511c5}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK MoveModuloMoverToPosition
+    <Declaration><![CDATA[FUNCTION_BLOCK MoveModuloMoverToPosition EXTENDS TaskBase
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -9,11 +9,7 @@ END_VAR
 VAR
 	moveAbs	: MC_MoveAbsoluteCA;
 	_axis : REFERENCE TO AXIS_REF;
-	State: INT;
 	_MoveMover : BOOL;
-	_busy : BOOL;
-	_error : BOOL;
-	_done : BOOL;
 	_stOptions : ST_MoveAbsoluteCAOptions;
 END_VAR
 ]]></Declaration>
@@ -77,18 +73,6 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Property Name="Busy" Id="{c9999b0d-9c5a-41bc-927c-0acafb9c541b}">
-      <Declaration><![CDATA[PROPERTY Busy : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{4ee81980-f2f6-44ea-9cb7-1a0ebb57605c}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Busy := _busy;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Property Name="Deceleration" Id="{844ebaf1-91dd-4442-8c33-92bcbeac6dea}">
       <Declaration><![CDATA[PROPERTY PUBLIC Deceleration : mc_lreal]]></Declaration>
       <Get Name="Get" Id="{50b8d5dc-c5e8-49f1-8033-680b16568e17}">
@@ -107,30 +91,6 @@ END_VAR
           <ST><![CDATA[moveAbs.Deceleration := Deceleration;]]></ST>
         </Implementation>
       </Set>
-    </Property>
-    <Property Name="Done" Id="{16a0e3ce-3eba-480c-8b9f-3cebf186eff6}">
-      <Declaration><![CDATA[PROPERTY Done : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{bab832df-8b72-4187-831d-5606b25a1378}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Done := _done;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Error" Id="{a9141806-b4ab-4d72-8e19-35cdb97828e3}">
-      <Declaration><![CDATA[PROPERTY Error : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{8b7351cc-cc4b-4d7f-af7c-90326aa7f204}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Error := _error;]]></ST>
-        </Implementation>
-      </Get>
     </Property>
     <Method Name="FB_init" Id="{37d409ee-dd67-4ea2-bddf-a65d46cc40e5}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
@@ -242,19 +202,10 @@ END_VAR
     <LineIds Name="MoveModuloMoverToPosition.Acceleration.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="MoveModuloMoverToPosition.Busy.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
     <LineIds Name="MoveModuloMoverToPosition.Deceleration.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="MoveModuloMoverToPosition.Deceleration.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="MoveModuloMoverToPosition.Done.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="MoveModuloMoverToPosition.Error.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="MoveModuloMoverToPosition.FB_init">

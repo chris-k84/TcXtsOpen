@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="StopMoverGroup" Id="{eb49de9c-c73f-4d5d-a00e-2a61463004b7}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK StopMoverGroup IMPLEMENTS ITask
+    <Declaration><![CDATA[FUNCTION_BLOCK StopMoverGroup EXTENDS TaskBase
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -9,11 +9,7 @@ END_VAR
 VAR
 	groupStop			: MC_GroupStop;
 	_caGroup			: ICollisionGroup;
-	State: INT;
 	_stopGroup : BOOL;
-	_busy : BOOL;
-	_error : BOOL;
-	_done : BOOL;
 	_jerk : MC_LREAL;
 	_deceleration : MC_LREAL;
 	Logger : TcMessage_Ext;
@@ -60,18 +56,6 @@ State := 0;
 Abort := true;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Busy" Id="{fd46119f-1873-4dd4-a00b-b7953c47e671}">
-      <Declaration><![CDATA[PROPERTY Busy : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{e67ddaaf-2173-4ee1-a574-b90cee5596ce}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Busy := _busy;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Property Name="Deceleration" Id="{bfbefcb0-fbdf-4b0b-910d-3a760f3dacc8}">
       <Declaration><![CDATA[PROPERTY PUBLIC Deceleration : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{7bce0187-c5f1-4f16-ae78-2053eac6b73a}">
@@ -90,30 +74,6 @@ END_VAR
           <ST><![CDATA[_deceleration := Deceleration;]]></ST>
         </Implementation>
       </Set>
-    </Property>
-    <Property Name="Done" Id="{2845d0bd-bf6a-4326-b225-0c325ea3813d}">
-      <Declaration><![CDATA[PROPERTY Done : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{9bd0f06a-ff33-4f45-9f00-6ec54bce7899}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Done := _done;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Error" Id="{889933c2-fd34-492d-9e55-9b340a797500}">
-      <Declaration><![CDATA[PROPERTY Error : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{bcf06ca2-1d05-4e64-be4b-8ad1a1a0b463}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Error := _error;]]></ST>
-        </Implementation>
-      </Get>
     </Property>
     <Method Name="Execute" Id="{47b4c514-d6a1-4abb-9737-014dd8533d0b}">
       <Declaration><![CDATA[METHOD Execute : BOOL
@@ -174,19 +134,10 @@ END_VAR
     <LineIds Name="StopMoverGroup.Abort">
       <LineId Id="4" Count="2" />
     </LineIds>
-    <LineIds Name="StopMoverGroup.Busy.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
     <LineIds Name="StopMoverGroup.Deceleration.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="StopMoverGroup.Deceleration.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="StopMoverGroup.Done.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="StopMoverGroup.Error.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="StopMoverGroup.Execute">

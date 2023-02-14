@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
-  <POU Name="Task" Id="{fbf26ffd-7a30-4e38-9264-b2fd1838bbf2}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK ABSTRACT Task
+  <POU Name="TaskBase" Id="{fbf26ffd-7a30-4e38-9264-b2fd1838bbf2}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK ABSTRACT TaskBase IMPLEMENTS ITask
 VAR
 	_busy : BOOL;
 	_error : BOOL;
@@ -54,19 +54,19 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <LineIds Name="Task">
+    <LineIds Name="TaskBase">
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="Task.Abort">
+    <LineIds Name="TaskBase.Abort">
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="Task.Busy.Get">
+    <LineIds Name="TaskBase.Busy.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="Task.Done.Get">
+    <LineIds Name="TaskBase.Done.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="Task.Error.Get">
+    <LineIds Name="TaskBase.Error.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

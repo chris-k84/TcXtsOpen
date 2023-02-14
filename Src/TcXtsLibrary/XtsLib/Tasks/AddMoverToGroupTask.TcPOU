@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="AddMoverToGroupTask" Id="{feae89f9-a6fd-4234-9f55-63ef9d6596bc}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK AddMoverToGroupTask IMPLEMENTS ITask
+    <Declaration><![CDATA[FUNCTION_BLOCK AddMoverToGroupTask EXTENDS TaskBase
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -10,11 +10,7 @@ VAR
 	AddtoGrp			: MC_AddAxisToGroup;
 	_caGroup			: ICollisionGroup;
 	_axis				: reference TO AXIS_REF;
-	State: INT;
 	_addMover : BOOL;
-	_busy : BOOL;
-	_error : BOOL;
-	_done : BOOL;
 	_moverNumber : UDINT;
 END_VAR
 ]]></Declaration>
@@ -71,42 +67,6 @@ _busy := TRUE;
 AddMover := _addMover := TRUE;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Busy" Id="{afcd1b54-e22b-49a3-9c9c-b3f0c79b4568}">
-      <Declaration><![CDATA[PROPERTY Busy : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{4b50b697-dd2d-42bd-9737-bd8b1caa6957}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Busy := _busy;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Done" Id="{2659b571-fe6f-4583-a3e6-2e6986ef714f}">
-      <Declaration><![CDATA[PROPERTY Done : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{2ae1ed02-cc28-4c24-8907-5b99691b0028}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Done := _done;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Error" Id="{8e6f5a82-522c-424d-96f2-7406cd982aac}">
-      <Declaration><![CDATA[PROPERTY Error : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{a14355d3-234a-4c04-9d54-25389bdf30c6}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Error := _error;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="FB_init" Id="{3a068e92-ba3f-4b22-90e4-bf7f0af1aaec}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
@@ -149,15 +109,6 @@ END_VAR
       <LineId Id="15" Count="0" />
       <LineId Id="20" Count="0" />
       <LineId Id="10" Count="0" />
-    </LineIds>
-    <LineIds Name="AddMoverToGroupTask.Busy.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="AddMoverToGroupTask.Done.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="AddMoverToGroupTask.Error.Get">
-      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="AddMoverToGroupTask.FB_init">
       <LineId Id="7" Count="0" />

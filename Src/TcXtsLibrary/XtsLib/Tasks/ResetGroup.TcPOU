@@ -2,7 +2,7 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="ResetGroup" Id="{f1e61ccf-4a87-45e7-a827-c3b6233b7460}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'hide_all_locals'}
-FUNCTION_BLOCK ResetGroup IMPLEMENTS ITask
+FUNCTION_BLOCK ResetGroup EXTENDS TaskBase
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -10,11 +10,7 @@ END_VAR
 VAR
 	groupReset			: MC_GroupReset;
 	_caGroup			: ICollisionGroup;
-	State: INT;
 	_resetGroup : BOOL;
-	_busy : BOOL;
-	_error : BOOL;
-	_done : BOOL;
 	Logger : TcMessage_Ext;
 END_VAR
 ]]></Declaration>
@@ -60,42 +56,6 @@ State := 0;
 Abort := true;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Busy" Id="{75f0c593-f0a3-4f0f-8812-95e8b15bcfd3}">
-      <Declaration><![CDATA[PROPERTY Busy : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{364585b9-a38d-47d4-adc9-e9d5fd21e89e}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Busy := _busy;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Done" Id="{c596e61f-b0cb-48dc-89a2-78b9004b7f87}">
-      <Declaration><![CDATA[PROPERTY Done : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{006412fa-edae-434a-8550-9a691a4456cd}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Done := _done;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Error" Id="{7f278271-afd7-445a-9103-8b96aae8e93e}">
-      <Declaration><![CDATA[PROPERTY Error : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{01358e49-e50c-48ad-8109-74bcd98d9e0a}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Error := _error;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="Execute" Id="{b94d2efe-3ffd-45f1-b278-c7e4c306cd7f}">
       <Declaration><![CDATA[METHOD Execute : BOOL
 ]]></Declaration>
@@ -130,15 +90,6 @@ END_VAR
     </LineIds>
     <LineIds Name="ResetGroup.Abort">
       <LineId Id="4" Count="2" />
-    </LineIds>
-    <LineIds Name="ResetGroup.Busy.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="ResetGroup.Done.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="ResetGroup.Error.Get">
-      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="ResetGroup.Execute">
       <LineId Id="4" Count="0" />

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="XtsEnableSequence" Id="{b3bae6c3-ef72-4837-b4e0-3c1e6cb08595}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK XtsEnableSequence IMPLEMENTS ITask
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsEnableSequence EXTENDS TaskBase
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -9,14 +9,9 @@ END_VAR
 VAR
 	_collisionGroup : ICollisionGroup;
 	addMover : AddMoverToGroupTask(_collisionGroup);
-	State : INT;
 	moverNumbers : DINT;
 	AllMoversEnabled: BOOL;
-	EnableTrigger : BOOL;
-	_busy: BOOL;
-	_done: BOOL;
-	_Error: BOOL;
-	
+	EnableTrigger : BOOL;	
 	Logger : TcMessage_Ext;
 END_VAR
 VAR_IN_OUT
@@ -99,30 +94,6 @@ State := 0;
 addMover.Abort();]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Busy" Id="{648a322d-4d39-4f07-8b06-aa112b3c08e7}">
-      <Declaration><![CDATA[PROPERTY Busy : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{4f95bbd6-8f78-41cf-b87d-0da3b3543371}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Busy := _busy;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Done" Id="{34427dd8-d7e2-4e10-9938-53b409d24dc0}">
-      <Declaration><![CDATA[PROPERTY Done : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{b1462220-0148-4e00-b1b2-9c7e27c4bcec}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Done := _done;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="Enable" Id="{1d42943b-c792-49a8-a140-4271fe755723}">
       <Declaration><![CDATA[METHOD Enable : BOOL
 VAR_INPUT
@@ -135,18 +106,6 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Error" Id="{2f3594a1-d2e2-4249-b851-d453bca4e780}">
-      <Declaration><![CDATA[PROPERTY Error : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{7d6d43fb-ce20-4fe0-8ffe-f534098381ad}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Error := _Error;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="FB_init" Id="{a774c049-4849-459f-b124-c9b64376f790}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
@@ -196,18 +155,9 @@ addMover.FB_init(FALSE, FALSE, collisionGroup);]]></ST>
     <LineIds Name="XtsEnableSequence.Abort">
       <LineId Id="5" Count="2" />
     </LineIds>
-    <LineIds Name="XtsEnableSequence.Busy.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsEnableSequence.Done.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
     <LineIds Name="XtsEnableSequence.Enable">
       <LineId Id="9" Count="2" />
       <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsEnableSequence.Error.Get">
-      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsEnableSequence.FB_init">
       <LineId Id="7" Count="0" />

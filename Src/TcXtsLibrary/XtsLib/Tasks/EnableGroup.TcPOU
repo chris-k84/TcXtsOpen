@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="EnableGroup" Id="{78c0ffeb-f751-4064-9ca5-f5352de8dccc}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'hide_all_locals'}
-FUNCTION_BLOCK EnableGroup IMPLEMENTS ITask
+FUNCTION_BLOCK EnableGroup EXTENDS TaskBase
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -10,11 +10,7 @@ END_VAR
 VAR
 	groupEnable			: MC_GroupEnable;
 	_caGroup			: ICollisionGroup;
-	State: INT;
 	_enableGroup : BOOL;
-	_busy : BOOL;
-	_error : BOOL;
-	_done : BOOL;
 	Logger : TcMessage_Ext;
 END_VAR
 ]]></Declaration>
@@ -60,42 +56,6 @@ Abort := TRUE;
 State := 0;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Busy" Id="{844fe327-b432-4d9b-9ff8-674b403712de}">
-      <Declaration><![CDATA[PROPERTY Busy : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{9de7276e-68b8-471b-acbe-4af805d8f9d4}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Busy := _busy;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Done" Id="{96fe3f04-3684-47c6-96b8-040adc9ccb95}">
-      <Declaration><![CDATA[PROPERTY Done : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{752b21aa-907b-4aba-b185-74a8d165978c}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Done := _done;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Error" Id="{91a57102-e8a8-46ee-bdd6-0ba18161e2fa}">
-      <Declaration><![CDATA[PROPERTY Error : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{f8961f71-0d32-45d5-9893-2036d33f4a14}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Error := _error;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="Execute" Id="{46988e83-7049-4ed9-931d-ac6221516616}">
       <Declaration><![CDATA[METHOD Execute : BOOL
 ]]></Declaration>
@@ -130,15 +90,6 @@ END_VAR
     </LineIds>
     <LineIds Name="EnableGroup.Abort">
       <LineId Id="4" Count="2" />
-    </LineIds>
-    <LineIds Name="EnableGroup.Busy.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="EnableGroup.Done.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="EnableGroup.Error.Get">
-      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="EnableGroup.Execute">
       <LineId Id="4" Count="0" />

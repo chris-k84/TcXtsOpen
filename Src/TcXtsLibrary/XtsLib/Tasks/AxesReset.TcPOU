@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="AxesReset" Id="{50b6cb56-c29b-4e65-9645-432ca640e140}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'hide_all_locals'}
-FUNCTION_BLOCK AxesReset IMPLEMENTS ITask
+FUNCTION_BLOCK AxesReset EXTENDS TaskBase
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -11,10 +11,6 @@ VAR
 	resetMover : Tc2_MC2.MC_Reset;
 	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
 	_ResetMover : BOOL;
-	state : INT;
-	_busy : BOOL;
-	_error : BOOL;
-	_done : BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -57,42 +53,6 @@ Abort := TRUE;
 State := 0;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Busy" Id="{ffbd0dda-3106-42ba-b22c-3278cb6aaea4}">
-      <Declaration><![CDATA[PROPERTY Busy : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{90c7b31c-76e8-4f44-95af-c4317569bbe0}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Busy := _busy;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Done" Id="{47e63658-753a-4115-96e1-42e82c8ff57f}">
-      <Declaration><![CDATA[PROPERTY Done : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{accb34dd-8a4d-4cb7-bc9f-4596b11ba7cc}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Done := _done;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Error" Id="{44b7813b-391c-4b03-b5bd-f887814b2c5c}">
-      <Declaration><![CDATA[PROPERTY Error : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{e407d0a0-d259-4518-9091-03bbe8cf3bbe}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Error := _error;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="Execute" Id="{6a1f36ad-1cf4-4393-9c94-06ccb247a97f}">
       <Declaration><![CDATA[METHOD Execute : BOOL
 VAR_INPUT
@@ -121,15 +81,6 @@ END_VAR
     <LineIds Name="AxesReset.Abort">
       <LineId Id="5" Count="3" />
       <LineId Id="4" Count="0" />
-    </LineIds>
-    <LineIds Name="AxesReset.Busy.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="AxesReset.Done.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="AxesReset.Error.Get">
-      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="AxesReset.Execute">
       <LineId Id="5" Count="0" />

@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="Mc2Halt" Id="{a1da82b8-b5e2-423a-81ce-89f8e220d6ba}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'hide_all_locals'}
-FUNCTION_BLOCK Mc2Halt IMPLEMENTS ITask
+FUNCTION_BLOCK Mc2Halt EXTENDS TaskBase
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -10,11 +10,7 @@ END_VAR
 VAR
 	mcHalt : Tc2_MC2.MC_Halt;
 	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
-	state : INT;
 	_Halt : BOOL;
-	_busy : BOOL;
-	_error : BOOL;
-	_done : BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>

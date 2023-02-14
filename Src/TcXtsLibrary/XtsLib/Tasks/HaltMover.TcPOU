@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="HaltMover" Id="{2df93188-c471-4371-8081-b3d6f1f9ea94}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'hide_all_locals'}
-FUNCTION_BLOCK HaltMover IMPLEMENTS ITask
+FUNCTION_BLOCK HaltMover EXTENDS TaskBase
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -10,11 +10,7 @@ END_VAR
 VAR
 	haltMover : Tc3_McCollisionAvoidance.MC_HaltCA;
 	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
-	state : INT;
 	_HaltMover : BOOL;
-	_busy : BOOL;
-	_error : BOOL;
-	_done : BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -56,43 +52,6 @@ Abort := TRUE;
 State := 0;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Busy" Id="{20e7b318-c7e4-4c2e-8e76-28c3176631fd}">
-      <Declaration><![CDATA[PROPERTY Busy : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{a09af68e-823c-4883-a48f-ba8a58f0942d}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Busy := _busy;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Done" Id="{4f945897-55dc-4eb2-a134-b81b8e227775}">
-      <Declaration><![CDATA[PROPERTY Done : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{b604ab84-8ce4-40a9-a69c-272116798d4f}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Done := _done;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Error" Id="{c367dcb3-b420-494d-bd9d-a29b81bc3d94}">
-      <Declaration><![CDATA[
-PROPERTY Error : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{a9a8089a-9b8f-44cb-b687-0bb9b8a35807}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Error := _error;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="Execute" Id="{1da23db6-3173-436e-9b1a-85386d5bceac}">
       <Declaration><![CDATA[METHOD Execute : BOOL
 VAR_INPUT
@@ -128,15 +87,6 @@ END_VAR
       <LineId Id="13" Count="1" />
       <LineId Id="7" Count="0" />
       <LineId Id="4" Count="0" />
-    </LineIds>
-    <LineIds Name="HaltMover.Busy.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="HaltMover.Done.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="HaltMover.Error.Get">
-      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="HaltMover.Execute">
       <LineId Id="5" Count="0" />

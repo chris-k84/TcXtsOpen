@@ -42,6 +42,12 @@
     <Compile Include="Base Types\Cyclic_Base\ICyclic.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Base Types\Task_Base\ITask.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Base Types\Task_Base\TaskBase.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="EventLoggerClass\ITcMessage_Ext.TcIO">
       <SubType>Code</SubType>
     </Compile>
@@ -169,9 +175,6 @@
     <Compile Include="Tasks\Mc2Halt.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tasks\ITask.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Tasks\Mc2MoveToPosition.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -191,9 +194,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\StopMoverGroup.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Tasks\Task.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\XtsDisableSequence.TcPOU">
@@ -239,6 +239,7 @@
   <ItemGroup>
     <Folder Include="Axis Class" />
     <Folder Include="Base Types\Cyclic_Base" />
+    <Folder Include="Base Types\Task_Base" />
     <Folder Include="EventLoggerClass" />
     <Folder Include="Mover Class" />
     <Folder Include="Base Types" />

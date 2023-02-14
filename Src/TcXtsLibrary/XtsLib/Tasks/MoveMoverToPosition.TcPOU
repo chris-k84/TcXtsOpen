@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="MoveMoverToPosition" Id="{7961d86e-9dbd-4bec-8af5-9f83d1007f15}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK MoveMoverToPosition
+    <Declaration><![CDATA[FUNCTION_BLOCK MoveMoverToPosition EXTENDS TaskBase
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -9,11 +9,7 @@ END_VAR
 VAR
 	moveAbs	: MC_MoveAbsoluteCA;
 	_axis : REFERENCE TO AXIS_REF;
-	State: INT;
 	_MoveMover : BOOL;
-	_busy : BOOL;
-	_error : BOOL;
-	_done : BOOL;
 	_stOptions : ST_MoveAbsoluteCAOptions;
 END_VAR
 ]]></Declaration>
@@ -77,18 +73,6 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Property Name="Busy" Id="{6f4dca59-6db6-48ea-9403-1d24de310b7d}">
-      <Declaration><![CDATA[PROPERTY Busy : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{8a098c97-be03-4dd9-be2a-46f9becd37b5}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Busy := _busy;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Property Name="Deceleration" Id="{ef0b52f9-9843-49fb-a892-4640ff914923}">
       <Declaration><![CDATA[PROPERTY PUBLIC Deceleration : mc_lreal]]></Declaration>
       <Get Name="Get" Id="{bbf33e15-becc-4893-bb90-eb050f77761a}">
@@ -107,30 +91,6 @@ END_VAR
           <ST><![CDATA[moveAbs.Deceleration := Deceleration;]]></ST>
         </Implementation>
       </Set>
-    </Property>
-    <Property Name="Done" Id="{ef45dfcc-b656-4cce-b30c-b0a99f348597}">
-      <Declaration><![CDATA[PROPERTY Done : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{124a0200-9a0e-40fe-b32e-4a16de2ed2e9}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Done := _done;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Error" Id="{348791b2-9244-4695-bd4c-0744a35d1ffc}">
-      <Declaration><![CDATA[PROPERTY Error : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{266f34a9-b654-4243-9cef-beb05b184a7d}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Error := _error;]]></ST>
-        </Implementation>
-      </Get>
     </Property>
     <Method Name="FB_init" Id="{ef6f9546-23fb-4e83-b44b-03e2dc95d5fb}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
@@ -239,19 +199,10 @@ END_VAR
     <LineIds Name="MoveMoverToPosition.Acceleration.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="MoveMoverToPosition.Busy.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
     <LineIds Name="MoveMoverToPosition.Deceleration.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="MoveMoverToPosition.Deceleration.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="MoveMoverToPosition.Done.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="MoveMoverToPosition.Error.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="MoveMoverToPosition.FB_init">

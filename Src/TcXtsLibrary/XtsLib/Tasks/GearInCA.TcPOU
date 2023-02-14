@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="GearInCA" Id="{85cd067d-c270-434d-ae38-a08ddeb32de2}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC GearInCA IMPLEMENTS ITask
+    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC GearInCA EXTENDS TaskBase
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -9,11 +9,7 @@ END_VAR
 VAR
 	gearInCA : Tc3_McCollisionAvoidance.MC_GearInPosCA;
 	_syncStrategy : Tc3_Mc3Definitions.MC_SYNC_STRATEGY := Tc3_Mc3Definitions.MC_SYNC_STRATEGY.mcSyncStrategyEarly;
-	State : INT;
 	_GearMover: BOOL;
-	_busy : BOOL;
-	_error : BOOL;
-	_done : BOOL;
 END_VAR
 VAR_IN_OUT
 	_MasterAxis : Tc2_MC2.AXIS_REF;
@@ -57,42 +53,6 @@ Abort := true;
 State := 0;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Busy" Id="{854082f8-1cc5-4970-9332-1bd16a27d6e6}">
-      <Declaration><![CDATA[PROPERTY Busy : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{e9b60f21-d8c1-4ece-9313-9018f106d538}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Busy := _busy;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Done" Id="{79b7f5dc-6232-40e5-9050-e6505dc4c482}">
-      <Declaration><![CDATA[PROPERTY Done : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{fd8bd123-c1de-42bf-96e2-73e8a9d83db7}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Done := _done;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Error" Id="{3c54b486-1fbe-43b1-8caa-5c88b9ab79af}">
-      <Declaration><![CDATA[PROPERTY Error : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{2ef11448-bbc2-4dae-be74-4a5a13a6ded9}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Error := _error;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="Sync" Id="{640dcb9d-e008-41e8-9eb9-9bab468a9c53}">
       <Declaration><![CDATA[METHOD PUBLIC Sync : BOOL
 VAR_INPUT
@@ -135,15 +95,6 @@ END_VAR
     </LineIds>
     <LineIds Name="GearInCA.Abort">
       <LineId Id="3" Count="3" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="GearInCA.Busy.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="GearInCA.Done.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="GearInCA.Error.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="GearInCA.Sync">

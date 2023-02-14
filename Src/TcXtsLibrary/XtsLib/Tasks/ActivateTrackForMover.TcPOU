@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="ActivateTrackForMover" Id="{35e3472a-6554-4314-81dc-6f0a8778c0a3}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK ActivateTrackForMover IMPLEMENTS ITask
+    <Declaration><![CDATA[FUNCTION_BLOCK ActivateTrackForMover EXTENDS TaskBase
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -9,10 +9,6 @@ END_VAR
 VAR
 	mcActivateTrack : Tc3_McCollisionAvoidance.MC_ActivateTrack;
 	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
-	State: INT;
-	_done: BOOL;
-	_error: BOOL;
-	_busy: BOOL;
 	_ActivateTrack : BOOL;
 	_newTrackId : OTCID;
 END_VAR
@@ -58,42 +54,6 @@ Abort := TRUE;
 State := 0;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Busy" Id="{ba2dc81f-a76e-4b6f-a981-60a2cf3b69aa}">
-      <Declaration><![CDATA[PROPERTY Busy : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{f6a8b8bb-a66d-46ae-9807-89fa205ab02d}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Busy := _busy;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Done" Id="{c1a82c72-356d-44af-9a2d-d30258c82752}">
-      <Declaration><![CDATA[PROPERTY Done : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{8cbf4d9c-de32-4a6d-b644-3c51b27ace4f}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Done := _done;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Error" Id="{4f8688ec-7f9e-4273-a9cd-cdb8dfc358a0}">
-      <Declaration><![CDATA[PROPERTY Error : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{30faecb5-a98b-47f8-b354-59f7ea76abb6}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Error := _error;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="Execute" Id="{5bda0256-96a6-4784-813e-6a9b4c7cbfd1}">
       <Declaration><![CDATA[METHOD PUBLIC Execute : BOOL
 VAR_INPUT
@@ -138,15 +98,6 @@ END_VAR
     <LineIds Name="ActivateTrackForMover.Abort">
       <LineId Id="5" Count="3" />
       <LineId Id="4" Count="0" />
-    </LineIds>
-    <LineIds Name="ActivateTrackForMover.Busy.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="ActivateTrackForMover.Done.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="ActivateTrackForMover.Error.Get">
-      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="ActivateTrackForMover.Execute">
       <LineId Id="5" Count="0" />

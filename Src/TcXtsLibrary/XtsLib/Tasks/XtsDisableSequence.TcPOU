@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="XtsDisableSequence" Id="{73e2f204-8f47-4c35-9b5f-a5e50b2f6f82}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK XtsDisableSequence IMPLEMENTS ITask
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsDisableSequence EXTENDS TaskBase
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -10,14 +10,9 @@ VAR
 	_collisionGroup : ICollisionGroup;
 	removeAllAxes : RemoveAllMoverFromGroup(_collisionGroup);
 	grpStop : StopMoverGroup(_collisionGroup);
-	State : INT;
 	DisableTrigger: BOOL;
 	moverNumbers : DINT := 1;
-	AllMoversDisabled: BOOL;
-	_busy : BOOL;
-	_done : BOOL;
-	_Error : BOOL;
-	
+	AllMoversDisabled: BOOL;	
 	Logger : TcMessage_Ext;
 END_VAR
 VAR_IN_OUT
@@ -100,18 +95,6 @@ removeAllAxes.Abort();
 grpStop.Abort();]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Busy" Id="{fc07d329-127f-40be-b9dd-9f15379f97c1}">
-      <Declaration><![CDATA[PROPERTY Busy : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{9dd46cfd-26e2-4b1d-9cfd-59dc125dbe84}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Busy := _busy;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="Disable" Id="{d8277baf-d0a5-4ca3-b9d2-183e530222af}">
       <Declaration><![CDATA[METHOD Disable : BOOL
 VAR_INPUT
@@ -121,30 +104,6 @@ END_VAR
         <ST><![CDATA[DisableTrigger := true;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Done" Id="{efc20aa9-c110-4223-9726-36ce2db4f287}">
-      <Declaration><![CDATA[PROPERTY Done : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{c2112fc9-a6f8-4cc4-b638-2d26ce808170}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Done := _done;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Error" Id="{19dd2892-ce5c-4277-bdea-9eefed81895d}">
-      <Declaration><![CDATA[PROPERTY Error : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{286361e3-d2d3-4160-b40e-98196d8fec86}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Error := _Error;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="FB_init" Id="{2df29c4c-50b6-4b7a-96ef-c07bbbce5982}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
@@ -199,16 +158,7 @@ grpStop.Jerk := Tc3_Mc3Definitions.MC_MAXIMUM;]]></ST>
       <LineId Id="6" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsDisableSequence.Busy.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
     <LineIds Name="XtsDisableSequence.Disable">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsDisableSequence.Done.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsDisableSequence.Error.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.FB_init">

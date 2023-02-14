@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="DisableGroup" Id="{2efb7482-2869-4c33-92cf-4ab1172a1cdc}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'hide_all_locals'}
-FUNCTION_BLOCK DisableGroup IMPLEMENTS ITask
+FUNCTION_BLOCK DisableGroup EXTENDS TaskBase
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -10,11 +10,7 @@ END_VAR
 VAR
 	groupDisable			: MC_GroupDisable;
 	_caGroup			: ICollisionGroup;
-	State: INT;
 	_disableGroup : BOOL;
-	_busy : BOOL;
-	_error : BOOL;
-	_done : BOOL;
 	Logger : TcMessage_Ext;
 END_VAR
 ]]></Declaration>
@@ -60,42 +56,6 @@ groupDisable.Execute := FALSE;
 Abort := true;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Busy" Id="{4930380f-5f69-4c59-abf0-3f7e820d28fd}">
-      <Declaration><![CDATA[PROPERTY Busy : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{042e9807-eaa3-4683-b892-f125b1618e0d}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Busy := _busy;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Done" Id="{87722ae3-44ad-4fea-8bac-fcd129197625}">
-      <Declaration><![CDATA[PROPERTY Done : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{ea9bc1eb-4961-4b5b-9e40-37ce15fd5f5a}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Done := _done;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Error" Id="{446c2ac5-d9c1-4731-9b12-a47c4879f72e}">
-      <Declaration><![CDATA[PROPERTY Error : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{8191c214-596a-427a-89fd-c9835883ce5b}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Error := _error;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="Execute" Id="{75a1aef5-6794-4797-8c10-1d2b68a1a592}">
       <Declaration><![CDATA[METHOD Execute : BOOL
 ]]></Declaration>
@@ -132,15 +92,6 @@ END_VAR
     </LineIds>
     <LineIds Name="DisableGroup.Abort">
       <LineId Id="4" Count="2" />
-    </LineIds>
-    <LineIds Name="DisableGroup.Busy.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="DisableGroup.Done.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="DisableGroup.Error.Get">
-      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="DisableGroup.Execute">
       <LineId Id="5" Count="1" />
