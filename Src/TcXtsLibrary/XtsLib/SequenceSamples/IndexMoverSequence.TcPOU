@@ -59,7 +59,7 @@ CASE State OF
 		END_IF
 			
 	IndexSequenceState.AtStart:
-		IF StationArray[LOWER_BOUND(StationArray,1)].IsReady() THEN
+		IF StationArray[1].IsReady() THEN
 			State := IndexSequenceState.GetNextMove;
 		END_IF
 
@@ -101,7 +101,7 @@ CASE State OF
 		END_IF
 	
 	IndexSequenceState.GetNextMove:
-		IF CurrentStation = UPPER_BOUND(StationArray,1) THEN
+		IF CurrentStation = SystemParameters.NumberOfStations THEN
 			IF ThisMover.MoveTo(Position := XtsTrack.HomePosition,
 							Velocity := _MoverVelocity,
 							BackwardMove := FALSE) THEN

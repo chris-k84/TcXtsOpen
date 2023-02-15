@@ -1336,7 +1336,7 @@ and will return to Group State Standby when the situation permits.
 		</DataType>
 	</DataTypes>
 	<Project GUID="{6CE98D97-B85B-476D-91E3-37ABB0FAE03C}" Name="XtsControl" PrjFilePath="..\..\XtsControl\XtsControl.plcproj" TmcFilePath="..\..\XtsControl\XtsControl.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e">
-		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="1" TmcPath="XtsControl\XtsControl.tmc" TmcHash="{4F97411E-97A6-D633-2933-A43DA54477D0}">
+		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="1" TmcPath="XtsControl\XtsControl.tmc" TmcHash="{9FAE1256-7F29-0CFF-6945-0C23FDEBBAA9}">
 			<Name>XtsControl Instance</Name>
 			<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 			<Vars VarGrpType="1">
@@ -1587,47 +1587,47 @@ and will return to Group State Standby when the situation permits.
 	</Project>
 	<Mappings>
 		<OwnerA Name="XtsControl Instance">
-			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Mover Axis 1">
+			<OwnerB Name="TINC^NC-Task 1^Axes^Mover Axis 1">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.Movers[1]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.Movers[1]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
-			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Mover Axis 10">
+			<OwnerB Name="TINC^NC-Task 1^Axes^Mover Axis 10">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.Movers[10]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.Movers[10]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
-			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Mover Axis 2">
+			<OwnerB Name="TINC^NC-Task 1^Axes^Mover Axis 2">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.Movers[2]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.Movers[2]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
-			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Mover Axis 3">
+			<OwnerB Name="TINC^NC-Task 1^Axes^Mover Axis 3">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.Movers[3]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.Movers[3]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
-			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Mover Axis 4">
+			<OwnerB Name="TINC^NC-Task 1^Axes^Mover Axis 4">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.Movers[4]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.Movers[4]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
-			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Mover Axis 5">
+			<OwnerB Name="TINC^NC-Task 1^Axes^Mover Axis 5">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.Movers[5]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.Movers[5]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
-			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Mover Axis 6">
+			<OwnerB Name="TINC^NC-Task 1^Axes^Mover Axis 6">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.Movers[6]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.Movers[6]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
-			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Mover Axis 7">
+			<OwnerB Name="TINC^NC-Task 1^Axes^Mover Axis 7">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.Movers[7]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.Movers[7]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
-			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Mover Axis 8">
+			<OwnerB Name="TINC^NC-Task 1^Axes^Mover Axis 8">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.Movers[8]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.Movers[8]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
-			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Mover Axis 9">
+			<OwnerB Name="TINC^NC-Task 1^Axes^Mover Axis 9">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.Movers[9]._axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.Movers[9]._axis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
-			<OwnerB Name="TINC^NC-Task 1 SAF^Objects^Group1 (CA Group)">
+			<OwnerB Name="TINC^NC-Task 1^Objects^Group1 (CA Group)">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.Xts.mcCollisionGroup._caGroup.NcToPlc" VarB="Group Outputs^ToPLC"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.Xts.mcCollisionGroup._caGroup.PlcToNc" VarB="Group Inputs^FromPLC"/>
 			</OwnerB>
