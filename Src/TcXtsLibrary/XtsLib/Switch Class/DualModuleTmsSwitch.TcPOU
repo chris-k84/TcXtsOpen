@@ -20,7 +20,15 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE stSwitchInfo.State OF
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Cycle" Id="{0e790c15-84b0-4b1f-ba1f-472fa0e7001f}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE stSwitchInfo.State OF
 	TmsSwitchState.Init:
 		IF NOT THIS^.hasError() THEN
 			stSwitchInfo.State := TmsSwitchState.Ready;
@@ -96,8 +104,9 @@ END_CASE
 stSwitchInfo.ActPos := SUPER^._axis.NcToPlc.ActPos;
 stSwitchInfo.Position := Switch;
 
-SUPER^();]]></ST>
-    </Implementation>
+SUPER^.Cycle();]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="DownPosition" Id="{e0b661ce-ed86-4d1f-9222-494e093bbcab}">
       <Declaration><![CDATA[PROPERTY DownPosition : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{6539c5f6-ea7d-4749-9266-3355a5abbe04}">
@@ -300,18 +309,11 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="DualModuleTmsSwitch">
-      <LineId Id="589" Count="22" />
-      <LineId Id="714" Count="0" />
-      <LineId Id="676" Count="2" />
-      <LineId Id="675" Count="0" />
-      <LineId Id="612" Count="6" />
-      <LineId Id="715" Count="0" />
-      <LineId Id="619" Count="29" />
-      <LineId Id="696" Count="0" />
-      <LineId Id="649" Count="6" />
-      <LineId Id="567" Count="0" />
-      <LineId Id="657" Count="0" />
       <LineId Id="656" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.Cycle">
+      <LineId Id="6" Count="75" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.DownPosition.Get">
       <LineId Id="2" Count="0" />

@@ -36,7 +36,7 @@ END_VAR]]></Declaration>
 	END_IF
 END_IF
 
-xtsStateMachine();
+xtsStateMachine.Cycle();
 xts.Cycle();
 FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
 	Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].Cycle();

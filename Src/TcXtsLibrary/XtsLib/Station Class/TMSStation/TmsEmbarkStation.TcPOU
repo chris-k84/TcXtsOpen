@@ -32,7 +32,15 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE State OF
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Cycle" Id="{465b9d87-fc00-40f3-8ad4-0d161a57135e}">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
 	Init:
 		_Operating := _Clear := _Complete := _Ready := _HasMover := FALSE;
 		StationMovers := 0;
@@ -157,8 +165,9 @@ END_VAR
 		State := Ready;	
 		DepartMover := 0;
 END_CASE
-SUPER^();]]></ST>
-    </Implementation>
+SUPER^.Cycle();]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="HasMover" Id="{6096dfca-b0c2-4998-b7bb-2c09860d3176}">
       <Declaration><![CDATA[METHOD HasMover : BOOL
 VAR_INPUT
@@ -260,8 +269,11 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="TmsEmbarkStation">
-      <LineId Id="1364" Count="124" />
       <LineId Id="1145" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkStation.Cycle">
+      <LineId Id="6" Count="124" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.HasMover">
       <LineId Id="9" Count="3" />

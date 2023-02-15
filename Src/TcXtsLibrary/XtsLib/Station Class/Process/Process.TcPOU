@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="Process" Id="{d2e75364-5fbc-4562-a2ad-425968d5f182}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK Process EXTENDS Station IMPLEMENTS IProcess
 VAR_INPUT
@@ -14,8 +14,17 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[SUPER^();]]></ST>
+      <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="Cycle" Id="{6e0dd691-2c11-433f-b7d3-9a7ad3f2f889}">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.Cycle();]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="EndPosition" Id="{65043570-5e02-48d8-bfb0-5c560a6a952b}">
       <Declaration><![CDATA[PROPERTY EndPosition : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{bf2122ca-6425-4989-ac27-0984d8a65701}">
@@ -95,6 +104,9 @@ END_VAR
     </Property>
     <LineIds Name="Process">
       <LineId Id="22" Count="0" />
+    </LineIds>
+    <LineIds Name="Process.Cycle">
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="Process.EndPosition.Get">
       <LineId Id="2" Count="0" />

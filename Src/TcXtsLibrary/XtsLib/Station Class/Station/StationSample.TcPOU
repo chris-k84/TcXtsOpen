@@ -14,7 +14,25 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF _isProcess THEN
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{3728aaec-7d37-460f-b16a-a399001ba6b4}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^();
+StationMovers := State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{9ef6bb57-2a4b-4c1c-a8b0-1ec30c0017bb}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _isProcess THEN
 	;
 ELSE
 	CASE State OF
@@ -54,17 +72,8 @@ IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborted
 	StationMovers := State := 0;
 END_IF
 
-SUPER^();
+SUPER^.Cycle();
 stInfo.StationProcessTime := _OperationTime;]]></ST>
-    </Implementation>
-    <Method Name="Abort" Id="{3728aaec-7d37-460f-b16a-a399001ba6b4}">
-      <Declaration><![CDATA[METHOD Abort : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[SUPER^();
-StationMovers := State := 0;]]></ST>
       </Implementation>
     </Method>
     <Property Name="TempPropTime" Id="{e0ccb7b2-ab4d-4401-a6ea-ec63ab2ed8d6}">
@@ -87,38 +96,14 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="StationSample">
-      <LineId Id="31" Count="0" />
-      <LineId Id="33" Count="0" />
-      <LineId Id="36" Count="0" />
-      <LineId Id="102" Count="1" />
-      <LineId Id="107" Count="0" />
-      <LineId Id="110" Count="2" />
-      <LineId Id="108" Count="0" />
-      <LineId Id="113" Count="0" />
-      <LineId Id="109" Count="0" />
-      <LineId Id="105" Count="0" />
-      <LineId Id="115" Count="6" />
-      <LineId Id="114" Count="0" />
-      <LineId Id="106" Count="0" />
-      <LineId Id="123" Count="2" />
-      <LineId Id="122" Count="0" />
-      <LineId Id="126" Count="0" />
-      <LineId Id="104" Count="0" />
-      <LineId Id="37" Count="0" />
-      <LineId Id="34" Count="0" />
-      <LineId Id="147" Count="0" />
-      <LineId Id="70" Count="0" />
-      <LineId Id="140" Count="0" />
-      <LineId Id="74" Count="2" />
-      <LineId Id="71" Count="0" />
-      <LineId Id="77" Count="0" />
-      <LineId Id="73" Count="0" />
-      <LineId Id="90" Count="0" />
-      <LineId Id="89" Count="0" />
       <LineId Id="128" Count="0" />
     </LineIds>
     <LineIds Name="StationSample.Abort">
       <LineId Id="5" Count="1" />
+    </LineIds>
+    <LineIds Name="StationSample.Cycle">
+      <LineId Id="6" Count="40" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="StationSample.TempPropTime.Get">
       <LineId Id="2" Count="0" />

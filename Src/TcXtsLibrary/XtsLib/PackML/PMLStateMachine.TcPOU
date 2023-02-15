@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="PMLStateMachine" Id="{4f8e95fc-32ef-4a74-83fd-0b9512d379fe}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK PMLStateMachine IMPLEMENTS IPmlStateMachine
+    <Declaration><![CDATA[FUNCTION_BLOCK PMLStateMachine EXTENDS CyclicBase IMPLEMENTS IPmlStateMachine
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -17,7 +17,15 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF _SubUnitReference.NoOfSubUnits <> 0 THEN
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Cycle" Id="{8c2015cb-a8c8-4aa9-ac08-9c3b3695ab92}">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _SubUnitReference.NoOfSubUnits <> 0 THEN
 	FOR i := 0 TO 9 DO
 		IF _subUnits[i] <> 0 THEN
 			subUnitArray[i].eState := _subUnits[i].GetCurrentState();
@@ -31,7 +39,8 @@ END_IF
 _pmlStateMachine(eMode := _pmlModeMachine.eModeStatus, stSubUnitInfoRef := _SubUnitReference);
 _pmlModeMachine(eState := _pmlStateMachine.eState, bExecute := modeChangeTrigger.Q);
 modeChangeTrigger();]]></ST>
-    </Implementation>
+      </Implementation>
+    </Method>
     <Method Name="GetCurrentMode" Id="{7b17abef-31a4-4387-93cc-006ed2905222}">
       <Declaration><![CDATA[METHOD PUBLIC GetCurrentMode : E_PmlProtectedUnitMode
 VAR_INPUT
@@ -96,15 +105,11 @@ END_VAR
       </Implementation>
     </Method>
     <LineIds Name="PMLStateMachine">
-      <LineId Id="48" Count="0" />
-      <LineId Id="51" Count="2" />
-      <LineId Id="57" Count="0" />
-      <LineId Id="54" Count="2" />
-      <LineId Id="49" Count="1" />
-      <LineId Id="47" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="21" Count="0" />
       <LineId Id="72" Count="0" />
+    </LineIds>
+    <LineIds Name="PMLStateMachine.Cycle">
+      <LineId Id="6" Count="12" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="PMLStateMachine.GetCurrentMode">
       <LineId Id="5" Count="0" />

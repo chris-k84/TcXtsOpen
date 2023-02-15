@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="Station" Id="{15da8106-0d22-4ca5-af9c-31c3d97b8668}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK Station IMPLEMENTS IStation
+    <Declaration><![CDATA[FUNCTION_BLOCK Station EXTENDS CyclicBase IMPLEMENTS IStation
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -24,7 +24,28 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[//Cyclic info
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{38f6b9e4-2f32-4b37-b901-e23947342ba9}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_Complete := FALSE;
+_Clear := TRUE;
+_Operating := FALSE;
+_Ready := TRUE;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{7406b85d-499c-47b6-8a05-a531cf0b8d6d}">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[//Cyclic info
 stInfo.StationPosition := _Positions[1];
 stInfo.StationStatus.Clear := _clear;
 stInfo.StationStatus.Complete := _Complete;
@@ -38,18 +59,6 @@ IF LastStation THEN
 		Products := Products + 1;
 	END_IF
 END_IF]]></ST>
-    </Implementation>
-    <Method Name="Abort" Id="{38f6b9e4-2f32-4b37-b901-e23947342ba9}">
-      <Declaration><![CDATA[METHOD Abort : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[_Complete := FALSE;
-_Clear := TRUE;
-_Operating := FALSE;
-_Ready := TRUE;
-]]></ST>
       </Implementation>
     </Method>
     <Method Name="HasMover" Id="{1cb719ab-8b5a-456f-a91b-48331f9d0dc2}">
@@ -150,15 +159,14 @@ END_IF]]></ST>
       </Set>
     </Property>
     <LineIds Name="Station">
-      <LineId Id="65" Count="0" />
-      <LineId Id="100" Count="0" />
-      <LineId Id="61" Count="3" />
-      <LineId Id="48" Count="0" />
-      <LineId Id="119" Count="5" />
       <LineId Id="118" Count="0" />
     </LineIds>
     <LineIds Name="Station.Abort">
       <LineId Id="6" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="Station.Cycle">
+      <LineId Id="6" Count="12" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="Station.HasMover">

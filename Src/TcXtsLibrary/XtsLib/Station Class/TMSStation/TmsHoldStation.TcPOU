@@ -20,7 +20,15 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE State OF
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Cycle" Id="{0d647d3a-f191-4635-9324-0b358870ca34}">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
 	Init:
 		_Operating := _Clear := _Complete := _Ready := _HasMover := FALSE;
 		StationMovers := 0;
@@ -70,8 +78,9 @@ END_VAR
 		HoldMover := 0;
 		_HasMover := FALSE;
 END_CASE
-SUPER^();]]></ST>
-    </Implementation>
+SUPER^.Cycle();]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="HasMover" Id="{d6e7677f-266a-4e9d-8eb0-14ce723367ea}">
       <Declaration><![CDATA[METHOD HasMover : BOOL
 VAR_INPUT
@@ -105,42 +114,11 @@ HoldMover := 0;
       </Implementation>
     </Method>
     <LineIds Name="TmsHoldStation">
-      <LineId Id="25" Count="2" />
-      <LineId Id="31" Count="3" />
-      <LineId Id="40" Count="0" />
-      <LineId Id="101" Count="0" />
-      <LineId Id="41" Count="0" />
-      <LineId Id="43" Count="0" />
-      <LineId Id="42" Count="0" />
-      <LineId Id="35" Count="0" />
-      <LineId Id="136" Count="0" />
-      <LineId Id="138" Count="0" />
-      <LineId Id="135" Count="0" />
-      <LineId Id="36" Count="1" />
-      <LineId Id="59" Count="0" />
-      <LineId Id="64" Count="0" />
-      <LineId Id="80" Count="1" />
-      <LineId Id="79" Count="0" />
-      <LineId Id="65" Count="0" />
-      <LineId Id="140" Count="1" />
-      <LineId Id="139" Count="0" />
-      <LineId Id="66" Count="1" />
-      <LineId Id="69" Count="1" />
-      <LineId Id="73" Count="0" />
-      <LineId Id="71" Count="0" />
-      <LineId Id="143" Count="1" />
-      <LineId Id="142" Count="0" />
-      <LineId Id="75" Count="2" />
-      <LineId Id="82" Count="1" />
-      <LineId Id="78" Count="0" />
-      <LineId Id="84" Count="0" />
-      <LineId Id="145" Count="0" />
-      <LineId Id="163" Count="1" />
-      <LineId Id="166" Count="0" />
-      <LineId Id="165" Count="0" />
-      <LineId Id="184" Count="0" />
-      <LineId Id="23" Count="0" />
       <LineId Id="118" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsHoldStation.Cycle">
+      <LineId Id="6" Count="49" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="TmsHoldStation.HasMover">
       <LineId Id="9" Count="3" />
