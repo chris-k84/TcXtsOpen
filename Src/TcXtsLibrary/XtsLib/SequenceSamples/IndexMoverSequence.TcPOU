@@ -1,26 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="IndexMoverSequence" Id="{4ed28eae-b2a7-40a7-8856-6ea87acd0ba0}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK IndexMoverSequence
-VAR_INPUT
-	ThisMover : IMover;
-	XtsTrack : IXtsTrack;
-	StateMachine : IPmlStateMachine;
-END_VAR
-VAR_OUTPUT
-END_VAR
+    <Declaration><![CDATA[FUNCTION_BLOCK IndexMoverSequence EXTENDS CyclicBase
 VAR
 	State : IndexSequenceState;  
 	CurrentStation : INT;
 	TargetStationPosition : MC_LREAL;
 	_MoverVelocity : MC_LREAL := 1000.0;
 	stSequenceInfo : MoverSequenceInfo;
-END_VAR
-VAR_IN_OUT
-	StationArray : ARRAY[*] OF IProcess;
+	StationArray : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess;
+	ThisMover : IMover;
+	XtsTrack : IXtsTrack;
+	StateMachine : IPmlStateMachine;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{397c3846-e217-40d7-9923-29b7d6a40cc1}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[State := IndexSequenceState.Available;
+CurrentStation := 0;
+TargetStationPosition := 0.0;
+stSequenceInfo.CurrentStation := CurrentStation;
+stSequenceInfo.MoverId := ThisMover.AxisRef.NcToPlc.AxisId;
+stSequenceInfo.State := State;
+stSequenceInfo.Velocity := ThisMover.AxisRef.NcToPlc.ActVelo;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{a14e5ec6-3b4a-4c23-9c62-41472ce4a306}">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 	State := IndexSequenceState.Aborting;
 ELSIF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
 	State := IndexSequenceState.Stopping;
@@ -132,20 +149,6 @@ stSequenceInfo.CurrentStation := CurrentStation;
 stSequenceInfo.MoverId := ThisMover.AxisRef.NcToPlc.AxisId;
 stSequenceInfo.State := State;
 stSequenceInfo.Velocity := ThisMover.AxisRef.NcToPlc.ActVelo;]]></ST>
-    </Implementation>
-    <Method Name="Abort" Id="{397c3846-e217-40d7-9923-29b7d6a40cc1}">
-      <Declaration><![CDATA[METHOD Abort : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[State := IndexSequenceState.Available;
-CurrentStation := 0;
-TargetStationPosition := 0.0;
-stSequenceInfo.CurrentStation := CurrentStation;
-stSequenceInfo.MoverId := ThisMover.AxisRef.NcToPlc.AxisId;
-stSequenceInfo.State := State;
-stSequenceInfo.Velocity := ThisMover.AxisRef.NcToPlc.ActVelo;]]></ST>
       </Implementation>
     </Method>
     <Property Name="MoverVelocity" Id="{c303dc01-7139-45a4-8651-17c52d290c79}">
@@ -167,8 +170,83 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Property Name="MyMover" Id="{fe153a8e-acc7-4954-a448-205555c93db3}">
+      <Declaration><![CDATA[PROPERTY MyMover : IMover]]></Declaration>
+      <Get Name="Get" Id="{9bb54152-ce1e-42be-9c6b-2ed5fdda3cba}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MyMover := ThisMover;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{ed040e45-4502-40ca-8bcc-37d636b98307}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ThisMover := MyMover;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="MyStations" Id="{aec69dc9-1dc9-4009-8077-cd6b3f0bed95}">
+      <Declaration><![CDATA[PROPERTY MyStations : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess]]></Declaration>
+      <Get Name="Get" Id="{6a98ac91-2a21-40b8-bfe2-0f16db5ff304}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MyStations := StationArray;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{48cc5cae-b6b3-4e85-9392-9a23c54b04a5}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[StationArray := MyStations;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="PmlStateMachine" Id="{6e936bd5-b549-4c41-a379-d3a3052fed61}">
+      <Declaration><![CDATA[PROPERTY PmlStateMachine : IPmlStateMachine]]></Declaration>
+      <Get Name="Get" Id="{5f4499c2-af63-482e-b055-3b5dcce95dc4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[PmlStateMachine := StateMachine;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{ba687b89-c796-4433-bcc1-90bddf362621}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[StateMachine := PmlStateMachine;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="XtsTrackController" Id="{81e3a6c2-3add-4198-af49-315531f4e427}">
+      <Declaration><![CDATA[PROPERTY XtsTrackController : IXtsTrack]]></Declaration>
+      <Get Name="Get" Id="{4781a7bb-cd17-4dc2-a3da-8314395477eb}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[XtsTrackController := XtsTrack;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{69ecc963-320a-4339-b73d-fb632f10030e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[XtsTrack := XtsTrackController;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <LineIds Name="IndexMoverSequence">
-      <LineId Id="1128" Count="110" />
       <LineId Id="1006" Count="0" />
     </LineIds>
     <LineIds Name="IndexMoverSequence.Abort">
@@ -177,10 +255,38 @@ END_VAR
       <LineId Id="9" Count="2" />
       <LineId Id="8" Count="0" />
     </LineIds>
+    <LineIds Name="IndexMoverSequence.Cycle">
+      <LineId Id="6" Count="110" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
     <LineIds Name="IndexMoverSequence.MoverVelocity.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="IndexMoverSequence.MoverVelocity.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.MyMover.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.MyMover.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.MyStations.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.MyStations.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.PmlStateMachine.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.PmlStateMachine.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.XtsTrackController.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.XtsTrackController.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

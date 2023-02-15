@@ -29,6 +29,10 @@ END_VAR]]></Declaration>
 		iMovers[i] := Movers[i];
 		Movers[i].TrackLength := Xts.TrackLength;
 		Xts.MoverArray := iMovers;
+		MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyMover := Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i]; 
+		MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].XtsTrackController := Xts;
+		MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].PmlStateMachine := xtsStateMachine;
+		MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyStations := iStationArray;	
 	END_FOR
 	FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
 		StationArray[i].PmlStateMachine := xtsStateMachine;
@@ -43,10 +47,7 @@ xtsStateMachine.Cycle();
 xts.Cycle();
 FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
 	Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].Cycle();
-	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i](ThisMover := Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i], 
-																		XtsTrack := Xts, 
-																		StateMachine := xtsStateMachine, 
-																		StationArray := iStationArray);																
+	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].Cycle();															
 END_FOR
 FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
 	StationArray[i].Cycle();
@@ -101,12 +102,15 @@ END_VAR
     <LineIds Name="Machine">
       <LineId Id="487" Count="3" />
       <LineId Id="532" Count="0" />
+      <LineId Id="558" Count="2" />
+      <LineId Id="557" Count="0" />
       <LineId Id="491" Count="0" />
       <LineId Id="555" Count="1" />
       <LineId Id="554" Count="0" />
       <LineId Id="492" Count="6" />
       <LineId Id="525" Count="0" />
-      <LineId Id="500" Count="9" />
+      <LineId Id="500" Count="1" />
+      <LineId Id="505" Count="4" />
       <LineId Id="25" Count="0" />
     </LineIds>
     <LineIds Name="Machine.InitialiseStations">
