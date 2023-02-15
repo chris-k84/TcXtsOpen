@@ -30,6 +30,9 @@ END_VAR]]></Declaration>
 		Movers[i].TrackLength := Xts.TrackLength;
 		Xts.MoverArray := iMovers;
 	END_FOR
+	FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
+		StationArray[i].PmlStateMachine := xtsStateMachine;
+	END_FOR
 	IF InitialiseStations() THEN
 		xtsStateMachine.PmlModeCommand(Mode := E_PMLProtectedUnitMode.ePMLProtUnitMode_Production);
 		bInit := TRUE;
@@ -46,7 +49,7 @@ FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
 																		StationArray := iStationArray);																
 END_FOR
 FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
-	StationArray[i](StateMachine := xtsStateMachine);
+	StationArray[i].Cycle();
 END_FOR
 ]]></ST>
     </Implementation>
@@ -98,7 +101,10 @@ END_VAR
     <LineIds Name="Machine">
       <LineId Id="487" Count="3" />
       <LineId Id="532" Count="0" />
-      <LineId Id="491" Count="7" />
+      <LineId Id="491" Count="0" />
+      <LineId Id="555" Count="1" />
+      <LineId Id="554" Count="0" />
+      <LineId Id="492" Count="6" />
       <LineId Id="525" Count="0" />
       <LineId Id="500" Count="9" />
       <LineId Id="25" Count="0" />
