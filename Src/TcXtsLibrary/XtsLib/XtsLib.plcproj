@@ -48,6 +48,9 @@
     <Compile Include="Base Types\Task_Base\TaskBase.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Class Diagram.TcCD">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="EventLoggerClass\ITcMessage_Ext.TcIO">
       <SubType>Code</SubType>
     </Compile>
