@@ -80,6 +80,9 @@
     <PlaceholderResolution Include="Tc3_Module">
       <Resolution>Tc3_Module, * (Beckhoff Automation GmbH)</Resolution>
     </PlaceholderResolution>
+    <PlaceholderResolution Include="Xts Library">
+      <Resolution>Xts Library, 2.0.0.1 (ChrisK)</Resolution>
+    </PlaceholderResolution>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>

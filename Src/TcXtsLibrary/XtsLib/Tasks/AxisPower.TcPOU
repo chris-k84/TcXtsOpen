@@ -5,11 +5,7 @@
 VAR
 	mcPower : Tc2_MC2.MC_Power;
 	AxisReference : REFERENCE TO Tc2_MC2.AXIS_REF;
-	state : INT;
 	EnableAxis : BOOL;
-	_busy : BOOL;
-	_error : BOOL;
-	_done : BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
