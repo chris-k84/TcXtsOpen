@@ -8,7 +8,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	_axis : Tc2_MC2.AXIS_REF;
-	axesEnable		: MC_Power;
+	axesEnable		: AxisPower(_axis);
 	axesReset		: AxesReset(_axis);
 	axesMoveTo 		: Mc2MoveToPosition(_axis);
 	axesHalt 		: Mc2Halt(_axis);
@@ -29,7 +29,7 @@ END_VAR
 axesHalt.Cycle();
 axesReset.Cycle();
 _axis.ReadStatus();
-axesEnable(Axis := _axis);
+axesEnable.Cycle();
 axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _MoverErrorId);]]></ST>
       </Implementation>
     </Method>
@@ -39,7 +39,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[axesEnable.Enable := false;
+        <ST><![CDATA[DisableAxis := axesEnable.Disable();
 ]]></ST>
       </Implementation>
     </Method>
@@ -49,8 +49,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[axesEnable.Enable := axesEnable.Enable_Negative := axesEnable.Enable_Positive := TRUE;
-axesEnable.Override := 100;]]></ST>
+        <ST><![CDATA[EnableAxis := axesEnable.Enable();]]></ST>
       </Implementation>
     </Method>
     <Method Name="HaltAxis" Id="{079fcc48-e6ef-4393-b619-932dde04fbb7}">
@@ -148,7 +147,6 @@ axesHalt.Abort();]]></ST>
     </LineIds>
     <LineIds Name="MC2_Axis_Base.EnableAxis">
       <LineId Id="13" Count="0" />
-      <LineId Id="17" Count="0" />
     </LineIds>
     <LineIds Name="MC2_Axis_Base.HaltAxis">
       <LineId Id="5" Count="0" />

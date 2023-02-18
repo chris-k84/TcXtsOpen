@@ -3,7 +3,7 @@
   <POU Name="FB_Mover" Id="{85f62a02-889f-4b30-9036-53b84a79c2ee}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Mover EXTENDS CyclicBase IMPLEMENTS IMover, IDynamics
 VAR
-	axesEnable		: MC_Power;
+	axesEnable		: AxisPower(_axis);
 	axesReset		: AxesReset(_axis);
 	axesMoveTo 		: MoveMoverToPosition(_axis) := (Gap := 100.0);
 	axesHalt 		: HaltMover(_axis);
@@ -62,7 +62,7 @@ END_VAR
 axesHalt.Cycle();
 axesReset.Cycle();
 _axis.ReadStatus();
-axesEnable(Axis := _axis);
+axesEnable.Cycle();
 axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _MoverErrorId);
 ]]></ST>
       </Implementation>
@@ -92,7 +92,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[axesEnable.Enable := false;
+        <ST><![CDATA[DisableAxis := axesEnable.Disable();
 ]]></ST>
       </Implementation>
     </Method>
@@ -102,8 +102,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[axesEnable.Enable := axesEnable.Enable_Negative := axesEnable.Enable_Positive := TRUE;
-axesEnable.Override := 100;]]></ST>
+        <ST><![CDATA[EnableAxis := axesEnable.Enable();]]></ST>
       </Implementation>
     </Method>
     <Property Name="Gap" Id="{df4301cc-49ae-42f0-9fb5-132b4f344460}" FolderPath="Properties\">
@@ -421,7 +420,6 @@ END_VAR
       <LineId Id="20" Count="0" />
     </LineIds>
     <LineIds Name="FB_Mover.EnableAxis">
-      <LineId Id="13" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
     <LineIds Name="FB_Mover.Gap.Get">
