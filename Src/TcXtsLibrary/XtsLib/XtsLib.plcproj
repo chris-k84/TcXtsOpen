@@ -208,9 +208,6 @@
     <Compile Include="Tasks\XtsEnableSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="XTS Class\ITF_StartUpSequence.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="XTS Class\IXtsTrack.TcIO">
       <SubType>Code</SubType>
     </Compile>
