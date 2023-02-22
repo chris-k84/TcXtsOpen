@@ -4,6 +4,7 @@
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
 	fbMachine : Machine;
+	State : INT := 0;
 	Reset : BOOL;
 	Start : BOOL;
 	Clear : BOOL;
@@ -11,7 +12,14 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[fbMachine();
+      <ST><![CDATA[CASE State OF
+	0:
+		IF fbMachine.Initialise() THEN
+			State := 1;
+		END_IF
+	1:
+		fbMachine.Cycle();
+END_CASE
 
 IF Reset THEN
 	fbMachine.SetPackML(state := E_PMLCommand.ePMLCommand_Reset);
@@ -31,7 +39,12 @@ IF Start THEN
 END_IF]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="2" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="48" Count="2" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="46" Count="0" />
       <LineId Id="33" Count="0" />
       <LineId Id="18" Count="14" />
       <LineId Id="17" Count="0" />

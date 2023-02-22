@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="Machine" Id="{e8d4edde-6e68-4e80-9f5b-2e9346044142}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK Machine
+    <Declaration><![CDATA[FUNCTION_BLOCK Machine EXTENDS CyclicBase
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -24,26 +24,17 @@ VAR
 	bInit: BOOL;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF NOT bInit THEN
-	FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
-		iMovers[i] := Movers[i];
-		Movers[i].TrackLength := Xts.TrackLength;
-		Xts.MoverArray := iMovers;
-		MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyMover := Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i]; 
-		MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].XtsTrackController := Xts;
-		MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].PmlStateMachine := xtsStateMachine;
-		MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyStations := iStationArray;	
-	END_FOR
-	FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
-		StationArray[i].PmlStateMachine := xtsStateMachine;
-	END_FOR
-	IF InitialiseStations() THEN
-		xtsStateMachine.PmlModeCommand(Mode := E_PMLProtectedUnitMode.ePMLProtUnitMode_Production);
-		bInit := TRUE;
-	END_IF
-END_IF
+      <ST><![CDATA[
 
-xtsStateMachine.Cycle();
+]]></ST>
+    </Implementation>
+    <Method Name="Cycle" Id="{a8675662-99c5-487a-bbe7-b5e32c1c2bf4}">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[xtsStateMachine.Cycle();
 xts.Cycle();
 FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
 	Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].Cycle();
@@ -51,9 +42,33 @@ FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
 END_FOR
 FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
 	StationArray[i].Cycle();
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Initialise" Id="{4069299b-b0bd-441e-b636-7c39202b14ad}">
+      <Declaration><![CDATA[METHOD Initialise : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
+	iMovers[i] := Movers[i];
+	Movers[i].TrackLength := Xts.TrackLength;
+	Xts.MoverArray := iMovers;
+	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyMover := Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i]; 
+	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].XtsTrackController := Xts;
+	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].PmlStateMachine := xtsStateMachine;
+	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyStations := iStationArray;	
 END_FOR
-]]></ST>
-    </Implementation>
+FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
+	StationArray[i].PmlStateMachine := xtsStateMachine;
+END_FOR
+IF InitialiseStations() THEN
+	xtsStateMachine.PmlModeCommand(Mode := E_PMLProtectedUnitMode.ePMLProtUnitMode_Production);
+	Initialise := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="InitialiseStations" Id="{484207a2-fa7d-4c77-9d9b-69f5cd52cf18}">
       <Declaration><![CDATA[METHOD InitialiseStations : BOOL
 VAR_INPUT
@@ -100,18 +115,16 @@ END_VAR
       </Implementation>
     </Method>
     <LineIds Name="Machine">
-      <LineId Id="487" Count="3" />
-      <LineId Id="532" Count="0" />
-      <LineId Id="558" Count="2" />
-      <LineId Id="557" Count="0" />
-      <LineId Id="491" Count="0" />
-      <LineId Id="555" Count="1" />
-      <LineId Id="554" Count="0" />
-      <LineId Id="492" Count="6" />
-      <LineId Id="525" Count="0" />
-      <LineId Id="500" Count="1" />
-      <LineId Id="505" Count="4" />
+      <LineId Id="496" Count="0" />
+      <LineId Id="509" Count="0" />
       <LineId Id="25" Count="0" />
+    </LineIds>
+    <LineIds Name="Machine.Cycle">
+      <LineId Id="7" Count="7" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="Machine.Initialise">
+      <LineId Id="7" Count="15" />
     </LineIds>
     <LineIds Name="Machine.InitialiseStations">
       <LineId Id="193" Count="1" />
