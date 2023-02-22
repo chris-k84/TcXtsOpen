@@ -13,8 +13,8 @@ VAR
 	HomeSpeed : MC_LREAL := 1000.0;
 	mcCollisionGroup : CollisionGroup;
 	_XtsTrackHardware : IXtsHardware;
-	EnableSequence : XtsEnableSequence(mcCollisionGroup);
-	DisableSequence : XtsDisableSequence(mcCollisionGroup);
+	EnableSequence : XtsEnableSequence;
+	DisableSequence : XtsDisableSequence;
 	GroupStop : StopMoverGroup(mcCollisionGroup);
 	State : INT;	
 	i : DINT;
@@ -153,7 +153,9 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[_MoverArray := MoverArray;]]></ST>
+          <ST><![CDATA[_MoverArray := MoverArray;
+EnableSequence.MoverArray := MoverArray;
+DisableSequence.MoverArray := MoverArray;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -324,6 +326,8 @@ END_VAR
     </LineIds>
     <LineIds Name="XtsTrack.MoverArray.Set">
       <LineId Id="2" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.MoverHomeSequence">
       <LineId Id="6" Count="1" />
