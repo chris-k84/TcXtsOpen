@@ -17,9 +17,7 @@ VAR
 	_busy : BOOL;
 	_done : BOOL;
 	_Error : BOOL;
-END_VAR
-VAR_IN_OUT
-	arrMovers : ARRAY[*] OF IMover;
+	arrMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[CASE State OF
@@ -156,6 +154,25 @@ END_VAR
 addMover.FB_init(FALSE, FALSE, collisionGroup);]]></ST>
       </Implementation>
     </Method>
+    <Property Name="MoverArray" Id="{721d6d6b-875a-4a57-a2d0-d8ba93345f31}">
+      <Declaration><![CDATA[PROPERTY MoverArray : array[1..SystemParameters.NumberOfMovers] of IMover]]></Declaration>
+      <Get Name="Get" Id="{debe1308-08c5-4598-b2b7-2f14aad87b57}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MoverArray := arrMovers;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{c7c4fe9e-ad80-493f-b820-7efd179d6444}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[arrMovers := MoverArray;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <LineIds Name="XtsEnableSequence">
       <LineId Id="138" Count="5" />
       <LineId Id="291" Count="1" />
@@ -208,6 +225,12 @@ addMover.FB_init(FALSE, FALSE, collisionGroup);]]></ST>
     <LineIds Name="XtsEnableSequence.FB_init">
       <LineId Id="7" Count="0" />
       <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsEnableSequence.MoverArray.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsEnableSequence.MoverArray.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

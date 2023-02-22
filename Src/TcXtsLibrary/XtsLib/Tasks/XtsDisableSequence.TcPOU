@@ -18,9 +18,7 @@ VAR
 	_busy : BOOL;
 	_done : BOOL;
 	_Error : BOOL;
-END_VAR
-VAR_IN_OUT
-	arrMovers : ARRAY[*] OF IMover;
+	arrMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[CASE State OF
@@ -155,6 +153,25 @@ removeAllAxes.FB_init(FALSE, FALSE, CAGroup := collisionGroup);
 grpStop.FB_init(FALSE,FALSE,CAGroup := collisionGroup);]]></ST>
       </Implementation>
     </Method>
+    <Property Name="MoverArray" Id="{f8fae4bb-3ed3-4903-b59c-556c44d0cb58}">
+      <Declaration><![CDATA[PROPERTY MoverArray : array[1..SystemParameters.NumberOfMovers] of IMover]]></Declaration>
+      <Get Name="Get" Id="{0aa5b8e6-ce65-4616-8c01-abdde06fe5bd}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MoverArray := arrMovers;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{35b58e7e-68bb-485c-87c1-f4e5b4d76a5d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[arrMovers := MoverArray;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Method Name="SetEmergencyDynamics" Id="{62e6980a-ad39-4f6d-bfa3-13e514d9c054}">
       <Declaration><![CDATA[METHOD SetEmergencyDynamics : BOOL
 VAR_INPUT
@@ -210,6 +227,12 @@ grpStop.Jerk := Tc3_Mc3Definitions.MC_MAXIMUM;]]></ST>
     <LineIds Name="XtsDisableSequence.FB_init">
       <LineId Id="3" Count="0" />
       <LineId Id="7" Count="1" />
+    </LineIds>
+    <LineIds Name="XtsDisableSequence.MoverArray.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsDisableSequence.MoverArray.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.SetEmergencyDynamics">
       <LineId Id="3" Count="1" />
