@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="XtsDisableSequence" Id="{73e2f204-8f47-4c35-9b5f-a5e50b2f6f82}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK XtsDisableSequence IMPLEMENTS ITask
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsDisableSequence EXTENDS TaskBase
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -14,14 +14,39 @@ VAR
 	moverNumbers : DINT := 1;
 	AllMoversDisabled: BOOL;	
 	Logger : TcMessage_Ext;
-	State : INT;
-	_busy : BOOL;
-	_done : BOOL;
-	_Error : BOOL;
 	arrMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE State OF
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{afd537cd-f397-4f71-a0b8-6dd2d52942e4}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[DisableTrigger := FALSE;
+State := 0;
+removeAllAxes.Abort();
+grpStop.Abort();]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Busy" Id="{49fe5789-4b11-44af-800d-5154ebe10a5b}">
+      <Declaration><![CDATA[PROPERTY Busy : BOOL]]></Declaration>
+      <Get Name="Get" Id="{d9b135a6-50eb-4c78-9a64-ff3d885ce4e0}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Busy := _busy;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Cycle" Id="{d518ce14-c393-42a2-a73f-ad54a355501b}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
 	0:
 		IF DisableTrigger THEN
 			DisableTrigger := FALSE;
@@ -48,7 +73,7 @@ END_VAR]]></Declaration>
 	
 	20:
 		IF removeAllAxes.Done THEN
-			FOR moverNumbers := LOWER_BOUND(arrMovers,1) TO UPPER_BOUND(arrMovers,1) DO
+			FOR moverNumbers := 1 TO SystemParameters.NumberOfMovers DO
 				arrMovers[moverNumbers].IdentInGroup := 0;
 				arrMovers[moverNumbers].DisableAxis();
 			END_FOR
@@ -57,7 +82,7 @@ END_VAR]]></Declaration>
 		
 	30:
 		AllMoversDisabled := TRUE;
-		FOR moverNumbers := LOWER_BOUND(arrMovers,1) TO UPPER_BOUND(arrMovers,1) DO
+		FOR moverNumbers := 1 TO SystemParameters.NumberOfMovers DO
 			AllMoversDisabled := TRUE AND NOT arrMovers[moverNumbers].isEnabled();
 		END_FOR
 		IF AllMoversDisabled THEN
@@ -86,28 +111,8 @@ END_CASE
 
 removeAllAxes.Cycle();
 grpStop.Cycle();]]></ST>
-    </Implementation>
-    <Method Name="Abort" Id="{afd537cd-f397-4f71-a0b8-6dd2d52942e4}">
-      <Declaration><![CDATA[METHOD Abort : BOOL
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[DisableTrigger := FALSE;
-State := 0;
-removeAllAxes.Abort();
-grpStop.Abort();]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Busy" Id="{49fe5789-4b11-44af-800d-5154ebe10a5b}">
-      <Declaration><![CDATA[PROPERTY Busy : BOOL]]></Declaration>
-      <Get Name="Get" Id="{d9b135a6-50eb-4c78-9a64-ff3d885ce4e0}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Busy := _busy;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="Disable" Id="{d8277baf-d0a5-4ca3-b9d2-183e530222af}">
       <Declaration><![CDATA[METHOD Disable : BOOL
 VAR_INPUT
@@ -183,28 +188,6 @@ grpStop.Jerk := Tc3_Mc3Definitions.MC_MAXIMUM;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="XtsDisableSequence">
-      <LineId Id="3" Count="3" />
-      <LineId Id="8" Count="3" />
-      <LineId Id="80" Count="0" />
-      <LineId Id="12" Count="4" />
-      <LineId Id="110" Count="0" />
-      <LineId Id="17" Count="5" />
-      <LineId Id="83" Count="0" />
-      <LineId Id="23" Count="6" />
-      <LineId Id="134" Count="0" />
-      <LineId Id="30" Count="9" />
-      <LineId Id="86" Count="0" />
-      <LineId Id="40" Count="1" />
-      <LineId Id="111" Count="0" />
-      <LineId Id="42" Count="1" />
-      <LineId Id="157" Count="2" />
-      <LineId Id="156" Count="0" />
-      <LineId Id="160" Count="1" />
-      <LineId Id="44" Count="2" />
-      <LineId Id="48" Count="1" />
-      <LineId Id="87" Count="0" />
-      <LineId Id="50" Count="3" />
-      <LineId Id="55" Count="1" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.Abort">
@@ -214,6 +197,10 @@ grpStop.Jerk := Tc3_Mc3Definitions.MC_MAXIMUM;]]></ST>
     </LineIds>
     <LineIds Name="XtsDisableSequence.Busy.Get">
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsDisableSequence.Cycle">
+      <LineId Id="6" Count="63" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.Disable">
       <LineId Id="2" Count="0" />

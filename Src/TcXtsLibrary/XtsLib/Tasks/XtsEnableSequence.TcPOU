@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="XtsEnableSequence" Id="{b3bae6c3-ef72-4837-b4e0-3c1e6cb08595}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK XtsEnableSequence IMPLEMENTS ITask
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsEnableSequence EXTENDS TaskBase
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -13,79 +13,10 @@ VAR
 	AllMoversEnabled: BOOL;
 	EnableTrigger : BOOL;	
 	Logger : TcMessage_Ext;
-	State : INT;
-	_busy : BOOL;
-	_done : BOOL;
-	_Error : BOOL;
 	arrMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE State OF
-	0:
-		IF EnableTrigger THEN
-			State := 10;
-			EnableTrigger := FALSE;
-			moverNumbers := 1;
-			_busy := TRUE;
-			_done := FALSE;
-			_Error := FALSE;
-		END_IF
-		
-	10:
-		FOR moverNumbers := LOWER_BOUND(arrMovers,1) TO UPPER_BOUND(arrMovers,1) DO
-			arrMovers[moverNumbers].ResetAxis();
-		END_FOR
-		moverNumbers := 1;
-		State := 20;
-		
-	20:
-		IF _collisionGroup.GroupState = CAGroupStatus.mcGroupStateErrorStop THEN
-			_collisionGroup.Reset();
-			Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupReset,'');
-		END_IF
-		State := 30;
-		
-	30:
-		arrMovers[moverNumbers].IdentInGroup := DINT_TO_INT( moverNumbers);
-		addMover.AddMover(MoverToAdd := arrMovers[moverNumbers]);
-		logger.Send(TC_EVENTS.XtsCAGroupEvents.AddingMoverToGroup,DINT_TO_STRING(moverNumbers));
-		State := 40;
-		
-	40:
-		IF addMover.Done THEN
-			IF moverNumbers <> UPPER_BOUND(arrMovers,1) THEN
-				moverNumbers := moverNumbers + 1;
-				State := 30;
-			ELSE
-				logger.Send(TC_EVENTS.XtsCAGroupEvents.AllMoversAdded,'');
-				FOR moverNumbers := LOWER_BOUND(arrMovers,1) TO UPPER_BOUND(arrMovers,1) DO
-					arrMovers[moverNumbers].EnableAxis();
-				END_FOR
-				State := 50;
-			END_IF
-		END_IF
-		
-	50:
-		AllMoversEnabled := TRUE;
-		FOR moverNumbers := LOWER_BOUND(arrMovers,1) TO UPPER_BOUND(arrMovers,1) DO
-			AllMoversEnabled := TRUE AND arrMovers[moverNumbers].isEnabled();
-		END_FOR
-		IF AllMoversEnabled THEN
-			logger.Send(TC_EVENTS.XtsCAGroupEvents.AllMoversEnabled,'');
-			_collisionGroup.Enable();
-			logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupEnable,'');
-			State := 60;
-		END_IF
-		
-	60:
-		IF _collisionGroup.GroupState = 2 THEN
-			State := 0;
-			_busy := FALSE;
-			_done := true;
-		END_IF
-END_CASE
-
-addMover.Cycle();]]></ST>
+      <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{cafb98cb-e0e4-409c-b6f8-122c787fc07d}">
       <Declaration><![CDATA[METHOD Abort : BOOL
@@ -107,6 +38,80 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Method Name="Cycle" Id="{075cce32-4e78-49e2-bffa-0dc85a20baa5}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
+	0:
+		IF EnableTrigger THEN
+			State := 10;
+			EnableTrigger := FALSE;
+			moverNumbers := 1;
+			_busy := TRUE;
+			_done := FALSE;
+			_Error := FALSE;
+		END_IF
+		
+	10:
+		FOR moverNumbers := 1 TO SystemParameters.NumberOfMovers DO
+			arrMovers[moverNumbers].ResetAxis();
+		END_FOR
+		moverNumbers := 1;
+		State := 20;
+		
+	20:
+		IF _collisionGroup.GroupState = CAGroupStatus.mcGroupStateErrorStop THEN
+			_collisionGroup.Reset();
+			Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupReset,'');
+		END_IF
+		State := 30;
+		
+	30:
+		arrMovers[moverNumbers].IdentInGroup := DINT_TO_INT( moverNumbers);
+		addMover.AddMover(MoverToAdd := arrMovers[moverNumbers]);
+		logger.Send(TC_EVENTS.XtsCAGroupEvents.AddingMoverToGroup,DINT_TO_STRING(moverNumbers));
+		State := 40;
+		
+	40:
+		IF addMover.Done THEN
+			IF moverNumbers <> SystemParameters.NumberOfMovers THEN
+				moverNumbers := moverNumbers + 1;
+				State := 30;
+			ELSE
+				logger.Send(TC_EVENTS.XtsCAGroupEvents.AllMoversAdded,'');
+				FOR moverNumbers := 1 TO SystemParameters.NumberOfMovers DO
+					arrMovers[moverNumbers].EnableAxis();
+				END_FOR
+				State := 50;
+			END_IF
+		END_IF
+		
+	50:
+		AllMoversEnabled := TRUE;
+		FOR moverNumbers := 1 TO SystemParameters.NumberOfMovers DO
+			AllMoversEnabled := TRUE AND arrMovers[moverNumbers].isEnabled();
+		END_FOR
+		IF AllMoversEnabled THEN
+			logger.Send(TC_EVENTS.XtsCAGroupEvents.AllMoversEnabled,'');
+			_collisionGroup.Enable();
+			logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupEnable,'');
+			State := 60;
+		END_IF
+		
+	60:
+		IF _collisionGroup.GroupState = 2 THEN
+			State := 0;
+			_busy := FALSE;
+			_done := true;
+		END_IF
+END_CASE
+
+addMover.Cycle();]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="Done" Id="{3d3bebc9-a410-4875-8a42-cd9e32cd3fab}">
       <Declaration><![CDATA[PROPERTY Done : BOOL]]></Declaration>
       <Get Name="Get" Id="{37ccb39e-1d6a-4c57-8922-2c7d24188f37}">
@@ -174,43 +179,17 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="XtsEnableSequence">
-      <LineId Id="138" Count="5" />
-      <LineId Id="291" Count="1" />
-      <LineId Id="290" Count="0" />
-      <LineId Id="145" Count="0" />
-      <LineId Id="218" Count="1" />
-      <LineId Id="221" Count="0" />
-      <LineId Id="223" Count="0" />
-      <LineId Id="220" Count="0" />
-      <LineId Id="243" Count="0" />
-      <LineId Id="225" Count="0" />
-      <LineId Id="317" Count="3" />
-      <LineId Id="369" Count="0" />
-      <LineId Id="321" Count="1" />
-      <LineId Id="146" Count="3" />
-      <LineId Id="344" Count="0" />
-      <LineId Id="150" Count="7" />
-      <LineId Id="345" Count="0" />
-      <LineId Id="244" Count="1" />
-      <LineId Id="158" Count="0" />
-      <LineId Id="246" Count="0" />
-      <LineId Id="159" Count="1" />
-      <LineId Id="206" Count="0" />
-      <LineId Id="211" Count="0" />
-      <LineId Id="169" Count="4" />
-      <LineId Id="346" Count="0" />
-      <LineId Id="247" Count="0" />
-      <LineId Id="368" Count="0" />
-      <LineId Id="174" Count="3" />
-      <LineId Id="182" Count="1" />
-      <LineId Id="296" Count="1" />
-      <LineId Id="185" Count="3" />
+      <LineId Id="188" Count="0" />
     </LineIds>
     <LineIds Name="XtsEnableSequence.Abort">
       <LineId Id="5" Count="2" />
     </LineIds>
     <LineIds Name="XtsEnableSequence.Busy.Get">
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsEnableSequence.Cycle">
+      <LineId Id="6" Count="64" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsEnableSequence.Done.Get">
       <LineId Id="2" Count="0" />

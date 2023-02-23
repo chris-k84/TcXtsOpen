@@ -31,8 +31,7 @@ END_VAR]]></Declaration>
     <Method Name="Cycle" Id="{a8675662-99c5-487a-bbe7-b5e32c1c2bf4}">
       <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
 VAR_INPUT
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[xtsStateMachine.Cycle();
 xts.Cycle();
