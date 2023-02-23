@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="ActivateTrackForMover" Id="{03f53080-a7f0-4bc3-a76f-2f27947df261}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK ActivateTrackForMover EXTENDS TaskBase
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	mcActivateTrack : Tc3_McCollisionAvoidance.MC_ActivateTrack;
+	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
+	_ActivateTrack : BOOL;
+	_newTrackId : OTCID;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{12b22699-a9ca-4822-aec7-46d8d5f2084b}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mcActivateTrack.Execute := FALSE;
+_busy := FALSE;
+_ActivateTrack := FALSE;
+Abort := TRUE;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{57b0f6ac-3d25-41af-b69c-d2ca0682dcf2}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
+	0:
+		IF _ActivateTrack THEN
+			_done := FALSE;
+			_error := FALSE;
+			_busy := TRUE;
+			mcActivateTrack.Execute := TRUE;
+			IF mcActivateTrack.Busy THEN
+				State := 10;
+				_ActivateTrack := FALSE;
+			END_IF
+		END_IF
+	
+	10:
+		IF NOT mcActivateTrack.Busy THEN
+			IF mcActivateTrack.Done THEN
+				_done := TRUE;
+				_newTrackId := mcActivateTrack.TrackId;
+			ELSIF mcActivateTrack.Error THEN
+				_error := TRUE;
+			END_IF
+			_busy := FALSE;
+			mcActivateTrack.Execute := FALSE;
+			State := 0;
+		END_IF
+END_CASE
+
+mcActivateTrack(Axis := _axis);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Execute" Id="{b92caa48-be0c-4823-bb15-e823e8bc1934}">
+      <Declaration><![CDATA[METHOD PUBLIC Execute : BOOL
+VAR_INPUT
+	Track : OTCID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Execute := _ActivateTrack := TRUE;
+mcActivateTrack.TrackId := Track;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{9e9b624b-0704-4356-b4df-5729cc93ede4}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	axis : reference TO AXIS_REF;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_axis REF= axis;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="NewTrackId" Id="{84df412b-7c3c-4f84-98eb-ff5f562dbb1a}">
+      <Declaration><![CDATA[PROPERTY PUBLIC NewTrackId : OTCID]]></Declaration>
+      <Get Name="Get" Id="{cb5898cd-640b-468a-893b-247f32481adb}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[NewTrackId := _newTrackId;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <LineIds Name="ActivateTrackForMover">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="ActivateTrackForMover.Abort">
+      <LineId Id="5" Count="3" />
+      <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="ActivateTrackForMover.Cycle">
+      <LineId Id="6" Count="26" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="ActivateTrackForMover.Execute">
+      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="ActivateTrackForMover.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="ActivateTrackForMover.NewTrackId.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="MC2_Axis_Base" Id="{6091fbf5-8563-4c3d-a46f-a871d52562e9}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK MC2_Axis_Base EXTENDS CyclicBase
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_axis : Tc2_MC2.AXIS_REF;
+	axesEnable		: AxisPower(_axis);
+	axesReset		: AxesReset(_axis);
+	axesMoveTo 		: Mc2MoveToPosition(_axis);
+	axesHalt 		: Mc2Halt(_axis);
+	axesReadError : Tc2_MC2.MC_ReadAxisError;
+	_MoverErrorId: DWORD;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Cycle" Id="{6e2b69ab-f1bf-4962-bdbb-f480f753daf6}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[axesMoveTo.Cycle();
+axesHalt.Cycle();
+axesReset.Cycle();
+_axis.ReadStatus();
+axesEnable.Cycle();
+axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _MoverErrorId);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DisableAxis" Id="{4ca2c35a-d664-47dd-b699-e212d5be22eb}">
+      <Declaration><![CDATA[METHOD PUBLIC DisableAxis : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[DisableAxis := axesEnable.Disable();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="EnableAxis" Id="{a835c18f-6175-4614-a6ac-65491f5fc70d}">
+      <Declaration><![CDATA[METHOD PUBLIC EnableAxis : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[EnableAxis := axesEnable.Enable();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="HaltAxis" Id="{b5b4d676-a559-4d25-8571-0c2ec9c3c015}">
+      <Declaration><![CDATA[METHOD PUBLIC HaltAxis : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT axesHalt.Busy THEN
+	axesHalt.Execute();
+	axesMoveTo.Abort();
+	HaltAxis := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="hasError" Id="{ca345aeb-702e-4d9d-ada0-0eb76d61a85d}">
+      <Declaration><![CDATA[METHOD hasError : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[hasError := _axis.Status.Error;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="isAtPosition" Id="{a3fbba8b-aebd-4df9-9a9b-10d926ce7c0a}">
+      <Declaration><![CDATA[METHOD isAtPosition : BOOL
+VAR_INPUT
+	position : MC_LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _axis.NcToPlc.ActPos < position + 0.2 AND _axis.NcToPlc.ActPos > position - 0.2 THEN
+	isAtPosition := TRUE;
+END_IF  
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="isEnabled" Id="{460678ae-c472-4e27-a376-f3d29d1278b6}">
+      <Declaration><![CDATA[METHOD isEnabled : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[isEnabled := not _axis.Status.Disabled;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="isStationary" Id="{4df49a98-73c3-4028-9049-ecd2a431e2f1}">
+      <Declaration><![CDATA[METHOD PUBLIC isStationary : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[isStationary := _axis.NcToPlc.SetVelo = 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="MoveToPosition" Id="{bca42834-4b90-4808-be50-ee67839e4111}">
+      <Declaration><![CDATA[METHOD PUBLIC MoveToPosition : BOOL
+VAR_INPUT
+	Position : MC_LREAL;
+	Velocity : MC_LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT isAtPosition(position := Position) THEN
+	IF NOT axesMoveTo.Busy THEN
+		axesMoveTo.MoveTo(Position := Position, Velocity := Velocity);
+		MoveToPosition := TRUE;
+	END_IF
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ResetAxis" Id="{bd5b60f2-6a45-4850-931f-c2efbdee4a44}">
+      <Declaration><![CDATA[METHOD PUBLIC ResetAxis : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[axesReset.Execute();
+axesMoveTo.Abort();
+axesHalt.Abort();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="MC2_Axis_Base">
+      <LineId Id="30" Count="0" />
+    </LineIds>
+    <LineIds Name="MC2_Axis_Base.Cycle">
+      <LineId Id="9" Count="4" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="MC2_Axis_Base.DisableAxis">
+      <LineId Id="31" Count="0" />
+      <LineId Id="20" Count="0" />
+    </LineIds>
+    <LineIds Name="MC2_Axis_Base.EnableAxis">
+      <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="MC2_Axis_Base.HaltAxis">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="MC2_Axis_Base.hasError">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="MC2_Axis_Base.isAtPosition">
+      <LineId Id="11" Count="2" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
+    <LineIds Name="MC2_Axis_Base.isEnabled">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="MC2_Axis_Base.isStationary">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="MC2_Axis_Base.MoveToPosition">
+      <LineId Id="122" Count="5" />
+      <LineId Id="64" Count="0" />
+    </LineIds>
+    <LineIds Name="MC2_Axis_Base.ResetAxis">
+      <LineId Id="6" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

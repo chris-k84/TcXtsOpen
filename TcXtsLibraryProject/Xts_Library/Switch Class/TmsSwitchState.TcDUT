@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="TmsSwitchState" Id="{e8e97421-a4ef-42e4-8ff5-7c7d13464761}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE TmsSwitchState :
+(
+	Init := 0,                                               
+	Ready := 1,                                 
+	Enabling := 2,
+	Enabled := 3,
+	Resetting := 4,
+	Waiting := 5,
+	AssignMover := 6,
+	Moving := 7,
+	Done := 8,
+	Disabling := 9
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

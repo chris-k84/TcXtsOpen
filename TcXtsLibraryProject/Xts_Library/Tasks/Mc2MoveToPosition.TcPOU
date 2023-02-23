@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="Mc2MoveToPosition" Id="{28fa9c58-d811-4345-8e27-94422602642f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Mc2MoveToPosition EXTENDS TaskBase
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	moveAbs	: MC_MoveAbsolute;
+	_axis : REFERENCE TO AXIS_REF;
+	_MoveSwitch : BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{1cd0d7f2-688c-4d35-83e4-94847f46cad7}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[moveAbs.Execute := FALSE;
+moveAbs.Position := moveAbs.Velocity := 0;
+_MoveSwitch := false;
+_busy := false;
+Abort := true;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Acceleration" Id="{3af53338-23b7-44e8-b1be-bfde3ab4639f}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Acceleration : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{6ee0cb9a-1db1-4f3d-bd00-5f31376a507f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Acceleration := moveAbs.Acceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{9065b1b0-2b4a-4502-a521-32f63bb5796b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[moveAbs.Acceleration := Acceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="Cycle" Id="{a39af4f2-815a-48ca-8486-fcba13c88617}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
+	0:
+		IF _MoveSwitch THEN
+			_done := FALSE;
+			_error := FALSE;
+			_busy := TRUE;
+			moveAbs.Execute := TRUE;
+			IF moveAbs.Busy THEN
+				State := 10;
+				_MoveSwitch := FALSE;
+			END_IF
+		END_IF
+		
+	10:
+		IF NOT moveAbs.Busy THEN
+			IF moveAbs.Done THEN
+				_done := TRUE;
+			ELSIF moveAbs.Error THEN
+				_error := TRUE;
+			END_IF
+			_busy := FALSE;
+			moveAbs.Execute := FALSE;
+			State := 0;
+		END_IF
+END_CASE
+
+moveAbs(Axis := _axis);]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Deceleration" Id="{207379d4-5297-4661-a6b0-70afa1cf5253}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Deceleration : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{2b3ec42b-d81e-4e4f-a5e5-4d4d8d1cc1cd}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Deceleration := moveAbs.Deceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{c421d552-e5af-44da-9f19-63ad72f26836}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[moveAbs.Deceleration := Deceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="FB_init" Id="{0156f89a-4ccc-4fea-9390-c950d3f5d691}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	axis : reference TO AXIS_REF;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_axis REF= axis;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Jerk" Id="{ad403219-1be7-4bab-be70-39ef22f28e38}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Jerk : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{d61d7606-d3eb-410b-8474-a2e97b22b31e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Jerk := moveAbs.Jerk;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{ecb0ed4b-5217-48bc-9bfd-1f75c1a8109f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[moveAbs.Jerk := Jerk;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="MoveTo" Id="{a8cef16b-0fac-4b3b-9508-699ac7e78071}">
+      <Declaration><![CDATA[METHOD MoveTo : BOOL
+VAR_INPUT
+	Position : MC_LREAL;
+	Velocity : MC_LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[moveAbs.Position := Position;
+moveAbs.Velocity := Velocity;
+_MoveSwitch := MoveTo := true;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="Mc2MoveToPosition">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="Mc2MoveToPosition.Abort">
+      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="Mc2MoveToPosition.Acceleration.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Mc2MoveToPosition.Acceleration.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Mc2MoveToPosition.Cycle">
+      <LineId Id="6" Count="25" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="Mc2MoveToPosition.Deceleration.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Mc2MoveToPosition.Deceleration.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Mc2MoveToPosition.FB_init">
+      <LineId Id="7" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="Mc2MoveToPosition.Jerk.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Mc2MoveToPosition.Jerk.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Mc2MoveToPosition.MoveTo">
+      <LineId Id="4" Count="0" />
+      <LineId Id="10" Count="1" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="IPmlStateMachine" Id="{576f2f1e-89f3-422e-8077-aa3812068280}">
+    <Declaration><![CDATA[INTERFACE IPmlStateMachine
+]]></Declaration>
+    <Method Name="GetCurrentMode" Id="{3711c01b-6843-474c-b250-19844533d9b1}">
+      <Declaration><![CDATA[METHOD public GetCurrentMode : E_PmlProtectedUnitMode
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="GetCurrentState" Id="{c7fd6c98-589a-467f-bb49-d8a7e73cf566}">
+      <Declaration><![CDATA[METHOD GetCurrentState : E_PMLState
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="PmlModeCommand" Id="{1e500d62-6bdf-47b4-8325-86924358bd84}">
+      <Declaration><![CDATA[METHOD PmlModeCommand : BOOL
+VAR_INPUT
+	Mode : E_PMLProtectedUnitMode;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="PmlStateCommand" Id="{f97a32c3-8f9b-4610-8e8d-b37480c478cd}">
+      <Declaration><![CDATA[METHOD PmlStateCommand : bool
+VAR_INPUT
+	Command : E_PMLCommand;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="SetStateComplete" Id="{ff0f964f-f0f8-484b-acd0-494347ee5182}">
+      <Declaration><![CDATA[METHOD SetStateComplete : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

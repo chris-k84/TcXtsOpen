@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="PMLStateMachine" Id="{516e0c08-a37e-42cd-8e77-8f251b5a3702}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK PMLStateMachine EXTENDS CyclicBase IMPLEMENTS IPmlStateMachine
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_pmlStateMachine : Tc3_PackML_V2.PML_StateMachine;
+	_pmlModeMachine : Tc3_PackML_V2.PML_UnitModeManager;
+	_subUnits : ARRAY[0..9] OF IPmlStateMachine;
+	subUnitArray : ARRAY[0..9] OF ST_PMLSubUnitInfo;
+	_SubUnitReference: ST_PMLSubUnitInfoRef;
+	modeChangeTrigger : Tc2_Standard.R_TRIG;
+	i: DINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Cycle" Id="{bacdfbc6-974d-4c0e-ad97-1906ab402beb}">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _SubUnitReference.NoOfSubUnits <> 0 THEN
+	FOR i := 0 TO 9 DO
+		IF _subUnits[i] <> 0 THEN
+			subUnitArray[i].eState := _subUnits[i].GetCurrentState();
+			subUnitArray[i].Active := True;
+		END_IF
+	END_FOR
+	_SubUnitReference.pArray := ADR(subUnitArray);
+	_SubUnitReference.ArraySize := SIZEOF(subUnitArray);
+END_IF
+
+_pmlStateMachine(eMode := _pmlModeMachine.eModeStatus, stSubUnitInfoRef := _SubUnitReference);
+_pmlModeMachine(eState := _pmlStateMachine.eState, bExecute := modeChangeTrigger.Q);
+modeChangeTrigger();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetCurrentMode" Id="{f7905c4c-714b-498b-b04c-920a1380f7b9}">
+      <Declaration><![CDATA[METHOD PUBLIC GetCurrentMode : E_PmlProtectedUnitMode
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetCurrentMode := _pmlModeMachine.eModeStatus;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetCurrentState" Id="{937de08d-f59f-4669-8328-29a92bad08ed}">
+      <Declaration><![CDATA[METHOD PUBLIC GetCurrentState : E_PMLState
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetCurrentState := _pmlStateMachine.eState;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="PmlModeCommand" Id="{7d221af2-3765-4e6f-948f-c319a462fce9}">
+      <Declaration><![CDATA[METHOD PUBLIC PmlModeCommand : Bool
+VAR_INPUT
+	Mode : E_PMLProtectedUnitMode;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_pmlModeMachine.eModeCommand := Mode;
+modeChangeTrigger.CLK := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="PmlStateCommand" Id="{e72652e0-73b2-4e23-9575-4c2cc8e1653b}">
+      <Declaration><![CDATA[METHOD PUBLIC PmlStateCommand : BOOL
+VAR_INPUT
+	Command : E_PMLCommand;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_pmlStateMachine.eCommand := Command;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RegisterSubUnit" Id="{e84e1125-c3e0-45d6-bfd5-89e06f8482f4}">
+      <Declaration><![CDATA[METHOD PUBLIC RegisterSubUnit : IPmlStateMachine
+VAR_INPUT
+	SubUnit : IPmlStateMachine;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR i := 0 TO 9 DO
+	IF _subUnits[i] = 0 THEN
+		_subUnits[i] := SubUnit;
+		_SubUnitReference.NoOfSubUnits := i + 1;
+		EXIT;
+	END_IF
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetStateComplete" Id="{65676236-1b0c-487c-a08c-78c21658a2d0}">
+      <Declaration><![CDATA[METHOD PUBLIC SetStateComplete : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_pmlStateMachine.M_StateComplete();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="PMLStateMachine">
+      <LineId Id="72" Count="0" />
+    </LineIds>
+    <LineIds Name="PMLStateMachine.Cycle">
+      <LineId Id="6" Count="12" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PMLStateMachine.GetCurrentMode">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PMLStateMachine.GetCurrentState">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PMLStateMachine.PmlModeCommand">
+      <LineId Id="5" Count="0" />
+      <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="PMLStateMachine.PmlStateCommand">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PMLStateMachine.RegisterSubUnit">
+      <LineId Id="5" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
+    <LineIds Name="PMLStateMachine.SetStateComplete">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

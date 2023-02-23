@@ -1,0 +1,312 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TmsEmbarkStation" Id="{4d15a973-29cb-4ffe-934a-8f072d992ec0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TmsEmbarkStation EXTENDS Process IMPLEMENTS ITF_SwitchStation
+VAR_INPUT
+	StateMachine : IPmlStateMachine;
+	TmsSwitch : ITF_TmsSwitch;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	DepartMover : ITmsMover;
+	_TrackLevel : INT := 1; //1 is low, 2 is high
+	State :(
+		Init,                                               
+		Ready,                                 
+        Waiting,
+		HasSwitch,
+		Call,
+		Processing,
+		Boarding,
+		BoardingComplete,
+		Moving,
+		Aborting); 
+	_switchPosition: MC_LREAL;
+	demandPosition : TmsSwitchPosition;
+	arrTrackIds : ARRAY[1..4] OF OTCID;
+	isUpAllowed : BOOL := TRUE;
+	isDownAllowed : BOOL := FALSE;
+	isMiddleAllowed : BOOL := TRUE;
+	BoardVelocity : MC_LREAL := 100.0;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Cycle" Id="{30dc7518-cfa1-45c8-85d7-d03d0ef4ae28}">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
+	Init:
+		_Operating := _Clear := _Complete := _Ready := _HasMover := FALSE;
+		StationMovers := 0;
+		State := Ready;
+	
+	Ready:	
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Clearing THEN
+			_Operating := _Complete := _HasMover := FALSE;
+			_Clear := _Ready := TRUE;
+			StationMovers := 0;
+			State := Waiting;
+		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
+	
+	Waiting:
+		IF _HasMover THEN
+			State := HasSwitch;
+			_Operating := TRUE;
+			_Clear := FALSE;
+			_Ready := FALSE;
+			_Complete := FALSE;
+		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
+	
+	HasSwitch:
+		IF (_TrackLevel = 1 AND (TmsSwitch.Switch = TmsSwitchPosition.Down OR (TmsSwitch.Switch = TmsSwitchPosition.Middle AND isUpAllowed)))
+			OR (_TrackLevel = 2 AND (TmsSwitch.Switch = TmsSwitchPosition.Up OR (TmsSwitch.Switch = TmsSwitchPosition.Middle AND isDownAllowed))) THEN
+				IF TmsSwitch.ExchangeMover(Mover := DepartMover, currentStation := THIS^) THEN
+					State := Processing;
+				END_IF
+		ELSE
+			State := Call;
+		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF	
+		
+	Call:
+		IF NOT TmsSwitch.HasMover() AND TmsSwitch.IsStationary() THEN
+			IF TmsSwitch.MoveTo(positionState := TmsSwitchPosition.Middle) THEN
+				State := HasSwitch;
+			END_IF
+		ELSE
+			State := Waiting;
+		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
+	
+	Processing:
+		IF _TrackLevel = 1 THEN
+			IF TmsSwitch.Switch = TmsSwitchPosition.Down and isMiddleAllowed THEN
+				IF DepartMover.ActiveTrack = arrTrackIds[4] THEN
+					State := Boarding;
+				ELSE
+					DepartMover.ActivateTrack(arrTrackIds[4]);
+					State := Boarding;
+				END_IF
+				demandPosition := TmsSwitchPosition.Middle;
+			ELSIF TmsSwitch.Switch = TmsSwitchPosition.Middle AND isUpAllowed THEN
+				IF DepartMover.ActiveTrack = arrTrackIds[1] THEN
+					State := Boarding;
+				ELSE
+					DepartMover.ActivateTrack(arrTrackIds[1]);
+					State := Boarding;
+				END_IF
+				demandPosition := TmsSwitchPosition.Up;
+			END_IF
+		ELSE
+			IF TmsSwitch.Switch = TmsSwitchPosition.Up AND isMiddleAllowed THEN
+				IF DepartMover.ActiveTrack = arrTrackIds[3] THEN
+					State := Boarding;
+				ELSE
+					DepartMover.ActivateTrack(arrTrackIds[3]);
+					State := Boarding;
+				END_IF
+				demandPosition := TmsSwitchPosition.Middle;
+			ELSIF TmsSwitch.Switch = TmsSwitchPosition.Middle AND isDownAllowed THEN
+				IF DepartMover.ActiveTrack = arrTrackIds[2] THEN
+					State := Boarding;
+				ELSE
+					DepartMover.ActivateTrack(arrTrackIds[2]);
+					State := Boarding;
+				END_IF
+				demandPosition := TmsSwitchPosition.Down;
+			END_IF
+		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
+		
+	Boarding:
+		DepartMover.MoveTo(Position := _switchPosition, Velocity := BoardVelocity, BackwardMove := FALSE);
+		IF DepartMover.isAtPosition(position := _switchPosition) THEN
+			State := BoardingComplete;
+		END_IF
+		
+	BoardingComplete:
+		IF TmsSwitch.MoveTo(positionState := demandPosition) THEN
+			State := Moving;
+		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
+		
+	Moving:
+		IF _Complete AND NOT _HasMover THEN
+			_Operating := FALSE;
+			_Clear := TRUE;
+			_Ready := TRUE;
+			State := Waiting;
+		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF	
+
+	Aborting:
+		State := Ready;	
+		DepartMover := 0;
+END_CASE
+SUPER^.Cycle();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="HasMover" Id="{466b4750-cbf0-42df-80f2-b3d4852756ba}">
+      <Declaration><![CDATA[METHOD HasMover : BOOL
+VAR_INPUT
+	mover : IMover;
+END_VAR
+VAR
+	iTmsMover : ITmsMover;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF StationMovers <= 2 THEN
+	StationMovers := StationMovers + 1;
+	IF __QUERYINTERFACE(mover,iTmsMover) THEN
+		DepartMover := iTmsMover;
+		_HasMover := true;
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="MoverAway" Id="{45498adf-6827-4a97-8c80-ff53aebb1724}">
+      <Declaration><![CDATA[METHOD PUBLIC MoverAway : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StationMovers := StationMovers - 1;
+IF StationMovers = 0 THEN
+	_HasMover := FALSE;
+END_IF
+DepartMover := 0;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SwitchMoveComplete" Id="{a8eedfd9-7707-47a4-b55d-1e335fa7f41f}">
+      <Declaration><![CDATA[METHOD PUBLIC SwitchMoveComplete : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_Complete := SwitchMoveComplete := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="SwitchTravelPosition" Id="{506615ae-e584-4b6b-8c90-23702c945ca0}">
+      <Declaration><![CDATA[PROPERTY SwitchTravelPosition : mc_lreal
+]]></Declaration>
+      <Get Name="Get" Id="{770e482e-e926-4e26-8349-fb06dc2d74be}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[SwitchTravelPosition := _switchPosition;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{2f71d79c-8b57-4fda-9b2a-e631ae1faffd}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_switchPosition := SwitchTravelPosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="TrackIds" Id="{5077a096-7fe1-4a0a-87f3-6619fda26f3f}">
+      <Declaration><![CDATA[PROPERTY TrackIds : array[1..4] of otcid]]></Declaration>
+      <Get Name="Get" Id="{b5bca1f7-f5d0-4d03-9e76-4e8c0b77044c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[TrackIds := arrTrackIds;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{bdbe3d16-cad0-4d02-9f21-8379c823a76d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[arrTrackIds := TrackIds;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="TrackLevel" Id="{3cbcc021-27ff-4251-b3d2-761cf34c192e}">
+      <Declaration><![CDATA[PROPERTY TrackLevel : INT
+]]></Declaration>
+      <Get Name="Get" Id="{eac07d3d-cc95-4d94-be8d-aab0ced9fdea}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[TrackLevel := _TrackLevel;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{4b1478e4-977e-454a-a0bf-fe888f795dfb}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_TrackLevel := TrackLevel;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="TmsEmbarkStation">
+      <LineId Id="1145" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkStation.Cycle">
+      <LineId Id="6" Count="124" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkStation.HasMover">
+      <LineId Id="9" Count="3" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkStation.MoverAway">
+      <LineId Id="31" Count="0" />
+      <LineId Id="35" Count="2" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkStation.SwitchMoveComplete">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkStation.SwitchTravelPosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkStation.SwitchTravelPosition.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkStation.TrackIds.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkStation.TrackIds.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkStation.TrackLevel.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkStation.TrackLevel.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

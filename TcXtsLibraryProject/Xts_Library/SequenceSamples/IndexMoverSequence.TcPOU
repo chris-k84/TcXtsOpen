@@ -1,0 +1,293 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="IndexMoverSequence" Id="{50af290e-a0d7-45b3-a647-c8828b096bd1}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK IndexMoverSequence EXTENDS CyclicBase
+VAR
+	State : IndexSequenceState;  
+	CurrentStation : INT;
+	TargetStationPosition : MC_LREAL;
+	_MoverVelocity : MC_LREAL := 1000.0;
+	stSequenceInfo : MoverSequenceInfo;
+	StationArray : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess;
+	ThisMover : IMover;
+	XtsTrack : IXtsTrack;
+	StateMachine : IPmlStateMachine;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{01dd3306-e903-4754-85c4-ea13c41e0b8c}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[State := IndexSequenceState.Available;
+CurrentStation := 0;
+TargetStationPosition := 0.0;
+stSequenceInfo.CurrentStation := CurrentStation;
+stSequenceInfo.MoverId := ThisMover.AxisRef.NcToPlc.AxisId;
+stSequenceInfo.State := State;
+stSequenceInfo.Velocity := ThisMover.AxisRef.NcToPlc.ActVelo;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{0bc270b2-0e7a-4545-b872-87f2d15ca3f5}">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+	State := IndexSequenceState.Aborting;
+ELSIF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
+	State := IndexSequenceState.Stopping;
+END_IF
+CASE State OF
+	IndexSequenceState.Init:
+		IF ThisMover.isDetected() THEN
+			State := IndexSequenceState.Available;
+		END_IF
+		
+	IndexSequenceState.Available:
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Execute THEN
+			State := IndexSequenceState.MovingToStart;
+		END_IF
+		
+	IndexSequenceState.MovingToStart:
+		IF ThisMover.isAtPosition(position := XtsTrack.HomePosition) THEN
+			State := IndexSequenceState.AtStart;
+		END_IF
+			
+	IndexSequenceState.AtStart:
+		IF StationArray[1].IsReady() THEN
+			State := IndexSequenceState.GetNextMove;
+		END_IF
+
+	IndexSequenceState.MovingToStation:
+		IF ThisMover.isStationary() THEN 
+			IF ThisMover.isAtPosition(TargetStationPosition) THEN
+				IF StationArray[CurrentStation].IsProcess THEN
+					State := IndexSequenceState.AtProcess;
+				ELSE
+					State := IndexSequenceState.AtStation;
+				END_IF
+				StationArray[CurrentStation].HasMover(ThisMover);
+			ELSE
+				State := IndexSequenceState.QueuedAtStation;
+			END_IF
+		END_IF
+		
+	IndexSequenceState.QueuedAtStation:
+		IF NOT ThisMover.isStationary() THEN
+				State := IndexSequenceState.MovingToStation;
+		END_IF
+
+	IndexSequenceState.AtStation:
+		IF StationArray[CurrentStation].isComplete() THEN
+			State := IndexSequenceState.GetNextMove;
+		END_IF
+
+	IndexSequenceState.AtProcess:
+		ThisMover.MoveTo(Position := StationArray[CurrentStation].EndPosition,
+								Velocity := StationArray[CurrentStation].ProcessVelocity,
+								BackwardMove := FALSE);
+		State := IndexSequenceState.InProcess;
+								
+	IndexSequenceState.InProcess:
+		IF ThisMover.isStationary() THEN 
+			IF ThisMover.isAtPosition(StationArray[CurrentStation].EndPosition) THEN
+				State := IndexSequenceState.GetNextMove;
+			END_IF
+		END_IF
+	
+	IndexSequenceState.GetNextMove:
+		IF CurrentStation = SystemParameters.NumberOfStations THEN
+			IF ThisMover.MoveTo(Position := XtsTrack.HomePosition,
+							Velocity := _MoverVelocity,
+							BackwardMove := FALSE) THEN
+				State := IndexSequenceState.MovingToStart;
+				StationArray[CurrentStation].MoverAway();
+				CurrentStation := 0; 
+			END_IF
+		ELSE
+			State := IndexSequenceState.GoToNextStation;
+		END_IF
+		
+	IndexSequenceState.GoToNextStation:
+		IF StationArray[CurrentStation + 1].IsProcess THEN
+			TargetStationPosition := StationArray[CurrentStation + 1].StartPosition;
+		ELSE
+			TargetStationPosition := StationArray[CurrentStation + 1].Position;
+		END_IF
+		IF 	ThisMover.MoveTo(Position := TargetStationPosition,
+							Velocity := _MoverVelocity,
+							BackwardMove := FALSE) THEN
+			IF CurrentStation <> 0 THEN
+				StationArray[CurrentStation].MoverAway();	
+			END_IF		
+			CurrentStation := CurrentStation + 1;
+			State := IndexSequenceState.MovingToStation;
+		END_IF	
+
+	IndexSequenceState.Stopping:
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopped THEN
+			State := IndexSequenceState.Available;
+			CurrentStation := 0;
+			TargetStationPosition := 0.0;
+		END_IF			
+		
+	IndexSequenceState.Aborting:
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborted THEN
+			State := IndexSequenceState.Available;
+			CurrentStation := 0;
+			TargetStationPosition := 0.0;
+		END_IF
+END_CASE
+
+//Cyclic update info data
+stSequenceInfo.CurrentStation := CurrentStation;
+stSequenceInfo.MoverId := ThisMover.AxisRef.NcToPlc.AxisId;
+stSequenceInfo.State := State;
+stSequenceInfo.Velocity := ThisMover.AxisRef.NcToPlc.ActVelo;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="MoverVelocity" Id="{4f2224ad-0534-4bd9-a8e4-5b63b7e53b5c}">
+      <Declaration><![CDATA[PROPERTY MoverVelocity : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{0bf3cfa6-cc44-4232-989f-70bced017a55}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MoverVelocity := _MoverVelocity;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{a9bdfb5a-ef56-4b9e-9f78-288684e24d6c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_MoverVelocity := MoverVelocity;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="MyMover" Id="{d0dbd650-93c6-4e7f-a733-abc40a2f12bf}">
+      <Declaration><![CDATA[PROPERTY MyMover : IMover]]></Declaration>
+      <Get Name="Get" Id="{52e46adf-1b9f-404f-a8d7-de686d91d4ef}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MyMover := ThisMover;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{a9693a81-065c-4ba2-8a99-3606c71cf06a}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ThisMover := MyMover;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="MyStations" Id="{d7be010f-02ed-44eb-9206-f5e1204f6ead}">
+      <Declaration><![CDATA[PROPERTY MyStations : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess]]></Declaration>
+      <Get Name="Get" Id="{b9858861-0750-4c3d-b2e9-7dc3a973373a}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MyStations := StationArray;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{7371b464-f457-4be2-b93c-2c3bb66d5175}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[StationArray := MyStations;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="PmlStateMachine" Id="{d844989e-66dd-4349-8c85-edbcb74c9dc3}">
+      <Declaration><![CDATA[PROPERTY PmlStateMachine : IPmlStateMachine]]></Declaration>
+      <Get Name="Get" Id="{2d0a1e27-5c9e-4b26-a4e6-24217a260482}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[PmlStateMachine := StateMachine;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{a96c0464-f76e-4411-81f3-99766fd72773}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[StateMachine := PmlStateMachine;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="XtsTrackController" Id="{1f973a16-15d3-43c5-81a0-899ae3ac9a5f}">
+      <Declaration><![CDATA[PROPERTY XtsTrackController : IXtsTrack]]></Declaration>
+      <Get Name="Get" Id="{c851ccbb-9cbe-4300-8d62-99a5ab734090}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[XtsTrackController := XtsTrack;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{9cf99e7f-4368-4cbc-aa10-dc934e406de1}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[XtsTrack := XtsTrackController;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="IndexMoverSequence">
+      <LineId Id="1006" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.Abort">
+      <LineId Id="6" Count="1" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="2" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.Cycle">
+      <LineId Id="6" Count="110" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.MoverVelocity.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.MoverVelocity.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.MyMover.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.MyMover.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.MyStations.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.MyStations.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.PmlStateMachine.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.PmlStateMachine.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.XtsTrackController.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.XtsTrackController.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

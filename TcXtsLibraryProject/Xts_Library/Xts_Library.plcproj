@@ -2,22 +2,22 @@
   <PropertyGroup>
     <FileVersion>1.0.0.0</FileVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{b62c1b8f-a6e4-4b5a-899a-5d5b71636640}</ProjectGuid>
+    <ProjectGuid>{ced1a555-c4fe-4060-8667-cd2676f9349d}</ProjectGuid>
     <SubObjectsSortedByName>True</SubObjectsSortedByName>
     <DownloadApplicationInfo>true</DownloadApplicationInfo>
     <WriteProductVersion>true</WriteProductVersion>
     <GenerateTpy>false</GenerateTpy>
-    <Name>XtsLib</Name>
+    <Name>Xts_Library</Name>
     <ProgramVersion>3.1.4023.0</ProgramVersion>
-    <Application>{c180b2c0-38b4-4315-924e-53aa3a527f21}</Application>
-    <TypeSystem>{655dd1f4-b339-44b3-ae3d-91f9d3c43389}</TypeSystem>
-    <Implicit_Task_Info>{91949891-8d62-4c68-ba61-9bcdf1da753e}</Implicit_Task_Info>
-    <Implicit_KindOfTask>{b13a8837-6545-418a-96e2-e1bd6fd9fcee}</Implicit_KindOfTask>
-    <Implicit_Jitter_Distribution>{3a679315-69e1-4f89-896a-7ccc5eb827e8}</Implicit_Jitter_Distribution>
-    <LibraryReferences>{8422622f-e831-439e-86d4-ef93fd220668}</LibraryReferences>
-    <Company>ChrisK</Company>
+    <Application>{758f83c0-e46d-44af-8cf0-a51199d56b24}</Application>
+    <TypeSystem>{351448db-13f8-435a-a099-01b0f728f3d5}</TypeSystem>
+    <Implicit_Task_Info>{e6af468f-c41f-4889-bef9-d83ba1759068}</Implicit_Task_Info>
+    <Implicit_KindOfTask>{92f8e863-7ad7-43b9-a442-5e301b595df3}</Implicit_KindOfTask>
+    <Implicit_Jitter_Distribution>{8e519945-2452-401e-b582-4dbb4d52b097}</Implicit_Jitter_Distribution>
+    <LibraryReferences>{97c810ff-bbba-42d2-a0e7-45dbf1112fdb}</LibraryReferences>
     <Released>false</Released>
     <Title>Xts Library</Title>
+    <Company>BeckhoffUK</Company>
     <ProjectVersion>2.0.0.2</ProjectVersion>
     <LibraryCategories>
       <LibraryCategory xmlns="">
@@ -29,8 +29,8 @@
     <SelectedLibraryCategories>
       <Id xmlns="">{4c30be10-0c29-4796-921e-62ecfda40191}</Id>
     </SelectedLibraryCategories>
-    <Author>ChrisK</Author>
     <Description>Xts framework implementation</Description>
+    <Author>ChrisK</Author>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Axis Class\MC2_Axis_Base.TcPOU">
@@ -84,6 +84,12 @@
     <Compile Include="PackML_Method_Pattern\PML_Method_Base.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PlcTask.TcTTO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\MAIN.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SequenceSamples\GearMoverSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -135,13 +141,13 @@
     <Compile Include="Switch Class\ITF_TmsSwitch.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Switch Class\TmsSwitchPosition.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Switch Class\TmsSwitchInfo.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Switch Class\TmsSwitchMode.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Switch Class\TmsSwitchPosition.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Switch Class\TmsSwitchState.TcDUT">
@@ -238,18 +244,19 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Axis Class" />
+    <Folder Include="Base Types" />
     <Folder Include="Base Types\Cyclic_Base" />
     <Folder Include="Base Types\Task_Base" />
     <Folder Include="EventLoggerClass" />
     <Folder Include="Mover Class" />
-    <Folder Include="Base Types" />
     <Folder Include="PackML" />
     <Folder Include="PackML_Method_Pattern" />
+    <Folder Include="POUs" />
     <Folder Include="SequenceSamples" />
     <Folder Include="Station Class" />
-    <Folder Include="Station Class\TMSStation" />
     <Folder Include="Station Class\Process" />
     <Folder Include="Station Class\Station" />
+    <Folder Include="Station Class\TMSStation" />
     <Folder Include="Switch Class" />
     <Folder Include="Tasks" />
     <Folder Include="VISUs" />
@@ -258,6 +265,10 @@
     <Folder Include="XTS Class\Xts Hardware" />
   </ItemGroup>
   <ItemGroup>
+    <PlaceholderReference Include="Tc2_MC2">
+      <DefaultResolution>Tc2_MC2, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_MC2</Namespace>
+    </PlaceholderReference>
     <PlaceholderReference Include="Tc2_Standard">
       <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_Standard</Namespace>
@@ -269,6 +280,14 @@
     <PlaceholderReference Include="Tc3_EventLogger">
       <DefaultResolution>Tc3_EventLogger, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_EventLogger</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_Mc3Definitions">
+      <DefaultResolution>Tc3_Mc3Definitions, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc3_Mc3Definitions</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_McCollisionAvoidance">
+      <DefaultResolution>Tc3_McCollisionAvoidance, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc3_McCollisionAvoidance</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_McCoordinatedMotion">
       <DefaultResolution>Tc3_McCoordinatedMotion, * (Beckhoff Automation GmbH)</DefaultResolution>
@@ -288,18 +307,7 @@
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
-    <LibraryReference Include="Tc2_MC2,newest,Beckhoff Automation GmbH">
-      <Namespace>Tc2_MC2</Namespace>
-    </LibraryReference>
-    <LibraryReference Include="Tc3_Mc3Definitions,newest,Beckhoff Automation GmbH">
-      <Namespace>Tc3_Mc3Definitions</Namespace>
-    </LibraryReference>
-    <LibraryReference Include="Tc3_McCollisionAvoidance,newest,Beckhoff Automation GmbH">
-      <Namespace>Tc3_McCollisionAvoidance</Namespace>
-    </LibraryReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="XtsLib.tmc">
+    <None Include="Xts_Library.tmc">
       <SubType>Content</SubType>
     </None>
   </ItemGroup>
@@ -353,12 +361,6 @@
             <v>PerformStaticAnalyse</v>
             <v>False</v>
           </d>
-        </o>
-        <v>{8F99A816-E488-41E4-9FA3-846536012284}</v>
-        <o>
-          <v n="Name">"{8F99A816-E488-41E4-9FA3-846536012284}"</v>
-          <d n="SubKeys" t="Hashtable" />
-          <d n="Values" t="Hashtable" />
         </o>
         <v>{40450F57-0AA3-4216-96F3-5444ECB29763}</v>
         <o>

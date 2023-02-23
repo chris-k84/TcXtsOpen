@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="XtsEnableSequence" Id="{b7e7ab09-3a30-4ddb-a242-e0b5aa00cbc9}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsEnableSequence EXTENDS TaskBase
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_collisionGroup : ICollisionGroup;
+	addMover : AddMoverToGroupTask(_collisionGroup);
+	moverNumbers : DINT;
+	AllMoversEnabled: BOOL;
+	EnableTrigger : BOOL;	
+	Logger : TcMessage_Ext;
+	arrMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{9cec9788-9ce4-4a9f-821c-172bdb3141aa}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[EnableTrigger := FALSE;
+State := 0;
+addMover.Abort();]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Busy" Id="{f89fe90a-8207-414f-ad19-90d7ac0c91f2}">
+      <Declaration><![CDATA[PROPERTY Busy : BOOL]]></Declaration>
+      <Get Name="Get" Id="{a6a96866-4b51-44bb-878b-ec096df7fdd0}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Busy := _busy;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Cycle" Id="{2913b891-dfae-43d9-b9d3-4a1a1101f452}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
+	0:
+		IF EnableTrigger THEN
+			State := 10;
+			EnableTrigger := FALSE;
+			moverNumbers := 1;
+			_busy := TRUE;
+			_done := FALSE;
+			_Error := FALSE;
+		END_IF
+		
+	10:
+		FOR moverNumbers := 1 TO SystemParameters.NumberOfMovers DO
+			arrMovers[moverNumbers].ResetAxis();
+		END_FOR
+		moverNumbers := 1;
+		State := 20;
+		
+	20:
+		IF _collisionGroup.GroupState = CAGroupStatus.mcGroupStateErrorStop THEN
+			_collisionGroup.Reset();
+			Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupReset,'');
+		END_IF
+		State := 30;
+		
+	30:
+		arrMovers[moverNumbers].IdentInGroup := DINT_TO_INT( moverNumbers);
+		addMover.AddMover(MoverToAdd := arrMovers[moverNumbers]);
+		logger.Send(TC_EVENTS.XtsCAGroupEvents.AddingMoverToGroup,DINT_TO_STRING(moverNumbers));
+		State := 40;
+		
+	40:
+		IF addMover.Done THEN
+			IF moverNumbers <> SystemParameters.NumberOfMovers THEN
+				moverNumbers := moverNumbers + 1;
+				State := 30;
+			ELSE
+				logger.Send(TC_EVENTS.XtsCAGroupEvents.AllMoversAdded,'');
+				FOR moverNumbers := 1 TO SystemParameters.NumberOfMovers DO
+					arrMovers[moverNumbers].EnableAxis();
+				END_FOR
+				State := 50;
+			END_IF
+		END_IF
+		
+	50:
+		AllMoversEnabled := TRUE;
+		FOR moverNumbers := 1 TO SystemParameters.NumberOfMovers DO
+			AllMoversEnabled := TRUE AND arrMovers[moverNumbers].isEnabled();
+		END_FOR
+		IF AllMoversEnabled THEN
+			logger.Send(TC_EVENTS.XtsCAGroupEvents.AllMoversEnabled,'');
+			_collisionGroup.Enable();
+			logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupEnable,'');
+			State := 60;
+		END_IF
+		
+	60:
+		IF _collisionGroup.GroupState = 2 THEN
+			State := 0;
+			_busy := FALSE;
+			_done := true;
+		END_IF
+END_CASE
+
+addMover.Cycle();]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Done" Id="{0e5966e8-d336-48cb-b33b-7b3e8002c2a4}">
+      <Declaration><![CDATA[PROPERTY Done : BOOL]]></Declaration>
+      <Get Name="Get" Id="{0c323df2-04c0-4aa3-af19-3f23ee8d6822}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Done := _done;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Enable" Id="{1c2a3468-bb52-4165-8d13-732b960a1dd0}">
+      <Declaration><![CDATA[METHOD Enable : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT _busy THEN
+	EnableTrigger := Enable := true;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Error" Id="{da16cc7b-be4d-4135-9d63-50e421e7a040}">
+      <Declaration><![CDATA[PROPERTY Error : BOOL]]></Declaration>
+      <Get Name="Get" Id="{5a991a44-10d2-406e-baf1-03e067b4dfc8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Error := _Error;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="FB_init" Id="{a4125f89-7eca-48c2-8cb0-d4574c798d78}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	collisionGroup : ICollisionGroup;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_collisionGroup := collisionGroup;
+addMover.FB_init(FALSE, FALSE, collisionGroup);]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="MoverArray" Id="{2acddb92-7228-4ce1-abf4-c52047e8db87}">
+      <Declaration><![CDATA[PROPERTY MoverArray : array[1..SystemParameters.NumberOfMovers] of IMover]]></Declaration>
+      <Get Name="Get" Id="{45d4b80a-6470-4599-bc0b-107c251d2b9f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MoverArray := arrMovers;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{2f5a4b68-8d6e-4eaa-8b71-147268b7ef4e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[arrMovers := MoverArray;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="XtsEnableSequence">
+      <LineId Id="188" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsEnableSequence.Abort">
+      <LineId Id="5" Count="2" />
+    </LineIds>
+    <LineIds Name="XtsEnableSequence.Busy.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsEnableSequence.Cycle">
+      <LineId Id="6" Count="64" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsEnableSequence.Done.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsEnableSequence.Enable">
+      <LineId Id="9" Count="2" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsEnableSequence.Error.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsEnableSequence.FB_init">
+      <LineId Id="7" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsEnableSequence.MoverArray.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsEnableSequence.MoverArray.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

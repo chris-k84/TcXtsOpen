@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="AddMoverToGroupTask" Id="{8561ba4a-bbc2-4a4c-8d8e-313f70a4cd47}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK AddMoverToGroupTask EXTENDS TaskBase
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	AddtoGrp			: MC_AddAxisToGroup;
+	_caGroup			: ICollisionGroup;
+	_axis				: reference TO AXIS_REF;
+	_addMover : BOOL;
+	_moverNumber : UDINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{f17ab960-5dcf-47aa-8c4d-ce7d93fe1bb1}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[AddtoGrp.Execute := FALSE;
+Abort := true;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="AddMover" Id="{481f5339-50ec-48c8-9b4c-100ecb265f94}">
+      <Declaration><![CDATA[METHOD AddMover : BOOL
+VAR_INPUT
+	MoverToAdd : IMover;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_axis REF= MoverToAdd.AxisRef;
+_moverNumber := INT_TO_UDINT(MoverToAdd.IdentInGroup);
+_busy := TRUE;
+AddMover := _addMover := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{6096abf8-fe4d-4db3-982a-c3405f3d7073}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
+	0:
+		IF _addMover THEN
+			_done := FALSE;
+			_error := FALSE;
+			_busy := true;
+			AddtoGrp.Execute := TRUE;
+			IF AddtoGrp.Busy THEN
+				State := 10;
+				_addMover := FALSE;
+			END_IF
+		END_IF
+	
+	10:
+		IF NOT AddtoGrp.Busy THEN
+			IF AddtoGrp.Done THEN
+				_done := TRUE;
+			ELSIF AddtoGrp.Error THEN
+				_error := TRUE;
+			END_IF
+			_busy := FALSE;
+			AddtoGrp.Execute := false;
+			State := 0;
+		END_IF
+END_CASE
+
+AddtoGrp(AxesGroup := _caGroup.GroupRef,
+			Axis := _axis,
+			IdentInGroup := UDINT_TO_IDENTINGROUP(_moverNumber));]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{1a3771d2-cfdd-44cb-ac56-4c890f762040}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	collisionGroup : ICollisionGroup;	
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_caGroup := collisionGroup;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="AddMoverToGroupTask">
+      <LineId Id="77" Count="0" />
+    </LineIds>
+    <LineIds Name="AddMoverToGroupTask.Abort">
+      <LineId Id="4" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="AddMoverToGroupTask.AddMover">
+      <LineId Id="4" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="AddMoverToGroupTask.Cycle">
+      <LineId Id="6" Count="27" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="AddMoverToGroupTask.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

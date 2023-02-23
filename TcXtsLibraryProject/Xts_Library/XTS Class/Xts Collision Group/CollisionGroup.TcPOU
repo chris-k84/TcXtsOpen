@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="CollisionGroup" Id="{8907fd76-d392-4030-a5c6-041188f5b990}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK CollisionGroup extends CyclicBase IMPLEMENTS ICollisionGroup
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	stGroupInformation : CAGroupInfo;
+	_caGroup : Tc3_McCoordinatedMotion.AXES_GROUP_REF;
+	readStatus : Tc3_McCoordinatedMotion.MC_GroupReadStatus;
+	resetCAGroup : ResetGroup(THIS^);
+	enableCAGroup : EnableGroup(THIS^);
+	disableCAGroup : DisableGroup(this^);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Cycle" Id="{6b3cc58f-cb00-45fb-b855-5eb19dbaab5d}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[readStatus(
+	AxesGroup:= _caGroup, 
+	Enable:= TRUE );
+resetCAGroup.Cycle();
+enableCAGroup.Cycle();
+disableCAGroup.Cycle();
+
+//Cyclic get CaGroup information
+stGroupInformation.sName := 'MainCAGroup';
+stGroupInformation.eGroupState := _caGroup.NcToPlc.Common.GroupStatus.State;
+stGroupInformation.nAxesCount	:= UDINT_TO_INT(_caGroup.NcToPlc.Common.GroupAxesCount);
+stGroupInformation.nId			:= _caGroup.NcToPlc.Common.GroupOID;	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Disable" Id="{236769ac-ee48-442c-86de-25258567af7c}">
+      <Declaration><![CDATA[METHOD Disable : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT disableCAGroup.Busy THEN
+	disableCAGroup.Execute();
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Enable" Id="{9a19e9ba-2611-4357-a3d4-698f998ad87d}">
+      <Declaration><![CDATA[METHOD Enable : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT enableCAGroup.Busy THEN
+	enableCAGroup.Execute();
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="GroupRef" Id="{05d388ea-a899-4954-b35a-8298ecb26dd6}">
+      <Declaration><![CDATA[PROPERTY GroupRef : reference to AXES_GROUP_REF]]></Declaration>
+      <Get Name="Get" Id="{9960c5ab-7079-4a22-9f43-e4d1a1a5992b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[GroupRef REF= _caGroup;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="GroupState" Id="{a7850ad8-4f08-4a22-bf4c-efbfd8c96cf5}">
+      <Declaration><![CDATA[PROPERTY GroupState : CAGroupStatus]]></Declaration>
+      <Get Name="Get" Id="{51b877d1-f5c7-479f-9b28-cdb51e8876b7}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IF readStatus.GroupDisabled THEN
+	GroupState := CAGroupStatus.mcGroupStateDisabled;
+ELSIF readStatus.GroupErrorStop THEN
+	GroupState := CAGroupStatus.mcGroupStateErrorStop;
+ELSIF readStatus.GroupHoming THEN
+	GroupState := CAGroupStatus.mcGroupStateHoming;
+ELSIF readStatus.GroupMoving THEN
+	GroupState := CAGroupStatus.mcGroupStateMoving;
+ELSIF readStatus.GroupNotReady THEN
+	GroupState := CAGroupStatus.mcGroupStateNotReady;
+ELSIF readStatus.GroupStandby THEN
+	GroupState := CAGroupStatus.mcGroupStateStandby;
+ELSIF readStatus.GroupStopping THEN
+	GroupState := CAGroupStatus.mcGroupStateStopping;
+ELSIF readStatus.Error THEN
+	GroupState := CAGroupStatus.mcGroupError;
+END_IF]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Reset" Id="{109a65fd-df03-46ac-84a7-fd0107d964ee}">
+      <Declaration><![CDATA[METHOD Reset : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT resetCAGroup.Busy THEN
+	resetCAGroup.Execute();
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="CollisionGroup">
+      <LineId Id="52" Count="0" />
+    </LineIds>
+    <LineIds Name="CollisionGroup.Cycle">
+      <LineId Id="6" Count="10" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="CollisionGroup.Disable">
+      <LineId Id="5" Count="2" />
+    </LineIds>
+    <LineIds Name="CollisionGroup.Enable">
+      <LineId Id="5" Count="2" />
+    </LineIds>
+    <LineIds Name="CollisionGroup.GroupRef.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="CollisionGroup.GroupState.Get">
+      <LineId Id="9" Count="15" />
+      <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="CollisionGroup.Reset">
+      <LineId Id="4" Count="2" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

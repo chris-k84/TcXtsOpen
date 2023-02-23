@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TmsExchange" Id="{bbb0a31b-f62e-4332-abc9-0bed198282f3}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC TmsExchange EXTENDS Process
+VAR_INPUT
+	TmsSwitch : ITF_TmsSwitch;
+	StateMachine : IPmlStateMachine;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	holdingStation : TmsHoldStation;
+	embarkingStation : TmsEmbarkStation;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[holdingStation(StateMachine := StateMachine, embarkStation := embarkingStation);
+embarkingStation(StateMachine := StateMachine, TmsSwitch := TmsSwitch);
+]]></ST>
+    </Implementation>
+    <Property Name="EmbarkStation" Id="{508d1299-8885-4c14-a332-b33475d26bfa}">
+      <Declaration><![CDATA[PROPERTY EmbarkStation : IProcess]]></Declaration>
+      <Get Name="Get" Id="{ba314324-3359-4a1a-8fb3-9807e1185edd}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[EmbarkStation := embarkingStation;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="ExchangeTrackLevel" Id="{416bdb5b-acd9-4922-a121-e2d3d8d0274e}">
+      <Declaration><![CDATA[PROPERTY ExchangeTrackLevel : int]]></Declaration>
+      <Get Name="Get" Id="{7ed999f7-41f4-4d02-9f01-a951336030fa}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ExchangeTrackLevel := embarkingStation.TrackLevel;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{8abbf63f-29fc-48f1-952c-afd65680f071}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[embarkingStation.TrackLevel := ExchangeTrackLevel;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="HoldStation" Id="{4d40e862-480a-426f-89ed-edc013bb8c8d}">
+      <Declaration><![CDATA[PROPERTY HoldStation : IProcess]]></Declaration>
+      <Get Name="Get" Id="{7b1202a4-917f-403c-b005-ec2e639cb9d8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[HoldStation := holdingStation;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="SwitchTravelPosition" Id="{81526570-b9a9-41d5-adf0-49b50e38e46c}">
+      <Declaration><![CDATA[PROPERTY SwitchTravelPosition : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{cd5a599e-fb72-4d8d-b6d6-a8e1cee905ed}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[SwitchTravelPosition := embarkingStation.SwitchTravelPosition;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{0719daf7-7733-4b8b-a540-a379e8bb6a64}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[embarkingStation.SwitchTravelPosition := SwitchTravelPosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="TrackIds" Id="{31a30eda-833a-450a-89f7-9d9f22e2b4ec}">
+      <Declaration><![CDATA[PROPERTY PUBLIC TrackIds : Array[1..4] of OTCID]]></Declaration>
+      <Get Name="Get" Id="{a5973870-9ace-4fb7-8902-58880a368a69}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[TrackIds := embarkingStation.TrackIds;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{aaa19c3a-1ba5-4ce2-9f99-79124cbc0dbc}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[embarkingStation.TrackIds := TrackIds;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="TmsExchange">
+      <LineId Id="123" Count="1" />
+      <LineId Id="77" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.EmbarkStation.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.ExchangeTrackLevel.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.ExchangeTrackLevel.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.HoldStation.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.SwitchTravelPosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.SwitchTravelPosition.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.TrackIds.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.TrackIds.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

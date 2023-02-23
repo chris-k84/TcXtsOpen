@@ -1,0 +1,312 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="PML_Method_Base" Id="{44604a6d-2a49-42c2-9e01-3b91f586bd10}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK PML_Method_Base EXTENDS CyclicBase
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	ipackml : IPmlStateMachine;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="Action_States" Id="{7719f547-9feb-4937-b59c-20a931e8ad41}" />
+    <Folder Name="Wait_States" Id="{2c32ef48-514a-481f-8d0d-8b942ec72232}" />
+    <Method Name="Aborted" Id="{3a7a888a-3488-4e5a-a007-83e4c843c99f}" FolderPath="Wait_States\">
+      <Declaration><![CDATA[METHOD PROTECTED Aborted : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Aborting" Id="{8eff91aa-7f1e-4fd3-a545-3f5a7ea2c597}" FolderPath="Action_States\">
+      <Declaration><![CDATA[METHOD PROTECTED Aborting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ipackml.SetStateComplete();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Clearing" Id="{64009759-9dcd-45d2-8a6f-25e2864a6e21}" FolderPath="Action_States\">
+      <Declaration><![CDATA[METHOD PROTECTED Clearing : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ipackml.SetStateComplete();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Completed" Id="{8db612cd-d25e-4f0e-8127-a16fd256f153}" FolderPath="Wait_States\">
+      <Declaration><![CDATA[METHOD PROTECTED Completed : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Completing" Id="{6703021e-8530-4771-aaae-3cde4b26799f}" FolderPath="Action_States\">
+      <Declaration><![CDATA[METHOD PROTECTED Completing : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ipackml.SetStateComplete();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{63d4d0a3-0b0d-4da4-b46f-2e93b903d4c3}">
+      <Declaration><![CDATA[METHOD PUBLIC Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE ipackml.GetCurrentState() OF
+	E_PMLState.ePMLState_Clearing:
+		Clearing();
+	E_PMLState.ePMLState_Aborted:
+		Aborted();
+	E_PMLState.ePMLState_Aborting:
+		Aborting();
+	E_PMLState.ePMLState_Complete:
+		Completed();
+	E_PMLState.ePMLState_Completing:
+		Completing();
+	E_PMLState.ePMLState_Execute:
+		Execute();
+	E_PMLState.ePMLState_Held:
+		Held();
+	E_PMLState.ePMLState_Holding:
+		Holding();
+	E_PMLState.ePMLState_Idle:
+		Idle();
+	E_PMLState.ePMLState_Resetting:
+		Resetting();
+	E_PMLState.ePMLState_Starting:
+		Starting();
+	E_PMLState.ePMLState_Stopped:
+		Stopped();
+	E_PMLState.ePMLState_Stopping:
+		Stopping();
+	E_PMLState.ePMLState_Suspended:
+		Suspended();
+	E_PMLState.ePMLState_Suspending:
+		Suspending();
+	E_PMLState.ePMLState_Undefined:
+		Undefined();
+	E_PMLState.ePMLState_Unholding:
+		Unholding();
+	E_PMLState.ePMLState_Unsuspending:
+		Unsuspending();
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Execute" Id="{5484d7e2-b3e2-4d00-adc7-910112ca7207}" FolderPath="Wait_States\">
+      <Declaration><![CDATA[METHOD PROTECTED Execute : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Held" Id="{004fe5f5-1493-4831-9660-53dd53b37151}" FolderPath="Wait_States\">
+      <Declaration><![CDATA[METHOD PROTECTED Held : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Holding" Id="{5db35954-b6c7-44bc-be52-fc73d3a1d8dd}" FolderPath="Action_States\">
+      <Declaration><![CDATA[METHOD PROTECTED Holding : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ipackml.SetStateComplete();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Idle" Id="{8dbd11b2-5cb0-447d-943f-09b5ebac915e}" FolderPath="Wait_States\">
+      <Declaration><![CDATA[METHOD PROTECTED Idle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="PackMLStateMachine" Id="{1848e61a-7da6-4ad1-b602-39cdcadd7b88}">
+      <Declaration><![CDATA[PROPERTY PUBLIC PackMLStateMachine : IPmlStateMachine]]></Declaration>
+      <Get Name="Get" Id="{70e77818-fff6-4ea3-a9c0-c213ac8f42fa}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[PackMLStateMachine := ipackml;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{460c6705-7754-439c-980c-6919cb3d2d7b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ipackml := PackMLStateMachine;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="Resetting" Id="{e31b868e-5e8d-487c-b4ed-f6356e1fe4b9}" FolderPath="Action_States\">
+      <Declaration><![CDATA[METHOD PROTECTED Resetting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ipackml.SetStateComplete();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Starting" Id="{98960e70-b46e-4571-b670-dbf1d87ceb4e}" FolderPath="Action_States\">
+      <Declaration><![CDATA[METHOD PROTECTED Starting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ipackml.SetStateComplete();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Stopped" Id="{1e2bcc54-c534-460e-a757-8d619b18aa64}" FolderPath="Wait_States\">
+      <Declaration><![CDATA[METHOD PROTECTED Stopped : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Stopping" Id="{b994c5a8-ad42-4f18-9920-c355d4106f0a}" FolderPath="Action_States\">
+      <Declaration><![CDATA[METHOD PROTECTED Stopping : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ipackml.SetStateComplete();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Suspended" Id="{23225890-9944-4ad7-8f64-13b40599a318}" FolderPath="Wait_States\">
+      <Declaration><![CDATA[METHOD PROTECTED Suspended : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Suspending" Id="{aec63dc9-e7be-4fa6-bc82-be2d206971e8}" FolderPath="Action_States\">
+      <Declaration><![CDATA[METHOD PROTECTED Suspending : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ipackml.SetStateComplete();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Undefined" Id="{4f5c025e-6f39-48a9-b127-9303fab086d4}" FolderPath="Wait_States\">
+      <Declaration><![CDATA[METHOD PROTECTED Undefined : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Unholding" Id="{3d0e100d-fc99-4eff-854c-988cbc39a6e1}" FolderPath="Action_States\">
+      <Declaration><![CDATA[METHOD PROTECTED Unholding : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ipackml.SetStateComplete();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Unsuspending" Id="{5ce0470e-2c5c-47a1-b247-b5084620a760}" FolderPath="Action_States\">
+      <Declaration><![CDATA[METHOD PROTECTED Unsuspending : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ipackml.SetStateComplete();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="PML_Method_Base">
+      <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="PML_Method_Base.Aborted">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PML_Method_Base.Aborting">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PML_Method_Base.Clearing">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PML_Method_Base.Completed">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PML_Method_Base.Completing">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PML_Method_Base.Cycle">
+      <LineId Id="6" Count="36" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PML_Method_Base.Execute">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PML_Method_Base.Held">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PML_Method_Base.Holding">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PML_Method_Base.Idle">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PML_Method_Base.PackMLStateMachine.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="PML_Method_Base.PackMLStateMachine.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="PML_Method_Base.Resetting">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PML_Method_Base.Starting">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PML_Method_Base.Stopped">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PML_Method_Base.Stopping">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PML_Method_Base.Suspended">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PML_Method_Base.Suspending">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PML_Method_Base.Undefined">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PML_Method_Base.Unholding">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PML_Method_Base.Unsuspending">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

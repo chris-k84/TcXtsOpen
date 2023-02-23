@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TMS_Mover" Id="{5460a3ca-ef4a-4eb7-aee0-351ddb8da841}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TMS_Mover EXTENDS FB_Mover IMPLEMENTS ITmsMover
+VAR
+	ActivateATrack : ActivateTrackForMover(_axis);
+	mcReadTrackPositions : Tc3_McCollisionAvoidance.MC_ReadTrackPositions;
+	axesMoveModuloTo 		: MoveModuloMoverToPosition(_axis) := (Gap := 100.0);
+	_stOptions : ST_MoveAbsoluteCAOptions;
+	ipTcIoXtsMover			: I_TcIoXtsXpuMover;
+	stTmsActPositions			: ST_PositionInfo;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="ActivateTrack" Id="{67dea5a7-1ddb-45ab-b6fb-8140fc4e28a1}">
+      <Declaration><![CDATA[METHOD ActivateTrack : BOOL
+VAR_INPUT
+	newTrack : OTCID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT ActivateATrack.Busy THEN
+	ActivateATrack.Execute(Track := newTrack);
+	ActivateTrack := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="ActiveTrack" Id="{8713b95c-1a45-4154-9f81-8eda6eb00e1d}">
+      <Declaration><![CDATA[PROPERTY ActiveTrack : OTCID]]></Declaration>
+      <Get Name="Get" Id="{b47e9603-d05b-4fb2-8c08-570f9ee8994f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ActiveTrack := stTmsActPositions.nTrackObjectid;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Cycle" Id="{1d05da50-72aa-4e35-9556-57a03180f6ab}">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.Cycle();
+IF _identInGroup <> 0 THEN
+	mcReadTrackPositions(
+		Axis:= THIS^._axis, 
+		Enable:= TRUE, 
+		Valid=> , 
+		Busy=> , 
+		TrackPosition=> , 
+		TrackId=> , 
+		PartPosition=> , 
+		PartId=> , 
+		Error=> , 
+		ErrorId=> );
+END_IF
+ActivateATrack.Cycle();
+IF ActivateATrack.Done THEN 
+	_stOptions.PositionReferenceSystem :=  ActivateATrack.NewTrackId;
+	axesMoveModuloTo.Options := _stOptions;
+END_IF
+
+IF ipTcIoXtsMover <> 0 THEN
+	stTmsActPositions:=ipTcIoXtsMover.GetPositionInfo();
+END_IF
+
+axesMoveModuloTo.Cycle();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="HasCommand" Id="{ed907035-91a3-47dc-9314-24c9235dbc23}">
+      <Declaration><![CDATA[METHOD PUBLIC HasCommand : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[HasCommand := axesMoveModuloTo.Busy;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="isAtPosition" Id="{1ca12edb-5e3c-438e-86ce-3f842724e28c}">
+      <Declaration><![CDATA[METHOD isAtPosition : BOOL
+VAR_INPUT
+	position : MC_LREAL;
+END_VAR
+
+VAR
+	moduloPos: DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[//Create modulo position 
+//moduloPos := LREAL_TO_DINT(stTmsActPositions.fTrackPosition) MOD LREAL_TO_DINT(_trackLength);
+IF position > 1 THEN
+	IF stTmsActPositions.fTrackPosition < position + 1 AND stTmsActPositions.fTrackPosition > position - 1 THEN
+		isAtPosition := TRUE;
+	END_IF  
+ELSE
+	IF stTmsActPositions.fTrackPosition < position + 1 AND stTmsActPositions.fTrackPosition > 0.0  
+		OR stTmsActPositions.fTrackPosition < _trackLength AND stTmsActPositions.fTrackPosition > _trackLength - 1 THEN
+		isAtPosition := TRUE;
+	END_IF
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="isPastPosition" Id="{40eb8c66-39fe-4229-9666-f2ee6f651513}">
+      <Declaration><![CDATA[METHOD PUBLIC isPastPosition : BOOL
+VAR_INPUT
+	position : MC_LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF position > 1 THEN
+	IF stTmsActPositions.fTrackPosition > position THEN
+		isPastPosition := TRUE;
+	END_IF  
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="MoveTo" Id="{0eb6ed83-3f5e-4a80-9c66-5b86c77ea5cc}">
+      <Declaration><![CDATA[METHOD PUBLIC MoveTo : BOOL
+VAR_INPUT
+	Position : MC_LREAL;
+	Velocity : MC_LREAL;
+	BackwardMove : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT THIS^.isAtPosition(position := Position) THEN
+	IF NOT axesMoveModuloTo.Busy THEN
+		THIS^.axesMoveModuloTo.MoveTo(Position := Position, Velocity := Velocity, Direction := Tc2_MC2.MC_Direction.MC_Positive_Direction, Turns := 0);
+		MoveTo := TRUE;
+		_targetPos := Position;
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetMoverInterface" Id="{e0a200ba-97fb-445b-94c1-a82a08618f42}">
+      <Declaration><![CDATA[METHOD PUBLIC SetMoverInterface : BOOL
+VAR_INPUT
+	MoverInterface : I_TcIoXtsXpuMover;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ipTcIoXtsMover := MoverInterface;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="TMS_Mover">
+      <LineId Id="12" Count="0" />
+    </LineIds>
+    <LineIds Name="TMS_Mover.ActivateTrack">
+      <LineId Id="5" Count="1" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="TMS_Mover.ActiveTrack.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TMS_Mover.Cycle">
+      <LineId Id="6" Count="23" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="TMS_Mover.HasCommand">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="TMS_Mover.isAtPosition">
+      <LineId Id="27" Count="1" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="16" Count="1" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="18" Count="1" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="20" Count="1" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="TMS_Mover.isPastPosition">
+      <LineId Id="7" Count="3" />
+      <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="TMS_Mover.MoveTo">
+      <LineId Id="78" Count="5" />
+      <LineId Id="64" Count="0" />
+    </LineIds>
+    <LineIds Name="TMS_Mover.SetMoverInterface">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

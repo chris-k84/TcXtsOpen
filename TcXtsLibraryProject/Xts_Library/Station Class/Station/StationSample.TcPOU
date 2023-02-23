@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="StationSample" Id="{5d12cef2-4f81-4470-ba05-8f124fe21580}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK StationSample EXTENDS Process
+VAR
+	_OperationTime : TIME := T#1S;
+	Operation : ton;
+	State: INT;
+	StateMachine : IPmlStateMachine;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{21e0d1b2-4f5f-428f-96cf-1000dff3cb8d}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^();
+StationMovers := State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{b831bddf-8042-4785-99f9-40cdea1773f4}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _isProcess THEN
+	;
+ELSE
+	CASE State OF
+		0:
+			IF _HasMover THEN
+				_Operating := TRUE;
+				_Clear := FALSE;
+				_Ready := FALSE;
+				Operation.IN := TRUE;
+				State := 1;
+			END_IF
+		1:
+			IF Operation.Q THEN
+				_Complete := TRUE;
+				IF StationMovers = 0 THEN
+					_HasMover := FALSE;
+					Operation.IN := FALSE;
+				END_IF
+				State := 2;
+			END_IF
+		2:
+			_Complete := FALSE;
+			_Clear := TRUE;
+			_Operating := FALSE;
+			_Ready := TRUE;
+			State := 0;
+	END_CASE	
+	Operation(PT := _OperationTime);
+END_IF
+
+IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborted 
+	OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
+	_Complete := FALSE;
+	_Clear := TRUE;
+	_Operating := FALSE;
+	_Ready := TRUE;
+	StationMovers := State := 0;
+END_IF
+
+SUPER^.Cycle();
+stInfo.StationProcessTime := _OperationTime;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="PmlStateMachine" Id="{d366101e-f161-43e4-b621-5f0379710a8f}">
+      <Declaration><![CDATA[PROPERTY PmlStateMachine : IPmlStateMachine]]></Declaration>
+      <Get Name="Get" Id="{f168997d-e551-4178-ab83-0bc790585c46}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[PmlStateMachine := StateMachine;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{807f3fcf-1e00-46f0-8a7b-28cffe156af8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[StateMachine := PmlStateMachine;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="TempPropTime" Id="{4928f043-1047-466d-92d5-fb5212ce41c4}">
+      <Declaration><![CDATA[PROPERTY TempPropTime : time]]></Declaration>
+      <Get Name="Get" Id="{73c0c3b5-10dd-44f7-bbc4-d091c37d6ab8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[TempPropTime := _OperationTime;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{2b0a9403-c0bf-4baf-becb-7504692464bc}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_OperationTime := TempPropTime;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="StationSample">
+      <LineId Id="128" Count="0" />
+    </LineIds>
+    <LineIds Name="StationSample.Abort">
+      <LineId Id="5" Count="1" />
+    </LineIds>
+    <LineIds Name="StationSample.Cycle">
+      <LineId Id="6" Count="40" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="StationSample.PmlStateMachine.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="StationSample.PmlStateMachine.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="StationSample.TempPropTime.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="StationSample.TempPropTime.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

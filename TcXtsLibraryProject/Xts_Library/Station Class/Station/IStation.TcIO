@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="IStation" Id="{67c9d406-11c9-44e2-83e4-d307b4e3d366}">
+    <Declaration><![CDATA[INTERFACE IStation
+]]></Declaration>
+    <Method Name="Abort" Id="{951f5a5d-5d46-44f3-aea0-884233e0c15b}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="HasMover" Id="{e0d36098-8d65-476a-990c-e6fc9c4a3a40}">
+      <Declaration><![CDATA[METHOD HasMover : BOOL
+VAR_INPUT
+	mover : IMover;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="IsClear" Id="{3b338444-496f-4b57-aaf3-4efffa633361}">
+      <Declaration><![CDATA[METHOD IsClear : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="isComplete" Id="{964f00a8-0023-4f47-bf9a-9c29eb8ea6f8}">
+      <Declaration><![CDATA[METHOD isComplete : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="IsLastStation" Id="{6231a717-7ec5-41ad-8990-53e820013576}">
+      <Declaration><![CDATA[PROPERTY IsLastStation : BOOL]]></Declaration>
+      <Get Name="Get" Id="{03ec0cfe-94f6-4334-a48e-1072be5444e1}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{e1b7f99f-c592-4137-88d8-04039efda9f7}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Method Name="IsOperating" Id="{e04f481b-64f7-4cd5-aead-d2162ca18486}">
+      <Declaration><![CDATA[METHOD IsOperating : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="IsReady" Id="{1429945e-e662-41b3-82dc-271da72170fa}">
+      <Declaration><![CDATA[METHOD IsReady : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="MoverAway" Id="{43aea14a-53e1-4086-b039-8fa0c0d92e18}">
+      <Declaration><![CDATA[METHOD MoverAway : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="Position" Id="{21c276fe-44c8-4dc3-b4ec-16055a7b482d}">
+      <Declaration><![CDATA[PROPERTY Position : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{40b27931-ded2-47cf-b322-02daf2127a18}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{c0932127-7aeb-4193-b22c-26da04b41bf5}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+  </Itf>
+</TcPlcObject>

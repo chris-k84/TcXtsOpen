@@ -1,0 +1,372 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="XtsTrack" Id="{4538c683-94fc-49a1-b5ad-30ffec5e4eff}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsTrack EXTENDS PML_Method_Base IMPLEMENTS IXtsTrack 
+VAR_INPUT
+	TmsSwitch : ITF_TmsSwitch;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_trackLength : MC_LREAL;
+	_homePosition : MC_LREAL;
+	HomeSpeed : MC_LREAL := 1000.0;
+	mcCollisionGroup : CollisionGroup;
+	_XtsTrackHardware : IXtsHardware;
+	EnableSequence : XtsEnableSequence(mcCollisionGroup);
+	DisableSequence : XtsDisableSequence(mcCollisionGroup);
+	GroupStop : StopMoverGroup(mcCollisionGroup);
+	State : INT;	
+	i : DINT;
+	AtHome: BOOL;
+	_tracks : UDINT;
+	_MoverArray : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="Action States" Id="{52cebbbe-42d9-490e-86b9-bf5151fd8965}" />
+    <Folder Name="Operations" Id="{0e8598c4-3d58-4c14-a12f-6fd3f3ea02bf}" />
+    <Folder Name="Wait States" Id="{63f323b6-e159-475d-b0ee-857bfb772605}" />
+    <Method Name="Aborting" Id="{f4025447-c7fa-4c21-bcd4-655228f2af38}" FolderPath="Action States\">
+      <Declaration><![CDATA[METHOD PROTECTED Aborting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
+	0:
+		DisableSequence.Disable();
+		State := 1;
+			
+	1:
+		IF DisableSequence.Done THEN
+			State := 0;
+			ipackml.SetStateComplete();
+		END_IF
+END_CASE
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ActivateTracksInMovers" Id="{682f2d4e-bf73-44bf-93e3-716a6d45755c}" FolderPath="Operations\">
+      <Declaration><![CDATA[METHOD PUBLIC ActivateTracksInMovers : BOOL
+VAR_INPUT
+END_VAR
+VAR
+	iTmsMover : ITmsMover;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR i := 1 TO SystemParameters.NumberOfMovers DO
+	IF __QUERYINTERFACE(_MoverArray[i],iTmsMover) THEN
+		iTmsMover.ActivateTrack(newTrack := iTmsMover.ActiveTrack);
+	END_IF
+END_FOR
+ActivateTracksInMovers := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Clearing" Id="{7ebb7a7d-7271-4f69-b79f-9ca8eeb5c574}" FolderPath="Action States\">
+      <Declaration><![CDATA[METHOD PROTECTED Clearing : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
+	0:
+		IF EnableSequence.Enable() THEN
+			State := 1;
+		END_IF	
+		
+	1:
+		IF EnableSequence.Done THEN
+			State := 2;
+		END_IF
+		
+	2:
+		IF ActivateTracksInMovers() THEN
+			ipackml.SetStateComplete();
+			State := 0;
+		END_IF
+END_CASE
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{da42838e-fb00-40a5-96f4-b787aa883566}">
+      <Declaration><![CDATA[METHOD PUBLIC Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.Cycle();
+_XtsTrackHardware.Cycle();
+EnableSequence.Cycle();
+DisableSequence.Cycle();
+GroupStop.Cycle();
+mcCollisionGroup.Cycle();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetTMSMoverInterface" Id="{0e64eced-3444-47ea-9660-c818e7a9dea9}" FolderPath="Operations\">
+      <Declaration><![CDATA[METHOD PUBLIC GetTMSMoverInterface : BOOL
+VAR_INPUT
+END_VAR
+VAR
+	iTmsMover : ITmsMover;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR i := 1 TO SystemParameters.NumberOfMovers DO
+	IF __QUERYINTERFACE(_MoverArray[i],iTmsMover) THEN
+		iTmsMover.SetMoverInterface(MoverInterface := _XtsTrackHardware.GetMoverEnvInterface(DINT_TO_UINT(i)));
+	END_IF
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="HomePosition" Id="{7488af26-181d-46aa-9621-c1c9bb1f6cd2}">
+      <Declaration><![CDATA[PROPERTY PUBLIC HomePosition : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{204400f9-e0e2-4b38-927a-449ec513969c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[HomePosition := _homePosition;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{21b02a35-3878-4951-a8db-c2a9a5cebc6f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_homePosition := HomePosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="MoverArray" Id="{5c1cfa9c-be49-4324-bcf5-1be968bfce44}">
+      <Declaration><![CDATA[PROPERTY MoverArray : array[1..SystemParameters.NumberOfMovers] of IMover]]></Declaration>
+      <Get Name="Get" Id="{2b512b99-b3b1-44cb-bf62-7cd45f8e95a6}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MoverArray := _MoverArray;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{806f65c3-00a8-4311-b6e2-aa6af5313c87}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_MoverArray := MoverArray;
+EnableSequence.MoverArray := MoverArray;
+DisableSequence.MoverArray := MoverArray;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="MoverHomeSequence" Id="{5c2deb91-ebd0-4a93-99ec-6a6bbbd5e076}" FolderPath="Operations\">
+      <Declaration><![CDATA[METHOD PUBLIC MoverHomeSequence : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR i := 1 TO SystemParameters.NumberOfMovers DO
+	_MoverArray[i].MoveTo(Position := _homePosition, Velocity := HomeSpeed, BackwardMove := FALSE);
+END_FOR 
+MoverHomeSequence := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Resetting" Id="{284a2a86-6aa9-45b7-b9c4-39c067c7a709}" FolderPath="Action States\">
+      <Declaration><![CDATA[METHOD PROTECTED Resetting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
+	0:
+		IF MoverHomeSequence() THEN
+			State := 1;
+		END_IF
+	
+	1:
+		AtHome := TRUE;
+		FOR i := 1 TO SystemParameters.NumberOfMovers DO
+				AtHome := AtHome AND _MoverArray[i].isStationary();
+		END_FOR 
+		IF AtHome THEN
+			State := 0;
+			ipackml.SetStateComplete();	
+		END_IF	
+END_CASE
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Stopping" Id="{3cd6a931-8a7e-487a-9f0d-8a2db098be82}" FolderPath="Action States\">
+      <Declaration><![CDATA[METHOD PROTECTED Stopping : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
+	0:
+		GroupStop.Execute();
+		State := 1;
+		
+	1:
+		IF GroupStop.Done THEN
+			State := 0;
+			ipackml.SetStateComplete();
+		END_IF
+END_CASE
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="TrackLength" Id="{4a271dee-6663-44f1-852c-6c1a4a46e498}">
+      <Declaration><![CDATA[PROPERTY PUBLIC TrackLength : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{0917a4b9-67c4-456c-87f8-1f9c71470a7f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[TrackLength := _trackLength;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{7710be4a-3435-4c3e-9768-ceec2c38bab6}">
+        <Declaration><![CDATA[PUBLIC 
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_trackLength := TrackLength;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Tracks" Id="{8eb8f4ad-907d-4ff8-9789-8832cf169bda}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Tracks : UDINT]]></Declaration>
+      <Get Name="Get" Id="{92aead6c-a657-4c6b-8c96-d2980dde0d91}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Tracks := _tracks;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{a91cec47-6d8c-44af-ab33-578bdff8cace}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_tracks := Tracks;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="Undefined" Id="{a91364b7-9260-4707-a829-905210de4834}" FolderPath="Wait States\">
+      <Declaration><![CDATA[METHOD PROTECTED Undefined : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _XtsTrackHardware.IsHardwareOk() THEN
+	GetTMSMoverInterface();
+	ipackml.PmlStateCommand(Command := E_PMLCommand.ePMLCommand_Abort);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="XtsHardware" Id="{10aeacae-a746-485a-b0e8-a2e9fb26c42b}">
+      <Declaration><![CDATA[PROPERTY XtsHardware : IXtsHardware]]></Declaration>
+      <Get Name="Get" Id="{b51a74ba-fecc-49a6-94a3-853ee17e2470}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[XtsHardware := _XtsTrackHardware;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{2e7570c1-50ca-40b9-8c5b-c0e86681ca7a}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_XtsTrackHardware := XtsHardware;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="XtsTrack">
+      <LineId Id="78" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.Aborting">
+      <LineId Id="22" Count="0" />
+      <LineId Id="25" Count="7" />
+      <LineId Id="23" Count="1" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.ActivateTracksInMovers">
+      <LineId Id="8" Count="3" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="12" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.Clearing">
+      <LineId Id="45" Count="0" />
+      <LineId Id="48" Count="13" />
+      <LineId Id="46" Count="1" />
+      <LineId Id="18" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.Cycle">
+      <LineId Id="13" Count="0" />
+      <LineId Id="16" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.GetTMSMoverInterface">
+      <LineId Id="15" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.HomePosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.HomePosition.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.MoverArray.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.MoverArray.Set">
+      <LineId Id="2" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.MoverHomeSequence">
+      <LineId Id="6" Count="1" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.Resetting">
+      <LineId Id="41" Count="0" />
+      <LineId Id="44" Count="12" />
+      <LineId Id="42" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.Stopping">
+      <LineId Id="21" Count="0" />
+      <LineId Id="24" Count="7" />
+      <LineId Id="22" Count="1" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.TrackLength.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.TrackLength.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.Tracks.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.Tracks.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.Undefined">
+      <LineId Id="12" Count="2" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.XtsHardware.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.XtsHardware.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

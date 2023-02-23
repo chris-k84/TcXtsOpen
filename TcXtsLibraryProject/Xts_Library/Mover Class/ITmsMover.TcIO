@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="ITmsMover" Id="{1ee96f90-56ef-4744-a7ca-e48dd6e1711f}">
+    <Declaration><![CDATA[INTERFACE ITmsMover EXTENDS IMover
+]]></Declaration>
+    <Method Name="ActivateTrack" Id="{d6312dcf-7ad6-4608-bca7-de68a24d417d}">
+      <Declaration><![CDATA[METHOD ActivateTrack : BOOL
+VAR_INPUT
+	newTrack : OTCID;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="ActiveTrack" Id="{f34bb9dc-3dd9-450b-b812-3982c42db988}">
+      <Declaration><![CDATA[PROPERTY ActiveTrack : OTCID]]></Declaration>
+      <Get Name="Get" Id="{398e1027-07bf-4a89-b2a9-b111367e8bbf}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Method Name="SetMoverInterface" Id="{b8f5aad1-7a34-4096-9ecf-6a7b0f9a9c04}">
+      <Declaration><![CDATA[METHOD SetMoverInterface : BOOL
+VAR_INPUT
+	MoverInterface : I_TcIoXtsXpuMover;
+END_VAR]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

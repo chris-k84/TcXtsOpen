@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="MoveMoverToPosition" Id="{3c31ca33-c741-4f8c-92b8-6b6baade4c31}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK MoveMoverToPosition EXTENDS TaskBase
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	moveAbs	: MC_MoveAbsoluteCA;
+	_axis : REFERENCE TO AXIS_REF;
+	_MoveMover : BOOL;
+	_stOptions : ST_MoveAbsoluteCAOptions;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{7dbf4838-5de6-4b26-9062-b550522ba980}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[moveAbs.Execute := FALSE;
+moveAbs.Position := moveAbs.Velocity := 0;
+_MoveMover := false;
+_busy := false;
+Abort := true;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Acceleration" Id="{1b0568fa-dc0f-4b6a-9678-65b35bd8e086}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Acceleration : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{3269a981-3cbd-416a-9174-686fb77d432b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Acceleration := moveAbs.Acceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{26ebe242-b19a-49f2-b37a-99cd788cb644}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[moveAbs.Acceleration := Acceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="Cycle" Id="{237a9ac8-3d0d-42a7-bef7-613d3b5a1246}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
+	0:
+		IF _MoveMover THEN
+			_done := FALSE;
+			_error := FALSE;
+			_busy := TRUE;
+			moveAbs.Execute := TRUE;
+			IF moveAbs.Busy THEN
+				State := 10;
+				_MoveMover := FALSE;
+			END_IF
+		END_IF
+		
+	10:
+		IF NOT moveAbs.Busy THEN
+			IF moveAbs.Done THEN
+				_done := TRUE;
+			ELSIF moveAbs.Error THEN
+				_error := TRUE;
+			END_IF
+			_busy := FALSE;
+			moveAbs.Execute := FALSE;
+			State := 0;
+		END_IF
+END_CASE
+
+moveAbs(Axis := _axis, Options := _stOptions);]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Deceleration" Id="{712ea7f9-753f-4107-9079-a1664cc0d22a}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Deceleration : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{ae3fd434-8e55-45d4-8b26-cf54b665b9fb}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Deceleration := moveAbs.Deceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{61ceb198-6fa9-42b7-8ec0-d722e08d8888}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[moveAbs.Deceleration := Deceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="FB_init" Id="{83f57c14-6be4-4377-9659-d2815ee74447}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	axis : reference TO AXIS_REF;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_axis REF= axis;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Gap" Id="{963f9ec5-5fa3-4be4-84c6-11ed60e6d70b}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Gap : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{4720dd6a-d593-4539-aa5e-5f86357c18d6}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Gap := moveAbs.Gap;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{6a524761-7858-4e5b-86be-235454598954}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[moveAbs.Gap := Gap;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Jerk" Id="{824794e9-2a38-44d5-b5b0-9429ee22fdef}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Jerk : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{9fc03e76-309c-42bf-a7cb-98a28ba166ac}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Jerk := moveAbs.Jerk;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{ea7b06e9-acb9-44db-a7b6-cf0cb4c35d8c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[moveAbs.Jerk := Jerk;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="MoveTo" Id="{7a988821-6187-410c-9f44-ac37dd79e4ea}">
+      <Declaration><![CDATA[METHOD MoveTo : BOOL
+VAR_INPUT
+	Position : MC_LREAL;
+	Velocity : MC_LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[moveAbs.Position := Position;
+moveAbs.Velocity := Velocity;
+_MoveMover := MoveTo := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Options" Id="{dea942d2-1849-46bc-9a6f-e7e95c9dca3d}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Options : ST_MoveAbsoluteCAOptions]]></Declaration>
+      <Get Name="Get" Id="{a992cdcd-3d01-465b-8643-1084be02841d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Options := _stOptions;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{0dae0639-08f2-4a8c-85bd-6d17b1e1285f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_stOptions := Options;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="MoveMoverToPosition">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="MoveMoverToPosition.Abort">
+      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="MoveMoverToPosition.Acceleration.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="MoveMoverToPosition.Acceleration.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="MoveMoverToPosition.Cycle">
+      <LineId Id="6" Count="25" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="MoveMoverToPosition.Deceleration.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="MoveMoverToPosition.Deceleration.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="MoveMoverToPosition.FB_init">
+      <LineId Id="7" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="MoveMoverToPosition.Gap.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="MoveMoverToPosition.Gap.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="MoveMoverToPosition.Jerk.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="MoveMoverToPosition.Jerk.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="MoveMoverToPosition.MoveTo">
+      <LineId Id="4" Count="0" />
+      <LineId Id="10" Count="1" />
+    </LineIds>
+    <LineIds Name="MoveMoverToPosition.Options.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="MoveMoverToPosition.Options.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

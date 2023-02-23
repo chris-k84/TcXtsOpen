@@ -1,0 +1,371 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="DualModuleTmsSwitch" Id="{b99b16cd-cff3-4deb-90c3-1a32a82a4df9}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK DualModuleTmsSwitch EXTENDS MC2_Axis_Base IMPLEMENTS ITF_TmsSwitch
+VAR_INPUT
+	StateMachine : IPmlStateMachine;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_exchangeMover : IMover;
+	_currentStation : ITF_SwitchStation;
+	_demandPosition : MC_LREAL;
+	_upPosition : MC_LREAL;
+	_middlePosition : MC_LREAL;
+	_downPosition : MC_LREAL;
+	SwitchVelocity : MC_LREAL := 100.0;
+	arrTrackIds : ARRAY[1..4] OF OTCID;
+	stSwitchInfo : TmsSwitchInfo;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Cycle" Id="{87873dec-7b42-4805-90b6-759ce824ebea}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE stSwitchInfo.State OF
+	TmsSwitchState.Init:
+		IF NOT THIS^.hasError() THEN
+			stSwitchInfo.State := TmsSwitchState.Ready;
+		END_IF
+		
+	TmsSwitchState.Ready:
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Clearing THEN
+			SUPER^.EnableAxis();
+			stSwitchInfo.State := TmsSwitchState.Enabling;
+		END_IF	
+		
+	TmsSwitchState.Enabling:
+		IF SUPER^.isEnabled() THEN
+			stSwitchInfo.State := TmsSwitchState.Enabled;
+		END_IF
+		
+	TmsSwitchState.Enabled:
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Resetting THEN
+			IF SUPER^.MoveToPosition(Position := _middlePosition, Velocity := 100.0) OR SUPER^.isAtPosition(position := _middlePosition) THEN
+				stSwitchInfo.State := TmsSwitchState.Resetting;
+			END_IF
+		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
+			OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
+			SUPER^.DisableAxis();
+			stSwitchInfo.State := TmsSwitchState.Disabling;
+		END_IF
+		
+	TmsSwitchState.Resetting:
+		IF SUPER^.isAtPosition(position := MiddlePosition) THEN
+			stSwitchInfo.State := TmsSwitchState.Waiting;
+		END_IF	
+	
+	TmsSwitchState.Waiting:
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
+			OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
+			SUPER^.DisableAxis();
+			stSwitchInfo.State := TmsSwitchState.Disabling;
+		END_IF
+		
+	TmsSwitchState.AssignMover:
+		IF HasMover() THEN
+			IF FindNewTrack() <> 0 THEN
+				stSwitchInfo.State := TmsSwitchState.Moving;
+			END_IF
+		ELSE
+			stSwitchInfo.State := TmsSwitchState.Moving;
+		END_IF
+
+	TmsSwitchState.Moving:	
+		IF SUPER^.isAtPosition(_demandPosition) THEN
+			stSwitchInfo.State := TmsSwitchState.Done;
+		END_IF
+	
+	TmsSwitchState.Done:
+		IF _currentStation <> 0 THEN
+			IF _currentStation.SwitchMoveComplete() THEN
+				_exchangeMover := 0;
+				_currentStation := 0;
+			END_IF	
+		END_IF
+		stSwitchInfo.State := TmsSwitchState.Waiting;
+
+	TmsSwitchState.Disabling:
+		IF NOT THIS^.isEnabled() THEN
+			THIS^.ResetAxis();
+			stSwitchInfo.State := TmsSwitchState.Init;
+		END_IF
+
+END_CASE
+
+//Cyclic get switch info
+stSwitchInfo.ActPos := SUPER^._axis.NcToPlc.ActPos;
+stSwitchInfo.Position := Switch;
+
+SUPER^.Cycle();]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="DownPosition" Id="{599e43c8-9e54-4127-98c0-830d987c6670}">
+      <Declaration><![CDATA[PROPERTY DownPosition : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{d576d882-31e3-4df4-8d25-fb96bcb31534}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[DownPosition := _downPosition;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{52d02993-45ed-4cc1-b7c9-7e50079230a8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_downPosition := DownPosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="ExchangeMover" Id="{55ccaa02-7858-4213-8d05-433f72c712e6}">
+      <Declaration><![CDATA[METHOD PUBLIC ExchangeMover : BOOL
+VAR_INPUT
+	Mover : IMover;
+	CurrentStation : ITF_SwitchStation;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _exchangeMover = 0 AND stSwitchInfo.State = TmsSwitchState.Waiting AND NOT (stSwitchInfo.Mode = TmsSwitchMode.Manual) THEN
+	_exchangeMover := Mover;	
+	_currentStation := CurrentStation;
+	ExchangeMover := TRUE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FindNewTrack" Id="{f8facd12-02a9-4323-9c07-28752afef02e}">
+      <Declaration><![CDATA[METHOD PUBLIC FindNewTrack : OTCID
+VAR_INPUT
+END_VAR
+VAR
+	iTmsMover : ITmsMover;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF __QUERYINTERFACE(_exchangeMover,iTmsMover) THEN
+	IF Switch = TmsSwitchPosition.Up THEN
+		IF iTmsMover.ActiveTrack = arrTrackIds[3] THEN
+			iTmsMover.ActivateTrack(newTrack := arrTrackIds[1]);
+		END_IF
+	ELSIF Switch = TmsSwitchPosition.Middle THEN
+		IF iTmsMover.ActiveTrack = arrTrackIds[1] THEN
+			iTmsMover.ActivateTrack(newTrack := arrTrackIds[3]);
+		ELSIF iTmsMover.ActiveTrack = arrTrackIds[2] THEN
+			iTmsMover.ActivateTrack(newTrack := arrTrackIds[4]);
+		END_IF
+	ELSE
+		IF iTmsMover.ActiveTrack = arrTrackIds[4] THEN
+			iTmsMover.ActivateTrack(newTrack := arrTrackIds[2]);	
+		END_IF
+	END_IF
+END_IF
+FindNewTrack := iTmsMover.ActiveTrack;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="HasMover" Id="{0c44fa73-b6c5-42b1-9f3a-b9c3b353571a}">
+      <Declaration><![CDATA[METHOD HasMover : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[HasMover := _exchangeMover <> 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="MiddlePosition" Id="{a5913fe6-4718-4392-9be8-d67930c5a069}">
+      <Declaration><![CDATA[PROPERTY PUBLIC MiddlePosition : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{4ade54e3-8b33-4ead-b3b1-391afaf4c4b3}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MiddlePosition := _middlePosition;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{6ffe5ecb-8591-417d-81eb-1b6851de2312}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_middlePosition := MiddlePosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="MoveTo" Id="{1257cc6d-b02a-46ca-8efb-e12582dbd46c}">
+      <Declaration><![CDATA[METHOD PUBLIC MoveTo : BOOL
+VAR_INPUT
+	positionState : TmsSwitchPosition;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE positionState OF
+	TmsSwitchPosition.Down:
+		IF NOT SUPER^.isAtPosition(position := _downPosition) THEN
+			IF SUPER^.MoveToPosition(Position := _downPosition, Velocity := SwitchVelocity) THEN
+				MoveTo := TRUE;
+				stSwitchInfo.State := TmsSwitchState.AssignMover;
+				_demandPosition := _downPosition;
+			END_IF
+		END_IF	
+	TmsSwitchPosition.Middle:
+		IF NOT SUPER^.isAtPosition(position := _middlePosition) THEN
+			IF SUPER^.MoveToPosition(Position := _middlePosition, Velocity := SwitchVelocity) THEN
+				MoveTo := TRUE;
+				stSwitchInfo.State := TmsSwitchState.AssignMover;
+				_demandPosition := _middlePosition;
+			END_IF
+		END_IF	
+	TmsSwitchPosition.Up:
+		IF NOT SUPER^.isAtPosition(position := _upPosition) THEN
+			IF SUPER^.MoveToPosition(Position := _upPosition, Velocity := SwitchVelocity) THEN
+				MoveTo := TRUE;
+				stSwitchInfo.State := TmsSwitchState.AssignMover;
+				_demandPosition := _upPosition;
+			END_IF
+		END_IF	
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetAutomaticMode" Id="{5d2127ff-7894-4041-9880-78681ac45ab3}">
+      <Declaration><![CDATA[METHOD SetAutomaticMode : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stSwitchInfo.Mode := TmsSwitchMode.Automatic;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetManualMode" Id="{b1c41df0-1df7-4794-ab5d-918311a70b04}">
+      <Declaration><![CDATA[METHOD SetManualMode : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stSwitchInfo.Mode := TmsSwitchMode.Manual;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Switch" Id="{0b7e1326-662c-4bc8-a99b-c301c7bc3754}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Switch : TmsSwitchPosition]]></Declaration>
+      <Get Name="Get" Id="{6caed8c1-8918-4b95-8833-b1d3db921a19}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IF SUPER^.isAtPosition(position := _upPosition) THEN
+	Switch := TmsSwitchPosition.Up;
+ELSIF SUPER^.isAtPosition(position := _middlePosition) THEN
+	Switch := TmsSwitchPosition.Middle;
+ELSIF SUPER^.isAtPosition(position := _downPosition) THEN
+	Switch := TmsSwitchPosition.Down;
+ELSE
+	Switch := TmsSwitchPosition.Moving;
+END_IF]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="TrackIds" Id="{297989bc-9ff5-412a-89d0-1e0ef6098068}">
+      <Declaration><![CDATA[PROPERTY TrackIds : array[1..4] of otcid]]></Declaration>
+      <Get Name="Get" Id="{721632d5-47ed-4060-a975-8bc16c5085ad}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[TrackIds := arrTrackIds;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{cc05dbf6-96b3-41b2-9fa2-61c5be84c081}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[arrTrackIds := TrackIds;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="UpperPosition" Id="{d1dd9c15-1bcf-4557-9ed1-65e173a50daa}">
+      <Declaration><![CDATA[PROPERTY PUBLIC UpperPosition : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{b1aa855a-5521-476e-a12b-14a1c1a88b2a}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[UpperPosition := _upPosition;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{f811094b-d3fc-4924-bea3-35ccbae64bb4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_upPosition := UpperPosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="DualModuleTmsSwitch">
+      <LineId Id="656" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.Cycle">
+      <LineId Id="6" Count="75" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.DownPosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.DownPosition.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.ExchangeMover">
+      <LineId Id="7" Count="1" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.FindNewTrack">
+      <LineId Id="40" Count="16" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.HasMover">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.MiddlePosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.MiddlePosition.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.MoveTo">
+      <LineId Id="173" Count="24" />
+      <LineId Id="81" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.SetAutomaticMode">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.SetManualMode">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.Switch.Get">
+      <LineId Id="21" Count="7" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.TrackIds.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.TrackIds.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.UpperPosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.UpperPosition.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

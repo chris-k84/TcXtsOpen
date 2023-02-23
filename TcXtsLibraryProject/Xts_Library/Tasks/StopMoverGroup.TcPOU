@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="StopMoverGroup" Id="{1c1e07aa-be1f-4f5f-9f83-11f52cae0c47}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK StopMoverGroup EXTENDS TaskBase
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	groupStop			: MC_GroupStop;
+	_caGroup			: ICollisionGroup;
+	_stopGroup : BOOL;
+	_jerk : MC_LREAL;
+	_deceleration : MC_LREAL;
+	Logger : TcMessage_Ext;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{c537197c-b147-4abf-b878-34be8d4864fb}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[groupStop.Execute := FALSE;
+State := 0;
+Abort := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{eb283c73-ef4f-42f6-83b9-10b77e01e97b}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
+	0:
+		IF _stopGroup THEN
+			_done := FALSE;
+			_error := FALSE;
+			_busy := TRUE;
+			groupStop.Execute := TRUE;
+			IF groupStop.Busy THEN
+				State := 10;
+				_stopGroup := FALSE;
+				Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupStopping,'');
+			END_IF
+		END_IF
+	10:
+		IF groupStop.Done THEN
+			_done := TRUE;
+			Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupStopped,'');
+		ELSIF groupStop.Error THEN
+			_error := TRUE;
+			Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupStopError,'');
+		END_IF
+		IF _done OR _error THEN
+			_busy := FALSE;
+			groupStop.Execute := FALSE;
+			State := 0;
+		END_IF
+END_CASE
+
+
+groupStop(AxesGroup := _caGroup.GroupRef);]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Deceleration" Id="{4b0f086c-1d53-44e4-86b9-9d4a701184a7}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Deceleration : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{b0811cfb-bb5c-42b5-9a5c-793a076794d1}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Deceleration := _deceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{d5d2a280-9e98-49b7-b6fe-a592814414dd}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_deceleration := Deceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="Execute" Id="{699db21e-cd5b-48cd-b391-3ef65bad1290}">
+      <Declaration><![CDATA[METHOD Execute : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_stopGroup := Execute := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{4499cf15-952b-423e-bc0b-2b67686c6e93}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	CAGroup : ICollisionGroup;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_caGroup := CAGroup;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Jerk" Id="{753822d2-3240-4ac1-a838-285435826cfe}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Jerk : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{8ec059f8-9a70-4be4-bfe0-899344b2368e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Jerk := _jerk;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{1e87f5ff-9029-43fd-96bd-fd5c4e284768}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_jerk := Jerk;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="StopMoverGroup">
+      <LineId Id="231" Count="0" />
+    </LineIds>
+    <LineIds Name="StopMoverGroup.Abort">
+      <LineId Id="4" Count="2" />
+    </LineIds>
+    <LineIds Name="StopMoverGroup.Cycle">
+      <LineId Id="6" Count="28" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="StopMoverGroup.Deceleration.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="StopMoverGroup.Deceleration.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="StopMoverGroup.Execute">
+      <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="StopMoverGroup.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="StopMoverGroup.Jerk.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="StopMoverGroup.Jerk.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

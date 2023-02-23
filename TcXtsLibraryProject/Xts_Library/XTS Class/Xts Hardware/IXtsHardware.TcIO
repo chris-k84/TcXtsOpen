@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="IXtsHardware" Id="{bf384176-1154-4b20-87d2-6228ca722bc7}">
+    <Declaration><![CDATA[INTERFACE IXtsHardware EXTENDS ICyclic
+]]></Declaration>
+    <Method Name="GetMoverEnvInterface" Id="{06175234-441e-45a7-b310-01adbe58b90a}">
+      <Declaration><![CDATA[METHOD GetMoverEnvInterface : I_TcIoXtsXpuMover
+VAR_INPUT
+	MoverNumber : UINT;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="IsHardwareOk" Id="{2c084b22-d245-47a2-a109-361041aaa438}">
+      <Declaration><![CDATA[METHOD IsHardwareOk : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

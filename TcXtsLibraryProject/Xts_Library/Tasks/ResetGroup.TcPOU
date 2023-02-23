@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="ResetGroup" Id="{c0d0b360-5fec-467e-a65e-491de04b13b3}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'hide_all_locals'}
+FUNCTION_BLOCK ResetGroup EXTENDS TaskBase
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	groupReset			: MC_GroupReset;
+	_caGroup			: ICollisionGroup;
+	_resetGroup : BOOL;
+	Logger : TcMessage_Ext;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{713891a3-4780-46dc-94db-48974077b800}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[groupReset.Execute := FALSE;
+State := 0;
+Abort := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{60490ba9-dc4f-4168-a59d-a16c9df8b6fb}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
+	0:
+		IF _resetGroup THEN
+			_done := FALSE;
+			_error := FALSE;
+			_busy := TRUE;
+			groupReset.Execute := TRUE;
+			IF groupReset.Busy THEN
+				State := 10;
+				_resetGroup := FALSE;
+				Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupResetting,'');
+			END_IF
+		END_IF
+	
+	10:
+		IF NOT groupReset.Busy THEN
+			IF groupReset.Done THEN
+				_done := TRUE;
+				Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupResetDone,'');
+			ELSIF groupReset.Error THEN
+				_error := TRUE;
+				Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupResetError,'');
+			END_IF
+			_busy := FALSE;
+			groupReset.Execute := false;
+			State := 0;
+		END_IF
+END_CASE
+
+
+groupReset(AxesGroup := _caGroup.GroupRef);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Execute" Id="{d2d6e3c9-1d94-473e-8bef-e969b6fceb58}">
+      <Declaration><![CDATA[METHOD Execute : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Execute := _resetGroup := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{747a23bd-39e4-4843-a82d-196c2af18fd6}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	CAGroup : ICollisionGroup;	
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_caGroup := CAGroup;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="ResetGroup">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="ResetGroup.Abort">
+      <LineId Id="4" Count="2" />
+    </LineIds>
+    <LineIds Name="ResetGroup.Cycle">
+      <LineId Id="6" Count="29" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="ResetGroup.Execute">
+      <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="ResetGroup.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

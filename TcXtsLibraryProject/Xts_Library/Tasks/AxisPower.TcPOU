@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="AxisPower" Id="{9020922a-7816-4155-9202-ac5854f794ea}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK AxisPower EXTENDS TaskBase
+VAR
+	mcPower : Tc2_MC2.MC_Power;
+	AxisReference : REFERENCE TO Tc2_MC2.AXIS_REF;
+	EnableAxis : BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{93bd9e75-34cf-4a99-8cdf-c273723a870d}">
+      <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mcPower.Enable := mcPower.Enable_Negative := mcPower.Enable_Positive := FALSE;
+_busy := FALSE;
+EnableAxis := FALSE;
+Abort := TRUE;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Busy" Id="{ddba5b4b-7d40-4f36-8db1-a6716deec705}">
+      <Declaration><![CDATA[PROPERTY Busy : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{9b7a0172-33ea-452e-8a78-93ea3fcbd155}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Busy := _busy;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Cycle" Id="{c1cf1940-bcdc-4ac4-844e-317c1f14fe0e}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
+	0:
+		IF EnableAxis THEN
+			_done := FALSE;
+			_error := FALSE;
+			_busy := TRUE;
+			mcPower.Enable := mcPower.Enable_Negative := mcPower.Enable_Positive := TRUE;
+			mcPower.Override := 100;
+			State := 10;
+		END_IF
+	
+	10:
+		IF mcPower.Status THEN
+			_busy := FALSE;
+			_done := TRUE;
+			state := 20;
+		END_IF
+	
+	20:
+		IF NOT EnableAxis THEN
+			_done := FALSE;
+			_busy := TRUE;
+			mcPower.Enable := mcPower.Enable_Negative := mcPower.Enable_Positive := FALSE;
+			State := 30;
+		END_IF
+	30:
+		IF NOT mcPower.Status THEN
+			_busy := FALSE;
+			_done := TRUE;
+			state := 0;
+		END_IF
+END_CASE
+
+mcPower(Axis := AxisReference);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Disable" Id="{0a54e8c6-7456-4747-8eeb-b97b9078e709}">
+      <Declaration><![CDATA[METHOD Disable : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT EnableAxis THEN
+	RETURN;
+END_IF
+Disable := TRUE;
+EnableAxis := FALSE;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Done" Id="{2a6f74b1-4612-4c5c-8183-7e2e723cace1}">
+      <Declaration><![CDATA[PROPERTY Done : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{2795674a-7442-4a66-b5a6-a5db1bd6b975}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Done := _done;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Enable" Id="{afe5d65c-4532-4d19-b244-08cfed3445ed}">
+      <Declaration><![CDATA[METHOD Enable : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF EnableAxis THEN
+	RETURN;
+END_IF
+Enable := EnableAxis := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Error" Id="{bb239cfe-26e0-4deb-800e-e083f2826d40}">
+      <Declaration><![CDATA[
+PROPERTY Error : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{106bda7c-b8c8-4cc1-973a-9bcd4f6f0075}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Error := _error;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="FB_init" Id="{03d72923-bd2d-4684-847b-d6b404bc945a}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	axis : reference TO AXIS_REF;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[AxisReference REF= axis;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="AxisPower">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="AxisPower.Abort">
+      <LineId Id="5" Count="0" />
+      <LineId Id="13" Count="1" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="AxisPower.Busy.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="AxisPower.Cycle">
+      <LineId Id="10" Count="6" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="21" Count="2" />
+      <LineId Id="39" Count="1" />
+      <LineId Id="42" Count="1" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="37" Count="1" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="30" Count="3" />
+      <LineId Id="44" Count="1" />
+      <LineId Id="48" Count="1" />
+      <LineId Id="46" Count="1" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="34" Count="0" />
+    </LineIds>
+    <LineIds Name="AxisPower.Disable">
+      <LineId Id="14" Count="2" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="AxisPower.Done.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="AxisPower.Enable">
+      <LineId Id="11" Count="1" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="AxisPower.Error.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="AxisPower.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="Mc2Halt" Id="{8f902aee-94bf-4385-bdcf-ca790f894752}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'hide_all_locals'}
+FUNCTION_BLOCK Mc2Halt EXTENDS TaskBase
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	mcHalt : Tc2_MC2.MC_Halt;
+	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
+	_Halt : BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{628339b1-4bd1-432e-8277-d60f3e75db0d}">
+      <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mchalt.Execute := FALSE;
+_busy := FALSE;
+_Halt := FALSE;
+Abort := TRUE;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{82fe1e7b-ab2b-4a89-9b59-5eb25d835959}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
+	0:
+		IF _Halt THEN
+			_done := FALSE;
+			_error := FALSE;
+			_busy := TRUE;
+			mcHalt.Execute := TRUE;
+			IF mcHalt.Busy THEN
+				State := 10;
+				_Halt := FALSE;
+			END_IF
+		END_IF
+	
+	10:
+		IF NOT mcHalt.Busy THEN
+			IF mcHalt.Done THEN
+				_done := TRUE;
+			ELSIF mcHalt.Error THEN
+				_error := TRUE;
+			END_IF
+			_busy := FALSE;
+			mcHalt.Execute := FALSE;
+			State := 0;
+		END_IF
+END_CASE
+
+mcHalt(Axis := _axis);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Execute" Id="{020a5dad-2d55-4c66-8489-dc08945209ce}">
+      <Declaration><![CDATA[METHOD Execute : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Execute := _Halt := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{1d755e0d-6917-492a-87c8-d14e7bb31076}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	axis : reference TO AXIS_REF;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_axis REF= axis;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="Mc2Halt">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="Mc2Halt.Abort">
+      <LineId Id="5" Count="0" />
+      <LineId Id="13" Count="1" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="Mc2Halt.Cycle">
+      <LineId Id="6" Count="25" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="Mc2Halt.Execute">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="Mc2Halt.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

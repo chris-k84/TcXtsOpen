@@ -1,0 +1,521 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_Mover" Id="{8d73ea9c-992c-45cc-86ce-646b77b87654}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Mover EXTENDS CyclicBase IMPLEMENTS IMover, IDynamics
+VAR
+	axesEnable		: AxisPower(_axis);
+	axesReset		: AxesReset(_axis);
+	axesMoveTo 		: MoveMoverToPosition(_axis) := (Gap := 100.0);
+	axesHalt 		: HaltMover(_axis);
+	axesReadError : Tc2_MC2.MC_ReadAxisError;
+	_axis 			: AXIS_REF;
+	_identInGroup : INT;
+	_trackLength : MC_LREAL;
+	_targetPos : LREAL;
+	_MoverErrorId : DWORD;
+	_arrZones : ARRAY[1..4] OF DINT;
+	_arrVelocities : ARRAY[1..4] OF mc_LREAL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="Methods" Id="{11c06f36-011b-43e0-ba96-46cd7b32bc9c}" />
+    <Folder Name="Properties" Id="{a74425e5-3b65-414c-b3c2-ebd17b6452b3}" />
+    <Property Name="Acceleration" Id="{189e8681-4788-4e2c-a142-1a297a08acd8}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC Acceleration : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{2a072cec-dc98-4e3e-832d-7b1661a2a48e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Acceleration := axesMoveTo.Acceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{ac96b1c2-72ed-4693-b71f-9fbcd2a6afd7}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[axesMoveTo.Acceleration := Acceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="AxisRef" Id="{09529bdd-b0dc-4149-87fe-1e673dd7e409}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC AxisRef : reference to AXIS_REF]]></Declaration>
+      <Get Name="Get" Id="{8057bced-3b30-4db1-bed6-093c25080d45}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[AxisRef REF= THIS^._axis;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Cycle" Id="{df169178-ee0f-491e-a015-1bc9be6eb17c}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[axesMoveTo.Cycle();
+axesHalt.Cycle();
+axesReset.Cycle();
+_axis.ReadStatus();
+axesEnable.Cycle();
+axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _MoverErrorId);
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Deceleration" Id="{c85f3f81-4f88-4542-92dd-87b98693dee4}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC Deceleration : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{578458d3-d8f3-428d-9fc2-a6d51c86d4b3}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Deceleration := axesMoveTo.Deceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{b756c826-c655-4fcf-88a7-bb105c6d7b9b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[axesMoveTo.Deceleration := Deceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="DisableAxis" Id="{c70711cc-2b37-46ae-851d-9b38023a0d20}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PUBLIC DisableAxis : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[DisableAxis := axesEnable.Disable();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="EnableAxis" Id="{b661d1e7-696c-4d63-afd0-3918405db14b}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PUBLIC EnableAxis : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[EnableAxis := axesEnable.Enable();]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Gap" Id="{e555cbf2-c13b-4254-9bb2-744e7edb7578}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC Gap : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{a0479bdd-653c-4687-93eb-073972457858}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Gap := axesMoveTo.Gap;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{8af53078-5c57-4e61-9843-6d0cf8d12af4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[axesMoveTo.Gap := Gap;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="HaltAxis" Id="{fcdbac8a-7893-40e4-99e2-5063962a86e4}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PUBLIC HaltAxis : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT axesHalt.Busy THEN
+	axesHalt.Execute();
+	HaltAxis := TRUE;
+	axesMoveTo.Abort();
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="HasCommand" Id="{87052920-e2d9-4076-9a13-adb664b2e231}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PUBLIC HasCommand : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[HasCommand := axesMoveTo.Busy;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="hasError" Id="{c0115f9f-d324-4748-af93-c56fdaaf010c}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD hasError : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[hasError := _axis.Status.Error;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="IdentInGroup" Id="{ef5d4455-d34d-4ca1-b17f-13425cd154ed}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC IdentInGroup : int]]></Declaration>
+      <Get Name="Get" Id="{de907afb-d6b6-48b4-8857-851ff7b7bba8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IdentInGroup := _identInGroup;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{4b095c67-211b-468a-8be3-48d4ac28c572}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_identInGroup := IdentInGroup;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="isAtPosition" Id="{2f15d1ba-ddfc-4b9e-afe4-5a0e456096bb}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD isAtPosition : BOOL
+VAR_INPUT
+	position : MC_LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF position > 1 THEN
+	IF _axis.NcToPlc.ModuloActPos < position + 1 AND _axis.NcToPlc.ModuloActPos > position - 1 THEN
+		isAtPosition := TRUE;
+	END_IF  
+ELSE
+	IF _axis.NcToPlc.ModuloActPos < position + 1 AND _axis.NcToPlc.ModuloActPos > 0.0  
+		OR _axis.NcToPlc.ModuloActPos < _trackLength AND _axis.NcToPlc.ModuloActPos > _trackLength - 1 THEN
+		isAtPosition := TRUE;
+	END_IF
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="isDetected" Id="{4d5c40c2-9705-45a9-9e7d-17e4126ba8ba}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PUBLIC isDetected : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _axis.NcToPlc.AxisId = 0 THEN
+	RETURN;
+END_IF
+isDetected := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="isEnabled" Id="{5db97821-4f9e-4a12-8756-664c948ce8d4}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD isEnabled : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[isEnabled := not _axis.Status.Disabled;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="isPastPosition" Id="{9fa8306a-b12e-4f44-a97a-94fb24ba9f28}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PUBLIC isPastPosition : BOOL
+VAR_INPUT
+	position : MC_LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF position > 1 THEN
+	IF _axis.NcToPlc.ModuloActPos > position THEN
+		isPastPosition := TRUE;
+	END_IF  
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="isStationary" Id="{38624f60-08a0-42b1-ae6f-e7cfbf630206}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PUBLIC isStationary : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[isStationary := _axis.NcToPlc.SetVelo = 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Jerk" Id="{08f26a51-2cac-4172-adfd-333cdfa23de5}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC Jerk : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{b3f4bc4a-fc36-46a7-a0ff-605d9a2ddc0b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Jerk := axesMoveTo.Jerk;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{e967ae27-5c59-444d-a01e-9a7980e3667f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[axesMoveTo.Jerk := Jerk;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="ModuloToAbs" Id="{3e98c8eb-3ddf-4e09-8a71-47cbd2f60d1c}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PROTECTED ModuloToAbs : mc_lreal
+VAR_INPUT
+	moduloPositionDemand: MC_LREAL;
+	_backwardsAllowed : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[//---------code to set actual position from modulo command----------------------
+IF NOT _backwardsAllowed THEN
+	//--------if you want to go forward-------------------------------------------------------------
+	//---------if SetPos is greater than current actual then move to that position--------------------
+	//---------else current position is greater, increase moduloturn count by 1 before set---------------
+	IF moduloPositionDemand > _axis.NcToPlc.ModuloActPos THEN
+		ModuloToAbs := (DINT_TO_LREAL(_Axis.NcToPlc.ModuloActTurns)*_trackLength) + moduloPositionDemand;
+	ELSE
+		ModuloToAbs := (DINT_TO_LREAL(_Axis.NcToPlc.ModuloActTurns + 1)*_trackLength) + moduloPositionDemand;
+	END_IF
+ELSE
+	//--------if you want to go backwards--------------------------------
+	//--------if setPos is less than current actual then move to that position---------------------
+	//---------else current position is less, decrease moduloturn count by 1 before set------------
+	IF moduloPositionDemand < _axis.NcToPlc.ModuloActPos THEN
+		ModuloToAbs := (DINT_TO_LREAL(_Axis.NcToPlc.ModuloActTurns)*_trackLength) + moduloPositionDemand;
+	ELSE
+		ModuloToAbs := (DINT_TO_LREAL(_Axis.NcToPlc.ModuloActTurns-1)*_trackLength) + moduloPositionDemand;
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="MoverErrorId" Id="{9dd8a1e0-fec3-4fe1-b6c7-7672f776d3e1}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY MoverErrorId : dword]]></Declaration>
+      <Get Name="Get" Id="{5d87ebfd-264d-4297-a88a-3a51effeabaa}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MoverErrorId := _MoverErrorId;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{2d976bdd-4699-43a1-a341-b5a154776a7a}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_MoverErrorId := MoverErrorId;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="MoveTo" Id="{22b20b94-6b3d-4a28-b255-aa56b1b14669}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PUBLIC MoveTo : BOOL
+VAR_INPUT
+	Position : MC_LREAL;
+	Velocity : MC_LREAL;
+	BackwardMove : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT isAtPosition(position := Position) THEN
+	IF NOT axesMoveTo.Busy THEN
+		axesMoveTo.MoveTo(Position := ModuloToAbs(Position, BackwardMove), Velocity := Velocity);
+		MoveTo := TRUE;
+		_targetPos := Position;
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ResetAxis" Id="{3034fc38-9b42-4179-8f04-b3d56b63ba9c}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PUBLIC ResetAxis : BOOL
+VAR_INPUT
+END_VAR
+VAR
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[axesReset.Execute();
+axesMoveTo.Abort();
+axesHalt.Abort();]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="TrackLength" Id="{17360115-9dc5-4ca9-8916-892bf20db53d}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC TrackLength : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{c5663a5c-fa26-4ec2-af50-b07c4b33da3f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[TrackLength := _trackLength;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{a4b21aac-be54-4051-8d48-658c2585f98e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_trackLength := TrackLength;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Zones" Id="{c1269f03-c64a-4c39-99c0-152b4e2ef4a7}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY Zones : array[1..4] of dint]]></Declaration>
+      <Get Name="Get" Id="{ec2f2417-7e7b-4e6b-8c00-7da02bf2a995}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Zones := _arrZones;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{439816ee-60ba-41e6-9de0-9341cdae8b08}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_arrZones := Zones;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="ZoneVelocities" Id="{52ce116e-4240-4245-a327-1f542f2454ed}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY ZoneVelocities : array[1..4] of mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{310e4d19-d444-4356-a27d-86c9ecf1e695}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ZoneVelocities := _arrVelocities;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{d19e7a94-d331-4553-92b6-b1de294924bf}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_arrVelocities := ZoneVelocities;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="FB_Mover">
+      <LineId Id="95" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.Acceleration.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.Acceleration.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.AxisRef.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.Cycle">
+      <LineId Id="6" Count="5" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.Deceleration.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.Deceleration.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.DisableAxis">
+      <LineId Id="31" Count="0" />
+      <LineId Id="20" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.EnableAxis">
+      <LineId Id="17" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.Gap.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.Gap.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.HaltAxis">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.HasCommand">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.hasError">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.IdentInGroup.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.IdentInGroup.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.isAtPosition">
+      <LineId Id="13" Count="0" />
+      <LineId Id="16" Count="1" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="18" Count="1" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="20" Count="1" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.isDetected">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_Mover.isEnabled">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.isPastPosition">
+      <LineId Id="8" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.isStationary">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.Jerk.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.Jerk.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.ModuloToAbs">
+      <LineId Id="6" Count="17" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.MoverErrorId.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.MoverErrorId.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.MoveTo">
+      <LineId Id="53" Count="0" />
+      <LineId Id="26" Count="2" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="64" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.ResetAxis">
+      <LineId Id="20" Count="0" />
+      <LineId Id="14" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_Mover.TrackLength.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.TrackLength.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.Zones.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.Zones.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.ZoneVelocities.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.ZoneVelocities.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

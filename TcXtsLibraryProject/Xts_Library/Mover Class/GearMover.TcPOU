@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="GearMover" Id="{e1672d47-cce7-4d2e-b6b6-6b7bf615c986}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK GearMover EXTENDS FB_Mover IMPLEMENTS IGearMover
+VAR_INPUT
+	XtsTrack : IXtsTrack;
+	StateMachine : IPmlStateMachine;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	moverSequence : GearMoverSequence;
+	bInit : BOOL;
+	CurrentLimit AT%Q* : INT;
+	Mode AT%Q* : UINT;
+	axesGear	: GearInCA;
+	isMasterAxis: BOOL;
+	MoverToGearTo: UDINT := 1;
+END_VAR
+VAR_IN_OUT
+	MoverArray : ARRAY[*] OF IGearMover;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Cycle" Id="{675a77a0-454d-47dc-a1a2-22dd4fd08b5c}">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT bInit THEN
+	IF THIS^._axis.NcToPlc.AxisId <> 0 THEN
+		IF (THIS^._axis.NcToPlc.AxisId MOD 2)<>1 THEN
+			Mode.8 := TRUE;
+			isMasterAxis := TRUE;
+		ELSE
+			isMasterAxis := FALSE;
+			MoverToGearTo := THIS^.AxisRef.NcToPlc.AxisId + 1;
+		END_IF
+		bInit := TRUE;
+	END_IF
+END_IF
+	_trackLength := XtsTrack.TrackLength;
+IF isMasterAxis THEN
+	IF (_axis.NcToPlc.ModuloActPos > 3400 OR _axis.NcToPlc.ModuloActPos < 300)  THEN
+		CurrentLimit := 1000;
+	ELSE
+		CurrentLimit := 2000;
+	END_IF
+ELSE
+	CurrentLimit := 12000;
+END_IF
+
+SUPER^.Cycle();
+axesGear(_MasterAxis := MoverArray[MoverToGearTo].AxisRef, _SlaveAxis := THIS^.AxisRef);
+moverSequence(ThisMover := THIS^,
+				XtsTrack := XtsTrack,
+				StateMachine := StateMachine,
+				MoverArray := MoverArray);
+			]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Gear" Id="{b0aa32af-e1ad-43df-b90e-7e7d830bc963}">
+      <Declaration><![CDATA[METHOD PUBLIC Gear : BOOL
+VAR_INPUT
+	MasterPosition : MC_LREAL;
+	SlavePosition : MC_LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT axesGear.Busy THEN
+		Gear := axesGear.Sync(MasterPosition := MasterPosition, SlavePosition := SlavePosition);
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="inGear" Id="{0809336a-3200-4d64-8806-8b040d87d191}">
+      <Declaration><![CDATA[METHOD inGear : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[inGear := axesGear.gearInCA.InSync;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="isMaster" Id="{f7cde0d7-54e3-403f-8a16-457e977c3959}">
+      <Declaration><![CDATA[METHOD isMaster : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[isMaster := isMasterAxis;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="masterAxis" Id="{90bc7a08-10e6-4dcc-996f-38b71e0675dc}">
+      <Declaration><![CDATA[METHOD masterAxis : UDINT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[masterAxis := MoverToGearTo;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="GearMover">
+      <LineId Id="60" Count="0" />
+    </LineIds>
+    <LineIds Name="GearMover.Cycle">
+      <LineId Id="6" Count="28" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="GearMover.Gear">
+      <LineId Id="9" Count="1" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="GearMover.inGear">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="GearMover.isMaster">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="GearMover.masterAxis">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

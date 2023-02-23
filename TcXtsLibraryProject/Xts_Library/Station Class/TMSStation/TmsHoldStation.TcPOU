@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TmsHoldStation" Id="{f846901d-7486-433e-831a-23bbb539a0bb}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TmsHoldStation EXTENDS Process 
+VAR_INPUT
+	StateMachine : IPmlStateMachine;
+	embarkStation : IProcess;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	HoldMover : ITmsMover;
+	State :(
+		Init,                                               
+		Ready,                                 
+        Waiting,
+		Processing,
+		Clearing,
+		Aborting); 
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Cycle" Id="{c6e1a6e4-2a59-48a3-a2de-6354d31aa549}">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
+	Init:
+		_Operating := _Clear := _Complete := _Ready := _HasMover := FALSE;
+		StationMovers := 0;
+		State := Ready;
+	
+	Ready:	
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Clearing THEN
+			_Operating := _Complete := _HasMover := FALSE;
+			_Clear := _Ready := TRUE;
+			StationMovers := 0;
+			State := Waiting;
+		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
+	
+	Waiting:
+		IF _HasMover THEN
+			State := Processing;
+			_Operating := TRUE;
+			_Clear := FALSE;
+			_Ready := FALSE;
+		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
+		
+	Processing:
+		IF embarkStation.IsClear() THEN
+			_Complete := TRUE;
+			State := Clearing;
+		END_IF
+		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
+		
+	Clearing:
+		State := Waiting;
+		_Operating := FALSE;
+		_Clear := TRUE;
+		_Ready := TRUE;
+		_Complete := FALSE;
+		HoldMover := 0;
+		
+	Aborting:
+		State := Ready;
+		HoldMover := 0;
+		_HasMover := FALSE;
+END_CASE
+SUPER^.Cycle();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="HasMover" Id="{a266c45f-308b-42ff-85d6-9dbbc61ca57d}">
+      <Declaration><![CDATA[METHOD HasMover : BOOL
+VAR_INPUT
+	mover : IMover;
+END_VAR
+VAR
+	iTmsMover : ITmsMover;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF StationMovers <= 2 THEN
+	StationMovers := StationMovers + 1;
+	IF __QUERYINTERFACE(mover,iTmsMover) THEN
+		HoldMover := iTmsMover;
+		_HasMover := TRUE;
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="MoverAway" Id="{1b3a1907-f964-494a-b05a-ec8239679c36}">
+      <Declaration><![CDATA[METHOD PUBLIC MoverAway : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StationMovers := StationMovers - 1;
+IF StationMovers = 0 THEN
+	_HasMover := FALSE;
+END_IF
+HoldMover := 0;
+]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="TmsHoldStation">
+      <LineId Id="118" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsHoldStation.Cycle">
+      <LineId Id="6" Count="49" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsHoldStation.HasMover">
+      <LineId Id="9" Count="3" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsHoldStation.MoverAway">
+      <LineId Id="21" Count="0" />
+      <LineId Id="36" Count="1" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="ITcMessage_Ext" Id="{2099f939-9ec3-4558-8ed7-fb5fbee10ec9}">
+    <Declaration><![CDATA[INTERFACE ITcMessage_Ext
+]]></Declaration>
+    <Method Name="Send" Id="{98f2b7ce-6e57-4fac-ac6c-a2745891cfea}">
+      <Declaration><![CDATA[METHOD Send : BOOL
+VAR_INPUT
+	eventType : Tc3_EventLogger.TcEventEntry;
+	args : STRING(255);
+END_VAR
+
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>
