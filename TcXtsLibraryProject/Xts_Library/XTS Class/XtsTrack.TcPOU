@@ -1,14 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="XtsTrack" Id="{4538c683-94fc-49a1-b5ad-30ffec5e4eff}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK XtsTrack EXTENDS PML_Method_Base IMPLEMENTS IXtsTrack 
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsTrack EXTENDS PML_Method_Base
 VAR_INPUT
 	TmsSwitch : ITF_TmsSwitch;
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	_trackLength : MC_LREAL;
 	_homePosition : MC_LREAL;
 	HomeSpeed : MC_LREAL := 1000.0;
 	mcCollisionGroup : CollisionGroup;
@@ -216,26 +215,6 @@ END_CASE
 ]]></ST>
       </Implementation>
     </Method>
-    <Property Name="TrackLength" Id="{4a271dee-6663-44f1-852c-6c1a4a46e498}">
-      <Declaration><![CDATA[PROPERTY PUBLIC TrackLength : mc_lreal]]></Declaration>
-      <Get Name="Get" Id="{0917a4b9-67c4-456c-87f8-1f9c71470a7f}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[TrackLength := _trackLength;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{7710be4a-3435-4c3e-9768-ceec2c38bab6}">
-        <Declaration><![CDATA[PUBLIC 
-VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[_trackLength := TrackLength;]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
     <Property Name="Tracks" Id="{8eb8f4ad-907d-4ff8-9789-8832cf169bda}">
       <Declaration><![CDATA[PROPERTY PUBLIC Tracks : UDINT]]></Declaration>
       <Get Name="Get" Id="{92aead6c-a657-4c6b-8c96-d2980dde0d91}">
@@ -345,12 +324,6 @@ END_VAR
       <LineId Id="24" Count="7" />
       <LineId Id="22" Count="1" />
       <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsTrack.TrackLength.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsTrack.TrackLength.Set">
-      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.Tracks.Get">
       <LineId Id="2" Count="0" />

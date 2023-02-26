@@ -4,7 +4,6 @@
     <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC GearMoverSequence
 VAR_INPUT
 	ThisMover : IGearMover;
-	XtsTrack : IXtsTrack;
 	StateMachine : IPmlStateMachine;
 END_VAR
 VAR_OUTPUT

@@ -15,8 +15,7 @@ VAR
 	_MoverErrorId : DWORD;
 	_arrZones : ARRAY[1..4] OF DINT;
 	_arrVelocities : ARRAY[1..4] OF mc_LREAL;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>

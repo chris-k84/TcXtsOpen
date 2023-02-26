@@ -10,8 +10,8 @@ VAR
 	stSequenceInfo : MoverSequenceInfo;
 	StationArray : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess;
 	ThisMover : IMover;
-	XtsTrack : IXtsTrack;
 	StateMachine : IPmlStateMachine;
+	_startPosition : MC_LREAL;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -54,7 +54,7 @@ CASE State OF
 		END_IF
 		
 	IndexSequenceState.MovingToStart:
-		IF ThisMover.isAtPosition(position := XtsTrack.HomePosition) THEN
+		IF ThisMover.isAtPosition(position := _startPosition) THEN
 			State := IndexSequenceState.AtStart;
 		END_IF
 			
@@ -102,7 +102,7 @@ CASE State OF
 	
 	IndexSequenceState.GetNextMove:
 		IF CurrentStation = SystemParameters.NumberOfStations THEN
-			IF ThisMover.MoveTo(Position := XtsTrack.HomePosition,
+			IF ThisMover.MoveTo(Position := _startPosition,
 							Velocity := _MoverVelocity,
 							BackwardMove := FALSE) THEN
 				State := IndexSequenceState.MovingToStart;
@@ -189,6 +189,25 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Property Name="MyStartPosition" Id="{30ed087d-d896-49f8-aaff-c511c0d55a71}">
+      <Declaration><![CDATA[PROPERTY MyStartPosition : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{ebcb0d89-302c-4f5d-86e5-f5e15f136ea5}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MyStartPosition := _startPosition;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{57b76837-f6ca-44d6-8033-7a2d9ee3e944}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_startPosition := MyStartPosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="MyStations" Id="{d7be010f-02ed-44eb-9206-f5e1204f6ead}">
       <Declaration><![CDATA[PROPERTY MyStations : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess]]></Declaration>
       <Get Name="Get" Id="{b9858861-0750-4c3d-b2e9-7dc3a973373a}">
@@ -227,25 +246,6 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Property Name="XtsTrackController" Id="{1f973a16-15d3-43c5-81a0-899ae3ac9a5f}">
-      <Declaration><![CDATA[PROPERTY XtsTrackController : IXtsTrack]]></Declaration>
-      <Get Name="Get" Id="{c851ccbb-9cbe-4300-8d62-99a5ab734090}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[XtsTrackController := XtsTrack;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{9cf99e7f-4368-4cbc-aa10-dc934e406de1}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[XtsTrack := XtsTrackController;]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
     <LineIds Name="IndexMoverSequence">
       <LineId Id="1006" Count="0" />
     </LineIds>
@@ -271,6 +271,12 @@ END_VAR
     <LineIds Name="IndexMoverSequence.MyMover.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
+    <LineIds Name="IndexMoverSequence.MyStartPosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.MyStartPosition.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
     <LineIds Name="IndexMoverSequence.MyStations.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
@@ -281,12 +287,6 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="IndexMoverSequence.PmlStateMachine.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="IndexMoverSequence.XtsTrackController.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="IndexMoverSequence.XtsTrackController.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

@@ -9,13 +9,12 @@ END_VAR
 VAR
 	xtsStateMachine : PMLStateMachine;
 	Movers : ARRAY[1..SystemParameters.NumberOfMovers] OF FB_Mover;
-	iMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover;// := [indexMovers[1], indexMovers[2]];
+	iMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover;
 	MoverSequences : ARRAY[1..SystemParameters.NumberOfMovers] OF IndexMoverSequence;
 	StationArray : ARRAY[1..SystemParameters.NumberOfStations] OF StationSample;
 	iStationArray : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess;
 	XtsTrackHardware : XtsHardware := (Tracks := SystemParameters.Tracks);
 	Xts : XtsTrack := (PackMLStateMachine := xtsStateMachine, 
-						TrackLength := SystemParameters.TrackLength, 
 						HomePosition := SystemParameters.TrackHomePosition, 
 						Tracks := SystemParameters.Tracks,
 						XtsHardware := XtsTrackHardware);

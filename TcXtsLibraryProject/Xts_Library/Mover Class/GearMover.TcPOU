@@ -3,7 +3,6 @@
   <POU Name="GearMover" Id="{e1672d47-cce7-4d2e-b6b6-6b7bf615c986}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK GearMover EXTENDS FB_Mover IMPLEMENTS IGearMover
 VAR_INPUT
-	XtsTrack : IXtsTrack;
 	StateMachine : IPmlStateMachine;
 END_VAR
 VAR_OUTPUT
@@ -42,7 +41,7 @@ END_VAR
 		bInit := TRUE;
 	END_IF
 END_IF
-	_trackLength := XtsTrack.TrackLength;
+
 IF isMasterAxis THEN
 	IF (_axis.NcToPlc.ModuloActPos > 3400 OR _axis.NcToPlc.ModuloActPos < 300)  THEN
 		CurrentLimit := 1000;
@@ -56,7 +55,6 @@ END_IF
 SUPER^.Cycle();
 axesGear(_MasterAxis := MoverArray[MoverToGearTo].AxisRef, _SlaveAxis := THIS^.AxisRef);
 moverSequence(ThisMover := THIS^,
-				XtsTrack := XtsTrack,
 				StateMachine := StateMachine,
 				MoverArray := MoverArray);
 			]]></ST>
@@ -107,7 +105,8 @@ END_VAR
       <LineId Id="60" Count="0" />
     </LineIds>
     <LineIds Name="GearMover.Cycle">
-      <LineId Id="6" Count="28" />
+      <LineId Id="6" Count="25" />
+      <LineId Id="33" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="GearMover.Gear">
