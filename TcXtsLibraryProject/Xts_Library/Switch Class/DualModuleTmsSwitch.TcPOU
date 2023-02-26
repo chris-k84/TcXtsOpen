@@ -230,6 +230,8 @@ END_VAR
 				_demandPosition := _upPosition;
 			END_IF
 		END_IF	
+	TmsSwitchPosition.Moving:
+		MoveTo := FALSE;
 END_CASE]]></ST>
       </Implementation>
     </Method>
@@ -343,6 +345,7 @@ END_VAR
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.MoveTo">
       <LineId Id="173" Count="24" />
+      <LineId Id="202" Count="1" />
       <LineId Id="81" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.SetAutomaticMode">

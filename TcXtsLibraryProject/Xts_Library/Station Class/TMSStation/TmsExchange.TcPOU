@@ -2,22 +2,28 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="TmsExchange" Id="{bbb0a31b-f62e-4332-abc9-0bed198282f3}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC TmsExchange EXTENDS Process
-VAR_INPUT
-	TmsSwitch : ITF_TmsSwitch;
-	StateMachine : IPmlStateMachine;
-END_VAR
-VAR_OUTPUT
-END_VAR
 VAR
-	holdingStation : TmsHoldStation;
+	_TmsSwitch : ITF_TmsSwitch;
+	_StateMachine : IPmlStateMachine;
+	
 	embarkingStation : TmsEmbarkStation;
+	holdingStation : TmsHoldStation := (MyEmbarkStation := embarkingStation);
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[holdingStation(StateMachine := StateMachine, embarkStation := embarkingStation);
-embarkingStation(StateMachine := StateMachine, TmsSwitch := TmsSwitch);
-]]></ST>
+      <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="Cycle" Id="{90b295e7-21c8-4280-8b63-dc25678715c4}">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[holdingStation.Cycle();
+embarkingStation.Cycle();
+]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="EmbarkStation" Id="{508d1299-8885-4c14-a332-b33475d26bfa}">
       <Declaration><![CDATA[PROPERTY EmbarkStation : IProcess]]></Declaration>
       <Get Name="Get" Id="{ba314324-3359-4a1a-8fb3-9807e1185edd}">
@@ -59,6 +65,27 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="PmlStateMachine" Id="{4196edef-498e-4d46-b5a7-e2b4ce4210df}">
+      <Declaration><![CDATA[PROPERTY PmlStateMachine : IPmlStateMachine]]></Declaration>
+      <Get Name="Get" Id="{3b4361b8-6ce6-4b1e-8f45-beceafdcd3a9}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[PmlStateMachine := _StateMachine;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{37aebee1-03ef-4127-a412-f2661d8be0ba}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_StateMachine := PmlStateMachine;
+embarkingStation.PmlStateMachine := PmlStateMachine;
+holdingStation.PmlStateMachine := PmlStateMachine;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="SwitchTravelPosition" Id="{81526570-b9a9-41d5-adf0-49b50e38e46c}">
       <Declaration><![CDATA[PROPERTY SwitchTravelPosition : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{cd5a599e-fb72-4d8d-b6d6-a8e1cee905ed}">
@@ -75,6 +102,26 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[embarkingStation.SwitchTravelPosition := SwitchTravelPosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="TmsSwitch" Id="{85a620f6-c211-4e12-b763-3ad2fed889bb}">
+      <Declaration><![CDATA[PROPERTY TmsSwitch : ITF_TmsSwitch]]></Declaration>
+      <Get Name="Get" Id="{b943f30d-f4ed-4d81-b9a4-8eb6002901bc}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[TmsSwitch := _TmsSwitch;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{cb3000c8-bad5-4070-9c48-eb4e16c736f9}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_TmsSwitch := TmsSwitch;
+embarkingStation.TmsSwitch := TmsSwitch;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -98,8 +145,11 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="TmsExchange">
-      <LineId Id="123" Count="1" />
       <LineId Id="77" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.Cycle">
+      <LineId Id="6" Count="1" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="TmsExchange.EmbarkStation.Get">
       <LineId Id="2" Count="0" />
@@ -113,11 +163,25 @@ END_VAR
     <LineIds Name="TmsExchange.HoldStation.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
+    <LineIds Name="TmsExchange.PmlStateMachine.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.PmlStateMachine.Set">
+      <LineId Id="2" Count="0" />
+      <LineId Id="5" Count="1" />
+    </LineIds>
     <LineIds Name="TmsExchange.SwitchTravelPosition.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="TmsExchange.SwitchTravelPosition.Set">
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.TmsSwitch.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.TmsSwitch.Set">
+      <LineId Id="2" Count="0" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="TmsExchange.TrackIds.Get">
       <LineId Id="2" Count="0" />

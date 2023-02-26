@@ -2,14 +2,10 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="TmsEmbarkStation" Id="{4d15a973-29cb-4ffe-934a-8f072d992ec0}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK TmsEmbarkStation EXTENDS Process IMPLEMENTS ITF_SwitchStation
-VAR_INPUT
-	StateMachine : IPmlStateMachine;
-	TmsSwitch : ITF_TmsSwitch;
-END_VAR
-VAR_OUTPUT
-END_VAR
 VAR
 	DepartMover : ITmsMover;
+	_StateMachine : IPmlStateMachine;
+	_TmsSwitch : ITF_TmsSwitch;
 	_TrackLevel : INT := 1; //1 is low, 2 is high
 	State :(
 		Init,                                               
@@ -47,13 +43,13 @@ END_VAR
 		State := Ready;
 	
 	Ready:	
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Clearing THEN
+		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Clearing THEN
 			_Operating := _Complete := _HasMover := FALSE;
 			_Clear := _Ready := TRUE;
 			StationMovers := 0;
 			State := Waiting;
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF
 	
@@ -65,7 +61,7 @@ END_VAR
 			_Ready := FALSE;
 			_Complete := FALSE;
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF
 	
@@ -78,7 +74,7 @@ END_VAR
 		ELSE
 			State := Call;
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF	
 		
@@ -90,7 +86,7 @@ END_VAR
 		ELSE
 			State := Waiting;
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF
 	
@@ -132,7 +128,7 @@ END_VAR
 				demandPosition := TmsSwitchPosition.Down;
 			END_IF
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF
 		
@@ -146,7 +142,7 @@ END_VAR
 		IF TmsSwitch.MoveTo(positionState := demandPosition) THEN
 			State := Moving;
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF
 		
@@ -157,7 +153,7 @@ END_VAR
 			_Ready := TRUE;
 			State := Waiting;
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF	
 
@@ -200,6 +196,25 @@ DepartMover := 0;
 ]]></ST>
       </Implementation>
     </Method>
+    <Property Name="PmlStateMachine" Id="{a47db168-d2a9-4247-adb9-892ae103948e}">
+      <Declaration><![CDATA[PROPERTY PmlStateMachine : IPmlStateMachine]]></Declaration>
+      <Get Name="Get" Id="{7455cd11-5ef8-425b-8f7e-20b1eaa44250}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[PmlStateMachine := _StateMachine;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{70867ab3-cb45-4255-9352-18cd1c4ce7ec}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_StateMachine := PmlStateMachine;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Method Name="SwitchMoveComplete" Id="{a8eedfd9-7707-47a4-b55d-1e335fa7f41f}">
       <Declaration><![CDATA[METHOD PUBLIC SwitchMoveComplete : BOOL
 VAR_INPUT
@@ -226,6 +241,25 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[_switchPosition := SwitchTravelPosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="TmsSwitch" Id="{32709822-da92-40fc-979a-5a9084ca9dfd}">
+      <Declaration><![CDATA[PROPERTY TmsSwitch : ITF_TmsSwitch]]></Declaration>
+      <Get Name="Get" Id="{afd06df8-55b5-473c-ad0b-a2b8f0614d91}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[TmsSwitch := _TmsSwitch;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{afdc9e35-5be9-439b-973f-2fdfa7b2941c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_TmsSwitch := TmsSwitch;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -287,6 +321,12 @@ END_VAR
       <LineId Id="11" Count="0" />
       <LineId Id="8" Count="0" />
     </LineIds>
+    <LineIds Name="TmsEmbarkStation.PmlStateMachine.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkStation.PmlStateMachine.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
     <LineIds Name="TmsEmbarkStation.SwitchMoveComplete">
       <LineId Id="5" Count="0" />
     </LineIds>
@@ -294,6 +334,12 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.SwitchTravelPosition.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkStation.TmsSwitch.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkStation.TmsSwitch.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.TrackIds.Get">

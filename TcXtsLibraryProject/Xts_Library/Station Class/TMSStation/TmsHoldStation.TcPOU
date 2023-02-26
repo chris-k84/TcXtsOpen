@@ -2,13 +2,9 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="TmsHoldStation" Id="{f846901d-7486-433e-831a-23bbb539a0bb}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK TmsHoldStation EXTENDS Process 
-VAR_INPUT
-	StateMachine : IPmlStateMachine;
-	embarkStation : IProcess;
-END_VAR
-VAR_OUTPUT
-END_VAR
 VAR
+	_EmbarkStation : IProcess;
+	_StateMachine : IPmlStateMachine;
 	HoldMover : ITmsMover;
 	State :(
 		Init,                                               
@@ -35,13 +31,13 @@ END_VAR
 		State := Ready;
 	
 	Ready:	
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Clearing THEN
+		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Clearing THEN
 			_Operating := _Complete := _HasMover := FALSE;
 			_Clear := _Ready := TRUE;
 			StationMovers := 0;
 			State := Waiting;
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF
 	
@@ -52,16 +48,16 @@ END_VAR
 			_Clear := FALSE;
 			_Ready := FALSE;
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF
 		
 	Processing:
-		IF embarkStation.IsClear() THEN
+		IF _EmbarkStation.IsClear() THEN
 			_Complete := TRUE;
 			State := Clearing;
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF
 		
@@ -113,6 +109,44 @@ HoldMover := 0;
 ]]></ST>
       </Implementation>
     </Method>
+    <Property Name="MyEmbarkStation" Id="{32ce3b1d-cc83-40cf-875e-de2f759160d5}">
+      <Declaration><![CDATA[PROPERTY MyEmbarkStation : IProcess]]></Declaration>
+      <Get Name="Get" Id="{45759e1b-1442-4588-af19-79e9ae38f49e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MyEmbarkStation := _EmbarkStation;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{51345d54-d899-4179-ae10-0e676d705143}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_EmbarkStation := MyEmbarkStation;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="PmlStateMachine" Id="{ccebe23c-144a-451e-bac0-34ecf6fcc539}">
+      <Declaration><![CDATA[PROPERTY PmlStateMachine : IPmlStateMachine]]></Declaration>
+      <Get Name="Get" Id="{16bbc304-db44-49f0-b2c4-2bb3c94c259f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[PmlStateMachine := _StateMachine;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{117c256d-7156-4c21-9767-cc50698656fc}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_StateMachine := PmlStateMachine;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <LineIds Name="TmsHoldStation">
       <LineId Id="118" Count="0" />
     </LineIds>
@@ -132,6 +166,18 @@ HoldMover := 0;
       <LineId Id="35" Count="0" />
       <LineId Id="31" Count="0" />
       <LineId Id="8" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsHoldStation.MyEmbarkStation.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsHoldStation.MyEmbarkStation.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsHoldStation.PmlStateMachine.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsHoldStation.PmlStateMachine.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
