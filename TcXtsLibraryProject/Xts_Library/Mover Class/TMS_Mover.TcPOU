@@ -90,7 +90,6 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[//Create modulo position 
-//moduloPos := LREAL_TO_DINT(stTmsActPositions.fTrackPosition) MOD LREAL_TO_DINT(_trackLength);
 IF position > 1 THEN
 	IF stTmsActPositions.fTrackPosition < position + 1 AND stTmsActPositions.fTrackPosition > position - 1 THEN
 		isAtPosition := TRUE;
@@ -165,7 +164,7 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="TMS_Mover.isAtPosition">
-      <LineId Id="27" Count="1" />
+      <LineId Id="27" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="16" Count="1" />
       <LineId Id="14" Count="0" />

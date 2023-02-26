@@ -13,7 +13,7 @@ VAR
 	subUnitArray : ARRAY[0..9] OF ST_PMLSubUnitInfo;
 	_SubUnitReference: ST_PMLSubUnitInfoRef;
 	modeChangeTrigger : Tc2_Standard.R_TRIG;
-	i: DINT;
+	i: UDINT;
 END_VAR
 ]]></Declaration>
     <Implementation>
