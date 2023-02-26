@@ -13,10 +13,10 @@ VAR
 	MoverSequences : ARRAY[1..SystemParameters.NumberOfMovers] OF IndexMoverSequence;
 	StationArray : ARRAY[1..SystemParameters.NumberOfStations] OF StationSample;
 	iStationArray : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess;
-	XtsTrackHardware : XtsHardware := (Tracks := SystemParameters.Tracks);
+	XtsTrackHardware : XtsHardware := (Tracks := 1);
 	Xts : XtsTrack := (PackMLStateMachine := xtsStateMachine, 
-						HomePosition := SystemParameters.TrackHomePosition, 
-						Tracks := SystemParameters.Tracks,
+						HomePosition := 800.0, 
+						Tracks := 1,
 						XtsHardware := XtsTrackHardware);
 	
 	i: INT;
@@ -51,10 +51,9 @@ END_VAR
       <Implementation>
         <ST><![CDATA[FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
 	iMovers[i] := Movers[i];
-	Movers[i].TrackLength := Xts.TrackLength;
+	Movers[i].TrackLength := 3000.0;
 	Xts.MoverArray := iMovers;
 	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyMover := Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i]; 
-	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].XtsTrackController := Xts;
 	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].PmlStateMachine := xtsStateMachine;
 	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyStations := iStationArray;	
 END_FOR
@@ -122,7 +121,8 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="Machine.Initialise">
-      <LineId Id="7" Count="15" />
+      <LineId Id="7" Count="4" />
+      <LineId Id="13" Count="9" />
     </LineIds>
     <LineIds Name="Machine.InitialiseStations">
       <LineId Id="193" Count="1" />
