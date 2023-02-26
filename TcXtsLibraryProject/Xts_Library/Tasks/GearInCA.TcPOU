@@ -1,95 +1,67 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="GearInCA" Id="{4eabfc6f-0e0b-4cf2-8798-42f7d613e2e0}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC GearInCA IMPLEMENTS ITask
+    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC GearInCA EXTENDS TaskBase
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	gearInCA : Tc3_McCollisionAvoidance.MC_GearInPosCA;
+	GearInPosCA : Tc3_McCollisionAvoidance.MC_GearInPosCA;
 	_syncStrategy : Tc3_Mc3Definitions.MC_SYNC_STRATEGY := Tc3_Mc3Definitions.MC_SYNC_STRATEGY.mcSyncStrategyEarly;
 	_GearMover: BOOL;
-	State : INT;
-	_busy : BOOL;
-	_done : BOOL;
-	_Error : BOOL;
 END_VAR
 VAR_IN_OUT
 	_MasterAxis : Tc2_MC2.AXIS_REF;
 	_SlaveAxis : Tc2_MC2.AXIS_REF;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE State OF
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{33a44f0c-0e3b-4808-ac44-6bb8acc99a21}">
+      <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GearInPosCA.Execute := FALSE;
+_GearMover := FALSE;
+_Busy := false;
+Abort := true;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{63d39597-d1df-4364-9e4b-a587d0a782e8}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE State OF
 	0:
 		IF _GearMover THEN
-			_done := FALSE;
-			_error := FALSE;
-			_busy := TRUE;
-			gearInCA.Execute := TRUE;
-			IF gearInCA.Busy THEN
+			_Done := FALSE;
+			_Error := FALSE;
+			_Busy := TRUE;
+			GearInPosCA.Execute := TRUE;
+			IF GearInPosCA.Busy THEN
 				State := 10;
 				_GearMover := FALSE;
 			END_IF
 		END_IF
 		
 	10:
-		IF gearInCA.InSync THEN
-			gearInCA.Execute := FALSE;
-			_busy := FALSE;
-			_done := TRUE;
+		IF GearInPosCA.InSync THEN
+			GearInPosCA.Execute := FALSE;
+			_Busy := FALSE;
+			_Done := TRUE;
 			State := 0;
 		END_IF
 	
 END_CASE
 
 IF __ISVALIDREF(_MasterAxis) AND __ISVALIDREF(_SlaveAxis) THEN
-	gearInCA(Master := _MasterAxis, Slave := _SlaveAxis, SyncStrategy := _syncStrategy, Velocity := 2000.0, RatioNumerator := 1, Gap := 60.0);
+	GearInPosCA(Master := _MasterAxis, Slave := _SlaveAxis, SyncStrategy := _syncStrategy, Velocity := 2000.0, RatioNumerator := 1, Gap := 60.0);
 END_IF ]]></ST>
-    </Implementation>
-    <Method Name="Abort" Id="{33a44f0c-0e3b-4808-ac44-6bb8acc99a21}">
-      <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[gearInCA.Execute := FALSE;
-_GearMover := FALSE;
-_busy := false;
-Abort := true;
-State := 0;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Busy" Id="{97933570-3dfa-4a37-a9ec-8bcb6dcf1d5a}">
-      <Declaration><![CDATA[PROPERTY Busy : BOOL]]></Declaration>
-      <Get Name="Get" Id="{bbf3ed04-adbe-4b17-9ada-3fbd186154ab}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Busy := _busy;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Done" Id="{aad7efe0-5d18-48d2-8b5d-45202cefb271}">
-      <Declaration><![CDATA[PROPERTY Done : BOOL]]></Declaration>
-      <Get Name="Get" Id="{18a366b2-5304-4c44-95ba-77bd5a766774}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Done := _done;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Error" Id="{b5dd0b69-56cc-43e4-b351-887ce45d50e1}">
-      <Declaration><![CDATA[PROPERTY Error : BOOL]]></Declaration>
-      <Get Name="Get" Id="{dffca37b-7b0d-41e3-802b-9672a0b1c23d}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Error := _Error;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="Sync" Id="{3bab61dc-be16-4255-9286-dba4fcc8047d}">
       <Declaration><![CDATA[METHOD PUBLIC Sync : BOOL
 VAR_INPUT
@@ -98,8 +70,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[gearInCA.MasterSyncPosition := MasterPosition;
-gearInCA.SlaveSyncPosition := SlavePosition;
+        <ST><![CDATA[GearInPosCA.MasterSyncPosition := MasterPosition;
+GearInPosCA.SlaveSyncPosition := SlavePosition;
 _GearMover := true;]]></ST>
       </Implementation>
     </Method>
@@ -123,21 +95,15 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="GearInCA">
-      <LineId Id="82" Count="24" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="GearInCA.Abort">
       <LineId Id="3" Count="3" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="GearInCA.Busy.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="GearInCA.Done.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="GearInCA.Error.Get">
-      <LineId Id="2" Count="0" />
+    <LineIds Name="GearInCA.Cycle">
+      <LineId Id="6" Count="24" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="GearInCA.Sync">
       <LineId Id="5" Count="0" />

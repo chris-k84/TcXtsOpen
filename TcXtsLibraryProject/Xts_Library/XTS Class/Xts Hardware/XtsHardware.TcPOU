@@ -2,11 +2,6 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="XtsHardware" Id="{01d7c7ee-eaba-4d97-9e2a-cab8b593df67}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XtsHardware EXTENDS CyclicBase IMPLEMENTS IXtsHardware
-VAR_OUTPUT
-	XtsHardwareOK : BOOL;
-	Xts48VStanding : BOOL;
-	Xts24VStanding : BOOL;
-END_VAR
 VAR
 	_Tracks : UDINT;
 	_TmsSwitch : ITF_TmsSwitch;
@@ -29,6 +24,9 @@ VAR
 	PartIndex: UINT := 1;
 	ModuleIndex : INT := 1;
 	XtsHWInfo : XtsHardwareInfo;
+	XtsHardwareOK : BOOL;
+	Xts48VStanding : BOOL;
+	Xts24VStanding : BOOL;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[
@@ -77,10 +75,10 @@ CASE State OF
 		
 	XtsHardwareState.MoverIdDetection:
 		IF TriggerMoverID() THEN
-			State := XtsHardwareState.XtsMode;
+			State := XtsHardwareState.XTSMode;
 		END_IF
 	
-	XtsHardwareState.XtsMode:
+	XtsHardwareState.XTSMode:
 		IF IsInSim() THEN
 			State := XtsHardwareState.HWReady;
 		ELSE

@@ -8,8 +8,8 @@ VAR_OUTPUT
 END_VAR
 VAR
 	AddtoGrp			: MC_AddAxisToGroup;
-	_caGroup			: ICollisionGroup;
-	_axis				: reference TO AXIS_REF;
+	_CaGroup			: ICollisionGroup;
+	_Axis				: REFERENCE TO AXIS_REF;
 	_addMover : BOOL;
 	_moverNumber : UDINT;
 END_VAR
@@ -33,9 +33,9 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_axis REF= MoverToAdd.AxisRef;
+        <ST><![CDATA[_Axis REF= MoverToAdd.AxisRef;
 _moverNumber := INT_TO_UDINT(MoverToAdd.IdentInGroup);
-_busy := TRUE;
+_Busy := TRUE;
 AddMover := _addMover := TRUE;]]></ST>
       </Implementation>
     </Method>
@@ -48,9 +48,9 @@ END_VAR
         <ST><![CDATA[CASE State OF
 	0:
 		IF _addMover THEN
-			_done := FALSE;
-			_error := FALSE;
-			_busy := true;
+			_Done := FALSE;
+			_Error := FALSE;
+			_Busy := TRUE;
 			AddtoGrp.Execute := TRUE;
 			IF AddtoGrp.Busy THEN
 				State := 10;
@@ -61,18 +61,18 @@ END_VAR
 	10:
 		IF NOT AddtoGrp.Busy THEN
 			IF AddtoGrp.Done THEN
-				_done := TRUE;
+				_Done := TRUE;
 			ELSIF AddtoGrp.Error THEN
-				_error := TRUE;
+				_Error := TRUE;
 			END_IF
-			_busy := FALSE;
+			_Busy := FALSE;
 			AddtoGrp.Execute := false;
 			State := 0;
 		END_IF
 END_CASE
 
-AddtoGrp(AxesGroup := _caGroup.GroupRef,
-			Axis := _axis,
+AddtoGrp(AxesGroup := _CaGroup.GroupRef,
+			Axis := _Axis,
 			IdentInGroup := UDINT_TO_IDENTINGROUP(_moverNumber));]]></ST>
       </Implementation>
     </Method>
@@ -81,11 +81,11 @@ AddtoGrp(AxesGroup := _caGroup.GroupRef,
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	collisionGroup : ICollisionGroup;	
+	CollisionGroup : ICollisionGroup;	
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_caGroup := collisionGroup;]]></ST>
+        <ST><![CDATA[_CaGroup := CollisionGroup;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="AddMoverToGroupTask">

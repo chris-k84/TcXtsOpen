@@ -29,17 +29,6 @@ removeAllAxes.Abort();
 grpStop.Abort();]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Busy" Id="{3ef719cf-a3ab-4c7c-b837-5be663d6a1f7}">
-      <Declaration><![CDATA[PROPERTY Busy : BOOL]]></Declaration>
-      <Get Name="Get" Id="{41b47491-eb68-4e3c-89a5-7c4d3d879053}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Busy := _busy;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="Cycle" Id="{981b7190-eb15-4a0a-8875-0afb334ed36e}">
       <Declaration><![CDATA[METHOD Cycle : BOOL
 VAR_INPUT
@@ -50,24 +39,24 @@ END_VAR
 	0:
 		IF DisableTrigger THEN
 			DisableTrigger := FALSE;
-			_busy := TRUE;
-			_done := FALSE;
+			_Busy := TRUE;
+			_Done := FALSE;
 			_Error := FALSE;
 			IF _collisionGroup.GroupState = CAGroupStatus.mcGroupStateMoving THEN
-				Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupStop,'');
+				Logger.Send(TC_EVENTS.XtsCaGroupEvents.CAGroupStop,'');
 				grpStop.Execute();
 				State := 10;
 			ELSE
 				State := 20;
 				removeAllAxes.RemoveAllMover();
-				Logger.Send(TC_EVENTS.XtsCAGroupEvents.CaGroupRemoveMovers,'');
+				Logger.Send(TC_EVENTS.XtsCaGroupEvents.CaGroupRemoveMovers,'');
 			END_IF
 		END_IF
 		
 	10:
 		IF grpStop.Done THEN
 			State := 20;
-			Logger.Send(TC_EVENTS.XtsCAGroupEvents.CaGroupRemoveMovers,'');
+			Logger.Send(TC_EVENTS.XtsCaGroupEvents.CaGroupRemoveMovers,'');
 			removeAllAxes.RemoveAllMover();
 		END_IF
 	
@@ -86,15 +75,15 @@ END_VAR
 			AllMoversDisabled := TRUE AND NOT arrMovers[moverNumbers].isEnabled();
 		END_FOR
 		IF AllMoversDisabled THEN
-			logger.Send(TC_EVENTS.XtsCAGroupEvents.AllMoversDisabled,'');
+			Logger.Send(TC_EVENTS.XtsCaGroupEvents.AllMoversDisabled,'');
 			State := 40;
 			_collisionGroup.Disable();
-			logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupDisable,'');
+			Logger.Send(TC_EVENTS.XtsCaGroupEvents.CAGroupDisable,'');
 		END_IF
 	40:
 		IF _collisionGroup.GroupState = CAGroupStatus.mcGroupStateErrorStop THEN
 			_collisionGroup.Reset();
-			Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupReset,'');
+			Logger.Send(TC_EVENTS.XtsCaGroupEvents.CAGroupReset,'');
 		END_IF	
 		State := 50;
 		
@@ -104,8 +93,8 @@ END_VAR
 			grpStop.Deceleration := Tc3_Mc3Definitions.MC_DEFAULT;
 			grpStop.Jerk := Tc3_Mc3Definitions.MC_DEFAULT;
 			
-			_busy := FALSE;
-			_done := true;
+			_Busy := FALSE;
+			_Done := TRUE;
 		END_IF
 END_CASE
 
@@ -122,28 +111,6 @@ END_VAR
         <ST><![CDATA[DisableTrigger := true;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Done" Id="{308f4855-b705-4894-bcc1-445a78636eaf}">
-      <Declaration><![CDATA[PROPERTY Done : BOOL]]></Declaration>
-      <Get Name="Get" Id="{8504bba3-4daf-494e-afd3-5c988153f1b8}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Done := _done;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Error" Id="{8a181155-fba2-451d-8f05-3a02628b1305}">
-      <Declaration><![CDATA[PROPERTY Error : BOOL]]></Declaration>
-      <Get Name="Get" Id="{bca529f2-d368-4645-8c9a-3dc4a91693ea}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Error := _Error;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="FB_init" Id="{5c39a8d0-8d47-4b10-ae0c-53e63f445cbe}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
@@ -195,20 +162,11 @@ grpStop.Jerk := Tc3_Mc3Definitions.MC_MAXIMUM;]]></ST>
       <LineId Id="6" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsDisableSequence.Busy.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
     <LineIds Name="XtsDisableSequence.Cycle">
       <LineId Id="6" Count="63" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.Disable">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsDisableSequence.Done.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsDisableSequence.Error.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.FB_init">

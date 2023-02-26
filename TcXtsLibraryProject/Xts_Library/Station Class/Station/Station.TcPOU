@@ -47,7 +47,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[//Cyclic info
 stInfo.StationPosition := _Positions[1];
-stInfo.StationStatus.Clear := _clear;
+stInfo.StationStatus.Clear := _Clear;
 stInfo.StationStatus.Complete := _Complete;
 stInfo.StationStatus.HasMover := _HasMover;
 stInfo.StationStatus.Operating := _Operating;

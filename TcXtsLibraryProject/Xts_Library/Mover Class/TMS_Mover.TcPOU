@@ -3,9 +3,9 @@
   <POU Name="TMS_Mover" Id="{5460a3ca-ef4a-4eb7-aee0-351ddb8da841}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK TMS_Mover EXTENDS FB_Mover IMPLEMENTS ITmsMover
 VAR
-	ActivateATrack : ActivateTrackForMover(_axis);
+	ActivateATrack : ActivateTrackForMover(_Axis);
 	mcReadTrackPositions : Tc3_McCollisionAvoidance.MC_ReadTrackPositions;
-	axesMoveModuloTo 		: MoveModuloMoverToPosition(_axis) := (Gap := 100.0);
+	axesMoveModuloTo 		: MoveModuloMoverToPosition(_Axis) := (Gap := 100.0);
 	_stOptions : ST_MoveAbsoluteCAOptions;
 	ipTcIoXtsMover			: I_TcIoXtsXpuMover;
 	stTmsActPositions			: ST_PositionInfo;
@@ -46,7 +46,7 @@ END_VAR
         <ST><![CDATA[SUPER^.Cycle();
 IF _identInGroup <> 0 THEN
 	mcReadTrackPositions(
-		Axis:= THIS^._axis, 
+		Axis:= THIS^._Axis, 
 		Enable:= TRUE, 
 		Valid=> , 
 		Busy=> , 

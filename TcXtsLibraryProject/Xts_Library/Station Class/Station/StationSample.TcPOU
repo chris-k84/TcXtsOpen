@@ -4,7 +4,7 @@
     <Declaration><![CDATA[FUNCTION_BLOCK StationSample EXTENDS Process
 VAR
 	_OperationTime : TIME := T#1S;
-	Operation : ton;
+	Operation : TON;
 	State: INT;
 	StateMachine : IPmlStateMachine;
 END_VAR

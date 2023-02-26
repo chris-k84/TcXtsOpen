@@ -8,7 +8,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	mcActivateTrack : Tc3_McCollisionAvoidance.MC_ActivateTrack;
-	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
+	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;
 	_ActivateTrack : BOOL;
 	_newTrackId : OTCID;
 END_VAR
@@ -21,7 +21,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[mcActivateTrack.Execute := FALSE;
-_busy := FALSE;
+_Busy := FALSE;
 _ActivateTrack := FALSE;
 Abort := TRUE;
 State := 0;]]></ST>
@@ -36,9 +36,9 @@ END_VAR
         <ST><![CDATA[CASE State OF
 	0:
 		IF _ActivateTrack THEN
-			_done := FALSE;
-			_error := FALSE;
-			_busy := TRUE;
+			_Done := FALSE;
+			_Error := FALSE;
+			_Busy := TRUE;
 			mcActivateTrack.Execute := TRUE;
 			IF mcActivateTrack.Busy THEN
 				State := 10;
@@ -49,18 +49,18 @@ END_VAR
 	10:
 		IF NOT mcActivateTrack.Busy THEN
 			IF mcActivateTrack.Done THEN
-				_done := TRUE;
+				_Done := TRUE;
 				_newTrackId := mcActivateTrack.TrackId;
 			ELSIF mcActivateTrack.Error THEN
-				_error := TRUE;
+				_Error := TRUE;
 			END_IF
-			_busy := FALSE;
+			_Busy := FALSE;
 			mcActivateTrack.Execute := FALSE;
 			State := 0;
 		END_IF
 END_CASE
 
-mcActivateTrack(Axis := _axis);]]></ST>
+mcActivateTrack(Axis := _Axis);]]></ST>
       </Implementation>
     </Method>
     <Method Name="Execute" Id="{b92caa48-be0c-4823-bb15-e823e8bc1934}">
@@ -80,11 +80,11 @@ mcActivateTrack.TrackId := Track;
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	axis : reference TO AXIS_REF;
+	Axis : reference TO AXIS_REF;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_axis REF= axis;]]></ST>
+        <ST><![CDATA[_Axis REF= Axis;]]></ST>
       </Implementation>
     </Method>
     <Property Name="NewTrackId" Id="{84df412b-7c3c-4f84-98eb-ff5f562dbb1a}">

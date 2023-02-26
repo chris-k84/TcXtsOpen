@@ -3,9 +3,9 @@
   <POU Name="TaskBase" Id="{1c339505-1708-4516-99c7-fe794eeac80e}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK ABSTRACT TaskBase EXTENDS CyclicBase IMPLEMENTS ITask
 VAR
-	_busy : BOOL;
-	_error : BOOL;
-	_done : BOOL;
+	_Busy : BOOL;
+	_Error : BOOL;
+	_Done : BOOL;
 	State: INT;
 END_VAR
 ]]></Declaration>
@@ -28,7 +28,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Busy := _busy;]]></ST>
+          <ST><![CDATA[Busy := _Busy;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -39,7 +39,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Done := _done;]]></ST>
+          <ST><![CDATA[Done := _Done;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -50,7 +50,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Error := _error;]]></ST>
+          <ST><![CDATA[Error := _Error;]]></ST>
         </Implementation>
       </Get>
     </Property>

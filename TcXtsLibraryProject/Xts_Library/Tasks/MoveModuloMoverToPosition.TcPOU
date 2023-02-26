@@ -8,7 +8,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	moveAbs	: MC_MoveAbsoluteCA;
-	_axis : REFERENCE TO AXIS_REF;
+	_Axis : REFERENCE TO AXIS_REF;
 	_MoveMover : BOOL;
 	_stOptions : ST_MoveAbsoluteCAOptions;
 END_VAR
@@ -23,7 +23,7 @@ END_VAR
         <ST><![CDATA[moveAbs.Execute := FALSE;
 moveAbs.Position := moveAbs.Velocity := 0;
 _MoveMover := false;
-_busy := false;
+_Busy := FALSE;
 Abort := true;
 State := 0;]]></ST>
       </Implementation>
@@ -56,9 +56,9 @@ END_VAR
         <ST><![CDATA[CASE State OF
 	0:
 		IF _MoveMover THEN
-			_done := FALSE;
-			_error := FALSE;
-			_busy := TRUE;
+			_Done := FALSE;
+			_Error := FALSE;
+			_Busy := TRUE;
 			moveAbs.Execute := TRUE;
 			IF moveAbs.Busy THEN
 				State := 10;
@@ -69,11 +69,11 @@ END_VAR
 	10:
 		IF NOT moveAbs.Busy THEN
 			IF moveAbs.Done THEN
-				_done := TRUE;
+				_Done := TRUE;
 			ELSIF moveAbs.Error THEN
-				_error := TRUE;
+				_Error := TRUE;
 			END_IF
-			_busy := FALSE;
+			_Busy := FALSE;
 			moveAbs.Execute := FALSE;
 			State := 0;
 		END_IF
@@ -110,7 +110,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_axis REF= axis;
+        <ST><![CDATA[_Axis REF= Axis;
 ]]></ST>
       </Implementation>
     </Method>

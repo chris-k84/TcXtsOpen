@@ -9,7 +9,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	mcHalt : Tc2_MC2.MC_Halt;
-	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
+	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;
 	_Halt : BOOL;
 END_VAR
 ]]></Declaration>
@@ -35,9 +35,9 @@ END_VAR
         <ST><![CDATA[CASE State OF
 	0:
 		IF _Halt THEN
-			_done := FALSE;
-			_error := FALSE;
-			_busy := TRUE;
+			_Done := FALSE;
+			_Error := FALSE;
+			_Busy := TRUE;
 			mcHalt.Execute := TRUE;
 			IF mcHalt.Busy THEN
 				State := 10;
@@ -48,11 +48,11 @@ END_VAR
 	10:
 		IF NOT mcHalt.Busy THEN
 			IF mcHalt.Done THEN
-				_done := TRUE;
+				_Done := TRUE;
 			ELSIF mcHalt.Error THEN
-				_error := TRUE;
+				_Error := TRUE;
 			END_IF
-			_busy := FALSE;
+			_Busy := FALSE;
 			mcHalt.Execute := FALSE;
 			State := 0;
 		END_IF

@@ -9,7 +9,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	haltMover : Tc3_McCollisionAvoidance.MC_HaltCA;
-	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
+	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;
 	_HaltMover : BOOL;
 END_VAR
 ]]></Declaration>
@@ -20,7 +20,7 @@ END_VAR
       <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
       <Implementation>
         <ST><![CDATA[haltMover.Execute := FALSE;
-_busy := FALSE;
+_Busy := FALSE;
 _HaltMover := FALSE;
 Abort := TRUE;
 State := 0;]]></ST>
@@ -35,9 +35,9 @@ END_VAR
         <ST><![CDATA[CASE State OF
 	0:
 		IF _HaltMover THEN
-			_done := FALSE;
-			_error := FALSE;
-			_busy := TRUE;
+			_Done := FALSE;
+			_Error := FALSE;
+			_Busy := TRUE;
 			haltMover.Execute := TRUE;
 			IF haltMover.Busy THEN
 				State := 10;
@@ -48,17 +48,17 @@ END_VAR
 	10:
 		IF NOT haltMover.Busy THEN
 			IF haltMover.Done THEN
-				_done := TRUE;
+				_Done := TRUE;
 			ELSIF haltMover.Error THEN
-				_error := TRUE;
+				_Error := TRUE;
 			END_IF
-			_busy := FALSE;
+			_Busy := FALSE;
 			haltMover.Execute := FALSE;
 			State := 0;
 		END_IF
 END_CASE
 
-haltMover(Axis := _axis);]]></ST>
+haltMover(Axis := _Axis);]]></ST>
       </Implementation>
     </Method>
     <Method Name="Execute" Id="{87eca2aa-365e-4c2f-b198-b62e8029fb82}">
@@ -75,11 +75,11 @@ END_VAR
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	axis : reference TO AXIS_REF;
+	Axis : reference TO AXIS_REF;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_axis REF= axis;]]></ST>
+        <ST><![CDATA[_Axis REF= Axis;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="HaltMover">

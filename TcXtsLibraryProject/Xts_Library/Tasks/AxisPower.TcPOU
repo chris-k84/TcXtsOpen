@@ -15,24 +15,12 @@ END_VAR
       <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
       <Implementation>
         <ST><![CDATA[mcPower.Enable := mcPower.Enable_Negative := mcPower.Enable_Positive := FALSE;
-_busy := FALSE;
+_Busy := FALSE;
 EnableAxis := FALSE;
 Abort := TRUE;
 State := 0;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Busy" Id="{ddba5b4b-7d40-4f36-8db1-a6716deec705}">
-      <Declaration><![CDATA[PROPERTY Busy : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{9b7a0172-33ea-452e-8a78-93ea3fcbd155}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Busy := _busy;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="Cycle" Id="{c1cf1940-bcdc-4ac4-844e-317c1f14fe0e}">
       <Declaration><![CDATA[METHOD Cycle : BOOL
 VAR_INPUT
@@ -42,9 +30,9 @@ END_VAR
         <ST><![CDATA[CASE State OF
 	0:
 		IF EnableAxis THEN
-			_done := FALSE;
-			_error := FALSE;
-			_busy := TRUE;
+			_Done := FALSE;
+			_Error := FALSE;
+			_Busy := TRUE;
 			mcPower.Enable := mcPower.Enable_Negative := mcPower.Enable_Positive := TRUE;
 			mcPower.Override := 100;
 			State := 10;
@@ -52,23 +40,23 @@ END_VAR
 	
 	10:
 		IF mcPower.Status THEN
-			_busy := FALSE;
-			_done := TRUE;
-			state := 20;
+			_Busy := FALSE;
+			_Done := TRUE;
+			State := 20;
 		END_IF
 	
 	20:
 		IF NOT EnableAxis THEN
-			_done := FALSE;
-			_busy := TRUE;
+			_Done := FALSE;
+			_Busy := TRUE;
 			mcPower.Enable := mcPower.Enable_Negative := mcPower.Enable_Positive := FALSE;
 			State := 30;
 		END_IF
 	30:
 		IF NOT mcPower.Status THEN
-			_busy := FALSE;
-			_done := TRUE;
-			state := 0;
+			_Busy := FALSE;
+			_Done := TRUE;
+			State := 0;
 		END_IF
 END_CASE
 
@@ -89,18 +77,6 @@ EnableAxis := FALSE;
 ]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Done" Id="{2a6f74b1-4612-4c5c-8183-7e2e723cace1}">
-      <Declaration><![CDATA[PROPERTY Done : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{2795674a-7442-4a66-b5a6-a5db1bd6b975}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Done := _done;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="Enable" Id="{afe5d65c-4532-4d19-b244-08cfed3445ed}">
       <Declaration><![CDATA[METHOD Enable : BOOL
 VAR_INPUT
@@ -113,19 +89,6 @@ END_IF
 Enable := EnableAxis := true;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Error" Id="{bb239cfe-26e0-4deb-800e-e083f2826d40}">
-      <Declaration><![CDATA[
-PROPERTY Error : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{106bda7c-b8c8-4cc1-973a-9bcd4f6f0075}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Error := _error;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="FB_init" Id="{03d72923-bd2d-4684-847b-d6b404bc945a}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
@@ -146,9 +109,6 @@ END_VAR
       <LineId Id="13" Count="1" />
       <LineId Id="7" Count="0" />
       <LineId Id="4" Count="0" />
-    </LineIds>
-    <LineIds Name="AxisPower.Busy.Get">
-      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="AxisPower.Cycle">
       <LineId Id="10" Count="6" />
@@ -175,16 +135,10 @@ END_VAR
       <LineId Id="10" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="AxisPower.Done.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
     <LineIds Name="AxisPower.Enable">
       <LineId Id="11" Count="1" />
       <LineId Id="10" Count="0" />
       <LineId Id="6" Count="0" />
-    </LineIds>
-    <LineIds Name="AxisPower.Error.Get">
-      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="AxisPower.FB_init">
       <LineId Id="7" Count="0" />

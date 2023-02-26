@@ -27,9 +27,9 @@ END_VAR
         <ST><![CDATA[CASE State OF
 	0:
 		IF _MoveMover THEN
-			_done := FALSE;
-			_error := FALSE;
-			_busy := TRUE;
+			_Done := FALSE;
+			_Error := FALSE;
+			_Busy := TRUE;
 			moveAbs.Execute := TRUE;
 			StartZone := GetZone();
 			moveAbs.Velocity := ZoneVelocities[StartZone];
@@ -42,11 +42,11 @@ END_VAR
 	10:
 		IF NOT moveAbs.Busy THEN
 			IF moveAbs.Done THEN
-				_done := TRUE;
+				_Done := TRUE;
 			ELSIF moveAbs.Error THEN
-				_error := TRUE;
+				_Error := TRUE;
 			END_IF
-			_busy := FALSE;
+			_Busy := FALSE;
 			moveAbs.Execute := FALSE;
 			State := 0;
 		ELSE
@@ -59,7 +59,7 @@ END_VAR
 		END_IF
 END_CASE
 
-moveAbs(Axis := _axis);]]></ST>
+moveAbs(Axis := _Axis);]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_init" Id="{da0f4d0e-d988-4a2c-b0bd-f2bd7411d8b3}">
@@ -84,14 +84,14 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF _axis.NcToPlc.ModuloActPos > ZoneTransitionPositions[1] AND _axis.NcToPlc.ModuloActPos < ZoneTransitionPositions[2] THEN
+        <ST><![CDATA[IF _Axis.NcToPlc.ModuloActPos > ZoneTransitionPositions[1] AND _Axis.NcToPlc.ModuloActPos < ZoneTransitionPositions[2] THEN
 	GetZone := 1;
-ELSIF (_axis.NcToPlc.ModuloActPos > ZoneTransitionPositions[2] AND _axis.NcToPlc.ModuloActPos < 11000.0) 
-		OR _axis.NcToPlc.ModuloActPos > 0.0 AND  _axis.NcToPlc.ModuloActPos < ZoneTransitionPositions[3] THEN
+ELSIF (_Axis.NcToPlc.ModuloActPos > ZoneTransitionPositions[2] AND _Axis.NcToPlc.ModuloActPos < 11000.0) 
+		OR _Axis.NcToPlc.ModuloActPos > 0.0 AND  _Axis.NcToPlc.ModuloActPos < ZoneTransitionPositions[3] THEN
 	GetZone := 2;
-ELSIF _axis.NcToPlc.ModuloActPos > ZoneTransitionPositions[3] AND _axis.NcToPlc.ModuloActPos < ZoneTransitionPositions[4] THEN
+ELSIF _Axis.NcToPlc.ModuloActPos > ZoneTransitionPositions[3] AND _Axis.NcToPlc.ModuloActPos < ZoneTransitionPositions[4] THEN
 	GetZone := 3;
-ELSIF _axis.NcToPlc.ModuloActPos > ZoneTransitionPositions[4] THEN
+ELSIF _Axis.NcToPlc.ModuloActPos > ZoneTransitionPositions[4] THEN
 	GetZone := 4;
 ELSE
 	GetZone := 4;

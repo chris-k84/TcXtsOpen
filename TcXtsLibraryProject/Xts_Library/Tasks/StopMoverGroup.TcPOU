@@ -36,26 +36,26 @@ END_VAR
         <ST><![CDATA[CASE State OF
 	0:
 		IF _stopGroup THEN
-			_done := FALSE;
-			_error := FALSE;
-			_busy := TRUE;
+			_Done := FALSE;
+			_Error := FALSE;
+			_Busy := TRUE;
 			groupStop.Execute := TRUE;
 			IF groupStop.Busy THEN
 				State := 10;
 				_stopGroup := FALSE;
-				Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupStopping,'');
+				Logger.Send(TC_EVENTS.XtsCaGroupEvents.CAGroupStopping,'');
 			END_IF
 		END_IF
 	10:
 		IF groupStop.Done THEN
-			_done := TRUE;
-			Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupStopped,'');
+			_Done := TRUE;
+			Logger.Send(TC_EVENTS.XtsCaGroupEvents.CAGroupStopped,'');
 		ELSIF groupStop.Error THEN
-			_error := TRUE;
-			Logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupStopError,'');
+			_Error := TRUE;
+			Logger.Send(TC_EVENTS.XtsCaGroupEvents.CAGroupStopError,'');
 		END_IF
-		IF _done OR _error THEN
-			_busy := FALSE;
+		IF _Done OR _Error THEN
+			_Busy := FALSE;
 			groupStop.Execute := FALSE;
 			State := 0;
 		END_IF

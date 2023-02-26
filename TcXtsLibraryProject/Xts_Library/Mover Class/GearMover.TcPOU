@@ -30,8 +30,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT bInit THEN
-	IF THIS^._axis.NcToPlc.AxisId <> 0 THEN
-		IF (THIS^._axis.NcToPlc.AxisId MOD 2)<>1 THEN
+	IF THIS^._Axis.NcToPlc.AxisId <> 0 THEN
+		IF (THIS^._Axis.NcToPlc.AxisId MOD 2)<>1 THEN
 			Mode.8 := TRUE;
 			isMasterAxis := TRUE;
 		ELSE
@@ -43,7 +43,7 @@ END_VAR
 END_IF
 
 IF isMasterAxis THEN
-	IF (_axis.NcToPlc.ModuloActPos > 3400 OR _axis.NcToPlc.ModuloActPos < 300)  THEN
+	IF (_Axis.NcToPlc.ModuloActPos > 3400 OR _Axis.NcToPlc.ModuloActPos < 300)  THEN
 		CurrentLimit := 1000;
 	ELSE
 		CurrentLimit := 2000;
@@ -80,7 +80,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[inGear := axesGear.gearInCA.InSync;]]></ST>
+        <ST><![CDATA[inGear := axesGear.GearInPosCA.InSync;]]></ST>
       </Implementation>
     </Method>
     <Method Name="isMaster" Id="{f7cde0d7-54e3-403f-8a16-457e977c3959}">

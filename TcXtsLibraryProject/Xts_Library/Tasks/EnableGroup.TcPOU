@@ -35,27 +35,27 @@ END_VAR
         <ST><![CDATA[CASE State OF
 	0:
 		IF _enableGroup THEN
-			_done := FALSE;
-			_error := FALSE;
-			_busy := TRUE;
+			_Done := FALSE;
+			_Error := FALSE;
+			_Busy := TRUE;
 			groupEnable.Execute := TRUE;
 			IF groupEnable.Busy THEN
 				State := 10;
 				_enableGroup := FALSE;
-				logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupEnabling,'');
+				Logger.Send(TC_EVENTS.XtsCaGroupEvents.CAGroupEnabling,'');
 			END_IF
 		END_IF
 	
 	10:
 		IF NOT groupEnable.Busy THEN
 			IF groupEnable.Done THEN
-				_done := TRUE;
-				logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupEnabled,'');
+				_Done := TRUE;
+				Logger.Send(TC_EVENTS.XtsCaGroupEvents.CAGroupEnabled,'');
 			ELSIF groupEnable.Error THEN
-				_error := TRUE;
-				logger.Send(TC_EVENTS.XtsCAGroupEvents.CAGroupEnableError,'');
+				_Error := TRUE;
+				Logger.Send(TC_EVENTS.XtsCaGroupEvents.CAGroupEnableError,'');
 			END_IF
-			_busy := FALSE;
+			_Busy := FALSE;
 			groupEnable.Execute := false;
 			State := 0;
 		END_IF

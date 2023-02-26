@@ -9,7 +9,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	resetMover : Tc2_MC2.MC_Reset;
-	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
+	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;
 	_ResetMover : BOOL;
 END_VAR
 ]]></Declaration>
@@ -36,9 +36,9 @@ END_VAR
         <ST><![CDATA[CASE State OF
 	0:
 		IF _ResetMover THEN
-			_done := FALSE;
-			_error := FALSE;
-			_busy := TRUE;
+			_Done := FALSE;
+			_Error := FALSE;
+			_Busy := TRUE;
 			resetMover.Execute := TRUE;
 			IF resetMover.Busy THEN
 				State := 10;
@@ -49,11 +49,11 @@ END_VAR
 	10:
 		IF NOT resetMover.Busy THEN
 			IF resetMover.Done THEN
-				_done := TRUE;
+				_Done := TRUE;
 			ELSIF resetMover.Error THEN
-				_error := TRUE;
+				_Error := TRUE;
 			END_IF
-			_busy := FALSE;
+			_Busy := FALSE;
 			resetMover.Execute := FALSE;
 			State := 0;
 		END_IF
