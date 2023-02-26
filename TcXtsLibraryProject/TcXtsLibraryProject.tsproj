@@ -1,19 +1,5 @@
 <?xml version="1.0"?>
 <TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.35">
-	<DataTypes>
-		<DataType>
-			<Name GUID="{B5F32A05-5720-4303-AF7B-6E59883E0D92}" PersistentType="true">XtsCaGroupEvents</Name>
-			<DisplayName TxtId=""><![CDATA[NewEventClass_DisplayText]]></DisplayName>
-			<EventId>
-				<Name Id="1">Event</Name>
-				<DisplayName TxtId=""><![CDATA[Event_DisplayText]]></DisplayName>
-				<Severity>Verbose</Severity>
-			</EventId>
-			<Hides>
-				<Hide GUID="{201B62BA-E636-4D49-B82D-A3220C214F6A}"/>
-			</Hides>
-		</DataType>
-	</DataTypes>
 	<Project ProjectGUID="{823D7D36-8BF7-436B-9621-3004CD8896DF}" Target64Bit="true" ShowHideConfigurations="#x106">
 		<System>
 			<Tasks>
@@ -21,6 +7,9 @@
 					<Name>PlcTask</Name>
 				</Task>
 			</Tasks>
+			<TypeSystem>
+				<AdditionalTmcFile Name="Events" File="..\Src\Events.tmc"/>
+			</TypeSystem>
 		</System>
 		<Plc>
 			<Project File="Xts_Library.xti"/>
