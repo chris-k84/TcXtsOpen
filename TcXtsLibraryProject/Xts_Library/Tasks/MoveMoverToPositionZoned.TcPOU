@@ -9,7 +9,7 @@ END_VAR
 VAR
 	StartZone: INT;
 	CurrentZone : INT;
-	ZoneTransitionPositions : ARRAY[1..4] OF DINT;
+	ZoneTransitionPositions : ARRAY[1..4] OF LREAL;
 	ZoneVelocities : ARRAY[1..4] OF MC_LREAL;
 END_VAR
 
@@ -68,7 +68,7 @@ VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
 	axis : REFERENCE TO AXIS_REF;
-	arrPositions : ARRAY[1..4] OF DINT;
+	arrPositions : ARRAY[1..4] OF LREAL;
 	arrVelos : ARRAY[1..4] OF MC_LREAL;
 END_VAR
 ]]></Declaration>

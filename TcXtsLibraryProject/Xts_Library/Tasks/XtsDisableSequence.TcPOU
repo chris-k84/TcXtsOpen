@@ -11,7 +11,7 @@ VAR
 	removeAllAxes : RemoveAllMoverFromGroup(_collisionGroup);
 	grpStop : StopMoverGroup(_collisionGroup);
 	DisableTrigger: BOOL;
-	moverNumbers : DINT := 1;
+	moverNumbers : UINT := 1;
 	AllMoversDisabled: BOOL;	
 	Logger : TcMessage_Ext;
 	arrMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover;

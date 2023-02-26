@@ -9,7 +9,7 @@ END_VAR
 VAR
 	_collisionGroup : ICollisionGroup;
 	addMover : AddMoverToGroupTask(_collisionGroup);
-	moverNumbers : DINT;
+	moverNumbers : UINT;
 	AllMoversEnabled: BOOL;
 	EnableTrigger : BOOL;	
 	Logger : TcMessage_Ext;
@@ -70,9 +70,9 @@ END_VAR
 		State := 30;
 		
 	30:
-		arrMovers[moverNumbers].IdentInGroup := DINT_TO_INT( moverNumbers);
+		arrMovers[moverNumbers].IdentInGroup := UINT_TO_INT( moverNumbers);
 		addMover.AddMover(MoverToAdd := arrMovers[moverNumbers]);
-		logger.Send(TC_EVENTS.XtsCAGroupEvents.AddingMoverToGroup,DINT_TO_STRING(moverNumbers));
+		logger.Send(TC_EVENTS.XtsCAGroupEvents.AddingMoverToGroup,UINT_TO_STRING(moverNumbers));
 		State := 40;
 		
 	40:

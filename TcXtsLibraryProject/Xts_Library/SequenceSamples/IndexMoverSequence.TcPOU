@@ -4,7 +4,7 @@
     <Declaration><![CDATA[FUNCTION_BLOCK IndexMoverSequence EXTENDS CyclicBase
 VAR
 	State : IndexSequenceState;  
-	CurrentStation : INT;
+	CurrentStation : UINT;
 	TargetStationPosition : MC_LREAL;
 	_MoverVelocity : MC_LREAL := 1000.0;
 	stSequenceInfo : MoverSequenceInfo;
