@@ -52,7 +52,7 @@ END_VAR
       </Get>
     </Property>
     <Method Name="Cycle" Id="{df169178-ee0f-491e-a015-1bc9be6eb17c}" FolderPath="Methods\">
-      <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>

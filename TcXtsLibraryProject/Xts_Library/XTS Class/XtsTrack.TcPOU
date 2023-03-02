@@ -90,7 +90,7 @@ END_CASE
       </Implementation>
     </Method>
     <Method Name="Cycle" Id="{da42838e-fb00-40a5-96f4-b787aa883566}">
-      <Declaration><![CDATA[METHOD PUBLIC Cycle : BOOL
+      <Declaration><![CDATA[METHOD PUBLIC Cycle : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>

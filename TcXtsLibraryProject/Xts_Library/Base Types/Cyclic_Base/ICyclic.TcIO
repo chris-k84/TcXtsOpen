@@ -4,7 +4,7 @@
     <Declaration><![CDATA[INTERFACE ICyclic
 ]]></Declaration>
     <Method Name="Cycle" Id="{9328a0f1-a90d-492d-9040-3cf20f5a03ea}">
-      <Declaration><![CDATA[METHOD Cycle : BOOL
+      <Declaration><![CDATA[METHOD Cycle : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>

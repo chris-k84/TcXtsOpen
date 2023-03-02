@@ -47,7 +47,7 @@ END_VAR
       </Set>
     </Property>
     <Method Name="Cycle" Id="{a39af4f2-815a-48ca-8486-fcba13c88617}">
-      <Declaration><![CDATA[METHOD Cycle : BOOL
+      <Declaration><![CDATA[METHOD Cycle : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -55,6 +55,7 @@ END_VAR
         <ST><![CDATA[CASE State OF
 	0:
 		IF _MoveSwitch THEN
+			Cycle := S_PENDING;
 			_Done := FALSE;
 			_Error := FALSE;
 			_Busy := TRUE;
@@ -75,6 +76,7 @@ END_VAR
 			_Busy := FALSE;
 			moveAbs.Execute := FALSE;
 			State := 0;
+			Cycle := S_OK;
 		END_IF
 END_CASE
 
@@ -163,7 +165,11 @@ _MoveSwitch := MoveTo := true;]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="Mc2MoveToPosition.Cycle">
-      <LineId Id="6" Count="25" />
+      <LineId Id="6" Count="2" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="9" Count="19" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="29" Count="2" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="Mc2MoveToPosition.Deceleration.Get">

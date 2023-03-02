@@ -27,7 +27,7 @@ State := 0;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Cycle" Id="{53999691-fece-418c-ba0c-d2348e6bf666}">
-      <Declaration><![CDATA[METHOD Cycle : BOOL
+      <Declaration><![CDATA[METHOD Cycle : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -35,6 +35,7 @@ END_VAR
         <ST><![CDATA[CASE State OF
 	0:
 		IF _enableGroup THEN
+			Cycle := S_PENDING;
 			_Done := FALSE;
 			_Error := FALSE;
 			_Busy := TRUE;
@@ -58,6 +59,7 @@ END_VAR
 			_Busy := FALSE;
 			groupEnable.Execute := false;
 			State := 0;
+			Cycle := S_OK;
 		END_IF
 END_CASE
 
@@ -91,7 +93,11 @@ END_VAR
       <LineId Id="4" Count="2" />
     </LineIds>
     <LineIds Name="EnableGroup.Cycle">
-      <LineId Id="6" Count="29" />
+      <LineId Id="6" Count="2" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="9" Count="22" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="32" Count="3" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="EnableGroup.Execute">

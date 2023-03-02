@@ -14,7 +14,7 @@ END_VAR
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="Cycle" Id="{90b295e7-21c8-4280-8b63-dc25678715c4}">
-      <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>

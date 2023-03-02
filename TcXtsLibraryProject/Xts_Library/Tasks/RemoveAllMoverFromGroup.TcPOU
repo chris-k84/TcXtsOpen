@@ -27,7 +27,7 @@ State := 0;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Cycle" Id="{c68e4170-0a2c-460f-9ca9-a0eca48c8c15}">
-      <Declaration><![CDATA[METHOD Cycle : BOOL
+      <Declaration><![CDATA[METHOD Cycle : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -35,6 +35,7 @@ END_VAR
         <ST><![CDATA[CASE State OF
 	0:
 		IF _removeAllMovers THEN
+			Cycle := S_PENDING;
 			_Done := FALSE;
 			_Error := FALSE;
 			_Busy := TRUE;
@@ -59,6 +60,7 @@ END_VAR
 			_Busy := FALSE;
 			RemoveAllFromGrp.Execute := false;
 			State := 0;
+			Cycle := S_OK;
 		END_IF
 END_CASE
 
@@ -94,7 +96,11 @@ END_VAR
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="RemoveAllMoverFromGroup.Cycle">
-      <LineId Id="6" Count="30" />
+      <LineId Id="6" Count="2" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="9" Count="23" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="33" Count="3" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="RemoveAllMoverFromGroup.FB_init">

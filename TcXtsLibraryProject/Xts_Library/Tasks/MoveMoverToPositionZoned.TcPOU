@@ -19,7 +19,7 @@ END_VAR
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="Cycle" Id="{eb845f59-8ed2-4dab-ae31-28a22edc164c}">
-      <Declaration><![CDATA[METHOD Cycle : BOOL
+      <Declaration><![CDATA[METHOD Cycle : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -27,6 +27,7 @@ END_VAR
         <ST><![CDATA[CASE State OF
 	0:
 		IF _MoveMover THEN
+			Cycle := S_PENDING;
 			_Done := FALSE;
 			_Error := FALSE;
 			_Busy := TRUE;
@@ -55,6 +56,7 @@ END_VAR
 				moveAbs.Execute := FALSE;
 				State := 0;
 				_MoveMover := TRUE;
+				Cycle := S_OK;
 			END_IF
 		END_IF
 END_CASE
@@ -102,7 +104,11 @@ END_IF]]></ST>
       <LineId Id="22" Count="0" />
     </LineIds>
     <LineIds Name="MoveMoverToPositionZoned.Cycle">
-      <LineId Id="6" Count="34" />
+      <LineId Id="6" Count="2" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="9" Count="27" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="37" Count="3" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="MoveMoverToPositionZoned.FB_init">

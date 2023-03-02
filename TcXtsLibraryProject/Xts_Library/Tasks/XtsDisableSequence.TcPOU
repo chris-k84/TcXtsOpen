@@ -30,7 +30,7 @@ grpStop.Abort();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Cycle" Id="{981b7190-eb15-4a0a-8875-0afb334ed36e}">
-      <Declaration><![CDATA[METHOD Cycle : BOOL
+      <Declaration><![CDATA[METHOD Cycle : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -38,6 +38,7 @@ END_VAR
         <ST><![CDATA[CASE State OF
 	0:
 		IF DisableTrigger THEN
+			Cycle := S_PENDING;
 			DisableTrigger := FALSE;
 			_Busy := TRUE;
 			_Done := FALSE;
@@ -92,7 +93,7 @@ END_VAR
 			State := 0;
 			grpStop.Deceleration := Tc3_Mc3Definitions.MC_DEFAULT;
 			grpStop.Jerk := Tc3_Mc3Definitions.MC_DEFAULT;
-			
+			Cycle := S_OK;
 			_Busy := FALSE;
 			_Done := TRUE;
 		END_IF
@@ -163,7 +164,9 @@ grpStop.Jerk := Tc3_Mc3Definitions.MC_MAXIMUM;]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.Cycle">
-      <LineId Id="6" Count="63" />
+      <LineId Id="6" Count="2" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="9" Count="60" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.Disable">

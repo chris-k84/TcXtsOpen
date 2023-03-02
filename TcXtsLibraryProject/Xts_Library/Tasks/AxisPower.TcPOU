@@ -22,7 +22,7 @@ State := 0;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Cycle" Id="{c1cf1940-bcdc-4ac4-844e-317c1f14fe0e}">
-      <Declaration><![CDATA[METHOD Cycle : BOOL
+      <Declaration><![CDATA[METHOD Cycle : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -30,6 +30,7 @@ END_VAR
         <ST><![CDATA[CASE State OF
 	0:
 		IF EnableAxis THEN
+			Cycle := S_PENDING;
 			_Done := FALSE;
 			_Error := FALSE;
 			_Busy := TRUE;
@@ -43,6 +44,7 @@ END_VAR
 			_Busy := FALSE;
 			_Done := TRUE;
 			State := 20;
+			Cycle := S_OK;
 		END_IF
 	
 	20:
@@ -51,12 +53,14 @@ END_VAR
 			_Busy := TRUE;
 			mcPower.Enable := mcPower.Enable_Negative := mcPower.Enable_Positive := FALSE;
 			State := 30;
+			Cycle := S_PENDING;
 		END_IF
 	30:
 		IF NOT mcPower.Status THEN
 			_Busy := FALSE;
 			_Done := TRUE;
 			State := 0;
+			Cycle := S_OK;
 		END_IF
 END_CASE
 
@@ -111,20 +115,27 @@ END_VAR
       <LineId Id="4" Count="0" />
     </LineIds>
     <LineIds Name="AxisPower.Cycle">
-      <LineId Id="10" Count="6" />
+      <LineId Id="10" Count="2" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="13" Count="3" />
       <LineId Id="36" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="21" Count="2" />
       <LineId Id="39" Count="1" />
       <LineId Id="42" Count="1" />
+      <LineId Id="54" Count="0" />
       <LineId Id="41" Count="0" />
       <LineId Id="37" Count="1" />
       <LineId Id="24" Count="0" />
       <LineId Id="26" Count="0" />
-      <LineId Id="30" Count="3" />
+      <LineId Id="30" Count="2" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="33" Count="0" />
       <LineId Id="44" Count="1" />
       <LineId Id="48" Count="1" />
-      <LineId Id="46" Count="1" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="47" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="35" Count="0" />
       <LineId Id="34" Count="0" />

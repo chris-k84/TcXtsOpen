@@ -34,7 +34,7 @@ END_VAR]]></Declaration>
 ]]></ST>
     </Implementation>
     <Method Name="Cycle" Id="{b464f15b-ca99-474e-bc8b-11279972c349}">
-      <Declaration><![CDATA[METHOD Cycle : BOOL
+      <Declaration><![CDATA[METHOD Cycle : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>

@@ -40,7 +40,7 @@ _Ready := TRUE;
       </Implementation>
     </Method>
     <Method Name="Cycle" Id="{718bc2ed-83e9-4df0-b688-ff0112cf7157}">
-      <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>

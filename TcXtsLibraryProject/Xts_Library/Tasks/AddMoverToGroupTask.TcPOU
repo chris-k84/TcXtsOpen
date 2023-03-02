@@ -40,7 +40,7 @@ AddMover := _addMover := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Cycle" Id="{6096abf8-fe4d-4db3-982a-c3405f3d7073}">
-      <Declaration><![CDATA[METHOD Cycle : BOOL
+      <Declaration><![CDATA[METHOD Cycle : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -48,6 +48,7 @@ END_VAR
         <ST><![CDATA[CASE State OF
 	0:
 		IF _addMover THEN
+			Cycle := S_PENDING;
 			_Done := FALSE;
 			_Error := FALSE;
 			_Busy := TRUE;
@@ -68,6 +69,7 @@ END_VAR
 			_Busy := FALSE;
 			AddtoGrp.Execute := false;
 			State := 0;
+			Cycle := S_OK;
 		END_IF
 END_CASE
 
@@ -103,7 +105,11 @@ END_VAR
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="AddMoverToGroupTask.Cycle">
-      <LineId Id="6" Count="27" />
+      <LineId Id="6" Count="2" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="9" Count="19" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="29" Count="4" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="AddMoverToGroupTask.FB_init">

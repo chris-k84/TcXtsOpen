@@ -28,7 +28,7 @@ Abort := true;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Cycle" Id="{eb283c73-ef4f-42f6-83b9-10b77e01e97b}">
-      <Declaration><![CDATA[METHOD Cycle : BOOL
+      <Declaration><![CDATA[METHOD Cycle : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -36,6 +36,7 @@ END_VAR
         <ST><![CDATA[CASE State OF
 	0:
 		IF _stopGroup THEN
+			Cycle := S_PENDING;
 			_Done := FALSE;
 			_Error := FALSE;
 			_Busy := TRUE;
@@ -58,6 +59,7 @@ END_VAR
 			_Busy := FALSE;
 			groupStop.Execute := FALSE;
 			State := 0;
+			Cycle := S_OK;
 		END_IF
 END_CASE
 
@@ -129,7 +131,11 @@ END_VAR
       <LineId Id="4" Count="2" />
     </LineIds>
     <LineIds Name="StopMoverGroup.Cycle">
-      <LineId Id="6" Count="28" />
+      <LineId Id="6" Count="2" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="9" Count="21" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="31" Count="3" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="StopMoverGroup.Deceleration.Get">

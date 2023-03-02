@@ -23,7 +23,7 @@ StationMovers := State := 0;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Cycle" Id="{b831bddf-8042-4785-99f9-40cdea1773f4}">
-      <Declaration><![CDATA[METHOD Cycle : BOOL
+      <Declaration><![CDATA[METHOD Cycle : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>

@@ -32,7 +32,7 @@ stSequenceInfo.Velocity := ThisMover.AxisRef.NcToPlc.ActVelo;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Cycle" Id="{0bc270b2-0e7a-4545-b872-87f2d15ca3f5}">
-      <Declaration><![CDATA[METHOD PUBLIC  Cycle : BOOL
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
