@@ -43,7 +43,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[SUPER^.Cycle();
+        <ST><![CDATA[Cycle := SUPER^.Cycle();
 IF _identInGroup <> 0 THEN
 	mcReadTrackPositions(
 		Axis:= THIS^._Axis, 
@@ -57,7 +57,7 @@ IF _identInGroup <> 0 THEN
 		Error=> , 
 		ErrorId=> );
 END_IF
-ActivateATrack.Cycle();
+Cycle := ActivateATrack.Cycle();
 IF ActivateATrack.Done THEN 
 	_stOptions.PositionReferenceSystem :=  ActivateATrack.NewTrackId;
 	axesMoveModuloTo.Options := _stOptions;
@@ -67,7 +67,7 @@ IF ipTcIoXtsMover <> 0 THEN
 	stTmsActPositions:=ipTcIoXtsMover.GetPositionInfo();
 END_IF
 
-axesMoveModuloTo.Cycle();]]></ST>
+Cycle := axesMoveModuloTo.Cycle();]]></ST>
       </Implementation>
     </Method>
     <Method Name="HasCommand" Id="{ed907035-91a3-47dc-9314-24c9235dbc23}">
