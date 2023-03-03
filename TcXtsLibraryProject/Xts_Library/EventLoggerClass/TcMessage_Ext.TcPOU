@@ -46,6 +46,9 @@ END_VAR
 	THIS^.fbMsg.ipArguments.AddString(args);
 	THIS^.fbMsg.Send(0);
 	THIS^.fbMsg.Release();
+	Send := TRUE;
+ELSE
+	Send := FALSE;
 END_IF
 ]]></ST>
       </Implementation>
@@ -60,7 +63,9 @@ END_IF
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="TcMessage_Ext.Send">
-      <LineId Id="3" Count="5" />
+      <LineId Id="3" Count="4" />
+      <LineId Id="14" Count="2" />
+      <LineId Id="8" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

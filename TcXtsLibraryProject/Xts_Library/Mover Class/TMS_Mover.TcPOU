@@ -23,6 +23,8 @@ END_VAR
         <ST><![CDATA[IF NOT ActivateATrack.Busy THEN
 	ActivateATrack.Execute(Track := newTrack);
 	ActivateTrack := TRUE;
+ELSE
+	ActivateTrack := FALSE;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -93,11 +95,15 @@ END_VAR]]></Declaration>
 IF position > 1 THEN
 	IF stTmsActPositions.fTrackPosition < position + 1 AND stTmsActPositions.fTrackPosition > position - 1 THEN
 		isAtPosition := TRUE;
+	ELSE
+		isAtPosition := FALSE;
 	END_IF  
 ELSE
 	IF stTmsActPositions.fTrackPosition < position + 1 AND stTmsActPositions.fTrackPosition > 0.0  
 		OR stTmsActPositions.fTrackPosition < _trackLength AND stTmsActPositions.fTrackPosition > _trackLength - 1 THEN
 		isAtPosition := TRUE;
+	ELSE
+		isAtPosition := FALSE;
 	END_IF
 END_IF
 ]]></ST>
@@ -113,6 +119,8 @@ END_VAR
         <ST><![CDATA[IF position > 1 THEN
 	IF stTmsActPositions.fTrackPosition > position THEN
 		isPastPosition := TRUE;
+	ELSE
+		isPastPosition := FALSE;
 	END_IF  
 END_IF]]></ST>
       </Implementation>
@@ -131,7 +139,11 @@ END_VAR
 		THIS^.axesMoveModuloTo.MoveTo(Position := Position, Velocity := Velocity, Direction := Tc2_MC2.MC_Direction.MC_Positive_Direction, Turns := 0);
 		MoveTo := TRUE;
 		_targetPos := Position;
+	ELSE
+		MoveTo := FALSE;
 	END_IF
+ELSE
+	MoveTo := FALSE;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -142,7 +154,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[ipTcIoXtsMover := MoverInterface;]]></ST>
+        <ST><![CDATA[ipTcIoXtsMover := MoverInterface;
+SetMoverInterface := TRUE;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="TMS_Mover">
@@ -151,6 +164,7 @@ END_VAR
     <LineIds Name="TMS_Mover.ActivateTrack">
       <LineId Id="5" Count="1" />
       <LineId Id="12" Count="0" />
+      <LineId Id="17" Count="1" />
       <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="TMS_Mover.ActiveTrack.Get">
@@ -167,23 +181,32 @@ END_VAR
       <LineId Id="27" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="16" Count="1" />
+      <LineId Id="35" Count="1" />
       <LineId Id="14" Count="0" />
       <LineId Id="18" Count="1" />
       <LineId Id="22" Count="0" />
-      <LineId Id="20" Count="1" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="37" Count="1" />
+      <LineId Id="21" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="TMS_Mover.isPastPosition">
-      <LineId Id="7" Count="3" />
+      <LineId Id="7" Count="2" />
+      <LineId Id="15" Count="1" />
+      <LineId Id="10" Count="0" />
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="TMS_Mover.MoveTo">
-      <LineId Id="78" Count="5" />
+      <LineId Id="78" Count="4" />
+      <LineId Id="90" Count="1" />
+      <LineId Id="83" Count="0" />
+      <LineId Id="92" Count="1" />
       <LineId Id="64" Count="0" />
     </LineIds>
     <LineIds Name="TMS_Mover.SetMoverInterface">
       <LineId Id="5" Count="0" />
+      <LineId Id="10" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

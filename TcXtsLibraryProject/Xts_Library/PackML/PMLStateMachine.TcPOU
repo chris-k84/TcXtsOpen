@@ -38,7 +38,8 @@ END_IF
 
 _pmlStateMachine(eMode := _pmlModeMachine.eModeStatus, stSubUnitInfoRef := _SubUnitReference);
 _pmlModeMachine(eState := _pmlStateMachine.eState, bExecute := modeChangeTrigger.Q);
-modeChangeTrigger();]]></ST>
+modeChangeTrigger();
+Cycle := S_OK;]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetCurrentMode" Id="{f7905c4c-714b-498b-b04c-920a1380f7b9}">
@@ -67,7 +68,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[_pmlModeMachine.eModeCommand := Mode;
-modeChangeTrigger.CLK := true;]]></ST>
+modeChangeTrigger.CLK := TRUE;
+PmlModeCommand := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="PmlStateCommand" Id="{e72652e0-73b2-4e23-9575-4c2cc8e1653b}">
@@ -77,7 +79,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_pmlStateMachine.eCommand := Command;]]></ST>
+        <ST><![CDATA[_pmlStateMachine.eCommand := Command;
+PmlStateCommand := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="RegisterSubUnit" Id="{e84e1125-c3e0-45d6-bfd5-89e06f8482f4}">
@@ -101,7 +104,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_pmlStateMachine.M_StateComplete();]]></ST>
+        <ST><![CDATA[_pmlStateMachine.M_StateComplete();
+SetStateComplete := TRUE;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="PMLStateMachine">
@@ -110,6 +114,7 @@ END_VAR
     <LineIds Name="PMLStateMachine.Cycle">
       <LineId Id="6" Count="12" />
       <LineId Id="5" Count="0" />
+      <LineId Id="22" Count="0" />
     </LineIds>
     <LineIds Name="PMLStateMachine.GetCurrentMode">
       <LineId Id="5" Count="0" />
@@ -120,9 +125,11 @@ END_VAR
     <LineIds Name="PMLStateMachine.PmlModeCommand">
       <LineId Id="5" Count="0" />
       <LineId Id="10" Count="0" />
+      <LineId Id="15" Count="0" />
     </LineIds>
     <LineIds Name="PMLStateMachine.PmlStateCommand">
       <LineId Id="5" Count="0" />
+      <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="PMLStateMachine.RegisterSubUnit">
       <LineId Id="5" Count="0" />
@@ -135,6 +142,7 @@ END_VAR
     </LineIds>
     <LineIds Name="PMLStateMachine.SetStateComplete">
       <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

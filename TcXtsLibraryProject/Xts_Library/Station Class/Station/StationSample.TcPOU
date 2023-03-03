@@ -19,7 +19,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^();
-StationMovers := State := 0;]]></ST>
+StationMovers := State := 0;
+Abort := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Cycle" Id="{b831bddf-8042-4785-99f9-40cdea1773f4}">
@@ -69,7 +70,8 @@ IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborted
 END_IF
 
 SUPER^.Cycle();
-stInfo.StationProcessTime := _OperationTime;]]></ST>
+stInfo.StationProcessTime := _OperationTime;
+Cycle := S_OK;]]></ST>
       </Implementation>
     </Method>
     <Property Name="PmlStateMachine" Id="{d366101e-f161-43e4-b621-5f0379710a8f}">
@@ -115,10 +117,12 @@ END_VAR
     </LineIds>
     <LineIds Name="StationSample.Abort">
       <LineId Id="5" Count="1" />
+      <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="StationSample.Cycle">
       <LineId Id="6" Count="40" />
       <LineId Id="5" Count="0" />
+      <LineId Id="50" Count="0" />
     </LineIds>
     <LineIds Name="StationSample.PmlStateMachine.Get">
       <LineId Id="2" Count="0" />

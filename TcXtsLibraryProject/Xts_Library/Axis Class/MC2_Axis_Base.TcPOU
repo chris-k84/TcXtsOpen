@@ -62,6 +62,8 @@ END_VAR
 	axesHalt.Execute();
 	axesMoveTo.Abort();
 	HaltAxis := TRUE;
+ELSE 
+	HaltAxis := FALSE;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -83,6 +85,8 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF _axis.NcToPlc.ActPos < position + 0.2 AND _axis.NcToPlc.ActPos > position - 0.2 THEN
 	isAtPosition := TRUE;
+ELSE
+	isAtPosition := FALSE;
 END_IF  
 
 ]]></ST>
@@ -119,6 +123,8 @@ END_VAR
 		axesMoveTo.MoveTo(Position := Position, Velocity := Velocity);
 		MoveToPosition := TRUE;
 	END_IF
+ELSE
+	MoveToPosition := FALSE;
 END_IF
 ]]></ST>
       </Implementation>
@@ -131,7 +137,8 @@ END_VAR
       <Implementation>
         <ST><![CDATA[axesReset.Execute();
 axesMoveTo.Abort();
-axesHalt.Abort();]]></ST>
+axesHalt.Abort();
+ResetAxis := TRUE;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="MC2_Axis_Base">
@@ -153,13 +160,16 @@ axesHalt.Abort();]]></ST>
       <LineId Id="9" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="11" Count="0" />
+      <LineId Id="19" Count="1" />
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="MC2_Axis_Base.hasError">
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="MC2_Axis_Base.isAtPosition">
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="1" />
+      <LineId Id="13" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
     </LineIds>
@@ -170,12 +180,15 @@ axesHalt.Abort();]]></ST>
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="MC2_Axis_Base.MoveToPosition">
-      <LineId Id="122" Count="5" />
+      <LineId Id="122" Count="4" />
+      <LineId Id="133" Count="1" />
+      <LineId Id="127" Count="0" />
       <LineId Id="64" Count="0" />
     </LineIds>
     <LineIds Name="MC2_Axis_Base.ResetAxis">
       <LineId Id="6" Count="1" />
       <LineId Id="5" Count="0" />
+      <LineId Id="11" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

@@ -28,7 +28,8 @@ TargetStationPosition := 0.0;
 stSequenceInfo.CurrentStation := CurrentStation;
 stSequenceInfo.MoverId := ThisMover.AxisRef.NcToPlc.AxisId;
 stSequenceInfo.State := State;
-stSequenceInfo.Velocity := ThisMover.AxisRef.NcToPlc.ActVelo;]]></ST>
+stSequenceInfo.Velocity := ThisMover.AxisRef.NcToPlc.ActVelo;
+Abort := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Cycle" Id="{0bc270b2-0e7a-4545-b872-87f2d15ca3f5}">
@@ -143,7 +144,7 @@ CASE State OF
 			TargetStationPosition := 0.0;
 		END_IF
 END_CASE
-
+Cycle := S_OK;
 //Cyclic update info data
 stSequenceInfo.CurrentStation := CurrentStation;
 stSequenceInfo.MoverId := ThisMover.AxisRef.NcToPlc.AxisId;
@@ -254,6 +255,7 @@ END_VAR
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="2" />
       <LineId Id="8" Count="0" />
+      <LineId Id="15" Count="0" />
     </LineIds>
     <LineIds Name="IndexMoverSequence.Cycle">
       <LineId Id="6" Count="110" />

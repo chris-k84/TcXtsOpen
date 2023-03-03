@@ -161,7 +161,8 @@ END_VAR
 		State := Ready;	
 		DepartMover := 0;
 END_CASE
-SUPER^.Cycle();]]></ST>
+SUPER^.Cycle();
+Cycle := S_OK;]]></ST>
       </Implementation>
     </Method>
     <Method Name="HasMover" Id="{466b4750-cbf0-42df-80f2-b3d4852756ba}">
@@ -179,7 +180,8 @@ END_VAR]]></Declaration>
 		DepartMover := iTmsMover;
 		_HasMover := true;
 	END_IF
-END_IF]]></ST>
+END_IF
+HasMover := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="MoverAway" Id="{45498adf-6827-4a97-8c80-ff53aebb1724}">
@@ -308,12 +310,14 @@ END_VAR
     <LineIds Name="TmsEmbarkStation.Cycle">
       <LineId Id="6" Count="124" />
       <LineId Id="5" Count="0" />
+      <LineId Id="134" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.HasMover">
       <LineId Id="9" Count="3" />
       <LineId Id="20" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="27" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.MoverAway">
       <LineId Id="31" Count="0" />

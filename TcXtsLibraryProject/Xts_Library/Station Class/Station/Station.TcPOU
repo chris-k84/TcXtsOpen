@@ -36,6 +36,7 @@ END_VAR
 _Clear := TRUE;
 _Operating := FALSE;
 _Ready := TRUE;
+Abort := true;
 ]]></ST>
       </Implementation>
     </Method>
@@ -58,7 +59,9 @@ IF LastStation THEN
 	IF ProductCounter.Q THEN
 		Products := Products + 1;
 	END_IF
-END_IF]]></ST>
+END_IF
+
+Cycle := S_OK;]]></ST>
       </Implementation>
     </Method>
     <Method Name="HasMover" Id="{cfa7f397-450b-4982-8373-384ee5df1767}">
@@ -71,7 +74,8 @@ END_VAR]]></Declaration>
 IF StationMovers = NumberOfPositions THEN
 	_HasMover := TRUE;
 END_IF
-MyMover := mover;]]></ST>
+MyMover := mover;
+HasMover := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="IsClear" Id="{5a1d616a-dcb0-4a56-9caf-0526ba7a4fac}">
@@ -128,7 +132,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[StationMovers := StationMovers - 1;
-MyMover := 0;]]></ST>
+MyMover := 0;
+MoverAway := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Position" Id="{e826f73c-3eb0-49b1-8a82-785d3b45b5a4}">
@@ -163,16 +168,20 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="Station.Abort">
       <LineId Id="6" Count="3" />
+      <LineId Id="13" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="Station.Cycle">
       <LineId Id="6" Count="12" />
       <LineId Id="5" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="22" Count="0" />
     </LineIds>
     <LineIds Name="Station.HasMover">
       <LineId Id="7" Count="2" />
       <LineId Id="4" Count="0" />
       <LineId Id="13" Count="0" />
+      <LineId Id="17" Count="0" />
     </LineIds>
     <LineIds Name="Station.IsClear">
       <LineId Id="4" Count="0" />
@@ -195,6 +204,7 @@ END_IF]]></ST>
     <LineIds Name="Station.MoverAway">
       <LineId Id="2" Count="0" />
       <LineId Id="6" Count="0" />
+      <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="Station.Position.Get">
       <LineId Id="5" Count="3" />
