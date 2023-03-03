@@ -81,7 +81,7 @@ END_VAR
 		END_IF
 END_CASE
 
-moveAbs(Axis := _axis, Options := _stOptions);]]></ST>
+moveAbs(Axis := _Axis, Options := _stOptions);]]></ST>
       </Implementation>
     </Method>
     <Property Name="Deceleration" Id="{9b084d4a-e02d-4702-912a-4bc5910ddae2}">
@@ -112,7 +112,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_Axis REF= Axis;
+        <ST><![CDATA[_Axis REF= axis;
 ]]></ST>
       </Implementation>
     </Method>

@@ -54,7 +54,7 @@ END_VAR
 				Logger.Send(TC_EVENTS.XtsCaGroupEvents.AllMoversRemoved,'');
 			ELSIF RemoveAllFromGrp.Error THEN
 				_Error := TRUE;
-				_ErrorId := RemoveAllFromGrp.ErrorId;
+				_errorId := RemoveAllFromGrp.ErrorId;
 				Logger.Send(TC_EVENTS.XtsCaGroupEvents.CAGroupRemoveError,'');
 			END_IF
 			_Busy := FALSE;

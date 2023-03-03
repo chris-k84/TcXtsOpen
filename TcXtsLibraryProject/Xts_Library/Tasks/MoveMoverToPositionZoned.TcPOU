@@ -75,7 +75,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[SUPER^();
+        <ST><![CDATA[_Axis REF= axis;
 ZoneTransitionPositions := arrPositions;
 ZoneVelocities := arrVelos;]]></ST>
       </Implementation>
