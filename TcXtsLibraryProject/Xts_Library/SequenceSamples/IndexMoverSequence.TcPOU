@@ -14,7 +14,7 @@ VAR
 	_startPosition : MC_LREAL;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{01dd3306-e903-4754-85c4-ea13c41e0b8c}">
       <Declaration><![CDATA[METHOD Abort : BOOL

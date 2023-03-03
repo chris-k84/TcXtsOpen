@@ -12,7 +12,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
     <Property Name="LoggerLevel" Id="{d56fe456-719d-4a96-8c1d-a040859bbf48}">
       <Declaration><![CDATA[PROPERTY PUBLIC LoggerLevel : TcEventSeverity]]></Declaration>

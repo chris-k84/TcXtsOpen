@@ -16,7 +16,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
     <Method Name="Cycle" Id="{6b3cc58f-cb00-45fb-b855-5eb19dbaab5d}">
       <Declaration><![CDATA[METHOD Cycle : HRESULT

@@ -87,9 +87,6 @@
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\MAIN.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="SequenceSamples\GearMoverSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -248,7 +245,6 @@
     <Folder Include="Mover Class" />
     <Folder Include="PackML" />
     <Folder Include="PackML_Method_Pattern" />
-    <Folder Include="POUs" />
     <Folder Include="SequenceSamples" />
     <Folder Include="Station Class" />
     <Folder Include="Station Class\Process" />

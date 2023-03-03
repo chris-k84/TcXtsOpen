@@ -10,7 +10,7 @@ VAR
 	ipackml : IPmlStateMachine;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
     <Folder Name="Action_States" Id="{7719f547-9feb-4937-b59c-20a931e8ad41}" />
     <Folder Name="Wait_States" Id="{2c32ef48-514a-481f-8d0d-8b942ec72232}" />

@@ -10,7 +10,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{c50ed2ab-5c1e-484a-beb4-7aa92d937e65}">
       <Declaration><![CDATA[METHOD Abort : BOOL
@@ -18,7 +18,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[{analysis -2}]]></ST>
       </Implementation>
     </Method>
     <Property Name="Busy" Id="{c2084324-8459-4ee4-a5af-e278c120f558}">

@@ -17,7 +17,7 @@ VAR
 	_arrVelocities : ARRAY[1..4] OF LREAL;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
     <Folder Name="Methods" Id="{11c06f36-011b-43e0-ba96-46cd7b32bc9c}" />
     <Folder Name="Properties" Id="{a74425e5-3b65-414c-b3c2-ebd17b6452b3}" />

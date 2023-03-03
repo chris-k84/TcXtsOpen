@@ -29,9 +29,7 @@ VAR
 	Xts24VStanding : BOOL;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-
-]]></ST>
+      <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
     <Method Name="Cycle" Id="{b464f15b-ca99-474e-bc8b-11279972c349}">
       <Declaration><![CDATA[METHOD Cycle : HRESULT
@@ -340,7 +338,6 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="XtsHardware">
-      <LineId Id="641" Count="1" />
       <LineId Id="58" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.Cycle">

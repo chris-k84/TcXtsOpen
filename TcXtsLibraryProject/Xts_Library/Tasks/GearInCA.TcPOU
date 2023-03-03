@@ -16,7 +16,7 @@ VAR_IN_OUT
 	_SlaveAxis : Tc2_MC2.AXIS_REF;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{33a44f0c-0e3b-4808-ac44-6bb8acc99a21}">
       <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>

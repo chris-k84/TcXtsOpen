@@ -17,7 +17,7 @@ VAR
 	arrMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{86211cf7-3baa-4942-994c-481ee3b2466c}">
       <Declaration><![CDATA[METHOD Abort : BOOL
