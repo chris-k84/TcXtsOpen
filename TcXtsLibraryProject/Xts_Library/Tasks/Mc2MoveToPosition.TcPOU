@@ -22,7 +22,7 @@ END_VAR
         <ST><![CDATA[moveAbs.Execute := FALSE;
 moveAbs.Position := moveAbs.Velocity := 0;
 _MoveSwitch := false;
-_busy := false;
+_Busy := false;
 Abort := true;
 State := 0;]]></ST>
       </Implementation>
@@ -80,7 +80,7 @@ END_VAR
 		END_IF
 END_CASE
 
-moveAbs(Axis := _axis);]]></ST>
+moveAbs(Axis := _Axis);]]></ST>
       </Implementation>
     </Method>
     <Property Name="Deceleration" Id="{207379d4-5297-4661-a6b0-70afa1cf5253}">
@@ -111,7 +111,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_axis REF= axis;
+        <ST><![CDATA[_Axis REF= axis;
 ]]></ST>
       </Implementation>
     </Method>

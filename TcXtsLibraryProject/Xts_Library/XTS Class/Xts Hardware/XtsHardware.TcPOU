@@ -86,7 +86,7 @@ CASE State OF
 	XtsHardwareState.CheckModuleVoltages:
 		Xts48VStanding := TRUE;
 		Xts24VStanding := TRUE;
-		FOR i := 1 TO SystemParameters.nModuleNumber DO
+		FOR i := 1 TO UINT_TO_UDINT(SystemParameters.nModuleNumber) DO
 			IF f48V[i] < 46000 THEN
 				Xts48VStanding := FALSE;
 			END_IF
@@ -132,9 +132,9 @@ END_VAR]]></Declaration>
 	f24V[ModuleIndex]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(PartIndex).ModuleCoE(nModuleCounter).InfoData.AuxiliaryVoltage24V;
 	f48V[ModuleIndex]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(PartIndex).ModuleCoE(nModuleCounter).InfoData.DcLinkVoltage;
 	ModuleIndex := ModuleIndex + 1;
-	IF nModuleCounter = DetectedModules[PartIndex] THEN
+	IF UINT_TO_UDINT(nModuleCounter) = DetectedModules[PartIndex] THEN
 		nModuleCounter := 1;
-		IF PartIndex = DetectedParts THEN
+		IF UINT_TO_UDINT(PartIndex) = DetectedParts THEN
 			PartIndex := 1;
 			ModuleIndex := 1;
 		ELSE
@@ -183,7 +183,7 @@ IF DetectedTracks <> _Tracks THEN
 	RETURN; 
 END_IF
 DetectedParts := XtsIoEnvironment.XpuTcIo(1).GetPartCount();
-FOR i := 1 TO UDINT_TO_UINT(DetectedParts) DO
+FOR i := 1 TO DetectedParts DO
 	DetectedModules[i] := XtsIoEnvironment.XpuTcIo(1).PartTcIo(UDINT_TO_UINT(i)).GetModuleCount();
 END_FOR
 GetTrackAssembly := TRUE;
@@ -305,7 +305,7 @@ END_VAR]]></Declaration>
         <ST><![CDATA[// Mover1 Functionality		
 // Check if "MoverIdDetectionMode" has been activated under the XtsProcessingUnit object.
 IF XtsIoEnvironment.XpuTcIo(1).GetMoverIdDetectionMode() = E_MoverIdDetectionMode.Mover1
-	OR XtsIoEnvironment.XpuTcIo(1).GetMoverIdDetectionMode() = 2 THEN
+	OR XtsIoEnvironment.XpuTcIo(1).GetMoverIdDetectionMode() = E_MoverIdDetectionMode.Standard THEN
 
 	// Check if the "MoverIdDetection" has already been started or the Mover1 was found.
 	IF NOT (bMoverIdDetectionActive OR bMoverIdDetected) THEN

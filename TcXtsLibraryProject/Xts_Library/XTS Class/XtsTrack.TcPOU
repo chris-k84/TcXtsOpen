@@ -108,7 +108,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR i := 1 TO SystemParameters.NumberOfMovers DO
 	IF __QUERYINTERFACE(_MoverArray[i],iTmsMover) THEN
-		iTmsMover.SetMoverInterface(MoverInterface := _XtsTrackHardware.GetMoverEnvInterface(DINT_TO_UINT(i)));
+		iTmsMover.SetMoverInterface(MoverInterface := _XtsTrackHardware.GetMoverEnvInterface(i));
 	END_IF
 END_FOR]]></ST>
       </Implementation>

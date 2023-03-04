@@ -25,7 +25,7 @@ END_VAR
         <ST><![CDATA[State := IndexSequenceState.Available;
 CurrentStation := 0;
 TargetStationPosition := 0.0;
-stSequenceInfo.CurrentStation := CurrentStation;
+stSequenceInfo.CurrentStation := UINT_TO_INT(CurrentStation);
 stSequenceInfo.MoverId := ThisMover.AxisRef.NcToPlc.AxisId;
 stSequenceInfo.State := State;
 stSequenceInfo.Velocity := ThisMover.AxisRef.NcToPlc.ActVelo;
@@ -146,7 +146,7 @@ CASE State OF
 END_CASE
 Cycle := S_OK;
 //Cyclic update info data
-stSequenceInfo.CurrentStation := CurrentStation;
+stSequenceInfo.CurrentStation := UINT_TO_INT(CurrentStation);
 stSequenceInfo.MoverId := ThisMover.AxisRef.NcToPlc.AxisId;
 stSequenceInfo.State := State;
 stSequenceInfo.Velocity := ThisMover.AxisRef.NcToPlc.ActVelo;]]></ST>

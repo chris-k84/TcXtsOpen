@@ -21,7 +21,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[resetMover.Execute := FALSE;
-_busy := FALSE;
+_Busy := FALSE;
 _ResetMover := FALSE;
 Abort := TRUE;
 State := 0;]]></ST>
@@ -61,7 +61,7 @@ END_VAR
 		END_IF
 END_CASE
 
-resetMover(Axis := _axis);]]></ST>
+resetMover(Axis := _Axis);]]></ST>
       </Implementation>
     </Method>
     <Method Name="Execute" Id="{3351ec6f-5e58-4cce-afac-76b6f35f5e04}">
@@ -82,7 +82,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_axis REF= axis;]]></ST>
+        <ST><![CDATA[_Axis REF= axis;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="AxesReset">
