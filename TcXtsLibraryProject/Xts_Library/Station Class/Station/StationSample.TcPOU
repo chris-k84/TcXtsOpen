@@ -36,7 +36,7 @@ ELSE
 		0:
 			IF _HasMover THEN
 				_Operating := TRUE;
-				_Clear := FALSE;
+				_Empty := FALSE;
 				_Ready := FALSE;
 				Operation.IN := TRUE;
 				State := 1;
@@ -52,7 +52,7 @@ ELSE
 			END_IF
 		2:
 			_Complete := FALSE;
-			_Clear := TRUE;
+			_Empty := TRUE;
 			_Operating := FALSE;
 			_Ready := TRUE;
 			State := 0;
@@ -63,7 +63,7 @@ END_IF
 IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborted 
 	OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
 	_Complete := FALSE;
-	_Clear := TRUE;
+	_Empty := TRUE;
 	_Operating := FALSE;
 	_Ready := TRUE;
 	StationMovers := State := 0;
@@ -74,14 +74,14 @@ stInfo.StationProcessTime := _OperationTime;
 Cycle := S_OK;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="PmlStateMachine" Id="{d366101e-f161-43e4-b621-5f0379710a8f}">
-      <Declaration><![CDATA[PROPERTY PmlStateMachine : IPmlStateMachine]]></Declaration>
+    <Property Name="MyStateMachine" Id="{d366101e-f161-43e4-b621-5f0379710a8f}">
+      <Declaration><![CDATA[PROPERTY MyStateMachine : IPmlStateMachine]]></Declaration>
       <Get Name="Get" Id="{f168997d-e551-4178-ab83-0bc790585c46}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[PmlStateMachine := StateMachine;]]></ST>
+          <ST><![CDATA[MyStateMachine := StateMachine;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{807f3fcf-1e00-46f0-8a7b-28cffe156af8}">
@@ -89,7 +89,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[StateMachine := PmlStateMachine;]]></ST>
+          <ST><![CDATA[StateMachine := MyStateMachine;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -124,10 +124,10 @@ END_VAR
       <LineId Id="5" Count="0" />
       <LineId Id="50" Count="0" />
     </LineIds>
-    <LineIds Name="StationSample.PmlStateMachine.Get">
+    <LineIds Name="StationSample.MyStateMachine.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="StationSample.PmlStateMachine.Set">
+    <LineIds Name="StationSample.MyStateMachine.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="StationSample.TempPropTime.Get">

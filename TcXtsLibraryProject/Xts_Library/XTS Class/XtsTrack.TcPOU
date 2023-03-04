@@ -47,12 +47,12 @@ END_CASE
 VAR_INPUT
 END_VAR
 VAR
-	iTmsMover : ITmsMover;
+	TmsMoverInterface : ITmsMover;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR i := 1 TO SystemParameters.NumberOfMovers DO
-	IF __QUERYINTERFACE(_MoverArray[i],iTmsMover) THEN
-		iTmsMover.ActivateTrack(newTrack := iTmsMover.ActiveTrack);
+	IF __QUERYINTERFACE(_MoverArray[i],TmsMoverInterface) THEN
+		TmsMoverInterface.ActivateTrack(newTrack := TmsMoverInterface.ActiveTrack);
 	END_IF
 END_FOR
 ActivateTracksInMovers := true;]]></ST>
@@ -103,12 +103,12 @@ mcCollisionGroup.Cycle();]]></ST>
 VAR_INPUT
 END_VAR
 VAR
-	iTmsMover : ITmsMover;
+	TmsMoverInterface : ITmsMover;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR i := 1 TO SystemParameters.NumberOfMovers DO
-	IF __QUERYINTERFACE(_MoverArray[i],iTmsMover) THEN
-		iTmsMover.SetMoverInterface(MoverInterface := _XtsTrackHardware.GetMoverEnvInterface(i));
+	IF __QUERYINTERFACE(_MoverArray[i],TmsMoverInterface) THEN
+		TmsMoverInterface.SetMoverInterface(MoverInterface := _XtsTrackHardware.GetMoverEnvInterface(i));
 	END_IF
 END_FOR]]></ST>
       </Implementation>
@@ -260,14 +260,14 @@ END_VAR
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Property Name="XtsHardware" Id="{10aeacae-a746-485a-b0e8-a2e9fb26c42b}">
-      <Declaration><![CDATA[PROPERTY XtsHardware : IXtsHardware]]></Declaration>
+    <Property Name="XtsTrackHardware" Id="{10aeacae-a746-485a-b0e8-a2e9fb26c42b}">
+      <Declaration><![CDATA[PROPERTY XtsTrackHardware : IXtsHardware]]></Declaration>
       <Get Name="Get" Id="{b51a74ba-fecc-49a6-94a3-853ee17e2470}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[XtsHardware := _XtsTrackHardware;]]></ST>
+          <ST><![CDATA[XtsTrackHardware := _XtsTrackHardware;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{2e7570c1-50ca-40b9-8c5b-c0e86681ca7a}">
@@ -275,7 +275,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[_XtsTrackHardware := XtsHardware;]]></ST>
+          <ST><![CDATA[_XtsTrackHardware := XtsTrackHardware;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -289,8 +289,7 @@ END_VAR
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.ActivateTracksInMovers">
-      <LineId Id="8" Count="3" />
-      <LineId Id="5" Count="0" />
+      <LineId Id="23" Count="4" />
       <LineId Id="12" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.Clearing">
@@ -305,7 +304,7 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.GetTMSMoverInterface">
-      <LineId Id="15" Count="3" />
+      <LineId Id="29" Count="3" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.HomePosition.Get">
@@ -355,10 +354,10 @@ END_VAR
       <LineId Id="12" Count="2" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.XtsHardware.Get">
+    <LineIds Name="XtsTrack.XtsTrackHardware.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.XtsHardware.Set">
+    <LineIds Name="XtsTrack.XtsTrackHardware.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

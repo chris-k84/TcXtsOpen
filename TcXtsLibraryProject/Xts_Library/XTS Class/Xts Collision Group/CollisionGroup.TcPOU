@@ -9,7 +9,7 @@ END_VAR
 VAR
 	stGroupInformation : CAGroupInfo;
 	_caGroup : Tc3_McCoordinatedMotion.AXES_GROUP_REF;
-	readStatus : Tc3_McCoordinatedMotion.MC_GroupReadStatus;
+	ReadGroupStatus : Tc3_McCoordinatedMotion.MC_GroupReadStatus;
 	resetCAGroup : ResetGroup(THIS^);
 	enableCAGroup : EnableGroup(THIS^);
 	disableCAGroup : DisableGroup(this^);
@@ -24,7 +24,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[readStatus(
+        <ST><![CDATA[ReadGroupStatus(
 	AxesGroup:= _caGroup, 
 	Enable:= TRUE );
 resetCAGroup.Cycle();
@@ -78,21 +78,21 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[IF readStatus.GroupDisabled THEN
+          <ST><![CDATA[IF ReadGroupStatus.GroupDisabled THEN
 	GroupState := CAGroupStatus.mcGroupStateDisabled;
-ELSIF readStatus.GroupErrorStop THEN
+ELSIF ReadGroupStatus.GroupErrorStop THEN
 	GroupState := CAGroupStatus.mcGroupStateErrorStop;
-ELSIF readStatus.GroupHoming THEN
+ELSIF ReadGroupStatus.GroupHoming THEN
 	GroupState := CAGroupStatus.mcGroupStateHoming;
-ELSIF readStatus.GroupMoving THEN
+ELSIF ReadGroupStatus.GroupMoving THEN
 	GroupState := CAGroupStatus.mcGroupStateMoving;
-ELSIF readStatus.GroupNotReady THEN
+ELSIF ReadGroupStatus.GroupNotReady THEN
 	GroupState := CAGroupStatus.mcGroupStateNotReady;
-ELSIF readStatus.GroupStandby THEN
+ELSIF ReadGroupStatus.GroupStandby THEN
 	GroupState := CAGroupStatus.mcGroupStateStandby;
-ELSIF readStatus.GroupStopping THEN
+ELSIF ReadGroupStatus.GroupStopping THEN
 	GroupState := CAGroupStatus.mcGroupStateStopping;
-ELSIF readStatus.Error THEN
+ELSIF ReadGroupStatus.Error THEN
 	GroupState := CAGroupStatus.mcGroupError;
 END_IF]]></ST>
         </Implementation>

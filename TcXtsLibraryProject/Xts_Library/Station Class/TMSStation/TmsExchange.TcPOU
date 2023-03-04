@@ -65,14 +65,14 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Property Name="PmlStateMachine" Id="{4196edef-498e-4d46-b5a7-e2b4ce4210df}">
-      <Declaration><![CDATA[PROPERTY PmlStateMachine : IPmlStateMachine]]></Declaration>
+    <Property Name="MyStateMachine" Id="{4196edef-498e-4d46-b5a7-e2b4ce4210df}">
+      <Declaration><![CDATA[PROPERTY MyStateMachine : IPmlStateMachine]]></Declaration>
       <Get Name="Get" Id="{3b4361b8-6ce6-4b1e-8f45-beceafdcd3a9}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[PmlStateMachine := _StateMachine;]]></ST>
+          <ST><![CDATA[MyStateMachine := _StateMachine;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{37aebee1-03ef-4127-a412-f2661d8be0ba}">
@@ -80,9 +80,9 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[_StateMachine := PmlStateMachine;
-embarkingStation.PmlStateMachine := PmlStateMachine;
-holdingStation.PmlStateMachine := PmlStateMachine;]]></ST>
+          <ST><![CDATA[_StateMachine := MyStateMachine;
+embarkingStation.MyStateMachine := MyStateMachine;
+holdingStation.MyStateMachine := MyStateMachine;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -163,10 +163,10 @@ END_VAR
     <LineIds Name="TmsExchange.HoldStation.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="TmsExchange.PmlStateMachine.Get">
+    <LineIds Name="TmsExchange.MyStateMachine.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="TmsExchange.PmlStateMachine.Set">
+    <LineIds Name="TmsExchange.MyStateMachine.Set">
       <LineId Id="2" Count="0" />
       <LineId Id="5" Count="1" />
     </LineIds>

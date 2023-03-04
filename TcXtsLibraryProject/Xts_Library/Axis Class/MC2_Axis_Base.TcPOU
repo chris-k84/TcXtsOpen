@@ -9,9 +9,9 @@ END_VAR
 VAR
 	_axis : Tc2_MC2.AXIS_REF;
 	axesEnable		: AxisPower(_axis);
-	axesReset		: AxesReset(_axis);
-	axesMoveTo 		: Mc2MoveToPosition(_axis);
-	axesHalt 		: Mc2Halt(_axis);
+	axesResetCommand		: AxesReset(_axis);
+	axesMoveToCommand 		: Mc2MoveToPosition(_axis);
+	axesHaltCommand 		: Mc2Halt(_axis);
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_MoverErrorId: DWORD;
 END_VAR
@@ -25,9 +25,9 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Cycle := axesMoveTo.Cycle();
-Cycle := axesHalt.Cycle();
-Cycle := axesReset.Cycle();
+        <ST><![CDATA[Cycle := axesMoveToCommand.Cycle();
+Cycle := axesHaltCommand.Cycle();
+Cycle := axesResetCommand.Cycle();
 _axis.ReadStatus();
 Cycle := axesEnable.Cycle();
 axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _MoverErrorId);]]></ST>
@@ -58,9 +58,9 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT axesHalt.Busy THEN
-	axesHalt.Execute();
-	axesMoveTo.Abort();
+        <ST><![CDATA[IF NOT axesHaltCommand.Busy THEN
+	axesHaltCommand.Execute();
+	axesMoveToCommand.Abort();
 	HaltAxis := TRUE;
 ELSE 
 	HaltAxis := FALSE;
@@ -119,8 +119,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT isAtPosition(position := Position) THEN
-	IF NOT axesMoveTo.Busy THEN
-		axesMoveTo.MoveTo(Position := Position, Velocity := Velocity);
+	IF NOT axesMoveToCommand.Busy THEN
+		axesMoveToCommand.MoveTo(Position := Position, Velocity := Velocity);
 		MoveToPosition := TRUE;
 	END_IF
 ELSE
@@ -135,9 +135,9 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[axesReset.Execute();
-axesMoveTo.Abort();
-axesHalt.Abort();
+        <ST><![CDATA[axesResetCommand.Execute();
+axesMoveToCommand.Abort();
+axesHaltCommand.Abort();
 ResetAxis := TRUE;]]></ST>
       </Implementation>
     </Method>

@@ -120,12 +120,12 @@ END_IF
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	collisionGroup : ICollisionGroup;
+	MyCaGroup : ICollisionGroup;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_collisionGroup := collisionGroup;
-addMover.FB_init(FALSE, FALSE, collisionGroup);]]></ST>
+        <ST><![CDATA[_collisionGroup := MyCaGroup;
+addMover.FB_init(FALSE, FALSE, myCaGroup);]]></ST>
       </Implementation>
     </Method>
     <Property Name="MoverArray" Id="{2acddb92-7228-4ce1-abf4-c52047e8db87}">
@@ -166,7 +166,7 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsEnableSequence.FB_init">
-      <LineId Id="7" Count="0" />
+      <LineId Id="22" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="XtsEnableSequence.MoverArray.Get">

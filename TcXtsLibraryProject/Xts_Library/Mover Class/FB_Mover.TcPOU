@@ -4,9 +4,9 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Mover EXTENDS CyclicBase IMPLEMENTS IMover, IDynamics
 VAR
 	axesEnable		: AxisPower(_Axis);
-	axesReset		: AxesReset(_Axis);
-	axesMoveTo 		: MoveMoverToPosition(_Axis) := (Gap := 100.0);
-	axesHalt 		: HaltMover(_Axis);
+	axesResetCommand		: AxesReset(_Axis);
+	axesMoveToCommand 		: MoveMoverToPosition(_Axis) := (Gap := 100.0);
+	axesHaltCommand 		: HaltMover(_Axis);
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_Axis 			: AXIS_REF;
 	_identInGroup : INT;
@@ -28,7 +28,7 @@ END_VAR]]></Declaration>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Acceleration := axesMoveTo.Acceleration;]]></ST>
+          <ST><![CDATA[Acceleration := axesMoveToCommand.Acceleration;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{ac96b1c2-72ed-4693-b71f-9fbcd2a6afd7}">
@@ -36,7 +36,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[axesMoveTo.Acceleration := Acceleration;]]></ST>
+          <ST><![CDATA[axesMoveToCommand.Acceleration := Acceleration;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -57,9 +57,9 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Cycle := axesMoveTo.Cycle();
-Cycle := axesHalt.Cycle();
-Cycle := axesReset.Cycle();
+        <ST><![CDATA[Cycle := axesMoveToCommand.Cycle();
+Cycle := axesHaltCommand.Cycle();
+Cycle := axesResetCommand.Cycle();
 _Axis.ReadStatus();
 Cycle := axesEnable.Cycle();
 axesReadError(Axis := _Axis, Enable := TRUE, AxisErrorID => _MoverErrorId);
@@ -73,7 +73,7 @@ axesReadError(Axis := _Axis, Enable := TRUE, AxisErrorID => _MoverErrorId);
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Deceleration := axesMoveTo.Deceleration;]]></ST>
+          <ST><![CDATA[Deceleration := axesMoveToCommand.Deceleration;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{b756c826-c655-4fcf-88a7-bb105c6d7b9b}">
@@ -81,7 +81,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[axesMoveTo.Deceleration := Deceleration;]]></ST>
+          <ST><![CDATA[axesMoveToCommand.Deceleration := Deceleration;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -111,7 +111,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Gap := axesMoveTo.Gap;]]></ST>
+          <ST><![CDATA[Gap := axesMoveToCommand.Gap;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{8af53078-5c57-4e61-9843-6d0cf8d12af4}">
@@ -119,7 +119,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[axesMoveTo.Gap := Gap;]]></ST>
+          <ST><![CDATA[axesMoveToCommand.Gap := Gap;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -129,10 +129,10 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT axesHalt.Busy THEN
-	axesHalt.Execute();
+        <ST><![CDATA[IF NOT axesHaltCommand.Busy THEN
+	axesHaltCommand.Execute();
 	HaltAxis := TRUE;
-	axesMoveTo.Abort();
+	axesMoveToCommand.Abort();
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -142,7 +142,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[HasCommand := axesMoveTo.Busy;]]></ST>
+        <ST><![CDATA[HasCommand := axesMoveToCommand.Busy;]]></ST>
       </Implementation>
     </Method>
     <Method Name="hasError" Id="{c0115f9f-d324-4748-af93-c56fdaaf010c}" FolderPath="Methods\">
@@ -244,7 +244,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Jerk := axesMoveTo.Jerk;]]></ST>
+          <ST><![CDATA[Jerk := axesMoveToCommand.Jerk;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{e967ae27-5c59-444d-a01e-9a7980e3667f}">
@@ -252,7 +252,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[axesMoveTo.Jerk := Jerk;]]></ST>
+          <ST><![CDATA[axesMoveToCommand.Jerk := Jerk;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -315,8 +315,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT isAtPosition(position := Position) THEN
-	IF NOT axesMoveTo.Busy THEN
-		axesMoveTo.MoveTo(Position := ModuloToAbs(Position, BackwardMove), Velocity := Velocity);
+	IF NOT axesMoveToCommand.Busy THEN
+		axesMoveToCommand.MoveTo(Position := ModuloToAbs(Position, BackwardMove), Velocity := Velocity);
 		MoveTo := TRUE;
 		_targetPos := Position;
 	END_IF
@@ -330,9 +330,9 @@ END_VAR
 VAR
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[axesReset.Execute();
-axesMoveTo.Abort();
-axesHalt.Abort();]]></ST>
+        <ST><![CDATA[axesResetCommand.Execute();
+axesMoveToCommand.Abort();
+axesHaltCommand.Abort();]]></ST>
       </Implementation>
     </Method>
     <Property Name="TrackLength" Id="{17360115-9dc5-4ca9-8916-892bf20db53d}" FolderPath="Properties\">
@@ -405,7 +405,7 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Mover.Cycle">
-      <LineId Id="6" Count="5" />
+      <LineId Id="15" Count="5" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Mover.Deceleration.Get">
@@ -495,8 +495,8 @@ END_VAR
       <LineId Id="64" Count="0" />
     </LineIds>
     <LineIds Name="FB_Mover.ResetAxis">
-      <LineId Id="20" Count="0" />
-      <LineId Id="14" Count="1" />
+      <LineId Id="25" Count="1" />
+      <LineId Id="15" Count="0" />
     </LineIds>
     <LineIds Name="FB_Mover.TrackLength.Get">
       <LineId Id="2" Count="0" />

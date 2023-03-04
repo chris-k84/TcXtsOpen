@@ -73,11 +73,11 @@ RemoveAllFromGrp(AxesGroup := _caGroup.GroupRef);]]></ST>
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	CAGroup : ICollisionGroup;	
+	MyCaGroup : ICollisionGroup;	
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_caGroup := CAGroup;]]></ST>
+        <ST><![CDATA[_caGroup := MyCaGroup;]]></ST>
       </Implementation>
     </Method>
     <Method Name="RemoveAllMover" Id="{0b41790b-140c-4897-91fc-096c85c5f45b}">

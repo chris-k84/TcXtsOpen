@@ -117,13 +117,13 @@ END_VAR
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	collisionGroup : ICollisionGroup;
+	MyCaGroup : ICollisionGroup;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_collisionGroup := collisionGroup;
-removeAllAxes.FB_init(FALSE, FALSE, CAGroup := collisionGroup);
-grpStop.FB_init(FALSE,FALSE,CAGroup := collisionGroup);]]></ST>
+        <ST><![CDATA[_collisionGroup := MyCaGroup;
+removeAllAxes.FB_init(FALSE, FALSE, MyCaGroup := MyCaGroup);
+grpStop.FB_init(FALSE,FALSE,CAGroup := MyCaGroup);]]></ST>
       </Implementation>
     </Method>
     <Property Name="MoverArray" Id="{5eeee228-c90c-4059-b15e-d4f3141abdbb}">
@@ -173,8 +173,8 @@ grpStop.Jerk := Tc3_Mc3Definitions.MC_MAXIMUM;]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.FB_init">
-      <LineId Id="3" Count="0" />
-      <LineId Id="7" Count="1" />
+      <LineId Id="21" Count="1" />
+      <LineId Id="8" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.MoverArray.Get">
       <LineId Id="2" Count="0" />

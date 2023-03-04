@@ -209,6 +209,25 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Property Name="MyStateMachine" Id="{d844989e-66dd-4349-8c85-edbcb74c9dc3}">
+      <Declaration><![CDATA[PROPERTY MyStateMachine : IPmlStateMachine]]></Declaration>
+      <Get Name="Get" Id="{2d0a1e27-5c9e-4b26-a4e6-24217a260482}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MyStateMachine := StateMachine;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{a96c0464-f76e-4411-81f3-99766fd72773}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[StateMachine := MyStateMachine;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="MyStations" Id="{d7be010f-02ed-44eb-9206-f5e1204f6ead}">
       <Declaration><![CDATA[PROPERTY MyStations : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess]]></Declaration>
       <Get Name="Get" Id="{b9858861-0750-4c3d-b2e9-7dc3a973373a}">
@@ -225,25 +244,6 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[StationArray := MyStations;]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
-    <Property Name="PmlStateMachine" Id="{d844989e-66dd-4349-8c85-edbcb74c9dc3}">
-      <Declaration><![CDATA[PROPERTY PmlStateMachine : IPmlStateMachine]]></Declaration>
-      <Get Name="Get" Id="{2d0a1e27-5c9e-4b26-a4e6-24217a260482}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[PmlStateMachine := StateMachine;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{a96c0464-f76e-4411-81f3-99766fd72773}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[StateMachine := PmlStateMachine;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -279,16 +279,16 @@ END_VAR
     <LineIds Name="IndexMoverSequence.MyStartPosition.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
+    <LineIds Name="IndexMoverSequence.MyStateMachine.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="IndexMoverSequence.MyStateMachine.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
     <LineIds Name="IndexMoverSequence.MyStations.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="IndexMoverSequence.MyStations.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="IndexMoverSequence.PmlStateMachine.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="IndexMoverSequence.PmlStateMachine.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

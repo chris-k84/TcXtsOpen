@@ -83,11 +83,11 @@ AddtoGrp(AxesGroup := _CaGroup.GroupRef,
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	CollisionGroup : ICollisionGroup;	
+	myCaGroup : ICollisionGroup;	
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_CaGroup := CollisionGroup;]]></ST>
+        <ST><![CDATA[_CaGroup := myCaGroup;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="AddMoverToGroupTask">

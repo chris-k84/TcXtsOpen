@@ -147,27 +147,27 @@ END_IF
 VAR_INPUT
 END_VAR
 VAR
-	iTmsMover : ITmsMover;
+	TmsMoverInterface : ITmsMover;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF __QUERYINTERFACE(_exchangeMover,iTmsMover) THEN
+        <ST><![CDATA[IF __QUERYINTERFACE(_exchangeMover,TmsMoverInterface) THEN
 	IF Switch = TmsSwitchPosition.Up THEN
-		IF iTmsMover.ActiveTrack = arrTrackIds[3] THEN
-			iTmsMover.ActivateTrack(newTrack := arrTrackIds[1]);
+		IF TmsMoverInterface.ActiveTrack = arrTrackIds[3] THEN
+			TmsMoverInterface.ActivateTrack(newTrack := arrTrackIds[1]);
 		END_IF
 	ELSIF Switch = TmsSwitchPosition.Middle THEN
-		IF iTmsMover.ActiveTrack = arrTrackIds[1] THEN
-			iTmsMover.ActivateTrack(newTrack := arrTrackIds[3]);
-		ELSIF iTmsMover.ActiveTrack = arrTrackIds[2] THEN
-			iTmsMover.ActivateTrack(newTrack := arrTrackIds[4]);
+		IF TmsMoverInterface.ActiveTrack = arrTrackIds[1] THEN
+			TmsMoverInterface.ActivateTrack(newTrack := arrTrackIds[3]);
+		ELSIF TmsMoverInterface.ActiveTrack = arrTrackIds[2] THEN
+			TmsMoverInterface.ActivateTrack(newTrack := arrTrackIds[4]);
 		END_IF
 	ELSE
-		IF iTmsMover.ActiveTrack = arrTrackIds[4] THEN
-			iTmsMover.ActivateTrack(newTrack := arrTrackIds[2]);	
+		IF TmsMoverInterface.ActiveTrack = arrTrackIds[4] THEN
+			TmsMoverInterface.ActivateTrack(newTrack := arrTrackIds[2]);	
 		END_IF
 	END_IF
 END_IF
-FindNewTrack := iTmsMover.ActiveTrack;]]></ST>
+FindNewTrack := TmsMoverInterface.ActiveTrack;]]></ST>
       </Implementation>
     </Method>
     <Method Name="HasMover" Id="{0c44fa73-b6c5-42b1-9f3a-b9c3b353571a}">
@@ -350,7 +350,7 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.FindNewTrack">
-      <LineId Id="40" Count="16" />
+      <LineId Id="67" Count="16" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.HasMover">

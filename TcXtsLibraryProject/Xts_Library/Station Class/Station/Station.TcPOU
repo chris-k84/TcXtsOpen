@@ -7,7 +7,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	_Clear : BOOL;
+	_Empty : BOOL;
 	_Complete : BOOL;
 	_Operating : BOOL;
 	_Ready : BOOL;
@@ -33,7 +33,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[_Complete := FALSE;
-_Clear := TRUE;
+_Empty := TRUE;
 _Operating := FALSE;
 _Ready := TRUE;
 Abort := true;
@@ -48,7 +48,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[//Cyclic info
 stInfo.StationPosition := _Positions[1];
-stInfo.StationStatus.Clear := _Clear;
+stInfo.StationStatus.Empty := _Empty;
 stInfo.StationStatus.Complete := _Complete;
 stInfo.StationStatus.HasMover := _HasMover;
 stInfo.StationStatus.Operating := _Operating;
@@ -82,7 +82,7 @@ HasMover := TRUE;]]></ST>
       <Declaration><![CDATA[METHOD IsClear : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IsClear := _Clear;]]></ST>
+        <ST><![CDATA[IsClear := _Empty;]]></ST>
       </Implementation>
     </Method>
     <Method Name="isComplete" Id="{5a7054f2-4dbb-4c61-9bd3-b1648c0eccb5}">
@@ -172,9 +172,7 @@ END_IF]]></ST>
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="Station.Cycle">
-      <LineId Id="6" Count="12" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="23" Count="0" />
+      <LineId Id="27" Count="14" />
       <LineId Id="22" Count="0" />
     </LineIds>
     <LineIds Name="Station.HasMover">

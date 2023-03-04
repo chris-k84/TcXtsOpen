@@ -57,14 +57,14 @@ END_VAR
       <Implementation>
         <ST><![CDATA[CASE State OF
 	Init:
-		_Operating := _Clear := _Complete := _Ready := _HasMover := FALSE;
+		_Operating := _Empty := _Complete := _Ready := _HasMover := FALSE;
 		StationMovers := 0;
 		State := Ready;
 	
 	Ready:	
 		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Clearing THEN
 			_Operating := _Complete := _HasMover := FALSE;
-			_Clear := _Ready := TRUE;
+			_Empty := _Ready := TRUE;
 			StationMovers := 0;
 			State := Waiting;
 		END_IF
@@ -76,7 +76,7 @@ END_VAR
 		IF _HasMover THEN
 			State := HasSwitch;
 			_Operating := TRUE;
-			_Clear := FALSE;
+			_Empty := FALSE;
 			_Ready := FALSE;
 			_Complete := FALSE;
 		END_IF
@@ -168,7 +168,7 @@ END_VAR
 	Moving:
 		IF _Complete AND NOT _HasMover THEN
 			_Operating := FALSE;
-			_Clear := TRUE;
+			_Empty := TRUE;
 			_Ready := TRUE;
 			State := Waiting;
 		END_IF
@@ -190,13 +190,13 @@ VAR_INPUT
 	mover : IMover;
 END_VAR
 VAR
-	iTmsMover : ITmsMover;
+	TmsMoverInterface : ITmsMover;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF StationMovers <= 2 THEN
 	StationMovers := StationMovers + 1;
-	IF __QUERYINTERFACE(mover,iTmsMover) THEN
-		DepartMover := iTmsMover;
+	IF __QUERYINTERFACE(mover,TmsMoverInterface) THEN
+		DepartMover := TmsMoverInterface;
 		_HasMover := true;
 	END_IF
 END_IF
@@ -217,14 +217,14 @@ DepartMover := 0;
 ]]></ST>
       </Implementation>
     </Method>
-    <Property Name="PmlStateMachine" Id="{a47db168-d2a9-4247-adb9-892ae103948e}">
-      <Declaration><![CDATA[PROPERTY PmlStateMachine : IPmlStateMachine]]></Declaration>
+    <Property Name="MyStateMachine" Id="{a47db168-d2a9-4247-adb9-892ae103948e}">
+      <Declaration><![CDATA[PROPERTY MyStateMachine : IPmlStateMachine]]></Declaration>
       <Get Name="Get" Id="{7455cd11-5ef8-425b-8f7e-20b1eaa44250}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[PmlStateMachine := _StateMachine;]]></ST>
+          <ST><![CDATA[MyStateMachine := _StateMachine;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{70867ab3-cb45-4255-9352-18cd1c4ce7ec}">
@@ -232,7 +232,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[_StateMachine := PmlStateMachine;]]></ST>
+          <ST><![CDATA[_StateMachine := MyStateMachine;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -337,10 +337,7 @@ END_VAR
       <LineId Id="134" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.HasMover">
-      <LineId Id="9" Count="3" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="5" Count="0" />
+      <LineId Id="40" Count="6" />
       <LineId Id="27" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.MoverAway">
@@ -349,10 +346,10 @@ END_VAR
       <LineId Id="11" Count="0" />
       <LineId Id="8" Count="0" />
     </LineIds>
-    <LineIds Name="TmsEmbarkStation.PmlStateMachine.Get">
+    <LineIds Name="TmsEmbarkStation.MyStateMachine.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="TmsEmbarkStation.PmlStateMachine.Set">
+    <LineIds Name="TmsEmbarkStation.MyStateMachine.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.SwitchMoveComplete">
