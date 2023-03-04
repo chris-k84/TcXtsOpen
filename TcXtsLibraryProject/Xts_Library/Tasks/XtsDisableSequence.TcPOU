@@ -35,7 +35,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE State OF
+        <ST><![CDATA[Cycle := S_OK;
+CASE State OF
 	0:
 		IF DisableTrigger THEN
 			Cycle := S_PENDING;
@@ -97,6 +98,8 @@ END_VAR
 			_Busy := FALSE;
 			_Done := TRUE;
 		END_IF
+	ELSE
+		Cycle := E_FAIL;
 END_CASE
 
 removeAllAxes.Cycle();
@@ -164,9 +167,12 @@ grpStop.Jerk := Tc3_Mc3Definitions.MC_MAXIMUM;]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.Cycle">
+      <LineId Id="77" Count="0" />
       <LineId Id="6" Count="2" />
       <LineId Id="73" Count="0" />
-      <LineId Id="9" Count="60" />
+      <LineId Id="9" Count="57" />
+      <LineId Id="78" Count="1" />
+      <LineId Id="67" Count="2" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.Disable">

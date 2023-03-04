@@ -45,7 +45,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE State OF
+        <ST><![CDATA[Cycle := S_OK;
+CASE State OF
 	0:
 		IF _addMover THEN
 			Cycle := S_PENDING;
@@ -71,6 +72,8 @@ END_VAR
 			State := 0;
 			Cycle := S_OK;
 		END_IF
+	ELSE
+		Cycle := E_FAIL;
 END_CASE
 
 AddtoGrp(AxesGroup := _CaGroup.GroupRef,
@@ -105,11 +108,14 @@ END_VAR
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="AddMoverToGroupTask.Cycle">
+      <LineId Id="42" Count="0" />
       <LineId Id="6" Count="2" />
       <LineId Id="37" Count="0" />
       <LineId Id="9" Count="19" />
       <LineId Id="38" Count="0" />
-      <LineId Id="29" Count="4" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="43" Count="1" />
+      <LineId Id="30" Count="3" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="AddMoverToGroupTask.FB_init">

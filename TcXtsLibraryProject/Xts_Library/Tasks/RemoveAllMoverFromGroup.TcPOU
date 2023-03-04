@@ -32,7 +32,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE State OF
+        <ST><![CDATA[Cycle := S_OK;
+CASE State OF
 	0:
 		IF _removeAllMovers THEN
 			Cycle := S_PENDING;
@@ -62,6 +63,8 @@ END_VAR
 			State := 0;
 			Cycle := S_OK;
 		END_IF
+	ELSE
+		Cycle := E_FAIL;
 END_CASE
 
 
@@ -96,11 +99,14 @@ END_VAR
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="RemoveAllMoverFromGroup.Cycle">
+      <LineId Id="45" Count="0" />
       <LineId Id="6" Count="2" />
       <LineId Id="40" Count="0" />
       <LineId Id="9" Count="23" />
       <LineId Id="41" Count="0" />
-      <LineId Id="33" Count="3" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="46" Count="1" />
+      <LineId Id="34" Count="2" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="RemoveAllMoverFromGroup.FB_init">

@@ -24,7 +24,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE State OF
+        <ST><![CDATA[Cycle := S_OK;
+CASE State OF
 	0:
 		IF _MoveMover THEN
 			Cycle := S_PENDING;
@@ -59,6 +60,8 @@ END_VAR
 				Cycle := S_OK;
 			END_IF
 		END_IF
+	ELSE
+		Cycle := E_FAIL;
 END_CASE
 
 moveAbs(Axis := _Axis);]]></ST>
@@ -104,11 +107,14 @@ END_IF]]></ST>
       <LineId Id="22" Count="0" />
     </LineIds>
     <LineIds Name="MoveMoverToPositionZoned.Cycle">
+      <LineId Id="49" Count="0" />
       <LineId Id="6" Count="2" />
       <LineId Id="44" Count="0" />
       <LineId Id="9" Count="27" />
       <LineId Id="45" Count="0" />
-      <LineId Id="37" Count="3" />
+      <LineId Id="37" Count="1" />
+      <LineId Id="50" Count="1" />
+      <LineId Id="39" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="MoveMoverToPositionZoned.FB_init">

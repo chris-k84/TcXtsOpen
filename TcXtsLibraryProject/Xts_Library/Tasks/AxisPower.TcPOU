@@ -27,7 +27,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE State OF
+        <ST><![CDATA[Cycle := S_OK;
+CASE State OF
 	0:
 		IF EnableAxis THEN
 			Cycle := S_PENDING;
@@ -62,6 +63,8 @@ END_VAR
 			State := 0;
 			Cycle := S_OK;
 		END_IF
+	ELSE
+		Cycle := E_FAIL;
 END_CASE
 
 mcPower(Axis := AxisReference);]]></ST>
@@ -115,6 +118,7 @@ END_VAR
       <LineId Id="4" Count="0" />
     </LineIds>
     <LineIds Name="AxisPower.Cycle">
+      <LineId Id="60" Count="0" />
       <LineId Id="10" Count="2" />
       <LineId Id="53" Count="0" />
       <LineId Id="13" Count="3" />
@@ -136,6 +140,7 @@ END_VAR
       <LineId Id="46" Count="0" />
       <LineId Id="56" Count="0" />
       <LineId Id="47" Count="0" />
+      <LineId Id="61" Count="1" />
       <LineId Id="9" Count="0" />
       <LineId Id="35" Count="0" />
       <LineId Id="34" Count="0" />

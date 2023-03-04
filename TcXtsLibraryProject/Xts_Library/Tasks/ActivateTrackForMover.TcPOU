@@ -33,7 +33,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE State OF
+        <ST><![CDATA[Cycle := S_OK;
+CASE State OF
 	0:
 		IF _ActivateTrack THEN
 			Cycle := S_PENDING;
@@ -60,6 +61,8 @@ END_VAR
 			State := 0;
 			Cycle := S_OK;
 		END_IF
+	ELSE
+		Cycle := E_FAIL;
 END_CASE
 
 mcActivateTrack(Axis := _Axis);]]></ST>
@@ -108,11 +111,14 @@ END_VAR
       <LineId Id="4" Count="0" />
     </LineIds>
     <LineIds Name="ActivateTrackForMover.Cycle">
+      <LineId Id="42" Count="0" />
       <LineId Id="6" Count="2" />
       <LineId Id="37" Count="0" />
       <LineId Id="9" Count="20" />
       <LineId Id="38" Count="0" />
-      <LineId Id="30" Count="2" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="43" Count="1" />
+      <LineId Id="31" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="ActivateTrackForMover.Execute">

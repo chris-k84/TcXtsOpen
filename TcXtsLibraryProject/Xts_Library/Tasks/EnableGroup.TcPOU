@@ -32,7 +32,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE State OF
+        <ST><![CDATA[Cycle := S_OK;
+CASE State OF
 	0:
 		IF _enableGroup THEN
 			Cycle := S_PENDING;
@@ -61,6 +62,8 @@ END_VAR
 			State := 0;
 			Cycle := S_OK;
 		END_IF
+	ELSE
+		Cycle := E_FAIL;
 END_CASE
 
 
@@ -93,11 +96,14 @@ END_VAR
       <LineId Id="4" Count="2" />
     </LineIds>
     <LineIds Name="EnableGroup.Cycle">
+      <LineId Id="44" Count="0" />
       <LineId Id="6" Count="2" />
       <LineId Id="39" Count="0" />
       <LineId Id="9" Count="22" />
       <LineId Id="40" Count="0" />
-      <LineId Id="32" Count="3" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="45" Count="1" />
+      <LineId Id="33" Count="2" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="EnableGroup.Execute">

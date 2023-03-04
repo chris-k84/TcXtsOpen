@@ -33,7 +33,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE State OF
+        <ST><![CDATA[Cycle := S_OK;
+CASE State OF
 	0:
 		IF EnableTrigger THEN
 			Cycle := S_PENDING;
@@ -98,6 +99,8 @@ END_VAR
 			_Done := TRUE;
 			Cycle := S_PENDING;
 		END_IF
+	ELSE
+		Cycle := E_FAIL;
 END_CASE
 
 addMover.Cycle();]]></ST>
@@ -154,11 +157,14 @@ END_VAR
       <LineId Id="5" Count="2" />
     </LineIds>
     <LineIds Name="XtsEnableSequence.Cycle">
+      <LineId Id="79" Count="0" />
       <LineId Id="6" Count="2" />
       <LineId Id="74" Count="0" />
       <LineId Id="9" Count="58" />
       <LineId Id="75" Count="0" />
-      <LineId Id="68" Count="2" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="80" Count="1" />
+      <LineId Id="69" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsEnableSequence.Enable">

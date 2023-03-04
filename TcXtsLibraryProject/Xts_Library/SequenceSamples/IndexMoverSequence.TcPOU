@@ -43,6 +43,7 @@ END_VAR
 ELSIF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
 	State := IndexSequenceState.Stopping;
 END_IF
+Cycle := S_OK;
 CASE State OF
 	IndexSequenceState.Init:
 		IF ThisMover.isDetected() THEN
@@ -143,8 +144,10 @@ CASE State OF
 			CurrentStation := 0;
 			TargetStationPosition := 0.0;
 		END_IF
+	ELSE
+		Cycle := E_FAIL;
 END_CASE
-Cycle := S_OK;
+
 //Cyclic update info data
 stSequenceInfo.CurrentStation := UINT_TO_INT(CurrentStation);
 stSequenceInfo.MoverId := ThisMover.AxisRef.NcToPlc.AxisId;
@@ -258,7 +261,11 @@ END_VAR
       <LineId Id="15" Count="0" />
     </LineIds>
     <LineIds Name="IndexMoverSequence.Cycle">
-      <LineId Id="6" Count="110" />
+      <LineId Id="6" Count="4" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="11" Count="99" />
+      <LineId Id="121" Count="1" />
+      <LineId Id="111" Count="5" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="IndexMoverSequence.MoverVelocity.Get">

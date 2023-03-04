@@ -24,7 +24,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE State OF
+        <ST><![CDATA[Cycle := S_OK;
+CASE State OF
 	Init:
 		_Operating := _Empty := _Complete := _Ready := _HasMover := FALSE;
 		StationMovers := 0;
@@ -73,6 +74,8 @@ END_VAR
 		State := Ready;
 		HoldMover := 0;
 		_HasMover := FALSE;
+	ELSE
+		Cycle := E_FAIL;
 END_CASE
 SUPER^.Cycle();]]></ST>
       </Implementation>
@@ -151,7 +154,10 @@ END_VAR
       <LineId Id="118" Count="0" />
     </LineIds>
     <LineIds Name="TmsHoldStation.Cycle">
-      <LineId Id="6" Count="49" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="6" Count="48" />
+      <LineId Id="60" Count="1" />
+      <LineId Id="55" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="TmsHoldStation.HasMover">

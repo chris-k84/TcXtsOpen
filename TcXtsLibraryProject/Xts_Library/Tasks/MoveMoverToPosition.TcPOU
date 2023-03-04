@@ -53,7 +53,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE State OF
+        <ST><![CDATA[Cycle := S_OK;
+CASE State OF
 	0:
 		IF _MoveMover THEN
 			Cycle := S_PENDING;
@@ -79,6 +80,8 @@ END_VAR
 			State := 0;
 			Cycle := S_OK;
 		END_IF
+	ELSE
+		Cycle := E_FAIL;
 END_CASE
 
 moveAbs(Axis := _Axis, Options := _stOptions);]]></ST>
@@ -204,11 +207,14 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="MoveMoverToPosition.Cycle">
+      <LineId Id="40" Count="0" />
       <LineId Id="6" Count="2" />
       <LineId Id="35" Count="0" />
       <LineId Id="9" Count="19" />
       <LineId Id="36" Count="0" />
-      <LineId Id="29" Count="2" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="41" Count="1" />
+      <LineId Id="30" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="MoveMoverToPosition.Deceleration.Get">

@@ -37,7 +37,10 @@ END_VAR
 		IF DisableSequence.Done THEN
 			State := 0;
 			ipackml.SetStateComplete();
+			Aborting := TRUE;
 		END_IF
+	ELSE
+		Aborting := FALSE;
 END_CASE
 ]]></ST>
       </Implementation>
@@ -79,7 +82,10 @@ END_VAR
 		IF ActivateTracksInMovers() THEN
 			ipackml.SetStateComplete();
 			State := 0;
+			Clearing := TRUE;
 		END_IF
+	ELSE
+		Clearing := FALSE;
 END_CASE
 ]]></ST>
       </Implementation>
@@ -204,9 +210,11 @@ END_VAR
 		IF AtHome THEN
 			State := 0;
 			ipackml.SetStateComplete();	
-		END_IF	
-END_CASE
-]]></ST>
+			Resetting := TRUE;
+		END_IF
+	ELSE
+		Resetting := FALSE;	
+END_CASE]]></ST>
       </Implementation>
     </Method>
     <Method Name="Stopping" Id="{3cd6a931-8a7e-487a-9f0d-8a2db098be82}" FolderPath="Action States\">
@@ -224,7 +232,10 @@ END_VAR
 		IF GroupStop.Done THEN
 			State := 0;
 			ipackml.SetStateComplete();
+			Stopping := TRUE;
 		END_IF
+	ELSE
+		Stopping := FALSE;
 END_CASE
 ]]></ST>
       </Implementation>
@@ -285,7 +296,10 @@ END_VAR
     <LineIds Name="XtsTrack.Aborting">
       <LineId Id="22" Count="0" />
       <LineId Id="25" Count="7" />
-      <LineId Id="23" Count="1" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="36" Count="1" />
+      <LineId Id="24" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.ActivateTracksInMovers">
@@ -295,7 +309,10 @@ END_VAR
     <LineIds Name="XtsTrack.Clearing">
       <LineId Id="45" Count="0" />
       <LineId Id="48" Count="13" />
-      <LineId Id="46" Count="1" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="66" Count="1" />
+      <LineId Id="47" Count="0" />
       <LineId Id="18" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.Cycle">
@@ -335,13 +352,18 @@ END_VAR
     <LineIds Name="XtsTrack.Resetting">
       <LineId Id="41" Count="0" />
       <LineId Id="44" Count="12" />
-      <LineId Id="42" Count="1" />
-      <LineId Id="5" Count="0" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="61" Count="1" />
+      <LineId Id="43" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.Stopping">
       <LineId Id="21" Count="0" />
       <LineId Id="24" Count="7" />
-      <LineId Id="22" Count="1" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="36" Count="1" />
+      <LineId Id="23" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.Tracks.Get">

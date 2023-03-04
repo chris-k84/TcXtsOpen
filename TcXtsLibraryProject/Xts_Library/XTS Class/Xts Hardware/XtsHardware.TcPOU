@@ -44,7 +44,7 @@ END_VAR
 	END_IF
 	RETURN;
 END_IF
-
+Cycle := S_OK;
 CASE State OF
 	XtsHardwareState.Init:
 		IF GetTrackAssembly() THEN
@@ -100,6 +100,8 @@ CASE State OF
 	
 	XtsHardwareState.HWReady:
 		XtsHardwareOK := TRUE;
+	ELSE
+		Cycle := E_FAIL;
 END_CASE
 
 getModuleInfoData();
@@ -233,6 +235,7 @@ IF XtsIoEnvironment.XpuTcIo(1).GetTrackCount() = 1 THEN
 	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(XtsIoEnvironment.XpuTcIo(1).GetTrackCount()));
 	SetTracksForDetection := TRUE;
 ELSE
+	SetTracksForDetection := TRUE;
 	CASE _TmsSwitch.Switch OF
 		TmsSwitchPosition.Up: 
 			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(3).SetIsIncludedInDetection(TRUE);
@@ -241,9 +244,10 @@ ELSE
 			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(2).SetIsIncludedInDetection(TRUE);
 		TmsSwitchPosition.Down:
 			;
+		ELSE
+			SetTracksForDetection := FALSE;
 	END_CASE
 	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(XtsIoEnvironment.XpuTcIo(1).GetTrackCount()));
-	SetTracksForDetection := TRUE;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -341,7 +345,9 @@ END_IF]]></ST>
       <LineId Id="58" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.Cycle">
-      <LineId Id="6" Count="68" />
+      <LineId Id="6" Count="62" />
+      <LineId Id="78" Count="1" />
+      <LineId Id="69" Count="5" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.getAllMoversValid">
@@ -381,7 +387,11 @@ END_IF]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.SetTracksForDetection">
-      <LineId Id="31" Count="19" />
+      <LineId Id="31" Count="8" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="40" Count="7" />
+      <LineId Id="54" Count="1" />
+      <LineId Id="48" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.TmsSwitch.Get">

@@ -28,7 +28,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE stSwitchInfo.State OF
+        <ST><![CDATA[Cycle := S_OK;
+CASE stSwitchInfo.State OF
 	TmsSwitchState.Init:
 		IF NOT THIS^.hasError() THEN
 			stSwitchInfo.State := TmsSwitchState.Ready;
@@ -97,7 +98,8 @@ END_VAR
 			THIS^.ResetAxis();
 			stSwitchInfo.State := TmsSwitchState.Init;
 		END_IF
-
+	ELSE
+		Cycle := E_FAIL;
 END_CASE
 
 //Cyclic get switch info
@@ -232,6 +234,8 @@ END_VAR
 		END_IF	
 	TmsSwitchPosition.Moving:
 		MoveTo := FALSE;
+	ELSE
+		MoveTo := FALSE;
 END_CASE]]></ST>
       </Implementation>
     </Method>
@@ -333,7 +337,10 @@ END_VAR
       <LineId Id="656" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.Cycle">
-      <LineId Id="6" Count="75" />
+      <LineId Id="85" Count="0" />
+      <LineId Id="6" Count="69" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="76" Count="5" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.DownPosition.Get">
@@ -363,7 +370,7 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.MoveTo">
-      <LineId Id="208" Count="26" />
+      <LineId Id="208" Count="28" />
       <LineId Id="81" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.SetAutomaticMode">
