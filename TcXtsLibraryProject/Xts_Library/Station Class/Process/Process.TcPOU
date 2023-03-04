@@ -11,6 +11,7 @@ VAR
 	_startPos : MC_LREAL;
 	_endPos : MC_LREAL;
 	_processVelo : MC_LREAL;
+	_TimeInProcess : TIME;
 END_VAR
 ]]></Declaration>
     <Implementation>

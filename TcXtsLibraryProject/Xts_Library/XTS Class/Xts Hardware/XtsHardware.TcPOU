@@ -243,7 +243,7 @@ ELSE
 			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(1).SetIsIncludedInDetection(TRUE);
 			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(2).SetIsIncludedInDetection(TRUE);
 		TmsSwitchPosition.Down:
-			;
+			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(4).SetIsIncludedInDetection(TRUE);
 		ELSE
 			SetTracksForDetection := FALSE;
 	END_CASE

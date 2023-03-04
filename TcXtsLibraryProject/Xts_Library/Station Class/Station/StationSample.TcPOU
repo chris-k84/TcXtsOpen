@@ -31,7 +31,10 @@ END_VAR
       <Implementation>
         <ST><![CDATA[Cycle := S_OK;
 IF _isProcess THEN
-	;
+	Operation.IN := _HasMover;
+	IF NOT Operation.IN THEN
+		_TimeInProcess := Operation.ET;
+	END_IF
 ELSE
 	CASE State OF
 		0:
@@ -60,8 +63,9 @@ ELSE
 		ELSE
 			Cycle := E_FAIL;
 	END_CASE	
-	Operation(PT := _OperationTime);
 END_IF
+
+Operation(PT := _OperationTime);
 
 IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborted 
 	OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
@@ -123,9 +127,16 @@ END_VAR
     </LineIds>
     <LineIds Name="StationSample.Cycle">
       <LineId Id="54" Count="0" />
-      <LineId Id="6" Count="26" />
+      <LineId Id="6" Count="1" />
+      <LineId Id="59" Count="2" />
+      <LineId Id="8" Count="24" />
       <LineId Id="55" Count="1" />
-      <LineId Id="33" Count="13" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="37" Count="9" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="StationSample.MyStateMachine.Get">
