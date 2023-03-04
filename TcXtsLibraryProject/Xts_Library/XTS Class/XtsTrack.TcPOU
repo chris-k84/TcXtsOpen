@@ -4,7 +4,7 @@
     <Declaration><![CDATA[FUNCTION_BLOCK XtsTrack EXTENDS PML_Method_Base
 VAR
 	_homePosition : MC_LREAL;
-	HomeSpeed : MC_LREAL := 1000.0;
+	_HomeSpeed : MC_LREAL;
 	mcCollisionGroup : CollisionGroup;
 	_XtsTrackHardware : IXtsHardware;
 	EnableSequence : XtsEnableSequence(mcCollisionGroup);
@@ -132,6 +132,25 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Property Name="HomeSpeed" Id="{1d1b8038-88e9-4101-981d-99bed1ba5b18}">
+      <Declaration><![CDATA[PROPERTY HomeSpeed : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{0a3ad8ef-2031-4e74-8b6e-8a654900fd7a}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[HomeSpeed := _HomeSpeed;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{ddb9be5e-d4fd-4d3d-a099-37476a9afab3}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_HomeSpeed := HomeSpeed;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="MoverArray" Id="{5c1cfa9c-be49-4324-bcf5-1be968bfce44}">
       <Declaration><![CDATA[PROPERTY MoverArray : array[1..SystemParameters.NumberOfMovers] of IMover]]></Declaration>
       <Get Name="Get" Id="{2b512b99-b3b1-44cb-bf62-7cd45f8e95a6}">
@@ -160,7 +179,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR i := 1 TO SystemParameters.NumberOfMovers DO
-	_MoverArray[i].MoveTo(Position := _homePosition, Velocity := HomeSpeed, BackwardMove := FALSE);
+	_MoverArray[i].MoveTo(Position := _homePosition, Velocity := _HomeSpeed, BackwardMove := FALSE);
 END_FOR 
 MoverHomeSequence := TRUE;]]></ST>
       </Implementation>
@@ -293,6 +312,12 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.HomePosition.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.HomeSpeed.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.HomeSpeed.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.MoverArray.Get">

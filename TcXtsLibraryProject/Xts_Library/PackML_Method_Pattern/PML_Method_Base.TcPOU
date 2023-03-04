@@ -68,7 +68,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE ipackml.GetCurrentState() OF
+        <ST><![CDATA[Cycle := S_OK;
+CASE ipackml.GetCurrentState() OF
 	E_PMLState.ePMLState_Clearing:
 		Clearing();
 	E_PMLState.ePMLState_Aborted:
@@ -105,8 +106,9 @@ END_VAR
 		Unholding();
 	E_PMLState.ePMLState_Unsuspending:
 		Unsuspending();
-END_CASE
-Cycle := S_OK;]]></ST>
+	ELSE
+		Cycle := E_FAIL;
+END_CASE]]></ST>
       </Implementation>
     </Method>
     <Method Name="Execute" Id="{5484d7e2-b3e2-4d00-adc7-910112ca7207}" FolderPath="Wait_States\">
@@ -274,9 +276,10 @@ Unsuspending := TRUE;]]></ST>
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="PML_Method_Base.Cycle">
+      <LineId Id="50" Count="0" />
       <LineId Id="6" Count="36" />
+      <LineId Id="51" Count="1" />
       <LineId Id="5" Count="0" />
-      <LineId Id="46" Count="0" />
     </LineIds>
     <LineIds Name="PML_Method_Base.Execute">
       <LineId Id="5" Count="0" />

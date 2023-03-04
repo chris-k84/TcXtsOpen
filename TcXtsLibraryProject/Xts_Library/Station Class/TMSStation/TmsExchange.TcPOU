@@ -6,7 +6,7 @@ VAR
 	_TmsSwitch : ITF_TmsSwitch;
 	_StateMachine : IPmlStateMachine;
 	
-	embarkingStation : TmsEmbarkStation;
+	embarkingStation : TmsEmbarkStation := (BoardVelocity := 100.0);
 	holdingStation : TmsHoldStation := (MyEmbarkStation := embarkingStation);
 END_VAR
 ]]></Declaration>

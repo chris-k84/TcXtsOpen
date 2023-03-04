@@ -14,7 +14,7 @@ VAR
 	_upPosition : MC_LREAL;
 	_middlePosition : MC_LREAL;
 	_downPosition : MC_LREAL;
-	SwitchVelocity : MC_LREAL := 100.0;
+	_SwitchVelocity : MC_LREAL := 100.0;
 	arrTrackIds : ARRAY[1..4] OF OTCID;
 	stSwitchInfo : TmsSwitchInfo;
 END_VAR
@@ -208,7 +208,7 @@ END_VAR
         <ST><![CDATA[CASE positionState OF
 	TmsSwitchPosition.Down:
 		IF NOT SUPER^.isAtPosition(position := _downPosition) THEN
-			IF SUPER^.MoveToPosition(Position := _downPosition, Velocity := SwitchVelocity) THEN
+			IF SUPER^.MoveToPosition(Position := _downPosition, Velocity := _SwitchVelocity) THEN
 				MoveTo := TRUE;
 				stSwitchInfo.State := TmsSwitchState.AssignMover;
 				_demandPosition := _downPosition;
@@ -216,7 +216,7 @@ END_VAR
 		END_IF	
 	TmsSwitchPosition.Middle:
 		IF NOT SUPER^.isAtPosition(position := _middlePosition) THEN
-			IF SUPER^.MoveToPosition(Position := _middlePosition, Velocity := SwitchVelocity) THEN
+			IF SUPER^.MoveToPosition(Position := _middlePosition, Velocity := _SwitchVelocity) THEN
 				MoveTo := TRUE;
 				stSwitchInfo.State := TmsSwitchState.AssignMover;
 				_demandPosition := _middlePosition;
@@ -224,7 +224,7 @@ END_VAR
 		END_IF	
 	TmsSwitchPosition.Up:
 		IF NOT SUPER^.isAtPosition(position := _upPosition) THEN
-			IF SUPER^.MoveToPosition(Position := _upPosition, Velocity := SwitchVelocity) THEN
+			IF SUPER^.MoveToPosition(Position := _upPosition, Velocity := _SwitchVelocity) THEN
 				MoveTo := TRUE;
 				stSwitchInfo.State := TmsSwitchState.AssignMover;
 				_demandPosition := _upPosition;
@@ -271,6 +271,25 @@ ELSE
 END_IF]]></ST>
         </Implementation>
       </Get>
+    </Property>
+    <Property Name="SwitchVelocity" Id="{23d2c69c-54c3-4033-bf24-addeee1198d3}">
+      <Declaration><![CDATA[PROPERTY SwitchVelocity : MC_LREAL;]]></Declaration>
+      <Get Name="Get" Id="{63c4a6c5-28c8-403b-828f-bffb40704c3b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[SwitchVelocity := _SwitchVelocity;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{a0f07dce-a6c5-4f13-a413-55d73aacfb92}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_SwitchVelocity := SwitchVelocity;]]></ST>
+        </Implementation>
+      </Set>
     </Property>
     <Property Name="TrackIds" Id="{297989bc-9ff5-412a-89d0-1e0ef6098068}">
       <Declaration><![CDATA[PROPERTY TrackIds : array[1..4] of otcid]]></Declaration>
@@ -344,8 +363,7 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.MoveTo">
-      <LineId Id="173" Count="24" />
-      <LineId Id="202" Count="1" />
+      <LineId Id="208" Count="26" />
       <LineId Id="81" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.SetAutomaticMode">
@@ -357,6 +375,12 @@ END_VAR
     <LineIds Name="DualModuleTmsSwitch.Switch.Get">
       <LineId Id="21" Count="7" />
       <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.SwitchVelocity.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.SwitchVelocity.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.TrackIds.Get">
       <LineId Id="2" Count="0" />
