@@ -125,14 +125,16 @@ END_VAR
     </Property>
     <Method Name="HaltAxis" Id="{fcdbac8a-7893-40e4-99e2-5063962a86e4}" FolderPath="Methods\">
       <Declaration><![CDATA[METHOD PUBLIC HaltAxis : BOOL
-VAR_INPUT
+VAR
+	HaltCommandResult : BOOL;
+	MoveAbortResult : BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT axesHaltCommand.Busy THEN
-	axesHaltCommand.Execute();
-	HaltAxis := TRUE;
-	axesMoveToCommand.Abort();
+	HaltCommandResult := axesHaltCommand.Execute();
+	MoveAbortResult := axesMoveToCommand.Abort();
+	HaltAxis := HaltCommandResult AND MoveAbortResult;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -325,14 +327,16 @@ END_IF]]></ST>
     </Method>
     <Method Name="ResetAxis" Id="{3034fc38-9b42-4179-8f04-b3d56b63ba9c}" FolderPath="Methods\">
       <Declaration><![CDATA[METHOD PUBLIC ResetAxis : BOOL
-VAR_INPUT
-END_VAR
 VAR
+	ResetCommandResult : BOOL;
+	MoveAbortResult : BOOL;
+	HaltAbortResult : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[axesResetCommand.Execute();
-axesMoveToCommand.Abort();
-axesHaltCommand.Abort();]]></ST>
+        <ST><![CDATA[ResetCommandResult := axesResetCommand.Execute();
+MoveAbortResult := axesMoveToCommand.Abort();
+HaltAbortResult := axesHaltCommand.Abort();
+ResetAxis := ResetCommandResult AND MoveAbortResult AND HaltAbortResult;]]></ST>
       </Implementation>
     </Method>
     <Property Name="TrackLength" Id="{17360115-9dc5-4ca9-8916-892bf20db53d}" FolderPath="Properties\">
@@ -430,8 +434,8 @@ END_VAR
     <LineIds Name="FB_Mover.HaltAxis">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
-      <LineId Id="11" Count="0" />
       <LineId Id="15" Count="0" />
+      <LineId Id="21" Count="0" />
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Mover.HasCommand">
@@ -497,6 +501,7 @@ END_VAR
     <LineIds Name="FB_Mover.ResetAxis">
       <LineId Id="25" Count="1" />
       <LineId Id="15" Count="0" />
+      <LineId Id="34" Count="0" />
     </LineIds>
     <LineIds Name="FB_Mover.TrackLength.Get">
       <LineId Id="2" Count="0" />
