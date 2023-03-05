@@ -24,7 +24,11 @@ END_VAR
     </Implementation>
     <Method Name="Cycle" Id="{87873dec-7b42-4805-90b6-759ce824ebea}">
       <Declaration><![CDATA[METHOD Cycle : HRESULT
-VAR_INPUT
+VAR
+	AxisEnableResult : BOOL;
+	AxisDisableResult : BOOL;
+	ResetResult : BOOL;
+	BaseCallResult : HRESULT;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -37,7 +41,7 @@ CASE stSwitchInfo.State OF
 		
 	TmsSwitchState.Ready:
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Clearing THEN
-			SUPER^.EnableAxis();
+			AxisEnableResult := SUPER^.EnableAxis();
 			stSwitchInfo.State := TmsSwitchState.Enabling;
 		END_IF	
 		
@@ -54,7 +58,7 @@ CASE stSwitchInfo.State OF
 		END_IF
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
 			OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
-			SUPER^.DisableAxis();
+			AxisDisableResult := SUPER^.DisableAxis();
 			stSwitchInfo.State := TmsSwitchState.Disabling;
 		END_IF
 		
@@ -66,7 +70,7 @@ CASE stSwitchInfo.State OF
 	TmsSwitchState.Waiting:
 		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
 			OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
-			SUPER^.DisableAxis();
+			AxisDisableResult := SUPER^.DisableAxis();
 			stSwitchInfo.State := TmsSwitchState.Disabling;
 		END_IF
 		
@@ -95,7 +99,7 @@ CASE stSwitchInfo.State OF
 
 	TmsSwitchState.Disabling:
 		IF NOT THIS^.isEnabled() THEN
-			THIS^.ResetAxis();
+			ResetResult := THIS^.ResetAxis();
 			stSwitchInfo.State := TmsSwitchState.Init;
 		END_IF
 	ELSE
@@ -106,7 +110,7 @@ END_CASE
 stSwitchInfo.ActPos := SUPER^._axis.NcToPlc.ActPos;
 stSwitchInfo.Position := Switch;
 
-SUPER^.Cycle();]]></ST>
+BaseCallResult := SUPER^.Cycle();]]></ST>
       </Implementation>
     </Method>
     <Property Name="DownPosition" Id="{599e43c8-9e54-4127-98c0-830d987c6670}">
@@ -146,26 +150,25 @@ END_IF
     </Method>
     <Method Name="FindNewTrack" Id="{f8facd12-02a9-4323-9c07-28752afef02e}">
       <Declaration><![CDATA[METHOD PUBLIC FindNewTrack : OTCID
-VAR_INPUT
-END_VAR
 VAR
 	TmsMoverInterface : ITmsMover;
+	ActivateTrackResult : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF __QUERYINTERFACE(_exchangeMover,TmsMoverInterface) THEN
 	IF Switch = TmsSwitchPosition.Up THEN
 		IF TmsMoverInterface.ActiveTrack = arrTrackIds[3] THEN
-			TmsMoverInterface.ActivateTrack(newTrack := arrTrackIds[1]);
+			ActivateTrackResult := TmsMoverInterface.ActivateTrack(newTrack := arrTrackIds[1]);
 		END_IF
 	ELSIF Switch = TmsSwitchPosition.Middle THEN
 		IF TmsMoverInterface.ActiveTrack = arrTrackIds[1] THEN
-			TmsMoverInterface.ActivateTrack(newTrack := arrTrackIds[3]);
+			ActivateTrackResult := TmsMoverInterface.ActivateTrack(newTrack := arrTrackIds[3]);
 		ELSIF TmsMoverInterface.ActiveTrack = arrTrackIds[2] THEN
-			TmsMoverInterface.ActivateTrack(newTrack := arrTrackIds[4]);
+			ActivateTrackResult := TmsMoverInterface.ActivateTrack(newTrack := arrTrackIds[4]);
 		END_IF
 	ELSE
 		IF TmsMoverInterface.ActiveTrack = arrTrackIds[4] THEN
-			TmsMoverInterface.ActivateTrack(newTrack := arrTrackIds[2]);	
+			ActivateTrackResult := TmsMoverInterface.ActivateTrack(newTrack := arrTrackIds[2]);	
 		END_IF
 	END_IF
 END_IF

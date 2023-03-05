@@ -39,14 +39,24 @@ VAR_INPUT
 	eventType : Tc3_EventLogger.TcEventEntry;
 	args : STRING(255);
 END_VAR
+VAR
+	CreateString : HRESULT;
+	AddStringResult : I_TcArguments;
+	SendResult : HRESULT;
+	ReleaseResult : HRESULT;
+END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF eventType.eSeverity >= LoggerLevel THEN
-	THIS^.fbMsg.CreateEx(eventType, 0);
-	THIS^.fbMsg.ipArguments.AddString(args);
-	THIS^.fbMsg.Send(0);
-	THIS^.fbMsg.Release();
-	Send := TRUE;
+	CreateString := THIS^.fbMsg.CreateEx(eventType, 0);
+	AddStringResult := THIS^.fbMsg.ipArguments.AddString(args);
+	SendResult := THIS^.fbMsg.Send(0);
+	ReleaseResult := THIS^.fbMsg.Release();
+	IF ReleaseResult = S_OK THEN
+		Send := TRUE;
+	ELSE
+		Send := FALSE;
+	END_IF
 ELSE
 	Send := FALSE;
 END_IF
@@ -64,7 +74,11 @@ END_IF
     </LineIds>
     <LineIds Name="TcMessage_Ext.Send">
       <LineId Id="3" Count="4" />
-      <LineId Id="14" Count="2" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="30" Count="1" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="15" Count="1" />
       <LineId Id="8" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>

@@ -47,15 +47,14 @@ END_CASE
     </Method>
     <Method Name="ActivateTracksInMovers" Id="{682f2d4e-bf73-44bf-93e3-716a6d45755c}" FolderPath="Operations\">
       <Declaration><![CDATA[METHOD PUBLIC ActivateTracksInMovers : BOOL
-VAR_INPUT
-END_VAR
 VAR
 	TmsMoverInterface : ITmsMover;
+	ActivateTrackResult : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR i := 1 TO SystemParameters.NumberOfMovers DO
 	IF __QUERYINTERFACE(_MoverArray[i],TmsMoverInterface) THEN
-		TmsMoverInterface.ActivateTrack(newTrack := TmsMoverInterface.ActiveTrack);
+		ActivateTrackResult := TmsMoverInterface.ActivateTrack(newTrack := TmsMoverInterface.ActiveTrack);
 	END_IF
 END_FOR
 ActivateTracksInMovers := true;]]></ST>

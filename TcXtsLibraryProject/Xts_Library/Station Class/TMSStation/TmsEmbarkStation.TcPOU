@@ -51,7 +51,10 @@ END_VAR
     </Property>
     <Method Name="Cycle" Id="{30dc7518-cfa1-45c8-85d7-d03d0ef4ae28}">
       <Declaration><![CDATA[METHOD PUBLIC  Cycle : HRESULT
-VAR_INPUT
+VAR
+	ActivateTrackResult : BOOL;
+	BoardMoverResult : BOOL;
+	BaseCallResult : HRESULT;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -116,7 +119,7 @@ CASE State OF
 				IF DepartMover.ActiveTrack = arrTrackIds[4] THEN
 					State := Boarding;
 				ELSE
-					DepartMover.ActivateTrack(arrTrackIds[4]);
+					ActivateTrackResult := DepartMover.ActivateTrack(arrTrackIds[4]);
 					State := Boarding;
 				END_IF
 				demandPosition := TmsSwitchPosition.Middle;
@@ -124,7 +127,7 @@ CASE State OF
 				IF DepartMover.ActiveTrack = arrTrackIds[1] THEN
 					State := Boarding;
 				ELSE
-					DepartMover.ActivateTrack(arrTrackIds[1]);
+					ActivateTrackResult := DepartMover.ActivateTrack(arrTrackIds[1]);
 					State := Boarding;
 				END_IF
 				demandPosition := TmsSwitchPosition.Up;
@@ -134,7 +137,7 @@ CASE State OF
 				IF DepartMover.ActiveTrack = arrTrackIds[3] THEN
 					State := Boarding;
 				ELSE
-					DepartMover.ActivateTrack(arrTrackIds[3]);
+					ActivateTrackResult := DepartMover.ActivateTrack(arrTrackIds[3]);
 					State := Boarding;
 				END_IF
 				demandPosition := TmsSwitchPosition.Middle;
@@ -142,7 +145,7 @@ CASE State OF
 				IF DepartMover.ActiveTrack = arrTrackIds[2] THEN
 					State := Boarding;
 				ELSE
-					DepartMover.ActivateTrack(arrTrackIds[2]);
+					ActivateTrackResult := DepartMover.ActivateTrack(arrTrackIds[2]);
 					State := Boarding;
 				END_IF
 				demandPosition := TmsSwitchPosition.Down;
@@ -153,7 +156,7 @@ CASE State OF
 		END_IF
 		
 	Boarding:
-		DepartMover.MoveTo(Position := _switchPosition, Velocity := _BoardVelocity, BackwardMove := FALSE);
+		BoardMoverResult := DepartMover.MoveTo(Position := _switchPosition, Velocity := _BoardVelocity, BackwardMove := FALSE);
 		IF DepartMover.isAtPosition(position := _switchPosition) THEN
 			State := BoardingComplete;
 		END_IF
@@ -181,9 +184,9 @@ CASE State OF
 		State := Ready;	
 		DepartMover := 0;
 	ELSE
-		Cycle := S_OK;
+		Cycle := E_FAIL;
 END_CASE
-SUPER^.Cycle();]]></ST>
+BaseCallResult := SUPER^.Cycle();]]></ST>
       </Implementation>
     </Method>
     <Method Name="HasMover" Id="{466b4750-cbf0-42df-80f2-b3d4852756ba}">
@@ -335,7 +338,7 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.Cycle">
-      <LineId Id="264" Count="0" />
+      <LineId Id="272" Count="0" />
       <LineId Id="138" Count="123" />
       <LineId Id="265" Count="1" />
       <LineId Id="262" Count="1" />
