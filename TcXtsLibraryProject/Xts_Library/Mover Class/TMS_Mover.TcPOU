@@ -118,6 +118,8 @@ END_VAR
 	ELSE
 		isPastPosition := FALSE;
 	END_IF  
+ELSE
+	isPastPosition := FALSE;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -191,6 +193,7 @@ SetMoverInterface := TRUE;]]></ST>
       <LineId Id="7" Count="2" />
       <LineId Id="15" Count="1" />
       <LineId Id="10" Count="0" />
+      <LineId Id="21" Count="1" />
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="TMS_Mover.MoveTo">

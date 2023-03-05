@@ -94,7 +94,12 @@ END_VAR]]></Declaration>
 	IF __QUERYINTERFACE(mover,TmsMoverInterface) THEN
 		HoldMover := TmsMoverInterface;
 		_HasMover := TRUE;
+		HasMover := TRUE;
+	ELSE
+		HasMover := FALSE;
 	END_IF
+ELSE
+	HasMover := FALSE;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -109,7 +114,7 @@ IF StationMovers = 0 THEN
 	_HasMover := FALSE;
 END_IF
 HoldMover := 0;
-]]></ST>
+MoverAway := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Property Name="MyEmbarkStation" Id="{32ce3b1d-cc83-40cf-875e-de2f759160d5}">
@@ -161,7 +166,11 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="TmsHoldStation.HasMover">
-      <LineId Id="33" Count="5" />
+      <LineId Id="33" Count="4" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="47" Count="1" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="45" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="TmsHoldStation.MoverAway">

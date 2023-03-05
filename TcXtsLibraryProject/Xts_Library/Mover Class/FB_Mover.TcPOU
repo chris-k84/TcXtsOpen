@@ -135,6 +135,8 @@ END_VAR
 	HaltCommandResult := axesHaltCommand.Execute();
 	MoveAbortResult := axesMoveToCommand.Abort();
 	HaltAxis := HaltCommandResult AND MoveAbortResult;
+ELSE
+	HaltAxis := FALSE;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -185,11 +187,15 @@ END_VAR
         <ST><![CDATA[IF position > 1 THEN
 	IF _Axis.NcToPlc.ModuloActPos < position + 1 AND _Axis.NcToPlc.ModuloActPos > position - 1 THEN
 		isAtPosition := TRUE;
+	ELSE
+		isAtPosition := FALSE;
 	END_IF  
 ELSE
 	IF _Axis.NcToPlc.ModuloActPos < position + 1 AND _Axis.NcToPlc.ModuloActPos > 0.0  
 		OR _Axis.NcToPlc.ModuloActPos < _trackLength AND _Axis.NcToPlc.ModuloActPos > _trackLength - 1 THEN
 		isAtPosition := TRUE;
+	ELSE
+		isAtPosition := FALSE;
 	END_IF
 END_IF
 ]]></ST>
@@ -202,6 +208,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF _Axis.NcToPlc.AxisId = 0 THEN
+	isDetected := FALSE;
 	RETURN;
 END_IF
 isDetected := true;]]></ST>
@@ -226,7 +233,11 @@ END_VAR
         <ST><![CDATA[IF position > 1 THEN
 	IF _Axis.NcToPlc.ModuloActPos > position THEN
 		isPastPosition := TRUE;
+	ELSE
+		isPastPosition := FALSE;
 	END_IF  
+ELSE
+	isPastPosition := FALSE;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -321,7 +332,11 @@ END_VAR
 		axesMoveToCommand.MoveTo(Position := ModuloToAbs(Position, BackwardMove), Velocity := Velocity);
 		MoveTo := TRUE;
 		_targetPos := Position;
+	ELSE
+		MoveTo := FALSE;
 	END_IF
+ELSE
+	MoveTo := FALSE;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -436,6 +451,7 @@ END_VAR
       <LineId Id="9" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="21" Count="0" />
+      <LineId Id="27" Count="1" />
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Mover.HasCommand">
@@ -453,22 +469,29 @@ END_VAR
     <LineIds Name="FB_Mover.isAtPosition">
       <LineId Id="13" Count="0" />
       <LineId Id="16" Count="1" />
+      <LineId Id="27" Count="1" />
       <LineId Id="14" Count="0" />
       <LineId Id="18" Count="1" />
       <LineId Id="22" Count="0" />
-      <LineId Id="20" Count="1" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="29" Count="1" />
+      <LineId Id="21" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="FB_Mover.isDetected">
       <LineId Id="5" Count="0" />
+      <LineId Id="15" Count="0" />
       <LineId Id="9" Count="2" />
     </LineIds>
     <LineIds Name="FB_Mover.isEnabled">
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Mover.isPastPosition">
-      <LineId Id="8" Count="3" />
+      <LineId Id="8" Count="2" />
+      <LineId Id="16" Count="1" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="18" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Mover.isStationary">
@@ -495,7 +518,9 @@ END_VAR
       <LineId Id="53" Count="0" />
       <LineId Id="26" Count="2" />
       <LineId Id="71" Count="0" />
+      <LineId Id="80" Count="1" />
       <LineId Id="5" Count="0" />
+      <LineId Id="78" Count="1" />
       <LineId Id="64" Count="0" />
     </LineIds>
     <LineIds Name="FB_Mover.ResetAxis">

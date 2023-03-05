@@ -219,6 +219,7 @@ IF StationMovers = 0 THEN
 	_HasMover := FALSE;
 END_IF
 DepartMover := 0;
+MoverAway := TRUE;
 ]]></ST>
       </Implementation>
     </Method>
@@ -247,7 +248,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_Complete := SwitchMoveComplete := true;]]></ST>
+        <ST><![CDATA[_Complete := TRUE;
+SwitchMoveComplete := true;]]></ST>
       </Implementation>
     </Method>
     <Property Name="SwitchTravelPosition" Id="{506615ae-e584-4b6b-8c90-23702c945ca0}">
@@ -351,6 +353,7 @@ END_VAR
       <LineId Id="31" Count="0" />
       <LineId Id="35" Count="2" />
       <LineId Id="11" Count="0" />
+      <LineId Id="41" Count="0" />
       <LineId Id="8" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.MyStateMachine.Get">
@@ -361,6 +364,7 @@ END_VAR
     </LineIds>
     <LineIds Name="TmsEmbarkStation.SwitchMoveComplete">
       <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.SwitchTravelPosition.Get">
       <LineId Id="2" Count="0" />

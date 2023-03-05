@@ -144,6 +144,8 @@ END_VAR
 	_exchangeMover := Mover;	
 	_currentStation := CurrentStation;
 	ExchangeMover := TRUE;
+ELSE
+	ExchangeMover := FALSE;
 END_IF
 ]]></ST>
       </Implementation>
@@ -356,6 +358,7 @@ END_VAR
       <LineId Id="7" Count="1" />
       <LineId Id="11" Count="0" />
       <LineId Id="17" Count="0" />
+      <LineId Id="23" Count="1" />
       <LineId Id="9" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>

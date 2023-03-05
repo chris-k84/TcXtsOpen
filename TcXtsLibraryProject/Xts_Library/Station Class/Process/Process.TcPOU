@@ -23,7 +23,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[SUPER^.Cycle();]]></ST>
+        <ST><![CDATA[Cycle := SUPER^.Cycle();]]></ST>
       </Implementation>
     </Method>
     <Property Name="EndPosition" Id="{7f4a20d7-f0db-4d2e-987f-1dcaac0ba263}">
