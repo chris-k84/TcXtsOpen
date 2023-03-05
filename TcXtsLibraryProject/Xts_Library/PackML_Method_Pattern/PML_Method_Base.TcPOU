@@ -64,51 +64,56 @@ Completing := TRUE;]]></ST>
     </Method>
     <Method Name="Cycle" Id="{63d4d0a3-0b0d-4da4-b46f-2e93b903d4c3}">
       <Declaration><![CDATA[METHOD PUBLIC Cycle : HRESULT
-VAR_INPUT
+VAR
+	StateCallResult : BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Cycle := S_OK;
-CASE ipackml.GetCurrentState() OF
+        <ST><![CDATA[CASE ipackml.GetCurrentState() OF
 	E_PMLState.ePMLState_Clearing:
-		Clearing();
+		StateCallResult := Clearing();
 	E_PMLState.ePMLState_Aborted:
-		Aborted();
+		StateCallResult := Aborted();
 	E_PMLState.ePMLState_Aborting:
-		Aborting();
+		StateCallResult := Aborting();
 	E_PMLState.ePMLState_Complete:
-		Completed();
+		StateCallResult := Completed();
 	E_PMLState.ePMLState_Completing:
-		Completing();
+		StateCallResult := Completing();
 	E_PMLState.ePMLState_Execute:
-		Execute();
+		StateCallResult := Execute();
 	E_PMLState.ePMLState_Held:
-		Held();
+		StateCallResult := Held();
 	E_PMLState.ePMLState_Holding:
-		Holding();
+		StateCallResult := Holding();
 	E_PMLState.ePMLState_Idle:
-		Idle();
+		StateCallResult := Idle();
 	E_PMLState.ePMLState_Resetting:
-		Resetting();
+		StateCallResult := Resetting();
 	E_PMLState.ePMLState_Starting:
-		Starting();
+		StateCallResult := Starting();
 	E_PMLState.ePMLState_Stopped:
-		Stopped();
+		StateCallResult := Stopped();
 	E_PMLState.ePMLState_Stopping:
-		Stopping();
+		StateCallResult := Stopping();
 	E_PMLState.ePMLState_Suspended:
-		Suspended();
+		StateCallResult := Suspended();
 	E_PMLState.ePMLState_Suspending:
-		Suspending();
+		StateCallResult := Suspending();
 	E_PMLState.ePMLState_Undefined:
-		Undefined();
+		StateCallResult := Undefined();
 	E_PMLState.ePMLState_Unholding:
-		Unholding();
+		StateCallResult := Unholding();
 	E_PMLState.ePMLState_Unsuspending:
-		Unsuspending();
+		StateCallResult := Unsuspending();
 	ELSE
 		Cycle := E_FAIL;
-END_CASE]]></ST>
+END_CASE
+IF StateCallResult THEN
+	Cycle := S_OK;
+ELSE
+	Cycle := E_FAIL;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="Execute" Id="{5484d7e2-b3e2-4d00-adc7-910112ca7207}" FolderPath="Wait_States\">
@@ -276,10 +281,12 @@ Unsuspending := TRUE;]]></ST>
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="PML_Method_Base.Cycle">
-      <LineId Id="50" Count="0" />
       <LineId Id="6" Count="36" />
       <LineId Id="51" Count="1" />
       <LineId Id="5" Count="0" />
+      <LineId Id="57" Count="1" />
+      <LineId Id="60" Count="1" />
+      <LineId Id="59" Count="0" />
     </LineIds>
     <LineIds Name="PML_Method_Base.Execute">
       <LineId Id="5" Count="0" />
