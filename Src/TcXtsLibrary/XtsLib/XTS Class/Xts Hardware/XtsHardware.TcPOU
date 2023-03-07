@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="XtsHardware" Id="{d04838d8-bc5b-437f-a587-8af72b2fc644}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XtsHardware
 VAR_INPUT
@@ -17,6 +17,7 @@ VAR
 	bMoverIdDetectionError		: BOOL;
 	bMoverIdDetectionActive		: BOOL;
 	bMoverIdDetected : BOOL;
+	bTriggerStarted: BOOL;
 	f24V: ARRAY[1..SystemParameters.nModuleNumber] OF UINT;
 	f48V: ARRAY[1..SystemParameters.nModuleNumber] OF UINT;
 	CurrentLive : ARRAY[1..SystemParameters.nModuleNumber] OF DINT;
@@ -250,6 +251,9 @@ TriggerMoverDetection := true;
     <Method Name="TriggerMoverID" Id="{f94a4161-104a-471e-b20d-98cf1403fdab}">
       <Declaration><![CDATA[METHOD TriggerMoverID : BOOL
 VAR_INPUT
+END_VAR
+VAR
+	
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Mover1 Functionality		
@@ -258,10 +262,11 @@ IF XtsIoEnvironment.XpuTcIo(1).GetMoverIdDetectionMode() = E_MoverIdDetectionMod
 	OR XtsIoEnvironment.XpuTcIo(1).GetMoverIdDetectionMode() = 2 THEN
 
 	// Check if the "MoverIdDetection" has already been started or the Mover1 was found.
-	IF NOT (bMoverIdDetectionActive OR bMoverIdDetected) THEN
+	IF NOT (bMoverIdDetectionActive OR bMoverIdDetected OR bTriggerStarted) THEN
 		// Trigger the "MoverIdDetection".
 		XtsIoEnvironment.XpuTcIo(1).TriggerMoverIdDetection();
 		Logger.Send(TC_EVENTS.XtsHardwareEvents.Mover1DetectionStarted,'');
+		bTriggerStarted := TRUE;
 	END_IF
 
 	// Check for error or success of "MoverIdDetection".
@@ -349,6 +354,7 @@ END_IF]]></ST>
     <LineIds Name="XtsHardware.TriggerMoverID">
       <LineId Id="40" Count="8" />
       <LineId Id="73" Count="0" />
+      <LineId Id="79" Count="0" />
       <LineId Id="49" Count="21" />
       <LineId Id="5" Count="0" />
     </LineIds>
