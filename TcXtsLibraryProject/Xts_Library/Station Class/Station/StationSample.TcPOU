@@ -25,7 +25,8 @@ Abort := TRUE;]]></ST>
     </Method>
     <Method Name="Cycle" Id="{b831bddf-8042-4785-99f9-40cdea1773f4}">
       <Declaration><![CDATA[METHOD Cycle : HRESULT
-VAR_INPUT
+VAR
+	CycleResult : HRESULT;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -76,8 +77,12 @@ IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborted
 	StationMovers := State := 0;
 END_IF
 
-SUPER^.Cycle();
-stInfo.StationProcessTime := _OperationTime;]]></ST>
+CycleResult := SUPER^.Cycle();
+stInfo.StationProcessTime := _OperationTime;
+
+IF CycleResult = E_FAIL THEN
+	Cycle := E_FAIL;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Property Name="MyStateMachine" Id="{d366101e-f161-43e4-b621-5f0379710a8f}">
@@ -138,6 +143,9 @@ END_VAR
       <LineId Id="58" Count="0" />
       <LineId Id="37" Count="9" />
       <LineId Id="5" Count="0" />
+      <LineId Id="67" Count="0" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="68" Count="1" />
     </LineIds>
     <LineIds Name="StationSample.MyStateMachine.Get">
       <LineId Id="2" Count="0" />

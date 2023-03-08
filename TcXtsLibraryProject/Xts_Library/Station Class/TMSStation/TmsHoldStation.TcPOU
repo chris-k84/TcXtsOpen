@@ -20,7 +20,8 @@ END_VAR
     </Implementation>
     <Method Name="Cycle" Id="{c6e1a6e4-2a59-48a3-a2de-6354d31aa549}">
       <Declaration><![CDATA[METHOD PUBLIC  Cycle : HRESULT
-VAR_INPUT
+VAR
+	CycleResult : HRESULT;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -77,7 +78,11 @@ CASE State OF
 	ELSE
 		Cycle := E_FAIL;
 END_CASE
-SUPER^.Cycle();]]></ST>
+CycleResult := SUPER^.Cycle();
+
+IF CycleResult = E_FAIL THEN
+	Cycle := E_FAIL;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="HasMover" Id="{a266c45f-308b-42ff-85d6-9dbbc61ca57d}">
@@ -164,6 +169,9 @@ END_VAR
       <LineId Id="60" Count="1" />
       <LineId Id="55" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="67" Count="0" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="68" Count="1" />
     </LineIds>
     <LineIds Name="TmsHoldStation.HasMover">
       <LineId Id="33" Count="4" />

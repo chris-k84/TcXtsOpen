@@ -91,16 +91,30 @@ END_CASE
     </Method>
     <Method Name="Cycle" Id="{da42838e-fb00-40a5-96f4-b787aa883566}">
       <Declaration><![CDATA[METHOD PUBLIC Cycle : HRESULT
-VAR_INPUT
+VAR
+	XtsHWResult : HRESULT;
+	EnableResult : HRESULT;
+	DisableResult : HRESULT;
+	GrpStopResult : HRESULT;
+	CollisionResult : HRESULT;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[SUPER^.Cycle();
-_XtsTrackHardware.Cycle();
-EnableSequence.Cycle();
-DisableSequence.Cycle();
-GroupStop.Cycle();
-mcCollisionGroup.Cycle();]]></ST>
+        <ST><![CDATA[Cycle := SUPER^.Cycle();
+XtsHWResult := _XtsTrackHardware.Cycle();
+EnableResult := EnableSequence.Cycle();
+DisableResult := DisableSequence.Cycle();
+GrpStopResult := GroupStop.Cycle();
+CollisionResult := mcCollisionGroup.Cycle();
+
+IF XtsHWResult = E_FAIL OR
+	EnableResult = E_FAIL OR
+	DisableResult = E_FAIL OR
+	GrpStopResult = E_FAIL OR
+	CollisionResult = E_FAIL THEN
+	Cycle := E_FAIL;
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetTMSMoverInterface" Id="{0e64eced-3444-47ea-9660-c818e7a9dea9}" FolderPath="Operations\">
@@ -318,6 +332,12 @@ END_VAR
       <LineId Id="13" Count="0" />
       <LineId Id="16" Count="3" />
       <LineId Id="5" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="33" Count="3" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="28" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.GetTMSMoverInterface">
       <LineId Id="29" Count="3" />

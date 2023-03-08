@@ -27,6 +27,7 @@ VAR
 	XtsHardwareOK : BOOL;
 	Xts48VStanding : BOOL;
 	Xts24VStanding : BOOL;
+	bTriggerDetect: BOOL;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
@@ -312,10 +313,11 @@ IF XtsIoEnvironment.XpuTcIo(1).GetMoverIdDetectionMode() = E_MoverIdDetectionMod
 	OR XtsIoEnvironment.XpuTcIo(1).GetMoverIdDetectionMode() = E_MoverIdDetectionMode.Standard THEN
 
 	// Check if the "MoverIdDetection" has already been started or the Mover1 was found.
-	IF NOT (bMoverIdDetectionActive OR bMoverIdDetected) THEN
+	IF NOT (bMoverIdDetectionActive OR bMoverIdDetected OR bTriggerDetect) THEN
 		// Trigger the "MoverIdDetection".
 		XtsIoEnvironment.XpuTcIo(1).TriggerMoverIdDetection();
 		Logger.Send(TC_EVENTS.XtsHardwareEvents.Mover1DetectionStarted,'');
+		bTriggerDetect := true;
 	END_IF
 
 	// Check for error or success of "MoverIdDetection".
@@ -413,6 +415,7 @@ END_IF]]></ST>
     <LineIds Name="XtsHardware.TriggerMoverID">
       <LineId Id="40" Count="8" />
       <LineId Id="73" Count="0" />
+      <LineId Id="76" Count="0" />
       <LineId Id="49" Count="21" />
       <LineId Id="5" Count="0" />
     </LineIds>

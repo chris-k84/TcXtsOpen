@@ -35,7 +35,9 @@ Abort := RemoveAxisAbortResult AND GroupAbortResult;]]></ST>
     </Method>
     <Method Name="Cycle" Id="{981b7190-eb15-4a0a-8875-0afb334ed36e}">
       <Declaration><![CDATA[METHOD Cycle : HRESULT
-VAR_INPUT
+VAR
+	RemoveAlResult : HRESULT;
+	GrpStopResult : HRESULT;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -106,8 +108,12 @@ CASE State OF
 		Cycle := E_FAIL;
 END_CASE
 
-removeAllAxes.Cycle();
-grpStop.Cycle();]]></ST>
+RemoveAlResult := removeAllAxes.Cycle();
+GrpStopResult := grpStop.Cycle();
+
+IF RemoveAlResult = E_FAIL OR GrpStopResult = E_FAIL THEN
+	Cycle := E_FAIL;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="Disable" Id="{024bbd18-8e3c-4aa1-9d04-45454423df20}">
@@ -177,6 +183,9 @@ grpStop.Jerk := Tc3_Mc3Definitions.MC_MAXIMUM;]]></ST>
       <LineId Id="78" Count="1" />
       <LineId Id="67" Count="2" />
       <LineId Id="5" Count="0" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="85" Count="0" />
+      <LineId Id="87" Count="1" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.Disable">
       <LineId Id="2" Count="0" />

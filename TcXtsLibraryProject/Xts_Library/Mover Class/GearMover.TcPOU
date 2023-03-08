@@ -25,7 +25,8 @@ END_VAR
     </Implementation>
     <Method Name="Cycle" Id="{675a77a0-454d-47dc-a1a2-22dd4fd08b5c}">
       <Declaration><![CDATA[METHOD PUBLIC  Cycle : HRESULT
-VAR_INPUT
+VAR
+	CycleResult : HRESULT;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -52,11 +53,17 @@ ELSE
 	CurrentLimit := 12000;
 END_IF
 
-SUPER^.Cycle();
+CycleResult := SUPER^.Cycle();
 axesGear(_MasterAxis := MoverArray[MoverToGearTo].AxisRef, _SlaveAxis := THIS^.AxisRef);
 moverSequence(ThisMover := THIS^,
 				StateMachine := StateMachine,
 				MoverArray := MoverArray);
+				
+IF CycleResult = S_OK THEN
+	Cycle := S_OK;
+ELSE
+	Cycle := E_FAIL;
+END_IF
 			]]></ST>
       </Implementation>
     </Method>
@@ -110,6 +117,11 @@ END_VAR
     <LineIds Name="GearMover.Cycle">
       <LineId Id="6" Count="25" />
       <LineId Id="33" Count="1" />
+      <LineId Id="41" Count="1" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="44" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="GearMover.Gear">
