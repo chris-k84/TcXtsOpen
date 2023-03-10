@@ -24,7 +24,8 @@ END_VAR]]></Declaration>
     <Folder Name="Wait States" Id="{63f323b6-e159-475d-b0ee-857bfb772605}" />
     <Method Name="Aborting" Id="{f4025447-c7fa-4c21-bcd4-655228f2af38}" FolderPath="Action States\">
       <Declaration><![CDATA[METHOD PROTECTED Aborting : BOOL
-VAR_INPUT
+VAR
+	
 END_VAR
 ]]></Declaration>
       <Implementation>

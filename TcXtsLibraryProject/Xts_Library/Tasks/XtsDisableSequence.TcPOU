@@ -15,6 +15,7 @@ VAR
 	AllMoversDisabled: BOOL;	
 	Logger : TcMessage_Ext;
 	arrMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover;
+	CaGroupResetResult: BOOL;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
@@ -36,8 +37,13 @@ Abort := RemoveAxisAbortResult AND GroupAbortResult;]]></ST>
     <Method Name="Cycle" Id="{981b7190-eb15-4a0a-8875-0afb334ed36e}">
       <Declaration><![CDATA[METHOD Cycle : HRESULT
 VAR
-	RemoveAlResult : HRESULT;
-	GrpStopResult : HRESULT;
+	RemoveAllCycleResult : HRESULT;
+	GrpStopCycleResult : HRESULT;
+	LoggerResult : BOOL;
+	GroupStopResult: BOOL;
+	RemoveAllResult: BOOL;
+	CaGroupDisableResult: BOOL;
+	DisbleAxisResult: BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -51,28 +57,28 @@ CASE State OF
 			_Done := FALSE;
 			_Error := FALSE;
 			IF _collisionGroup.GroupState = CAGroupStatus.mcGroupStateMoving THEN
-				Logger.Send(TC_EVENTS.XtsCaGroupEvents.CAGroupStop,'');
-				grpStop.Execute();
+				LoggerResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.CAGroupStop,'');
+				GroupStopResult := grpStop.Execute();
 				State := 10;
 			ELSE
 				State := 20;
-				removeAllAxes.RemoveAllMover();
-				Logger.Send(TC_EVENTS.XtsCaGroupEvents.CaGroupRemoveMovers,'');
+				RemoveAllResult := removeAllAxes.RemoveAllMover();
+				LoggerResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.CaGroupRemoveMovers,'');
 			END_IF
 		END_IF
 		
 	10:
 		IF grpStop.Done THEN
 			State := 20;
-			Logger.Send(TC_EVENTS.XtsCaGroupEvents.CaGroupRemoveMovers,'');
-			removeAllAxes.RemoveAllMover();
+			LoggerResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.CaGroupRemoveMovers,'');
+			RemoveAllResult := removeAllAxes.RemoveAllMover();
 		END_IF
 	
 	20:
 		IF removeAllAxes.Done THEN
 			FOR moverNumbers := 1 TO SystemParameters.NumberOfMovers DO
 				arrMovers[moverNumbers].IdentInGroup := 0;
-				arrMovers[moverNumbers].DisableAxis();
+				DisbleAxisResult := arrMovers[moverNumbers].DisableAxis();
 			END_FOR
 			State := 30;
 		END_IF
@@ -83,15 +89,15 @@ CASE State OF
 			AllMoversDisabled := TRUE AND NOT arrMovers[moverNumbers].isEnabled();
 		END_FOR
 		IF AllMoversDisabled THEN
-			Logger.Send(TC_EVENTS.XtsCaGroupEvents.AllMoversDisabled,'');
+			LoggerResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.AllMoversDisabled,'');
 			State := 40;
-			_collisionGroup.Disable();
-			Logger.Send(TC_EVENTS.XtsCaGroupEvents.CAGroupDisable,'');
+			CaGroupDisableResult := _collisionGroup.Disable();
+			LoggerResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.CAGroupDisable,'');
 		END_IF
 	40:
 		IF _collisionGroup.GroupState = CAGroupStatus.mcGroupStateErrorStop THEN
-			_collisionGroup.Reset();
-			Logger.Send(TC_EVENTS.XtsCaGroupEvents.CAGroupReset,'');
+			CaGroupResetResult := _collisionGroup.Reset();
+			LoggerResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.CAGroupReset,'');
 		END_IF	
 		State := 50;
 		
@@ -108,10 +114,10 @@ CASE State OF
 		Cycle := E_FAIL;
 END_CASE
 
-RemoveAlResult := removeAllAxes.Cycle();
-GrpStopResult := grpStop.Cycle();
+RemoveAllCycleResult := removeAllAxes.Cycle();
+GrpStopCycleResult := grpStop.Cycle();
 
-IF RemoveAlResult = E_FAIL OR GrpStopResult = E_FAIL THEN
+IF RemoveAllCycleResult = E_FAIL OR GrpStopCycleResult = E_FAIL THEN
 	Cycle := E_FAIL;
 END_IF]]></ST>
       </Implementation>
@@ -176,16 +182,8 @@ grpStop.Jerk := Tc3_Mc3Definitions.MC_MAXIMUM;]]></ST>
       <LineId Id="11" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.Cycle">
-      <LineId Id="77" Count="0" />
-      <LineId Id="6" Count="2" />
-      <LineId Id="73" Count="0" />
-      <LineId Id="9" Count="57" />
-      <LineId Id="78" Count="1" />
-      <LineId Id="67" Count="2" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="86" Count="0" />
-      <LineId Id="85" Count="0" />
-      <LineId Id="87" Count="1" />
+      <LineId Id="179" Count="71" />
+      <LineId Id="88" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.Disable">
       <LineId Id="2" Count="0" />
