@@ -15,7 +15,7 @@
     <Implicit_KindOfTask>{b13a8837-6545-418a-96e2-e1bd6fd9fcee}</Implicit_KindOfTask>
     <Implicit_Jitter_Distribution>{3a679315-69e1-4f89-896a-7ccc5eb827e8}</Implicit_Jitter_Distribution>
     <LibraryReferences>{8422622f-e831-439e-86d4-ef93fd220668}</LibraryReferences>
-    <Company>ChrisK</Company>
+    <Company>BeckhoffUK</Company>
     <Released>false</Released>
     <Title>Xts Library</Title>
     <ProjectVersion>1.0.0.6</ProjectVersion>

@@ -55,14 +55,8 @@
       <Namespace>Tc3_PackML_V2</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Xts Library">
-      <DefaultResolution>Xts Library, * (ChrisK)</DefaultResolution>
+      <DefaultResolution>Xts Library, * (BeckhoffUK)</DefaultResolution>
       <Namespace>Xts_Library</Namespace>
-      <Parameters>
-        <Parameter ListName="SYSTEMPARAMETERS">
-          <Key>TRACKLENGTH</Key>
-          <Value>4000</Value>
-        </Parameter>
-      </Parameters>
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +73,9 @@
     </PlaceholderResolution>
     <PlaceholderResolution Include="Tc3_Module">
       <Resolution>Tc3_Module, * (Beckhoff Automation GmbH)</Resolution>
+    </PlaceholderResolution>
+    <PlaceholderResolution Include="Xts Library">
+      <Resolution>Xts Library, 1.0.0.6 (BeckhoffUK)</Resolution>
     </PlaceholderResolution>
   </ItemGroup>
   <ProjectExtensions>
