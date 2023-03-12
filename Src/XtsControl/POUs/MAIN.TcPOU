@@ -36,9 +36,7 @@ END_IF
 IF Start THEN
 	fbMachine.SetPackML(state := E_PMLCommand.ePMLCommand_Start);
 	Start := FALSE;
-END_IF
-
-result := foo.METH();]]></ST>
+END_IF]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
       <LineId Id="43" Count="0" />
@@ -50,8 +48,6 @@ result := foo.METH();]]></ST>
       <LineId Id="33" Count="0" />
       <LineId Id="18" Count="14" />
       <LineId Id="17" Count="0" />
-      <LineId Id="63" Count="0" />
-      <LineId Id="62" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
