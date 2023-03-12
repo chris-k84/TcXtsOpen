@@ -12,7 +12,6 @@ VAR
 	moverNumbers : UINT;
 	AllMoversEnabled: BOOL;
 	EnableTrigger : BOOL;	
-	Logger : TcMessage_Ext;
 	arrMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover;
 END_VAR]]></Declaration>
     <Implementation>

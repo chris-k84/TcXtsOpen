@@ -3,6 +3,7 @@
   <POU Name="CyclicBase" Id="{822a4270-a76d-44ce-8055-ee2099020175}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK ABSTRACT CyclicBase IMPLEMENTS ICyclic
 VAR
+	Logger : TcMessage_Ext;
 END_VAR
 ]]></Declaration>
     <Implementation>

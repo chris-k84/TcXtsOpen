@@ -12,7 +12,6 @@ VAR
 	_stopGroup : BOOL;
 	_jerk : MC_LREAL;
 	_deceleration : MC_LREAL;
-	Logger : TcMessage_Ext;
 END_VAR
 ]]></Declaration>
     <Implementation>

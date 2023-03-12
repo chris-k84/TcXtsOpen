@@ -17,7 +17,6 @@ VAR
 	nModuleCounter : UINT := 1;
 	i: UDINT;
 	State : XtsHardwareState;
-	Logger : TcMessage_Ext;
 	DetectedParts: UDINT;
 	DetectedTracks : UDINT;
 	DetectedModules : ARRAY[1..10] OF UDINT;
