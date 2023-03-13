@@ -3,7 +3,6 @@
   <POU Name="DualModuleTmsSwitch" Id="{b99b16cd-cff3-4deb-90c3-1a32a82a4df9}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK DualModuleTmsSwitch EXTENDS MC2_Axis_Base IMPLEMENTS ITF_TmsSwitch
 VAR_INPUT
-	StateMachine : IPmlStateMachine;
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -17,6 +16,7 @@ VAR
 	_SwitchVelocity : MC_LREAL := 100.0;
 	arrTrackIds : ARRAY[1..4] OF OTCID;
 	stSwitchInfo : TmsSwitchInfo;
+	_StateMachine : IPmlStateMachine;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -40,7 +40,7 @@ CASE stSwitchInfo.State OF
 		END_IF
 		
 	TmsSwitchState.Ready:
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Clearing THEN
+		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Clearing THEN
 			AxisEnableResult := SUPER^.EnableAxis();
 			stSwitchInfo.State := TmsSwitchState.Enabling;
 		END_IF	
@@ -51,13 +51,13 @@ CASE stSwitchInfo.State OF
 		END_IF
 		
 	TmsSwitchState.Enabled:
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Resetting THEN
+		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Resetting THEN
 			IF SUPER^.MoveToPosition(Position := _middlePosition, Velocity := 100.0) OR SUPER^.isAtPosition(position := _middlePosition) THEN
 				stSwitchInfo.State := TmsSwitchState.Resetting;
 			END_IF
 		END_IF
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
-			OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
+		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
+			OR _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
 			AxisDisableResult := SUPER^.DisableAxis();
 			stSwitchInfo.State := TmsSwitchState.Disabling;
 		END_IF
@@ -68,8 +68,8 @@ CASE stSwitchInfo.State OF
 		END_IF	
 	
 	TmsSwitchState.Waiting:
-		IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
-			OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
+		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
+			OR _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
 			AxisDisableResult := SUPER^.DisableAxis();
 			stSwitchInfo.State := TmsSwitchState.Disabling;
 		END_IF
@@ -244,6 +244,25 @@ END_VAR
 END_CASE]]></ST>
       </Implementation>
     </Method>
+    <Property Name="MyStateMachine" Id="{1ff5c9d3-c515-4cbd-9b7d-10559ac8f05c}">
+      <Declaration><![CDATA[PROPERTY MyStateMachine : IPmlStateMachine]]></Declaration>
+      <Get Name="Get" Id="{2e18a27c-f62b-44f2-be45-3b17307e011c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MyStateMachine := _StateMachine;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{570a0a8e-ad70-4c5d-ac41-d34976917134}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_StateMachine := MyStateMachine;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Method Name="SetAutomaticMode" Id="{5d2127ff-7894-4041-9880-78681ac45ab3}">
       <Declaration><![CDATA[METHOD SetAutomaticMode : BOOL
 VAR_INPUT
@@ -342,10 +361,7 @@ END_VAR
       <LineId Id="656" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.Cycle">
-      <LineId Id="85" Count="0" />
-      <LineId Id="6" Count="69" />
-      <LineId Id="86" Count="0" />
-      <LineId Id="76" Count="5" />
+      <LineId Id="94" Count="77" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.DownPosition.Get">
@@ -378,6 +394,12 @@ END_VAR
     <LineIds Name="DualModuleTmsSwitch.MoveTo">
       <LineId Id="208" Count="28" />
       <LineId Id="81" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.MyStateMachine.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="DualModuleTmsSwitch.MyStateMachine.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.SetAutomaticMode">
       <LineId Id="5" Count="0" />
