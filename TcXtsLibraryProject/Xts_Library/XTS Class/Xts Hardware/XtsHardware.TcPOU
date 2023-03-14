@@ -308,8 +308,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Mover1 Functionality		
 // Check if "MoverIdDetectionMode" has been activated under the XtsProcessingUnit object.
-IF XtsIoEnvironment.XpuTcIo(1).GetMoverIdDetectionMode() = E_MoverIdDetectionMode.Mover1
-	OR XtsIoEnvironment.XpuTcIo(1).GetMoverIdDetectionMode() = E_MoverIdDetectionMode.Standard THEN
+IF XtsIoEnvironment.XpuTcIo(1).GetMoverIdDetectionMode() = E_MoverIdDetectionMode.Mover1 THEN
 
 	// Check if the "MoverIdDetection" has already been started or the Mover1 was found.
 	IF NOT (bMoverIdDetectionActive OR bMoverIdDetected OR bTriggerDetect) THEN
@@ -412,7 +411,8 @@ END_IF]]></ST>
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.TriggerMoverID">
-      <LineId Id="40" Count="8" />
+      <LineId Id="40" Count="2" />
+      <LineId Id="44" Count="4" />
       <LineId Id="73" Count="0" />
       <LineId Id="76" Count="0" />
       <LineId Id="49" Count="21" />

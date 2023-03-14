@@ -15,7 +15,8 @@ VAR
 	iStationArray : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess;
 	XtsTrackHardware : XtsHardware := (Tracks := 1);
 	Xts : XtsTrack := (PackMLStateMachine := xtsStateMachine, 
-						HomePosition := 800.0, 
+						HomePosition := 1000.0,
+						HomeSpeed := 1000.0, 
 						Tracks := 1,
 						XtsTrackHardware := XtsTrackHardware);
 	
@@ -49,38 +50,15 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
-	iMovers[i] := Movers[i];
-	Movers[i].TrackLength := 3000.0;
-	Xts.MoverArray := iMovers;
-	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyMover := Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i]; 
-	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyStateMachine := xtsStateMachine;
-	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyStations := iStationArray;	
-END_FOR
-FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
-	StationArray[i].MyStateMachine := xtsStateMachine;
-END_FOR
-IF InitialiseStations() THEN
-	xtsStateMachine.PmlModeCommand(Mode := E_PMLProtectedUnitMode.ePMLProtUnitMode_Production);
-	Initialise := TRUE;
-END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="InitialiseStations" Id="{484207a2-fa7d-4c77-9d9b-69f5cd52cf18}">
-      <Declaration><![CDATA[METHOD InitialiseStations : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
         <ST><![CDATA[FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
 	iStationArray[i] := StationArray[i];
 END_FOR
 
 
-StationArray[1].Position := 1000.0;
+StationArray[1].Position := 1200.0;
 StationArray[1].TempPropTime := T#1S;
 
-StationArray[2].Position := 1200.0;
+StationArray[2].Position := 1300.0;
 StationArray[2].TempPropTime := T#2S;
 
 StationArray[3].Position := 1400.0;
@@ -96,8 +74,22 @@ StationArray[6].Position := 100.0;
 StationArray[6].TempPropTime := T#1S;
 
 
+FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
+	iMovers[i] := Movers[i];
+	Movers[i].TrackLength := 4000.0;
+	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyMover := Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i]; 
+	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyStateMachine := xtsStateMachine;
+	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyStations := iStationArray;	
+	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyStartPosition := Xts.HomePosition;
+END_FOR
+Xts.MoverArray := iMovers;
+FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
+	StationArray[i].MyStateMachine := xtsStateMachine;
+END_FOR
 
-InitialiseStations := true;]]></ST>
+
+xtsStateMachine.PmlModeCommand(Mode := E_PMLProtectedUnitMode.ePMLProtUnitMode_Production);
+Initialise := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetPackML" Id="{53c56351-61ed-4063-8940-94e0a76b1fed}">
@@ -121,19 +113,16 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="Machine.Initialise">
-      <LineId Id="7" Count="4" />
-      <LineId Id="13" Count="9" />
-    </LineIds>
-    <LineIds Name="Machine.InitialiseStations">
-      <LineId Id="193" Count="1" />
-      <LineId Id="153" Count="0" />
-      <LineId Id="155" Count="13" />
-      <LineId Id="198" Count="1" />
-      <LineId Id="202" Count="0" />
-      <LineId Id="200" Count="1" />
-      <LineId Id="195" Count="0" />
-      <LineId Id="191" Count="1" />
-      <LineId Id="132" Count="0" />
+      <LineId Id="28" Count="23" />
+      <LineId Id="53" Count="2" />
+      <LineId Id="57" Count="2" />
+      <LineId Id="67" Count="0" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="61" Count="1" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="64" Count="2" />
+      <LineId Id="63" Count="0" />
     </LineIds>
     <LineIds Name="Machine.SetPackML">
       <LineId Id="29" Count="0" />
