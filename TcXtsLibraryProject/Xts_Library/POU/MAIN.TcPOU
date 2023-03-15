@@ -6,7 +6,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[UnitTesting();]]></ST>
+      <ST><![CDATA[XtsRunner_Testing();]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
       <LineId Id="5" Count="0" />

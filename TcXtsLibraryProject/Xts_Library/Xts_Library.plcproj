@@ -211,7 +211,7 @@
     <Compile Include="Tasks\XtsEnableSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tests\UnitTesting.TcPOU">
+    <Compile Include="Tests\XtsRunner_Testing.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="XTS Class\Xts Collision Group\CAGroupInfo.TcDUT">

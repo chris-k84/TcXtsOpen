@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
-  <POU Name="UnitTesting" Id="{b6977622-2486-4be3-8e26-0b561689c1e7}" SpecialFunc="None">
-    <Declaration><![CDATA[PROGRAM UnitTesting
+  <POU Name="XtsRunner_Testing" Id="{b6977622-2486-4be3-8e26-0b561689c1e7}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM XtsRunner_Testing
 VAR
 	bExecute:		BOOL;
 	fbTestsuites:	FB_Testsuites;				// Testsuites
@@ -75,7 +75,7 @@ CASE XtsRunnerTestSuite.P_Testcase OF
 END_CASE
 {endregion}]]></ST>
     </Implementation>
-    <LineIds Name="UnitTesting">
+    <LineIds Name="XtsRunner_Testing">
       <LineId Id="9" Count="9" />
       <LineId Id="198" Count="6" />
       <LineId Id="231" Count="1" />
