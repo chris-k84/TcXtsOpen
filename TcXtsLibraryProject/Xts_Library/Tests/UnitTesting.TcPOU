@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="UnitTesting" Id="{b6977622-2486-4be3-8e26-0b561689c1e7}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM UnitTesting
+VAR
+	bExecute:		BOOL;
+	fbTestsuites:	FB_Testsuites;				// Testsuites
+	XtsRunnerTestSuite : FB_Testsuite;
+			// Test-vars	
+	XtsRunnerInstance : XtsRunner;
+	arrCyclicModules : ARRAY[1..11] OF FB_Mover;
+	i: INT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Run
+fbTestsuites();
+
+IF bExecute THEN
+	// manual execute | override file path
+	fbTestsuites.P_FilePathName:= 'C:\report.xml';
+	bExecute:= NOT fbTestsuites.M_Request(E_Base.Execute);
+END_IF
+
+// Add Testsuite to Testsuites
+fbTestsuites.M_Add(XtsRunnerTestSuite);
+
+{region "XtsRunnerTestSuite"}
+XtsRunnerInstance.Cycle();
+XtsRunnerTestSuite();
+CASE XtsRunnerTestSuite.P_Testcase OF
+	E_Testcase.Start:
+	 	XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,XtsRunnerInstance.GetModuleCount(),'Check return of module count');
+		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1s,'','',1);
+	
+	1:
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,XtsRunnerInstance.GetModuleCount(),'check modules empty');
+		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(2,XtsRunnerInstance.AddComponent(arrCyclicModules[1]),'Try register 1 module');
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(1,XtsRunnerInstance.GetModuleCount(),'check module added in count');
+		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(2,XtsRunnerInstance.Clear(),'Clear XtsRunner modules list');
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,XtsRunnerInstance.GetModuleCount(),'check modules empty');	 
+		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1S,'','',2);
+			 
+	2:
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,XtsRunnerInstance.GetModuleCount(),'check modules empty');
+		FOR i := 1 TO 10 DO 
+			XtsRunnerInstance.AddComponent(arrCyclicModules[i]);
+		END_FOR
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(10,XtsRunnerInstance.GetModuleCount(),'check module added in count');	 
+		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(1,XtsRunnerInstance.AddComponent(arrCyclicModules[11]),'add to many modules should be rejected');
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(10,XtsRunnerInstance.GetModuleCount(),'check module rejected');	 
+		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1S,'','',3);
+	
+	3:
+		XtsRunnerInstance.Clear();
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,XtsRunnerInstance.GetModuleCount(),'check modules empty');
+		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(2,XtsRunnerInstance.AddComponent(arrCyclicModules[1]),'try register a single modulea');
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(1,XtsRunnerInstance.GetModuleCount(),'check module added in count');
+		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(2,XtsRunnerInstance.RemoveModule(arrCyclicModules[1]),'remove the same module from module list');
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,XtsRunnerInstance.GetModuleCount(),'check modules empty');	 
+		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1S,'','',4);
+	
+	4:
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,XtsRunnerInstance.GetModuleCount(),'check modules empty');
+		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(1,XtsRunnerInstance.RemoveModule(arrCyclicModules[1]),'Try remove from empty module list');	 
+		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1S,'','',E_Testcase.Done);
+			 
+	5:
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,XtsRunnerInstance.GetModuleCount(),'check modules empty');
+		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(2,XtsRunnerInstance.AddComponent(arrCyclicModules[1]),'Try register 1 module');
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(1,XtsRunnerInstance.GetModuleCount(),'check module added in count');
+		
+
+	E_Testcase.Done:;
+		 
+END_CASE
+{endregion}]]></ST>
+    </Implementation>
+    <LineIds Name="UnitTesting">
+      <LineId Id="9" Count="9" />
+      <LineId Id="198" Count="6" />
+      <LineId Id="231" Count="1" />
+      <LineId Id="209" Count="1" />
+      <LineId Id="234" Count="0" />
+      <LineId Id="237" Count="1" />
+      <LineId Id="257" Count="1" />
+      <LineId Id="235" Count="0" />
+      <LineId Id="247" Count="1" />
+      <LineId Id="250" Count="0" />
+      <LineId Id="253" Count="2" />
+      <LineId Id="259" Count="0" />
+      <LineId Id="251" Count="1" />
+      <LineId Id="249" Count="0" />
+      <LineId Id="260" Count="1" />
+      <LineId Id="277" Count="0" />
+      <LineId Id="263" Count="4" />
+      <LineId Id="262" Count="0" />
+      <LineId Id="268" Count="1" />
+      <LineId Id="271" Count="0" />
+      <LineId Id="274" Count="0" />
+      <LineId Id="270" Count="0" />
+      <LineId Id="278" Count="5" />
+      <LineId Id="226" Count="3" />
+      <LineId Id="23" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

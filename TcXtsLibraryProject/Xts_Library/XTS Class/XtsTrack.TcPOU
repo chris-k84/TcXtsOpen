@@ -93,7 +93,6 @@ END_CASE
     <Method Name="Cycle" Id="{da42838e-fb00-40a5-96f4-b787aa883566}">
       <Declaration><![CDATA[METHOD PUBLIC Cycle : HRESULT
 VAR
-	XtsHWResult : HRESULT;
 	EnableResult : HRESULT;
 	DisableResult : HRESULT;
 	GrpStopResult : HRESULT;
@@ -102,14 +101,12 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Cycle := SUPER^.Cycle();
-XtsHWResult := _XtsTrackHardware.Cycle();
 EnableResult := EnableSequence.Cycle();
 DisableResult := DisableSequence.Cycle();
 GrpStopResult := GroupStop.Cycle();
 CollisionResult := mcCollisionGroup.Cycle();
 
-IF XtsHWResult = E_FAIL OR
-	EnableResult = E_FAIL OR
+IF EnableResult = E_FAIL OR
 	DisableResult = E_FAIL OR
 	GrpStopResult = E_FAIL OR
 	CollisionResult = E_FAIL THEN
@@ -331,11 +328,10 @@ END_VAR
     </LineIds>
     <LineIds Name="XtsTrack.Cycle">
       <LineId Id="13" Count="0" />
-      <LineId Id="16" Count="3" />
+      <LineId Id="17" Count="2" />
       <LineId Id="5" Count="0" />
       <LineId Id="30" Count="0" />
       <LineId Id="29" Count="0" />
-      <LineId Id="31" Count="0" />
       <LineId Id="33" Count="3" />
       <LineId Id="32" Count="0" />
       <LineId Id="28" Count="0" />

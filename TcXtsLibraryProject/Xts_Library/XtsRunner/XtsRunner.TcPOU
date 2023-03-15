@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="XtsRunner" Id="{4adb75ec-914c-46a2-96a4-b49d6ed1e005}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsRunner EXTENDS CyclicBase
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	CyclicModules : ARRAY[0..9] OF ICyclic;
+	ModuleCount : INT := 0;
+	i: INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="AddComponent" Id="{5f816535-6603-4c30-b42c-afe250745821}">
+      <Declaration><![CDATA[METHOD AddComponent : HRESULT
+VAR_INPUT
+	CyclicModule : ICyclic;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF ModuleCount < 10 THEN
+	CyclicModules[ModuleCount] := CyclicModule;
+	ModuleCount := ModuleCount + 1;
+	AddComponent := 2;
+ELSE
+	AddComponent := S_FALSE;
+END_IF
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Clear" Id="{801399c7-4ed5-4baa-bb84-25ca1ab9b024}">
+      <Declaration><![CDATA[METHOD Clear : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR i := 0 TO 9 DO
+	CyclicModules[i] := 0;
+END_FOR
+ModuleCount := 0;
+Clear := 2;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{07b170dc-1426-48b0-b328-82870c7027f5}">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : HRESULT
+VAR_INPUT
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[//FOR i := 0 TO 9 DO
+//	IF CyclicModules[i] <> 0 THEN
+//		CyclicModules[i].Cycle();
+//	END_IF
+//END_FOR]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetModuleCount" Id="{ce16b2d3-0e8a-4df6-aa9c-1c1b403838ba}">
+      <Declaration><![CDATA[METHOD GetModuleCount : int
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetModuleCount := ModuleCount;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RemoveModule" Id="{dfa8fa7b-42f3-4591-8ff7-fdf50b44b36a}">
+      <Declaration><![CDATA[METHOD RemoveModule : HRESULT
+VAR_INPUT
+	CyclicModule : ICyclic;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF ModuleCount > 0 THEN
+	RemoveModule := E_FAIL;
+	FOR i := 0 TO 9 DO 
+		IF CyclicModules[i] = CyclicModule THEN
+			CyclicModules[i] := 0;
+			ModuleCount := ModuleCount - 1;
+			RemoveModule := 2;
+		END_IF
+	END_FOR
+ELSE
+	RemoveModule := S_FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="XtsRunner">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsRunner.AddComponent">
+      <LineId Id="9" Count="1" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="13" Count="1" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="7" Count="1" />
+    </LineIds>
+    <LineIds Name="XtsRunner.Clear">
+      <LineId Id="13" Count="0" />
+      <LineId Id="15" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsRunner.Cycle">
+      <LineId Id="5" Count="1" />
+      <LineId Id="8" Count="1" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsRunner.GetModuleCount">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsRunner.RemoveModule">
+      <LineId Id="5" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="14" Count="1" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

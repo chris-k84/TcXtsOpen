@@ -211,6 +211,9 @@
     <Compile Include="Tasks\XtsEnableSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tests\UnitTesting.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="XTS Class\Xts Collision Group\CAGroupInfo.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -238,6 +241,9 @@
     <Compile Include="XTS Class\XtsTrack.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="XtsRunner\XtsRunner.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Axis Class" />
@@ -246,6 +252,8 @@
     <Folder Include="Base Types\Task_Base" />
     <Folder Include="EventLoggerClass" />
     <Folder Include="Mover Class" />
+    <Folder Include="Tests" />
+    <Folder Include="XtsRunner" />
     <Folder Include="POU" />
     <Folder Include="PackML" />
     <Folder Include="PackML_Method_Pattern" />
@@ -298,6 +306,10 @@
       <DefaultResolution>Tc3_PackML_V2, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_PackML_V2</Namespace>
     </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_Testing">
+      <DefaultResolution>Tc3_Testing, * (Zerlauth)</DefaultResolution>
+      <Namespace>Tc3_Testing</Namespace>
+    </PlaceholderReference>
     <PlaceholderReference Include="Tc3_XTS_Utility">
       <DefaultResolution>Tc3_XTS_Utility, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_XTS_Utility</Namespace>
@@ -313,6 +325,9 @@
     <PinnedGlobalDataType Include="ST_XtsHardwareEvents" />
   </ItemGroup>
   <ItemGroup>
+    <PlaceholderResolution Include="Tc3_Testing">
+      <Resolution>Tc3_Testing, 0.0.0.15 (Zerlauth)</Resolution>
+    </PlaceholderResolution>
     <PlaceholderResolution Include="Tc3_XTS_Utility">
       <Resolution>Tc3_XTS_Utility, 3.1.2210.2 (Beckhoff Automation GmbH)</Resolution>
     </PlaceholderResolution>
