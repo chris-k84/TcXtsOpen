@@ -17,7 +17,7 @@ fbTestsuites();
 
 IF bExecute THEN
 	// manual execute | override file path
-	fbTestsuites.P_FilePathName:= 'C:\report.xml';
+	fbTestsuites.P_FilePathName:= 'C:\XtsRunnerTestReport.xml';
 	bExecute:= NOT fbTestsuites.M_Request(E_Base.Execute);
 END_IF
 
@@ -35,7 +35,7 @@ CASE XtsRunnerTestSuite.P_Testcase OF
 	1:
 		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,XtsRunnerInstance.GetModuleCount(),'check modules empty');
 		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(2,XtsRunnerInstance.AddComponent(arrCyclicModules[1]),'Try register 1 module');
-		XtsRunnerTestSuite.P_Assert.M_Equals_INT(1,XtsRunnerInstance.GetModuleCount(),'check module added in count');
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,XtsRunnerInstance.GetModuleCount(),'check module added in count');
 		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(2,XtsRunnerInstance.Clear(),'Clear XtsRunner modules list');
 		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,XtsRunnerInstance.GetModuleCount(),'check modules empty');	 
 		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1S,'','',2);

@@ -211,6 +211,9 @@
     <Compile Include="Tasks\XtsEnableSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tests\XtsHardware_Testing.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Tests\XtsRunner_Testing.TcPOU">
       <SubType>Code</SubType>
     </Compile>
