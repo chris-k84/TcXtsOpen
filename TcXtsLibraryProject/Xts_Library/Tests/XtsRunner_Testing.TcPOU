@@ -22,7 +22,7 @@ IF bExecute THEN
 END_IF
 
 // Add Testsuite to Testsuites
-fbTestsuites.M_Add(XtsRunnerTestSuite);
+fbTestsuites.M_Add(XtsRunnerTestSuite);			
 
 {region "XtsRunnerTestSuite"}
 XtsRunnerInstance.Cycle();

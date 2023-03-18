@@ -3,11 +3,12 @@
   <POU Name="MAIN" Id="{aa92f88a-2917-437b-b76e-fd83d614eadb}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
+	XtsHardwareTestSuite : XtsHardwareTesting;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[XtsRunner_Testing();
-XtsHardware_Testing();]]></ST>
+XtsHardwareTestSuite();]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
       <LineId Id="5" Count="0" />

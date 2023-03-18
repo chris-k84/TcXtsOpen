@@ -197,6 +197,15 @@ XtsHWInfo.NoOfTracks := DetectedTracks;
 ]]></ST>
       </Implementation>
     </Method>
+    <Method Name="Is24VOK" Id="{2b0cb545-a877-4023-acf7-204433c79109}">
+      <Declaration><![CDATA[METHOD Is24VOK : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="IsHardwareOK" Id="{dd7ca4cf-2de7-4421-9dd2-2ee510bb9bf3}">
       <Declaration><![CDATA[METHOD IsHardwareOK : BOOL
 VAR_INPUT
@@ -388,6 +397,9 @@ END_IF]]></ST>
     <LineIds Name="XtsHardware.GetTrackAssembly">
       <LineId Id="142" Count="14" />
       <LineId Id="26" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsHardware.Is24VOK">
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.IsHardwareOK">
       <LineId Id="5" Count="0" />

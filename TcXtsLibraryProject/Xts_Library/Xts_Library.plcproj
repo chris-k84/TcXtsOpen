@@ -18,7 +18,7 @@
     <Released>false</Released>
     <Title>Xts Library</Title>
     <Company>BeckhoffUK</Company>
-    <ProjectVersion>2.0.0.3</ProjectVersion>
+    <ProjectVersion>2.0.0.4</ProjectVersion>
     <LibraryCategories>
       <LibraryCategory xmlns="">
         <Id>{4c30be10-0c29-4796-921e-62ecfda40191}</Id>
@@ -211,7 +211,7 @@
     <Compile Include="Tasks\XtsEnableSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tests\XtsHardware_Testing.TcPOU">
+    <Compile Include="Tests\XtsHardwareTesting.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tests\XtsRunner_Testing.TcPOU">

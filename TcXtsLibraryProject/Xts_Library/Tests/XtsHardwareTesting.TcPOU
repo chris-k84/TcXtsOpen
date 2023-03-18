@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="XtsHardwareTesting" Id="{7afd002c-75a0-46c4-9267-fe0bdcc43af0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsHardwareTesting EXTENDS XtsHardware
+VAR
+	bExecute:		BOOL;
+	fbTestsuites:	FB_Testsuites;				// Testsuites
+	XtsHardwareTestSuite : FB_Testsuite;
+	
+	// Test-vars	
+
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[	// Run
+fbTestsuites();
+
+IF bExecute THEN
+	// manual execute | override file path
+	fbTestsuites.P_FilePathName:= 'C:\XtsHardwareTestReport.xml';
+	bExecute:= NOT fbTestsuites.M_Request(E_Base.Execute);
+END_IF
+
+// Add Testsuite to Testsuites
+fbTestsuites.M_Add(XtsHardwareTestSuite);
+
+{region "XtsRunnerTestSuite"}
+XtsHardwareTestSuite();
+CASE XtsHardwareTestSuite.P_Testcase OF
+	E_Testcase.Start:
+		THIS^.XtsHardwareOK := TRUE;
+	 	XtsHardwareTestSuite.P_Assert.M_IsTRUE(THIS^.IsHardwareOK(),'Check return of Xts hardware status');
+		XtsHardwareTestSuite.M_Testcase('XtsHardware',T#1S,'','',1);
+	1:
+		FOR i := 1 TO SystemParameters.nModuleNumber DO
+			f24V[i] := 0;	 
+		END_FOR
+		XtsHardwareTestSuite.P_Assert.M_Equals_DINT(1,THIS^.Is24VOK(),'check the 24vdc reports low correctly');
+		XtsHardwareTestSuite.M_Testcase('XtsHardware',T#1S,'','',E_Testcase.Done);
+
+
+	E_Testcase.Done:;
+		 
+END_CASE
+{endregion}]]></ST>
+    </Implementation>
+    <LineIds Name="XtsHardwareTesting">
+      <LineId Id="43" Count="12" />
+      <LineId Id="57" Count="2" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="60" Count="2" />
+      <LineId Id="72" Count="2" />
+      <LineId Id="70" Count="1" />
+      <LineId Id="63" Count="4" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

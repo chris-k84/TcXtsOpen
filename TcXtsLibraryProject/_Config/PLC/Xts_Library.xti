@@ -983,7 +983,7 @@ External Setpoint Generation:
 		</DataType>
 	</DataTypes>
 	<Project GUID="{CED1A555-C4FE-4060-8667-CD2676F9349D}" Name="Xts_Library" PrjFilePath="..\..\Xts_Library\Xts_Library.plcproj" TmcFilePath="..\..\Xts_Library\Xts_Library.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Xts_Library\Xts_Library.tmc" TmcHash="{071AB3F6-B841-1CB8-50CE-54C62C32A6CB}">
+		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Xts_Library\Xts_Library.tmc" TmcHash="{6D4968BE-9CC7-167E-E6EB-E02C4CD5F9C9}">
 			<Name>Xts_Library Instance</Name>
 			<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 			<Vars VarGrpType="1">
@@ -1092,6 +1092,13 @@ External Setpoint Generation:
 				</Context>
 			</Contexts>
 			<InitSymbols>
+				<InitSymbol>
+					<Name>MAIN.XtsHardwareTestSuite.fbTestsuites.sFilePathName</Name>
+					<Type GUID="{18071995-0000-0000-0000-0001000000FF}">STRING(255)</Type>
+					<Comment><![CDATA[ as Property or init symbol]]></Comment>
+					<AreaNo>#x00000003</AreaNo>
+					<Data>433a5c7265706f72742e786d6c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</Data>
+				</InitSymbol>
 				<InitSymbol>
 					<Name>XtsRunner_Testing.fbTestsuites.sFilePathName</Name>
 					<Type GUID="{18071995-0000-0000-0000-0001000000FF}">STRING(255)</Type>
