@@ -12,7 +12,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[	// Run
+      <ST><![CDATA[// Run
 fbTestsuites();
 
 IF bExecute THEN
@@ -36,8 +36,66 @@ CASE XtsHardwareTestSuite.P_Testcase OF
 			f24V[i] := 0;	 
 		END_FOR
 		XtsHardwareTestSuite.P_Assert.M_Equals_DINT(1,THIS^.Is24VOK(),'check the 24vdc reports low correctly');
+		XtsHardwareTestSuite.M_Testcase('XtsHardware',T#1S,'','',2);
+	2:
+		FOR i := 1 TO SystemParameters.nModuleNumber DO
+			f24V[i] := 24000;	 
+		END_FOR 
+		f24V[2] := 18000;
+		XtsHardwareTestSuite.P_Assert.M_Equals_DINT(1,THIS^.Is24VOK(),'check the 24vdc reports low correctly with single sensor');
+		XtsHardwareTestSuite.M_Testcase('XtsHardware',T#1S,'','',3);
+	3:
+		FOR i := 1 TO SystemParameters.nModuleNumber DO
+			f24V[i] := 24000;	 
+		END_FOR  
+		XtsHardwareTestSuite.P_Assert.M_Equals_DINT(2,THIS^.Is24VOK(),'check the 24vdc reports 24vdcok correctly');
+		XtsHardwareTestSuite.M_Testcase('XtsHardware',T#1S,'','',4);
+	4:
+		 FOR i := 1 TO SystemParameters.nModuleNumber DO
+			f24V[i] := 29000;	 
+		END_FOR  
+		XtsHardwareTestSuite.P_Assert.M_Equals_DINT(1,THIS^.Is24VOK(),'check the 24vdc reports 24vdcok correctly');
+		XtsHardwareTestSuite.M_Testcase('XtsHardware',T#1S,'','',5);
+	5:
+		 FOR i := 1 TO SystemParameters.nModuleNumber DO
+			f24V[i] := 24000;	 
+		END_FOR  
+		f24V[2] := 29000;
+		XtsHardwareTestSuite.P_Assert.M_Equals_DINT(1,THIS^.Is24VOK(),'check the 24vdc reports 24vdcok correctly');
+		XtsHardwareTestSuite.M_Testcase('XtsHardware',T#1S,'','',6);
+	
+	6:
+		FOR i := 1 TO SystemParameters.nModuleNumber DO
+			f48V[i] := 0;	 
+		END_FOR
+		XtsHardwareTestSuite.P_Assert.M_Equals_DINT(1,THIS^.Is48VOK(),'check the 24vdc reports low correctly');
+		XtsHardwareTestSuite.M_Testcase('XtsHardware',T#1S,'','',7);
+	7:
+		FOR i := 1 TO SystemParameters.nModuleNumber DO
+			f48V[i] := 48000;	 
+		END_FOR 
+		f48V[2] := 46000;
+		XtsHardwareTestSuite.P_Assert.M_Equals_DINT(1,THIS^.Is48VOK(),'check the 24vdc reports low correctly with single sensor');
+		XtsHardwareTestSuite.M_Testcase('XtsHardware',T#1S,'','',8);
+	8:
+		FOR i := 1 TO SystemParameters.nModuleNumber DO
+			f48V[i] := 48000;	 
+		END_FOR  
+		XtsHardwareTestSuite.P_Assert.M_Equals_DINT(2,THIS^.Is48VOK(),'check the 24vdc reports 24vdcok correctly');
+		XtsHardwareTestSuite.M_Testcase('XtsHardware',T#1S,'','',9);
+	9:
+		 FOR i := 1 TO SystemParameters.nModuleNumber DO
+			f48V[i] := 50000;	 
+		END_FOR  
+		XtsHardwareTestSuite.P_Assert.M_Equals_DINT(1,THIS^.Is48VOK(),'check the 24vdc reports 24vdcok correctly');
+		XtsHardwareTestSuite.M_Testcase('XtsHardware',T#1S,'','',10);
+	10:
+		 FOR i := 1 TO SystemParameters.nModuleNumber DO
+			f48V[i] := 48000;	 
+		END_FOR  
+		f48V[2] := 50000;
+		XtsHardwareTestSuite.P_Assert.M_Equals_DINT(1,THIS^.Is48VOK(),'check the 24vdc reports 24vdcok correctly');
 		XtsHardwareTestSuite.M_Testcase('XtsHardware',T#1S,'','',E_Testcase.Done);
-
 
 	E_Testcase.Done:;
 		 
@@ -51,7 +109,27 @@ END_CASE
       <LineId Id="60" Count="2" />
       <LineId Id="72" Count="2" />
       <LineId Id="70" Count="1" />
-      <LineId Id="63" Count="4" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="86" Count="1" />
+      <LineId Id="85" Count="0" />
+      <LineId Id="88" Count="1" />
+      <LineId Id="95" Count="0" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="93" Count="1" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="96" Count="1" />
+      <LineId Id="99" Count="3" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="103" Count="0" />
+      <LineId Id="105" Count="2" />
+      <LineId Id="109" Count="0" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="104" Count="0" />
+      <LineId Id="110" Count="0" />
+      <LineId Id="112" Count="30" />
+      <LineId Id="111" Count="0" />
+      <LineId Id="64" Count="3" />
       <LineId Id="9" Count="0" />
     </LineIds>
   </POU>

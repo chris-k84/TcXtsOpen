@@ -62,12 +62,13 @@ CASE XtsRunnerTestSuite.P_Testcase OF
 	4:
 		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,XtsRunnerInstance.GetModuleCount(),'check modules empty');
 		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(1,XtsRunnerInstance.RemoveModule(arrCyclicModules[1]),'Try remove from empty module list');	 
-		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1S,'','',E_Testcase.Done);
+		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1S,'','',5);
 			 
 	5:
 		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,XtsRunnerInstance.GetModuleCount(),'check modules empty');
 		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(2,XtsRunnerInstance.AddComponent(arrCyclicModules[1]),'Try register 1 module');
 		XtsRunnerTestSuite.P_Assert.M_Equals_INT(1,XtsRunnerInstance.GetModuleCount(),'check module added in count');
+		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1S,'','',E_Testcase.Done);	 
 		
 
 	E_Testcase.Done:;
@@ -98,7 +99,9 @@ END_CASE
       <LineId Id="271" Count="0" />
       <LineId Id="274" Count="0" />
       <LineId Id="270" Count="0" />
-      <LineId Id="278" Count="5" />
+      <LineId Id="278" Count="4" />
+      <LineId Id="293" Count="0" />
+      <LineId Id="283" Count="0" />
       <LineId Id="226" Count="3" />
       <LineId Id="23" Count="0" />
     </LineIds>

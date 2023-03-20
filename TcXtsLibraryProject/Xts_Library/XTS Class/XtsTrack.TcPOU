@@ -389,8 +389,8 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.Undefined">
-      <LineId Id="12" Count="2" />
-      <LineId Id="5" Count="0" />
+      <LineId Id="70" Count="2" />
+      <LineId Id="18" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.XtsTrackHardware.Get">
       <LineId Id="2" Count="0" />
