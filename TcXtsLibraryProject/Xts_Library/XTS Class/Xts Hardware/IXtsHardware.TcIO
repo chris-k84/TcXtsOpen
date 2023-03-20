@@ -3,6 +3,12 @@
   <Itf Name="IXtsHardware" Id="{bf384176-1154-4b20-87d2-6228ca722bc7}">
     <Declaration><![CDATA[INTERFACE IXtsHardware EXTENDS ICyclic
 ]]></Declaration>
+    <Method Name="getAllMoversValid" Id="{83cea3eb-034b-4ef6-97c8-3638f795443f}">
+      <Declaration><![CDATA[METHOD getAllMoversValid : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
     <Method Name="GetMoverEnvInterface" Id="{06175234-441e-45a7-b310-01adbe58b90a}">
       <Declaration><![CDATA[METHOD GetMoverEnvInterface : I_TcIoXtsXpuMover
 VAR_INPUT
@@ -10,11 +16,52 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="IsHardwareOk" Id="{2c084b22-d245-47a2-a109-361041aaa438}">
-      <Declaration><![CDATA[METHOD IsHardwareOk : BOOL
+    <Method Name="getMoversDetected" Id="{b4027da9-aa3d-4e00-88aa-a047a5bd3219}">
+      <Declaration><![CDATA[METHOD getMoversDetected : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
+    </Method>
+    <Method Name="GetTrackAssembly" Id="{cb8068ae-37e4-4904-acb9-82181c03fbef}">
+      <Declaration><![CDATA[METHOD PUBLIC GetTrackAssembly : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="Is24VOK" Id="{433dd8fe-2958-4ac6-ac13-fe9d0dab48bb}">
+      <Declaration><![CDATA[METHOD Is24VOK : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="Is48VOK" Id="{9f5c98ca-d638-4861-a01d-f16542bbfba7}">
+      <Declaration><![CDATA[METHOD Is48VOK : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="IsInSim" Id="{11de75bc-4a14-49be-839d-5d91f6e50bb8}">
+      <Declaration><![CDATA[METHOD IsInSim : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="SetTracksForDetection" Id="{d824a2fc-c3a9-4504-ba47-b5bf353698b2}">
+      <Declaration><![CDATA[METHOD SetTracksForDetection : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="TriggerMoverDetection" Id="{9ce51524-ddc5-4cb3-83bd-732953c72724}">
+      <Declaration><![CDATA[METHOD TriggerMoverDetection : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="TriggerMoverID" Id="{da9671e9-7f18-4b2b-82f9-ced25dd3dcd5}">
+      <Declaration><![CDATA[METHOD TriggerMoverID : BOOL
+VAR_INPUT
+END_VAR]]></Declaration>
     </Method>
   </Itf>
 </TcPlcObject>

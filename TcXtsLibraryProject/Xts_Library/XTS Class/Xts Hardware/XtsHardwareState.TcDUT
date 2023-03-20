@@ -13,7 +13,8 @@ TYPE XtsHardwareState :
 	MoverIdDetection := 5,
 	XTSMode := 6,
 	CheckModuleVoltages := 7,
-	HWReady := 8
+	HWReady := 8,
+	HWError := 9
 );
 END_TYPE
 ]]></Declaration>

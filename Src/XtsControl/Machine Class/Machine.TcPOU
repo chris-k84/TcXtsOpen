@@ -35,6 +35,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[xtsStateMachine.Cycle();
 xts.Cycle();
+XtsTrackHardware.Cycle();
 FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
 	Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].Cycle();
 	MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].Cycle();															
@@ -50,7 +51,11 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
+        <ST><![CDATA[IF XtsTrackHardware.Initialise() = 2 THEN
+	Initialise := true;
+END_IF
+
+FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
 	iStationArray[i] := StationArray[i];
 END_FOR
 
@@ -89,7 +94,7 @@ END_FOR
 
 
 xtsStateMachine.PmlModeCommand(Mode := E_PMLProtectedUnitMode.ePMLProtUnitMode_Production);
-Initialise := TRUE;]]></ST>
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetPackML" Id="{53c56351-61ed-4063-8940-94e0a76b1fed}">
@@ -109,10 +114,15 @@ END_VAR
       <LineId Id="25" Count="0" />
     </LineIds>
     <LineIds Name="Machine.Cycle">
-      <LineId Id="7" Count="7" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="9" Count="5" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="Machine.Initialise">
+      <LineId Id="72" Count="0" />
+      <LineId Id="74" Count="1" />
+      <LineId Id="73" Count="0" />
       <LineId Id="28" Count="23" />
       <LineId Id="53" Count="2" />
       <LineId Id="57" Count="2" />

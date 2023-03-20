@@ -16,7 +16,6 @@ VAR
 	MaxCurrent : ARRAY [1..SystemParameters.nModuleNumber] OF DINT;
 	nModuleCounter : UINT := 1;
 	i: UDINT;
-	State : XtsHardwareState;
 	DetectedParts: UDINT;
 	DetectedTracks : UDINT;
 	DetectedModules : ARRAY[1..10] OF UDINT;
@@ -36,59 +35,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Cycle := S_OK;
-CASE State OF
-	XtsHardwareState.Init:
-		IF GetTrackAssembly() THEN
-			State := XtsHardwareState.SetDetection;
-		END_IF
-	
-	XtsHardwareState.SetDetection:
-		IF SetTracksForDetection() THEN
-			State := XtsHardwareState.Redetect;
-		END_IF
-		
-	XtsHardwareState.Redetect:
-		IF TriggerMoverDetection() THEN
-			State := XtsHardwareState.MoversValid;
-		END_IF
-		
-	XtsHardwareState.MoversValid:
-		IF getAllMoversValid() THEN
-			State := XtsHardwareState.AllMoversFound;
-		END_IF
-	
-	XtsHardwareState.AllMoversFound:
-		IF getMoversDetected() THEN
-			State := XtsHardwareState.XTSMode;
-		END_IF
-		
-	XtsHardwareState.XTSMode:
-		IF IsInSim() THEN
-			State := XtsHardwareState.MoverIdDetection;
-		ELSE
-			State := XtsHardwareState.CheckModuleVoltages;
-		END_IF
-		
-	XtsHardwareState.CheckModuleVoltages:
-		IF Is24VOK() = 2 AND Is48VOK() = 2 THEN
-			State := XtsHardwareState.MoverIdDetection;
-		END_IF
-	
-	XtsHardwareState.MoverIdDetection:
-		IF TriggerMoverID() THEN
-			State := XtsHardwareState.HWReady;
-		END_IF
-		
-	XtsHardwareState.HWReady:
-		XtsHardwareOK := TRUE;
-	ELSE
-		Cycle := E_FAIL;
-END_CASE
 
 getModuleInfoData();
-
-//CYCLIC update of info
-XtsHWInfo.HWState := State;
 ]]></ST>
       </Implementation>
     </Method>
@@ -222,15 +170,6 @@ FOR i := 1 TO UINT_TO_UDINT(SystemParameters.nModuleNumber) DO
 		Is48VOK := 1;
 	END_IF
 END_FOR]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="IsHardwareOK" Id="{dd7ca4cf-2de7-4421-9dd2-2ee510bb9bf3}">
-      <Declaration><![CDATA[METHOD IsHardwareOK : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IsHardwareOK := XtsHardwareOK;]]></ST>
       </Implementation>
     </Method>
     <Method Name="IsInSim" Id="{1d10bcec-acec-45d5-bf84-489041573d3d}">
@@ -373,10 +312,8 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="XtsHardware.Cycle">
       <LineId Id="13" Count="0" />
-      <LineId Id="128" Count="46" />
-      <LineId Id="70" Count="0" />
       <LineId Id="175" Count="0" />
-      <LineId Id="71" Count="3" />
+      <LineId Id="71" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.getAllMoversValid">
@@ -420,9 +357,6 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="XtsHardware.Is48VOK">
       <LineId Id="6" Count="7" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsHardware.IsHardwareOK">
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.IsInSim">
