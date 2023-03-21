@@ -27,10 +27,10 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF ModuleCount < 10 THEN
 	CyclicModules[ModuleCount] := CyclicModule;
-	ModuleCount := ModuleCount + 1;
 	IF __QUERYINTERFACE(CyclicModule,InitInterface) THEN
 		InitialiseModules[ModuleCount] := InitInterface;
 	END_IF
+	ModuleCount := ModuleCount + 1;
 	AddComponent := 2;
 ELSE
 	AddComponent := S_FALSE;
@@ -101,9 +101,10 @@ END_IF]]></ST>
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="XtsRunner.AddComponent">
-      <LineId Id="20" Count="2" />
+      <LineId Id="20" Count="1" />
       <LineId Id="35" Count="1" />
       <LineId Id="34" Count="0" />
+      <LineId Id="43" Count="0" />
       <LineId Id="23" Count="4" />
       <LineId Id="8" Count="0" />
     </LineIds>

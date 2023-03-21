@@ -983,100 +983,100 @@ External Setpoint Generation:
 		</DataType>
 	</DataTypes>
 	<Project GUID="{CED1A555-C4FE-4060-8667-CD2676F9349D}" Name="Xts_Library" PrjFilePath="..\..\Xts_Library\Xts_Library.plcproj" TmcFilePath="..\..\Xts_Library\Xts_Library.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Xts_Library\Xts_Library.tmc" TmcHash="{633D39F3-CC49-9F06-5B08-9FFB3608E374}">
+		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Xts_Library\Xts_Library.tmc" TmcHash="{05A1A3CD-7007-FF2F-D47E-51604656FC89}">
 			<Name>Xts_Library Instance</Name>
 			<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 			<Vars VarGrpType="1">
 				<Name>PlcTask Inputs</Name>
 				<Var>
-					<Name>XtsRunner_Testing.arrCyclicModules[1]._Axis.NcToPlc</Name>
+					<Name>MAIN.XtsRunnerTestSuite.arrCyclicModules[1]._Axis.NcToPlc</Name>
 					<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>XtsRunner_Testing.arrCyclicModules[2]._Axis.NcToPlc</Name>
+					<Name>MAIN.XtsRunnerTestSuite.arrCyclicModules[2]._Axis.NcToPlc</Name>
 					<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>XtsRunner_Testing.arrCyclicModules[3]._Axis.NcToPlc</Name>
+					<Name>MAIN.XtsRunnerTestSuite.arrCyclicModules[3]._Axis.NcToPlc</Name>
 					<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>XtsRunner_Testing.arrCyclicModules[4]._Axis.NcToPlc</Name>
+					<Name>MAIN.XtsRunnerTestSuite.arrCyclicModules[4]._Axis.NcToPlc</Name>
 					<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>XtsRunner_Testing.arrCyclicModules[5]._Axis.NcToPlc</Name>
+					<Name>MAIN.XtsRunnerTestSuite.arrCyclicModules[5]._Axis.NcToPlc</Name>
 					<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>XtsRunner_Testing.arrCyclicModules[6]._Axis.NcToPlc</Name>
+					<Name>MAIN.XtsRunnerTestSuite.arrCyclicModules[6]._Axis.NcToPlc</Name>
 					<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>XtsRunner_Testing.arrCyclicModules[7]._Axis.NcToPlc</Name>
+					<Name>MAIN.XtsRunnerTestSuite.arrCyclicModules[7]._Axis.NcToPlc</Name>
 					<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>XtsRunner_Testing.arrCyclicModules[8]._Axis.NcToPlc</Name>
+					<Name>MAIN.XtsRunnerTestSuite.arrCyclicModules[8]._Axis.NcToPlc</Name>
 					<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>XtsRunner_Testing.arrCyclicModules[9]._Axis.NcToPlc</Name>
+					<Name>MAIN.XtsRunnerTestSuite.arrCyclicModules[9]._Axis.NcToPlc</Name>
 					<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>XtsRunner_Testing.arrCyclicModules[10]._Axis.NcToPlc</Name>
+					<Name>MAIN.XtsRunnerTestSuite.arrCyclicModules[10]._Axis.NcToPlc</Name>
 					<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>XtsRunner_Testing.arrCyclicModules[11]._Axis.NcToPlc</Name>
+					<Name>MAIN.XtsRunnerTestSuite.arrCyclicModules[11]._Axis.NcToPlc</Name>
 					<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 				</Var>
 			</Vars>
 			<Vars VarGrpType="2" AreaNo="1">
 				<Name>PlcTask Outputs</Name>
 				<Var>
-					<Name>XtsRunner_Testing.arrCyclicModules[1]._Axis.PlcToNc</Name>
+					<Name>MAIN.XtsRunnerTestSuite.arrCyclicModules[1]._Axis.PlcToNc</Name>
 					<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>XtsRunner_Testing.arrCyclicModules[2]._Axis.PlcToNc</Name>
+					<Name>MAIN.XtsRunnerTestSuite.arrCyclicModules[2]._Axis.PlcToNc</Name>
 					<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>XtsRunner_Testing.arrCyclicModules[3]._Axis.PlcToNc</Name>
+					<Name>MAIN.XtsRunnerTestSuite.arrCyclicModules[3]._Axis.PlcToNc</Name>
 					<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>XtsRunner_Testing.arrCyclicModules[4]._Axis.PlcToNc</Name>
+					<Name>MAIN.XtsRunnerTestSuite.arrCyclicModules[4]._Axis.PlcToNc</Name>
 					<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>XtsRunner_Testing.arrCyclicModules[5]._Axis.PlcToNc</Name>
+					<Name>MAIN.XtsRunnerTestSuite.arrCyclicModules[5]._Axis.PlcToNc</Name>
 					<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>XtsRunner_Testing.arrCyclicModules[6]._Axis.PlcToNc</Name>
+					<Name>MAIN.XtsRunnerTestSuite.arrCyclicModules[6]._Axis.PlcToNc</Name>
 					<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>XtsRunner_Testing.arrCyclicModules[7]._Axis.PlcToNc</Name>
+					<Name>MAIN.XtsRunnerTestSuite.arrCyclicModules[7]._Axis.PlcToNc</Name>
 					<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>XtsRunner_Testing.arrCyclicModules[8]._Axis.PlcToNc</Name>
+					<Name>MAIN.XtsRunnerTestSuite.arrCyclicModules[8]._Axis.PlcToNc</Name>
 					<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>XtsRunner_Testing.arrCyclicModules[9]._Axis.PlcToNc</Name>
+					<Name>MAIN.XtsRunnerTestSuite.arrCyclicModules[9]._Axis.PlcToNc</Name>
 					<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>XtsRunner_Testing.arrCyclicModules[10]._Axis.PlcToNc</Name>
+					<Name>MAIN.XtsRunnerTestSuite.arrCyclicModules[10]._Axis.PlcToNc</Name>
 					<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>XtsRunner_Testing.arrCyclicModules[11]._Axis.PlcToNc</Name>
+					<Name>MAIN.XtsRunnerTestSuite.arrCyclicModules[11]._Axis.PlcToNc</Name>
 					<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 				</Var>
 			</Vars>
@@ -1100,7 +1100,7 @@ External Setpoint Generation:
 					<Data>433a5c7265706f72742e786d6c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</Data>
 				</InitSymbol>
 				<InitSymbol>
-					<Name>XtsRunner_Testing.fbTestsuites.sFilePathName</Name>
+					<Name>MAIN.XtsRunnerTestSuite.fbTestsuites.sFilePathName</Name>
 					<Type GUID="{18071995-0000-0000-0000-0001000000FF}">STRING(255)</Type>
 					<Comment><![CDATA[ as Property or init symbol]]></Comment>
 					<AreaNo>#x00000003</AreaNo>
