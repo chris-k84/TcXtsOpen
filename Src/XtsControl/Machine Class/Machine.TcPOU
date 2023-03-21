@@ -72,7 +72,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF XtsTrackHardware.Initialise() = 2 THEN
+        <ST><![CDATA[IF XtsModuleRunner.Initialise() = 2 THEN
 
 	FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
 		Movers[i].TrackLength := 4000.0;

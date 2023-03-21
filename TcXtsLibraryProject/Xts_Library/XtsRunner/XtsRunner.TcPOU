@@ -86,8 +86,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF InitialisationCount < 100 THEN
-	IF InitialiseModules[i] <> 0 THEN
-		IF InitialiseModules[i].Initialise() = 2 THEN
+	IF InitialiseModules[InitialisationCount] <> 0 THEN
+		IF InitialiseModules[InitialisationCount].Initialise() = 2 THEN
 			InitialisationCount := InitialisationCount + 1;
 		END_IF
 	ELSE
