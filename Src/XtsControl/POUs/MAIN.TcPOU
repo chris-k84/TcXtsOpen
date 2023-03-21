@@ -4,7 +4,7 @@
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
 	fbMachine : Machine;
-	State : INT := 0;
+	State : INT := 99;
 	Reset : BOOL;
 	Start : BOOL;
 	Clear : BOOL;

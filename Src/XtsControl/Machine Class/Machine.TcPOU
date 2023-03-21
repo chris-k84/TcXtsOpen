@@ -10,19 +10,41 @@ VAR
 	XtsModuleRunner : XtsRunner;
 	xtsStateMachine : PMLStateMachine;
 	Movers : ARRAY[1..SystemParameters.NumberOfMovers] OF FB_Mover(XtsModuleRunner);
-	iMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover;
+	iMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover := [Movers[1],Movers[2],
+																		Movers[3],Movers[4],
+																		Movers[5],Movers[6],
+																		Movers[7],Movers[8],
+																		Movers[9],Movers[10]];
 	MoverSequences : ARRAY[1..SystemParameters.NumberOfMovers] OF IndexMoverSequence(XtsModuleRunner);
-	StationArray : ARRAY[1..SystemParameters.NumberOfStations] OF StationSample(XtsModuleRunner);
-	iStationArray : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess;
+	Station1 : StationSample := (Position := 1200.0, 
+									TempPropTime := T#1S,
+									MyStateMachine := xtsStateMachine);
+	Station2 : StationSample := (Position := 1300.0, 
+									TempPropTime := T#2S,
+									MyStateMachine := xtsStateMachine);
+	Station3 : StationSample := (Position := 1400.0, 
+									TempPropTime := T#2S,
+									MyStateMachine := xtsStateMachine);
+	Station4 : StationSample := (Position := 2200.0, 
+									TempPropTime := T#1S,
+									MyStateMachine := xtsStateMachine);
+	Station5 : StationSample := (Position := 2600.0, 
+									TempPropTime := T#1S,
+									MyStateMachine := xtsStateMachine);
+	Station6 : StationSample := (Position := 100.0, 
+									TempPropTime := T#1S,
+									MyStateMachine := xtsStateMachine);
+	iStationArray : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess := [Station1,Station2,
+																					Station3,Station4,
+																					Station5,Station6];
 	XtsTrackHardware : XtsHardware(XtsModuleRunner) := (Tracks := 1);
 	Xts : XtsTrack(XtsModuleRunner) := (PackMLStateMachine := xtsStateMachine, 
-						HomePosition := 1000.0,
-						HomeSpeed := 1000.0, 
-						Tracks := 1,
-						XtsTrackHardware := XtsTrackHardware);
-	
+										HomePosition := 1000.0,
+										HomeSpeed := 1000.0, 
+										Tracks := 1,
+										XtsTrackHardware := XtsTrackHardware,
+										MoverArray := iMovers);
 	i: INT;
-	bInit: BOOL;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[
@@ -35,7 +57,13 @@ VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[xtsStateMachine.Cycle();
-]]></ST>
+XtsModuleRunner.Cycle();
+Station1.Cycle();
+Station2.Cycle();
+Station3.Cycle();
+Station4.Cycle();
+Station5.Cycle();
+Station6.Cycle();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Initialise" Id="{4069299b-b0bd-441e-b636-7c39202b14ad}">
@@ -45,39 +73,13 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF XtsTrackHardware.Initialise() = 2 THEN
-	FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
-		iStationArray[i] := StationArray[i];
-	END_FOR
-	
-	StationArray[1].Position := 1200.0;
-	StationArray[1].TempPropTime := T#1S;
-	
-	StationArray[2].Position := 1300.0;
-	StationArray[2].TempPropTime := T#2S;
-	
-	StationArray[3].Position := 1400.0;
-	StationArray[3].TempPropTime := T#2S;
-	
-	StationArray[4].Position := 2200.0;
-	StationArray[4].TempPropTime := T#1S;
-	
-	StationArray[5].Position := 2600.0;
-	StationArray[5].TempPropTime := T#1S;
-	
-	StationArray[6].Position := 100.0;
-	StationArray[6].TempPropTime := T#1S;
-	
+
 	FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
-		iMovers[i] := Movers[i];
 		Movers[i].TrackLength := 4000.0;
 		MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyMover := Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i]; 
 		MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyStateMachine := xtsStateMachine;
 		MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyStations := iStationArray;	
 		MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyStartPosition := Xts.HomePosition;
-	END_FOR
-	Xts.MoverArray := iMovers;
-	FOR i := 1 TO Xts_Library.SystemParameters.NumberOfStations DO
-		StationArray[i].MyStateMachine := xtsStateMachine;
 	END_FOR
 	
 	xtsStateMachine.PmlModeCommand(Mode := E_PMLProtectedUnitMode.ePMLProtUnitMode_Production);
@@ -107,12 +109,14 @@ END_VAR
     <LineIds Name="Machine.Cycle">
       <LineId Id="7" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="12" Count="5" />
     </LineIds>
     <LineIds Name="Machine.Initialise">
       <LineId Id="72" Count="0" />
-      <LineId Id="80" Count="3" />
-      <LineId Id="85" Count="17" />
-      <LineId Id="104" Count="12" />
+      <LineId Id="102" Count="0" />
+      <LineId Id="104" Count="0" />
+      <LineId Id="106" Count="5" />
+      <LineId Id="116" Count="0" />
       <LineId Id="79" Count="0" />
       <LineId Id="74" Count="1" />
       <LineId Id="73" Count="0" />
