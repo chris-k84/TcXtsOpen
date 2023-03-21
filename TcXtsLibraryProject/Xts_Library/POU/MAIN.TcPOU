@@ -3,8 +3,9 @@
   <POU Name="MAIN" Id="{aa92f88a-2917-437b-b76e-fd83d614eadb}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
+	dummyRunner : XtsRunner;
 	XtsRunnerTestSuite : XtsRunnerTesting;
-	XtsHardwareTestSuite : XtsHardwareTesting;
+	XtsHardwareTestSuite : XtsHardwareTesting(dummyRunner);
 END_VAR
 ]]></Declaration>
     <Implementation>

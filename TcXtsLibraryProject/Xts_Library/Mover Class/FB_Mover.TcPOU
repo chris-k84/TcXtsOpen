@@ -104,6 +104,18 @@ END_VAR
         <ST><![CDATA[EnableAxis := axesEnable.Enable();]]></ST>
       </Implementation>
     </Method>
+    <Method Name="FB_init" Id="{d3e15fdf-92a3-4fce-a2e6-822ed26c815c}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	XtsRunner : I_XtsRunner;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[XtsRunner.AddComponent(THIS^);]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="Gap" Id="{e555cbf2-c13b-4254-9bb2-744e7edb7578}" FolderPath="Properties\">
       <Declaration><![CDATA[PROPERTY PUBLIC Gap : mc_lreal]]></Declaration>
       <Get Name="Get" Id="{a0479bdd-653c-4687-93eb-073972457858}">
@@ -439,6 +451,9 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Mover.EnableAxis">
       <LineId Id="17" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mover.FB_init">
+      <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="FB_Mover.Gap.Get">
       <LineId Id="2" Count="0" />

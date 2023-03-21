@@ -1,16 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="XtsRunner" Id="{4adb75ec-914c-46a2-96a4-b49d6ed1e005}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK XtsRunner EXTENDS CyclicBase
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsRunner EXTENDS CyclicBase IMPLEMENTS I_XtsRunner
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	CyclicModules : ARRAY[0..9] OF ICyclic;
+	CyclicModules : ARRAY[0..99] OF ICyclic;
 	ModuleCount : INT := 0;
-	InitialiseModules : ARRAY[0..9] OF I_Initialise;
+	InitModuleCount : INT := 0;
+	InitialiseModules : ARRAY[0..99] OF I_Initialise;
 	i: INT;
+	InitialisationCount : INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -25,10 +27,11 @@ VAR
 	InitInterface : I_Initialise;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF ModuleCount < 10 THEN
+        <ST><![CDATA[IF ModuleCount < 100 THEN
 	CyclicModules[ModuleCount] := CyclicModule;
 	IF __QUERYINTERFACE(CyclicModule,InitInterface) THEN
 		InitialiseModules[ModuleCount] := InitInterface;
+		InitModuleCount := InitModuleCount + 1;
 	END_IF
 	ModuleCount := ModuleCount + 1;
 	AddComponent := 2;
@@ -45,11 +48,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR i := 0 TO 9 DO
+        <ST><![CDATA[FOR i := 0 TO 99 DO
 	CyclicModules[i] := 0;
 	InitialiseModules[i] := 0;
 END_FOR
 ModuleCount := 0;
+InitModuleCount := 0;
 Clear := 2;
 ]]></ST>
       </Implementation>
@@ -59,11 +63,11 @@ Clear := 2;
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[//FOR i := 0 TO 9 DO
-//	IF CyclicModules[i] <> 0 THEN
-//		CyclicModules[i].Cycle();
-//	END_IF
-//END_FOR]]></ST>
+        <ST><![CDATA[FOR i := 0 TO 99 DO
+	IF CyclicModules[i] <> 0 THEN
+		CyclicModules[i].Cycle();
+	END_IF
+END_FOR]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetModuleCount" Id="{ce16b2d3-0e8a-4df6-aa9c-1c1b403838ba}">
@@ -75,6 +79,26 @@ END_VAR
         <ST><![CDATA[GetModuleCount := ModuleCount;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="Initialise" Id="{498dbf2f-31fd-468f-af2a-ef254d08806c}">
+      <Declaration><![CDATA[METHOD Initialise : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF InitialisationCount < 100 THEN
+	IF InitialiseModules[i] <> 0 THEN
+		IF InitialiseModules[i].Initialise() = 2 THEN
+			InitialisationCount := InitialisationCount + 1;
+		END_IF
+	ELSE
+		InitialisationCount := InitialisationCount + 1;
+	END_IF
+ELSE
+	Initialise := 2;
+	InitialisationCount := 0;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="RemoveModule" Id="{dfa8fa7b-42f3-4591-8ff7-fdf50b44b36a}">
       <Declaration><![CDATA[METHOD RemoveModule : HRESULT
 VAR_INPUT
@@ -84,10 +108,13 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF ModuleCount > 0 THEN
 	RemoveModule := E_FAIL;
-	FOR i := 0 TO 9 DO 
+	FOR i := 0 TO 99 DO 
 		IF CyclicModules[i] = CyclicModule THEN
 			CyclicModules[i] := 0;
-			InitialiseModules[i] := 0;
+			IF InitialiseModules[i] <> 0 THEN
+				InitialiseModules[i] := 0;
+				InitModuleCount := InitModuleCount - 1;
+			END_IF
 			ModuleCount := ModuleCount - 1;
 			RemoveModule := 2;
 		END_IF
@@ -103,6 +130,7 @@ END_IF]]></ST>
     <LineIds Name="XtsRunner.AddComponent">
       <LineId Id="20" Count="1" />
       <LineId Id="35" Count="1" />
+      <LineId Id="50" Count="0" />
       <LineId Id="34" Count="0" />
       <LineId Id="43" Count="0" />
       <LineId Id="23" Count="4" />
@@ -111,7 +139,9 @@ END_IF]]></ST>
     <LineIds Name="XtsRunner.Clear">
       <LineId Id="22" Count="1" />
       <LineId Id="30" Count="0" />
-      <LineId Id="24" Count="2" />
+      <LineId Id="24" Count="1" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="26" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsRunner.Cycle">
@@ -122,9 +152,22 @@ END_IF]]></ST>
     <LineIds Name="XtsRunner.GetModuleCount">
       <LineId Id="5" Count="0" />
     </LineIds>
+    <LineIds Name="XtsRunner.Initialise">
+      <LineId Id="5" Count="0" />
+      <LineId Id="25" Count="1" />
+      <LineId Id="30" Count="1" />
+      <LineId Id="28" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="23" Count="0" />
+    </LineIds>
     <LineIds Name="XtsRunner.RemoveModule">
       <LineId Id="22" Count="4" />
-      <LineId Id="37" Count="0" />
+      <LineId Id="42" Count="1" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="44" Count="0" />
       <LineId Id="27" Count="5" />
       <LineId Id="8" Count="0" />
     </LineIds>

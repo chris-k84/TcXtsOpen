@@ -8,17 +8,10 @@ VAR
 	XtsRunnerTestSuite : FB_Testsuite;
 	
 	// Test-vars	
-	arrCyclicModules : ARRAY[1..11] OF FB_Mover;
-	InitialiseModule : XtsHardware;
+	arrCyclicModules : ARRAY[1..101] OF FB_Mover(THIS^);
+	InitialiseModule : XtsHardware(THIS^);
 	InitAddedCheck : BOOL;
 	CyclicAddedCheck: BOOL;
-	loopCount1 : INT;
-	loopCount2 : INT;
-	loopCount3 : INT;
-	loopCount4 : INT;
-	loopCount5 : INT;
-	loopCount6 : INT;
-	loopCount7: INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -46,7 +39,6 @@ CASE XtsRunnerTestSuite.P_Testcase OF
 		XtsRunnerTestSuite.P_Assert.M_Equals_INT(1,THIS^.GetModuleCount(),'check module count seen correctly');
 		THIS^.ModuleCount := 0;
 		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1S,'','',2);
-		loopCount1 := loopCount1 + 1;
 		 
 	2:
 		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(2,THIS^.AddComponent(arrCyclicModules[1]),'Try register 1 cyclic module');
@@ -56,7 +48,6 @@ CASE XtsRunnerTestSuite.P_Testcase OF
 		THIS^.CyclicModules[0] := 0;
 		THIS^.ModuleCount := 0;	 
 		CyclicAddedCheck := FALSE;
-		loopCount2 := loopCount2 + 1;
 			 
 	3: 
 		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(2,THIS^.AddComponent(arrCyclicModules[1]),'Try register 1 cyclic module');
@@ -66,20 +57,18 @@ CASE XtsRunnerTestSuite.P_Testcase OF
 		THIS^.CyclicModules[0] := 0;
 		THIS^.ModuleCount := 0;	 
 		InitAddedCheck := FALSE;
-		loopCount3 := loopCount3 + 1;	
 	 
 	4:
 		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,THIS^.GetModuleCount(),'check modules empty');
-		FOR i := 1 TO 10 DO 
+		FOR i := 1 TO 100 DO 
 			THIS^.AddComponent(arrCyclicModules[i]);
 		END_FOR
-		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(1,THIS^.AddComponent(arrCyclicModules[11]),'add to many modules should be rejected');
+		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(1,THIS^.AddComponent(arrCyclicModules[101]),'add to many modules should be rejected');
 		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1S,'','',5);
-		FOR i := 1 TO 10 DO 
+		FOR i := 0 TO 99 DO 
 			THIS^.CyclicModules[i] := 0;
 		END_FOR
 		THIS^.ModuleCount := 0;		 
-		loopCount4 := loopCount4 + 1; 
 	
 	5:
 		THIS^.Clear();
@@ -88,14 +77,12 @@ CASE XtsRunnerTestSuite.P_Testcase OF
 		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(2,THIS^.RemoveModule(arrCyclicModules[1]),'remove the same module from module list');
 		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,THIS^.GetModuleCount(),'check modules empty');	 
 		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1S,'','',6);
-		loopCount5 := loopCount5 + 1;
 	
 	6:
 		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,THIS^.GetModuleCount(),'check modules empty');
 		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(1,THIS^.RemoveModule(arrCyclicModules[1]),'Try remove from empty module list');	 
 		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,THIS^.GetModuleCount(),'check modules empty big check');
 		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1S,'','',7);
-		loopCount6 := loopCount6 + 1;
 		
 	7:
 		THIS^.AddComponent(InitialiseModule);
@@ -106,10 +93,34 @@ CASE XtsRunnerTestSuite.P_Testcase OF
 		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1S,'','',8);
 		THIS^.CyclicModules[0] := 0;
 		THIS^.InitialiseModules[0] := 0;
-		THIS^.ModuleCount := 0;	 
-		loopCount7 := loopCount7 + 1;
-		
+		THIS^.ModuleCount := 0;
+		THIS^.InitModuleCount := 0;	 
+			 
 	8:
+		THIS^.AddComponent(InitialiseModule);
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(1,THIS^.InitModuleCount,'initialisation module not been counted correctly');	
+		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1S,'','',9);
+		THIS^.CyclicModules[0] := 0;
+		THIS^.InitialiseModules[0] := 0;
+		THIS^.CyclicModules[0] := 0;
+		THIS^.InitialiseModules[0] := 0;
+		THIS^.ModuleCount := 0;
+		THIS^.InitModuleCount := 0; 
+			 
+	9:
+		THIS^.AddComponent(InitialiseModule);
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(1,THIS^.InitModuleCount,'initialisation module not been counted correctly');
+		THIS^.RemoveModule(InitialiseModule);
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,THIS^.InitModuleCount,'initialisation module not been removed correctly');
+		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1S,'','',10);
+		THIS^.CyclicModules[0] := 0;
+		THIS^.InitialiseModules[0] := 0;
+		THIS^.CyclicModules[0] := 0;
+		THIS^.InitialiseModules[0] := 0;
+		THIS^.ModuleCount := 0;
+		THIS^.InitModuleCount := 0;
+		
+	10:
 		THIS^.Clear();
 		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1S,'','',E_Testcase.Done);
 	E_Testcase.Done:;	 
@@ -123,21 +134,18 @@ END_CASE
       <LineId Id="109" Count="1" />
       <LineId Id="42" Count="0" />
       <LineId Id="112" Count="2" />
-      <LineId Id="148" Count="0" />
       <LineId Id="111" Count="0" />
       <LineId Id="43" Count="0" />
       <LineId Id="125" Count="0" />
       <LineId Id="139" Count="0" />
       <LineId Id="126" Count="3" />
       <LineId Id="157" Count="0" />
-      <LineId Id="50" Count="0" />
       <LineId Id="123" Count="1" />
       <LineId Id="131" Count="0" />
       <LineId Id="136" Count="0" />
       <LineId Id="138" Count="0" />
       <LineId Id="133" Count="2" />
       <LineId Id="158" Count="0" />
-      <LineId Id="51" Count="0" />
       <LineId Id="130" Count="0" />
       <LineId Id="52" Count="4" />
       <LineId Id="58" Count="0" />
@@ -145,10 +153,12 @@ END_CASE
       <LineId Id="118" Count="1" />
       <LineId Id="117" Count="0" />
       <LineId Id="120" Count="0" />
-      <LineId Id="61" Count="3" />
+      <LineId Id="62" Count="2" />
       <LineId Id="66" Count="0" />
       <LineId Id="122" Count="0" />
-      <LineId Id="68" Count="12" />
+      <LineId Id="68" Count="2" />
+      <LineId Id="72" Count="5" />
+      <LineId Id="79" Count="1" />
       <LineId Id="82" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="151" Count="0" />
@@ -158,7 +168,18 @@ END_CASE
       <LineId Id="154" Count="0" />
       <LineId Id="156" Count="0" />
       <LineId Id="155" Count="0" />
-      <LineId Id="85" Count="6" />
+      <LineId Id="190" Count="0" />
+      <LineId Id="178" Count="1" />
+      <LineId Id="181" Count="1" />
+      <LineId Id="186" Count="2" />
+      <LineId Id="191" Count="2" />
+      <LineId Id="189" Count="0" />
+      <LineId Id="194" Count="1" />
+      <LineId Id="197" Count="1" />
+      <LineId Id="205" Count="1" />
+      <LineId Id="199" Count="5" />
+      <LineId Id="196" Count="0" />
+      <LineId Id="86" Count="5" />
       <LineId Id="9" Count="0" />
     </LineIds>
   </POU>

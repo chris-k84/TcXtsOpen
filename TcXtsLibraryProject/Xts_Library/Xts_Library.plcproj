@@ -247,6 +247,9 @@
     <Compile Include="XTS Class\XtsTrack.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="XtsRunner\I_XtsRunner.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="XtsRunner\XtsRunner.TcPOU">
       <SubType>Code</SubType>
     </Compile>

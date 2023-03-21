@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="I_XtsRunner" Id="{7ae64750-6a2f-446f-b3b5-fa2d9501c423}">
+    <Declaration><![CDATA[INTERFACE I_XtsRunner
+]]></Declaration>
+    <Method Name="AddComponent" Id="{119d0526-b150-47f1-ab98-856e052618fb}">
+      <Declaration><![CDATA[METHOD AddComponent : HRESULT
+VAR_INPUT
+	CyclicModule : ICyclic;
+END_VAR]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

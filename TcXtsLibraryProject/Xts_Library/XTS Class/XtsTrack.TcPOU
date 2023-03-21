@@ -116,6 +116,18 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
+    <Method Name="FB_init" Id="{7656e6f5-212b-4fe7-8cf3-636ae6db9244}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	XtsRunner : I_XtsRunner;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[XtsRunner.AddComponent(THIS^);]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="GetTMSMoverInterface" Id="{0e64eced-3444-47ea-9660-c818e7a9dea9}" FolderPath="Operations\">
       <Declaration><![CDATA[METHOD PUBLIC GetTMSMoverInterface : BOOL
 VAR_INPUT
@@ -381,6 +393,9 @@ END_VAR
       <LineId Id="33" Count="3" />
       <LineId Id="32" Count="0" />
       <LineId Id="28" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.FB_init">
+      <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.GetTMSMoverInterface">
       <LineId Id="29" Count="3" />
