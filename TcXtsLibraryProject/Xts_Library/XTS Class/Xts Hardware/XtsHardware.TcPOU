@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="XtsHardware" Id="{01d7c7ee-eaba-4d97-9e2a-cab8b593df67}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK XtsHardware EXTENDS CyclicBase IMPLEMENTS IXtsHardware
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsHardware EXTENDS CyclicBase IMPLEMENTS IXtsHardware, I_Initialise
 VAR
 	_Tracks : UDINT;
 	_TmsSwitch : ITF_TmsSwitch;
@@ -35,8 +35,10 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Cycle := S_OK;
+IF NOT IsInSim() THEN
+	getModuleInfoData();
+END_IF
 
-getModuleInfoData();
 ]]></ST>
       </Implementation>
     </Method>
@@ -313,6 +315,7 @@ END_IF]]></ST>
     <LineIds Name="XtsHardware.Cycle">
       <LineId Id="13" Count="0" />
       <LineId Id="175" Count="0" />
+      <LineId Id="179" Count="1" />
       <LineId Id="71" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>

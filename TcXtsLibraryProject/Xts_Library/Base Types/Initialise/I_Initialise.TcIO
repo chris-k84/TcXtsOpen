@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="I_Initialise" Id="{71ff9433-60c6-4337-b06f-471ab8aac945}">
+    <Declaration><![CDATA[INTERFACE I_Initialise
+]]></Declaration>
+    <Method Name="Initialise" Id="{5f1fc26c-856c-4028-9354-4db95387c7d5}">
+      <Declaration><![CDATA[METHOD Initialise : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

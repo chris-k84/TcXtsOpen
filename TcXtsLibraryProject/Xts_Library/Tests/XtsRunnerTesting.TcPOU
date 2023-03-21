@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="XtsRunnerTesting" Id="{88ef7940-eca0-45ab-bf43-15147aee1c36}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsRunnerTesting EXTENDS XtsRunner
+VAR
+	bExecute:		BOOL;
+	fbTestsuites:	FB_Testsuites;				// Testsuites
+	XtsRunnerTestSuite : FB_Testsuite;
+	
+	// Test-vars	
+	arrCyclicModules : ARRAY[1..11] OF FB_Mover;
+	InitialiseModule : XtsHardware;
+	loopCount1 : INT;
+	loopCount2 : INT;
+	loopCount3 : INT;
+	loopCount4 : INT;
+	loopCount5 : INT;
+	loopCount6 : INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Run
+fbTestsuites();
+
+IF bExecute THEN
+	// manual execute | override file path
+	fbTestsuites.P_FilePathName:= 'C:\XtsRunnerTestReport.xml';
+	bExecute:= NOT fbTestsuites.M_Request(E_Base.Execute);
+END_IF
+
+// Add Testsuite to Testsuites
+fbTestsuites.M_Add(XtsRunnerTestSuite);			
+
+{region "XtsRunnerTestSuite"}
+XtsRunnerTestSuite();
+CASE XtsRunnerTestSuite.P_Testcase OF
+	E_Testcase.Start:
+	 	XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,THIS^.GetModuleCount(),'Check return of module count');
+		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1s,'','',1);
+	
+	1:
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,THIS^.GetModuleCount(),'check modules empty');
+		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(2,THIS^.AddComponent(arrCyclicModules[1]),'Try register 1 cyclic module');
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(1,THIS^.GetModuleCount(),'check module added in count');
+		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(2,THIS^.Clear(),'Clear XtsRunner cyclic modules list');
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,THIS^.GetModuleCount(),'check modules empty');	 
+		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1S,'','',2);
+		loopCount1 := loopCount1 + 1;
+			 
+	2:
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,THIS^.GetModuleCount(),'check modules empty');
+		FOR i := 1 TO 10 DO 
+			THIS^.AddComponent(arrCyclicModules[i]);
+		END_FOR
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(10,THIS^.GetModuleCount(),'check 10 cyclic modules added in count');	 
+		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(1,THIS^.AddComponent(arrCyclicModules[11]),'add to many modules should be rejected');
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(10,THIS^.GetModuleCount(),'check module rejected');	 
+		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1S,'','',3);
+		loopCount2 := loopCount2 + 1;	 
+	
+	3:
+		THIS^.Clear();
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,THIS^.GetModuleCount(),'check modules empty');
+		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(2,THIS^.AddComponent(arrCyclicModules[1]),'try register a single cyclic modulea');
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(1,THIS^.GetModuleCount(),'check module added in count');
+		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(2,THIS^.RemoveModule(arrCyclicModules[1]),'remove the same module from module list');
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,THIS^.GetModuleCount(),'check modules empty');	 
+		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1S,'','',4);
+		loopCount3 := loopCount3 + 1;
+	
+	4:
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,THIS^.GetModuleCount(),'check modules empty');
+		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(1,THIS^.RemoveModule(arrCyclicModules[1]),'Try remove from empty module list');	 
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,THIS^.GetModuleCount(),'check modules empty big check');
+		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1S,'','',5);
+		loopCount4 := loopCount4 + 1;
+		
+	5:
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(0,THIS^.GetModuleCount(),'check modules empty');
+		XtsRunnerTestSuite.P_Assert.M_Equals_DINT(2,THIS^.AddComponent(InitialiseModule),'Try register 1 module with initialiser');
+		XtsRunnerTestSuite.P_Assert.M_Equals_INT(1,THIS^.GetModuleCount(),'check module added in count');
+		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1S,'','',6);
+		loopCount5 := loopCount5 + 1;
+		
+	6:
+		THIS^.Clear();
+		XtsRunnerTestSuite.M_Testcase('XtsRunner',T#1S,'','',E_Testcase.Done);
+	E_Testcase.Done:;	 
+END_CASE
+{endregion}]]></ST>
+    </Implementation>
+    <LineIds Name="XtsRunnerTesting">
+      <LineId Id="24" Count="67" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

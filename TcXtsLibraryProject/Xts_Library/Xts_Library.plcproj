@@ -42,6 +42,9 @@
     <Compile Include="Base Types\Cyclic_Base\ICyclic.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Base Types\Initialise\I_Initialise.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Base Types\Task_Base\ITask.TcIO">
       <SubType>Code</SubType>
     </Compile>
@@ -214,7 +217,7 @@
     <Compile Include="Tests\XtsHardwareTesting.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tests\XtsRunner_Testing.TcPOU">
+    <Compile Include="Tests\XtsRunnerTesting.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="XTS Class\Xts Collision Group\CAGroupInfo.TcDUT">
@@ -252,6 +255,7 @@
     <Folder Include="Axis Class" />
     <Folder Include="Base Types" />
     <Folder Include="Base Types\Cyclic_Base" />
+    <Folder Include="Base Types\Initialise" />
     <Folder Include="Base Types\Task_Base" />
     <Folder Include="EventLoggerClass" />
     <Folder Include="Mover Class" />
