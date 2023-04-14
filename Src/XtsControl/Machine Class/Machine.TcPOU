@@ -9,13 +9,15 @@ END_VAR
 VAR
 	XtsModuleRunner : XtsRunner;
 	xtsStateMachine : PMLStateMachine;
-	Movers : ARRAY[1..SystemParameters.NumberOfMovers] OF FB_Mover(XtsModuleRunner);
-	iMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover := [Movers[1],Movers[2],
-																		Movers[3],Movers[4],
-																		Movers[5],Movers[6],
-																		Movers[7],Movers[8],
-																		Movers[9],Movers[10]];
-	MoverSequences : ARRAY[1..SystemParameters.NumberOfMovers] OF IndexMoverSequence(XtsModuleRunner);
+	Movers : ARRAY[1..10] OF FB_Mover(XtsModuleRunner) := [(TrackLength := 4000)];
+	iMovers : ARRAY[1..10] OF IMover := [Movers[1],Movers[2],
+											Movers[3],Movers[4],
+											Movers[5],Movers[6],
+											Movers[7],Movers[8],
+											Movers[9],Movers[10]];
+	MoverSequences : ARRAY[1..10] OF IndexMoverSequence(XtsModuleRunner) := [(MyStateMachine := xtsStateMachine,
+																				MyStations := iStationArray,
+																				MyStartPosition := Xts.HomePosition)];	
 	Station1 : StationSample := (Position := 1200.0, 
 									TempPropTime := T#1S,
 									MyStateMachine := xtsStateMachine);
@@ -73,13 +75,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF XtsModuleRunner.Initialise() = 2 THEN
-
 	FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
-		Movers[i].TrackLength := 4000.0;
 		MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyMover := Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i]; 
-		MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyStateMachine := xtsStateMachine;
-		MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyStations := iStationArray;	
-		MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyStartPosition := Xts.HomePosition;
 	END_FOR
 	
 	xtsStateMachine.PmlModeCommand(Mode := E_PMLProtectedUnitMode.ePMLProtUnitMode_Production);
@@ -113,9 +110,9 @@ END_VAR
     </LineIds>
     <LineIds Name="Machine.Initialise">
       <LineId Id="72" Count="0" />
-      <LineId Id="102" Count="0" />
       <LineId Id="104" Count="0" />
-      <LineId Id="106" Count="5" />
+      <LineId Id="107" Count="0" />
+      <LineId Id="111" Count="0" />
       <LineId Id="116" Count="0" />
       <LineId Id="79" Count="0" />
       <LineId Id="74" Count="1" />
