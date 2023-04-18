@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="XtsTrack" Id="{0ed646c8-24dd-40d8-b451-d6e6a88b90d3}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsTrack EXTENDS CyclicBase
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <LineIds Name="XtsTrack">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -244,7 +244,13 @@
     <Compile Include="XTS Class\Xts Hardware\XtsHardwareState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="XTS Class\XtsTrack.TcPOU">
+    <Compile Include="XTS Class\Xts Hardware\XtsPart.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XTS Class\Xts Hardware\XtsTrack.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XTS Class\Xts.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="XtsRunner\I_XtsRunner.TcIO">

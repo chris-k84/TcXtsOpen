@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
-  <POU Name="XtsTrack" Id="{4538c683-94fc-49a1-b5ad-30ffec5e4eff}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK XtsTrack EXTENDS PML_Method_Base
+  <POU Name="Xts" Id="{4538c683-94fc-49a1-b5ad-30ffec5e4eff}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Xts EXTENDS PML_Method_Base
 VAR
 	_homePosition : MC_LREAL;
 	_HomeSpeed : MC_LREAL;
@@ -359,10 +359,10 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <LineIds Name="XtsTrack">
+    <LineIds Name="Xts">
       <LineId Id="78" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.Aborting">
+    <LineIds Name="Xts.Aborting">
       <LineId Id="22" Count="0" />
       <LineId Id="25" Count="7" />
       <LineId Id="38" Count="0" />
@@ -371,11 +371,11 @@ END_VAR
       <LineId Id="24" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.ActivateTracksInMovers">
+    <LineIds Name="Xts.ActivateTracksInMovers">
       <LineId Id="23" Count="4" />
       <LineId Id="12" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.Clearing">
+    <LineIds Name="Xts.Clearing">
       <LineId Id="45" Count="0" />
       <LineId Id="48" Count="13" />
       <LineId Id="65" Count="0" />
@@ -384,7 +384,7 @@ END_VAR
       <LineId Id="47" Count="0" />
       <LineId Id="18" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.Cycle">
+    <LineIds Name="Xts.Cycle">
       <LineId Id="13" Count="0" />
       <LineId Id="17" Count="2" />
       <LineId Id="5" Count="0" />
@@ -394,39 +394,39 @@ END_VAR
       <LineId Id="32" Count="0" />
       <LineId Id="28" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.FB_init">
+    <LineIds Name="Xts.FB_init">
       <LineId Id="7" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.GetTMSMoverInterface">
+    <LineIds Name="Xts.GetTMSMoverInterface">
       <LineId Id="29" Count="3" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.HomePosition.Get">
+    <LineIds Name="Xts.HomePosition.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.HomePosition.Set">
+    <LineIds Name="Xts.HomePosition.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.HomeSpeed.Get">
+    <LineIds Name="Xts.HomeSpeed.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.HomeSpeed.Set">
+    <LineIds Name="Xts.HomeSpeed.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.MoverArray.Get">
+    <LineIds Name="Xts.MoverArray.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.MoverArray.Set">
+    <LineIds Name="Xts.MoverArray.Set">
       <LineId Id="2" Count="0" />
       <LineId Id="6" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.MoverHomeSequence">
+    <LineIds Name="Xts.MoverHomeSequence">
       <LineId Id="6" Count="1" />
       <LineId Id="5" Count="0" />
       <LineId Id="8" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.Resetting">
+    <LineIds Name="Xts.Resetting">
       <LineId Id="41" Count="0" />
       <LineId Id="44" Count="12" />
       <LineId Id="60" Count="0" />
@@ -434,7 +434,7 @@ END_VAR
       <LineId Id="61" Count="1" />
       <LineId Id="43" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.Stopping">
+    <LineIds Name="Xts.Stopping">
       <LineId Id="21" Count="0" />
       <LineId Id="24" Count="7" />
       <LineId Id="35" Count="0" />
@@ -443,13 +443,13 @@ END_VAR
       <LineId Id="23" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.Tracks.Get">
+    <LineIds Name="Xts.Tracks.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.Tracks.Set">
+    <LineIds Name="Xts.Tracks.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.Undefined">
+    <LineIds Name="Xts.Undefined">
       <LineId Id="74" Count="40" />
       <LineId Id="123" Count="1" />
       <LineId Id="115" Count="1" />
@@ -458,10 +458,10 @@ END_VAR
       <LineId Id="122" Count="0" />
       <LineId Id="73" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.XtsTrackHardware.Get">
+    <LineIds Name="Xts.XtsTrackHardware.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsTrack.XtsTrackHardware.Set">
+    <LineIds Name="Xts.XtsTrackHardware.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

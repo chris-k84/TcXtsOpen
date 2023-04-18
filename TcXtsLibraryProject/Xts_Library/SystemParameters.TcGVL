@@ -6,6 +6,8 @@ VAR_GLOBAL CONSTANT
 	nModuleNumber  : UINT := 16;
 	NumberOfMovers : UINT := 10;
 	NumberOfStations : UINT := 6;
+	NumberOfParts : UINT := 1;
+	NumberOfTracks : UINT := 1;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>
