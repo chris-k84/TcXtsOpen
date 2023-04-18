@@ -8,8 +8,92 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="getModuleInfoData" Id="{3efa41b4-5489-4d81-8938-0f058eef3c58}">
+      <Declaration><![CDATA[METHOD getModuleInfoData : BOOL
+VAR_INPUT
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF XtsIoEnvironment.XpuTcIo(1).PartTcIo(PartIndex).ModuleCoE(nModuleCounter).InfoData.Update() THEN
+	CurrentLive[ModuleIndex]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(PartIndex).ModuleCoE(nModuleCounter).InfoData.OverallCurrent;
+	MaxCurrent[ModuleIndex]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(PartIndex).ModuleCoE(nModuleCounter).InfoData.MaxOverallCurrentLast500ms;
+	f24V[ModuleIndex]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(PartIndex).ModuleCoE(nModuleCounter).InfoData.AuxiliaryVoltage24V;
+	f48V[ModuleIndex]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(PartIndex).ModuleCoE(nModuleCounter).InfoData.DcLinkVoltage;
+	ModuleIndex := ModuleIndex + 1;
+	IF UINT_TO_UDINT(nModuleCounter) = DetectedModules[PartIndex] THEN
+		nModuleCounter := 1;
+		IF UINT_TO_UDINT(PartIndex) = DetectedParts THEN
+			PartIndex := 1;
+			ModuleIndex := 1;
+		ELSE
+			PartIndex := PartIndex + 1;
+		END_IF
+	ELSE
+		nModuleCounter := nModuleCounter + 1;
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Is24VOK" Id="{2b0cb545-a877-4023-acf7-204433c79109}">
+      <Declaration><![CDATA[METHOD Is24VOK : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Is24VOK := 2;
+FOR i := 1 TO UINT_TO_UDINT(SystemParameters.nModuleNumber) DO
+	IF f24V[i] < 20400 THEN
+		Is24VOK := 1;
+	END_IF
+	IF f24V[i] > 28800 THEN
+		Is24VOK := 1;
+	END_IF
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Is48VOK" Id="{85bd6738-1af1-443c-8d2c-d0704993fb05}">
+      <Declaration><![CDATA[METHOD Is48VOK : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Is48VOK := 2;
+FOR i := 1 TO UINT_TO_UDINT(SystemParameters.nModuleNumber) DO
+	IF f48V[i] < 46080 THEN
+		Is48VOK := 1;
+	END_IF
+	IF f48V[i] > 49920 THEN
+		Is48VOK := 1;
+	END_IF
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="XtsPart">
       <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsPart.getModuleInfoData">
+      <LineId Id="70" Count="0" />
+      <LineId Id="74" Count="2" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="82" Count="1" />
+      <LineId Id="87" Count="1" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="90" Count="1" />
+      <LineId Id="89" Count="0" />
+      <LineId Id="85" Count="1" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="73" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsPart.Is24VOK">
+      <LineId Id="10" Count="1" />
+      <LineId Id="15" Count="2" />
+      <LineId Id="19" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsPart.Is48VOK">
+      <LineId Id="6" Count="7" />
+      <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
