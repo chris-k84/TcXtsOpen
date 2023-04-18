@@ -15,9 +15,6 @@ VAR
 											Movers[5],Movers[6],
 											Movers[7],Movers[8],
 											Movers[9],Movers[10]];
-	MoverSequences : ARRAY[1..10] OF IndexMoverSequence(XtsModuleRunner) := [(MyStateMachine := xtsStateMachine,
-																				MyStations := iStationArray,
-																				MyStartPosition := Xts.HomePosition)];	
 	Station1 : StationSample := (Position := 1200.0, 
 									TempPropTime := T#1S,
 									MyStateMachine := xtsStateMachine);
@@ -46,6 +43,9 @@ VAR
 										Tracks := 1,
 										XtsTrackHardware := XtsTrackHardware,
 										MoverArray := iMovers);
+	MoverSequences : ARRAY[1..10] OF IndexMoverSequence(XtsModuleRunner) := [10((MyStateMachine := xtsStateMachine,
+																				MyStations := iStationArray,
+																				MyStartPosition := Xts.HomePosition))];	
 	i: INT;
 END_VAR]]></Declaration>
     <Implementation>

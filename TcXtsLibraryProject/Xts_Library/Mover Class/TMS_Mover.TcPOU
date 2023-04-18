@@ -42,8 +42,7 @@ END_VAR
     <Method Name="Cycle" Id="{1d05da50-72aa-4e35-9556-57a03180f6ab}">
       <Declaration><![CDATA[METHOD PUBLIC  Cycle : HRESULT
 VAR_INPUT
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Cycle := SUPER^.Cycle();
 IF _identInGroup <> 0 THEN
@@ -68,6 +67,8 @@ END_IF
 IF ipTcIoXtsMover <> 0 THEN
 	stTmsActPositions:=ipTcIoXtsMover.GetPositionInfo();
 END_IF
+//bob := 
+//ipTcIoXtsMover.GetActiveTrackObjectId();
 
 Cycle := axesMoveModuloTo.Cycle();]]></ST>
       </Implementation>
@@ -170,6 +171,8 @@ SetMoverInterface := TRUE;]]></ST>
     </LineIds>
     <LineIds Name="TMS_Mover.Cycle">
       <LineId Id="6" Count="23" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="33" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="TMS_Mover.HasCommand">
