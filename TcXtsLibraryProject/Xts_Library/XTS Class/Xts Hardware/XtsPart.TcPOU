@@ -12,7 +12,7 @@ VAR
 	f48V: ARRAY[1..SystemParameters.MaxModulesInPart] OF UINT;
 	CurrentLive : ARRAY[1..SystemParameters.MaxModulesInPart] OF DINT;
 	MaxCurrent : ARRAY [1..SystemParameters.MaxModulesInPart] OF DINT;
-	ModuleIndex: UDINT;
+	ModuleIndex: UDINT := 1;
 	i : UINT;
 END_VAR
 ]]></Declaration>

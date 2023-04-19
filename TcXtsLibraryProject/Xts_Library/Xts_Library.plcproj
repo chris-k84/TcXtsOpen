@@ -342,7 +342,7 @@
       <Resolution>Tc3_Testing, 0.0.0.20 (Zerlauth)</Resolution>
     </PlaceholderResolution>
     <PlaceholderResolution Include="Tc3_XTS_Utility">
-      <Resolution>Tc3_XTS_Utility, 3.1.2210.9 (Beckhoff Automation GmbH)</Resolution>
+      <Resolution>Tc3_XTS_Utility, * (Beckhoff Automation GmbH)</Resolution>
     </PlaceholderResolution>
   </ItemGroup>
   <ProjectExtensions>
