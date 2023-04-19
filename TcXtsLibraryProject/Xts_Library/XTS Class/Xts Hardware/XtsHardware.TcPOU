@@ -3,7 +3,6 @@
   <POU Name="XtsHardware" Id="{01d7c7ee-eaba-4d97-9e2a-cab8b593df67}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XtsHardware EXTENDS CyclicBase IMPLEMENTS IXtsHardware, I_Initialise
 VAR
-	_Tracks : UDINT;
 	_TmsSwitch : ITF_TmsSwitch;
 	bInit: BOOL;
 	bMoverIdDetectionError		: BOOL;
@@ -14,9 +13,7 @@ VAR
 	XtsIoEnvironment : Tc3_XTS_Utility.FB_TcIoXtsEnvironment;
 	XPU: Tc3_XTS_Utility.I_TcIoXtsProcessingUnit;
 	XtsIoEnvInitialiseState : INT;
-	DetectedParts: UDINT;
 	XtsParts : ARRAY[1..SystemParameters.NumberOfParts] OF XtsPart;
-	DetectedTracks : UDINT;
 	XtsTracks : ARRAY[1..SystemParameters.NumberOfTracks] OF XtsTrack;
 END_VAR]]></Declaration>
     <Implementation>
@@ -29,6 +26,12 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Cycle := S_OK;
+FOR i := 1 TO XPU.GetPartCount() DO
+	XtsParts[i].Cycle();
+END_FOR
+FOR i := 1 TO XPU.GetTrackCount() DO
+	XtsTracks[i].Cycle();
+END_FOR
 
 ]]></ST>
       </Implementation>
@@ -202,25 +205,6 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Property Name="Tracks" Id="{8efe48a8-9199-4a7a-a2ff-c779a3700ab7}">
-      <Declaration><![CDATA[PROPERTY Tracks : udint]]></Declaration>
-      <Get Name="Get" Id="{e0b3b297-c3c4-4edc-8048-0ed07c7f0ba3}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Tracks := _Tracks;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{e5c09f87-cbe9-4bf0-ba07-78bfac777483}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[_Tracks	 := Tracks;]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
     <Method Name="TriggerMoverDetection" Id="{7ec0784a-bc20-43d5-9663-6bc83fb38f70}">
       <Declaration><![CDATA[METHOD TriggerMoverDetection : BOOL
 VAR_INPUT
@@ -278,6 +262,7 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="XtsHardware.Cycle">
       <LineId Id="13" Count="0" />
+      <LineId Id="184" Count="5" />
       <LineId Id="71" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
@@ -340,12 +325,6 @@ END_IF]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.TmsSwitch.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsHardware.Tracks.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsHardware.Tracks.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.TriggerMoverDetection">

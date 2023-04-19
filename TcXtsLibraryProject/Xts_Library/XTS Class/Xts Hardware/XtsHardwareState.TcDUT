@@ -5,8 +5,7 @@
 {attribute 'strict'}
 TYPE XtsHardwareState :
 (
-	Init := 0,
-	SetDetection := 1,                                               
+	Init := 0,                                              
 	Redetect := 2,
 	MoversValid := 3,                                 
 	AllMoversFound := 4,

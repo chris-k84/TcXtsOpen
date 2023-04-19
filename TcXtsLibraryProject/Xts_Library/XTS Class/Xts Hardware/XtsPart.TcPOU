@@ -25,7 +25,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[getModuleInfoData();]]></ST>
       </Implementation>
     </Method>
     <Method Name="getModuleInfoData" Id="{3efa41b4-5489-4d81-8938-0f058eef3c58}">
@@ -139,7 +139,7 @@ END_VAR
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="XtsPart.Cycle">
-      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="0" />
     </LineIds>
     <LineIds Name="XtsPart.getModuleInfoData">
       <LineId Id="95" Count="7" />

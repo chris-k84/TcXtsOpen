@@ -289,55 +289,50 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[//CASE XtsHwState OF
-//	XtsHardwareState.Init:
-//		IF _XtsTrackHardware.GetTrackAssembly() THEN
-//			XtsHwState := XtsHardwareState.SetDetection;
-//		END_IF
+        <ST><![CDATA[CASE XtsHwState OF
+	XtsHardwareState.Init:
+		IF _XtsTrackHardware.SetTracksForDetection() THEN
+			XtsHwState := XtsHardwareState.Redetect;
+		END_IF
+		
+	XtsHardwareState.Redetect:
+		IF _XtsTrackHardware.TriggerMoverDetection() THEN
+			XtsHwState := XtsHardwareState.MoversValid;
+		END_IF
+		
+	XtsHardwareState.MoversValid:
+		IF _XtsTrackHardware.getAllMoversValid() THEN
+			XtsHwState := XtsHardwareState.AllMoversFound;
+		END_IF
 	
-//	XtsHardwareState.SetDetection:
-//		IF _XtsTrackHardware.SetTracksForDetection() THEN
-//			XtsHwState := XtsHardwareState.Redetect;
-//		END_IF
+	XtsHardwareState.AllMoversFound:
+		IF _XtsTrackHardware.getMoversDetected() THEN
+			XtsHwState := XtsHardwareState.XTSMode;
+		END_IF
 		
-//	XtsHardwareState.Redetect:
-//		IF _XtsTrackHardware.TriggerMoverDetection() THEN
-//			XtsHwState := XtsHardwareState.MoversValid;
-//		END_IF
+	XtsHardwareState.XTSMode:
+		IF _XtsTrackHardware.IsInSim() THEN
+			XtsHwState := XtsHardwareState.MoverIdDetection;
+		ELSE
+			XtsHwState := XtsHardwareState.CheckModuleVoltages;
+		END_IF
 		
-//	XtsHardwareState.MoversValid:
-//		IF _XtsTrackHardware.getAllMoversValid() THEN
-//			XtsHwState := XtsHardwareState.AllMoversFound;
-//		END_IF
+	XtsHardwareState.CheckModuleVoltages:
+		//IF _XtsTrackHardware.Is24VOK() = 2 AND _XtsTrackHardware.Is48VOK() = 2 THEN
+			XtsHwState := XtsHardwareState.MoverIdDetection;
+		//END_IF
 	
-//	XtsHardwareState.AllMoversFound:
-//		IF _XtsTrackHardware.getMoversDetected() THEN
-//			XtsHwState := XtsHardwareState.XTSMode;
-//		END_IF
-		
-//	XtsHardwareState.XTSMode:
-//		IF _XtsTrackHardware.IsInSim() THEN
-//			XtsHwState := XtsHardwareState.MoverIdDetection;
-//		ELSE
-//			XtsHwState := XtsHardwareState.CheckModuleVoltages;
-//		END_IF
-		
-//	XtsHardwareState.CheckModuleVoltages:
-//		IF _XtsTrackHardware.Is24VOK() = 2 AND _XtsTrackHardware.Is48VOK() = 2 THEN
-//			XtsHwState := XtsHardwareState.MoverIdDetection;
-//		END_IF
+	XtsHardwareState.MoverIdDetection:
+		IF _XtsTrackHardware.TriggerMoverID() THEN
+			XtsHwState := XtsHardwareState.HWReady;
+			GetTMSMoverInterface();
+			ipackml.PmlStateCommand(Command := E_PMLCommand.ePMLCommand_Abort);
+		END_IF
 	
-//	XtsHardwareState.MoverIdDetection:
-//		IF _XtsTrackHardware.TriggerMoverID() THEN
-//			XtsHwState := XtsHardwareState.HWReady;
-//			GetTMSMoverInterface();
-//			ipackml.PmlStateCommand(Command := E_PMLCommand.ePMLCommand_Abort);
-//		END_IF
-	
-//	XtsHardwareState.HWReady:
+	XtsHardwareState.HWReady:
 		
 		
-//END_CASE]]></ST>
+END_CASE]]></ST>
       </Implementation>
     </Method>
     <Property Name="XtsTrackHardware" Id="{10aeacae-a746-485a-b0e8-a2e9fb26c42b}">
@@ -450,7 +445,8 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="Xts.Undefined">
-      <LineId Id="74" Count="40" />
+      <LineId Id="74" Count="4" />
+      <LineId Id="84" Count="30" />
       <LineId Id="123" Count="1" />
       <LineId Id="115" Count="1" />
       <LineId Id="120" Count="0" />

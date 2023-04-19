@@ -22,12 +22,6 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="GetTrackAssembly" Id="{cb8068ae-37e4-4904-acb9-82181c03fbef}">
-      <Declaration><![CDATA[METHOD PUBLIC GetTrackAssembly : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-    </Method>
     <Method Name="IsInSim" Id="{11de75bc-4a14-49be-839d-5d91f6e50bb8}">
       <Declaration><![CDATA[METHOD IsInSim : BOOL
 VAR_INPUT
