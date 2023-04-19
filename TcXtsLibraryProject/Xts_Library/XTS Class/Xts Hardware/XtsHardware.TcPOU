@@ -5,30 +5,17 @@
 VAR
 	_Tracks : UDINT;
 	_TmsSwitch : ITF_TmsSwitch;
-	
 	bInit: BOOL;
 	bMoverIdDetectionError		: BOOL;
 	bMoverIdDetectionActive		: BOOL;
 	bMoverIdDetected : BOOL;
-	
-	nModuleCounter : UDINT := 1;
 	i: UDINT;
-	
-	
-	DetectedModules : ARRAY[1..10] OF UDINT;
-	PartIndex: UDINT := 1;
-	ModuleIndex : INT := 1;
-	XtsHWInfo : XtsHardwareInfo;
-	XtsHardwareOK : BOOL;
 	bTriggerDetect: BOOL;
-	
-	
 	XtsIoEnvironment : Tc3_XTS_Utility.FB_TcIoXtsEnvironment;
 	XPU: Tc3_XTS_Utility.I_TcIoXtsProcessingUnit;
 	XtsIoEnvInitialiseState : INT;
 	DetectedParts: UDINT;
 	XtsParts : ARRAY[1..SystemParameters.NumberOfParts] OF XtsPart;
-	
 	DetectedTracks : UDINT;
 	XtsTracks : ARRAY[1..SystemParameters.NumberOfTracks] OF XtsTrack;
 END_VAR]]></Declaration>
@@ -64,7 +51,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[ IF XtsIoEnvironment.XpuTcIo(1).GetAreAllPositionsValid() THEN
+        <ST><![CDATA[ IF XPU.GetAreAllPositionsValid() THEN
 	 getAllMoversValid := TRUE;
 	 Logger.Send(TC_EVENTS.XtsHardwareEvents.AllMoversValid,'');
  END_IF]]></ST>
@@ -77,7 +64,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[GetMoverEnvInterface := XtsIoEnvironment.XpuTcIo(1).MoverTcIo(MoverNumber);]]></ST>
+        <ST><![CDATA[GetMoverEnvInterface := XPU.MoverTcIo(MoverNumber);	]]></ST>
       </Implementation>
     </Method>
     <Method Name="getMoversDetected" Id="{5e49a15e-96a4-4ef0-90a8-d0eb7c5a7559}">
@@ -86,37 +73,13 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF XtsIoEnvironment.XpuTcIo(1).GetDetectedMoverCount() = XtsIoEnvironment.XpuTcIo(1).GetExpectedMoverCount() THEN
+        <ST><![CDATA[IF XPU.GetDetectedMoverCount() = XPU.GetExpectedMoverCount() THEN
 	getMoversDetected := TRUE;
 	Logger.Send(TC_EVENTS.XtsHardwareEvents.ExpectedMoversDetected,UDINT_TO_STRING(XtsIoEnvironment.XpuTcIo(1).GetExpectedMoverCount()));
 ELSE
 	getMoversDetected := FALSE;
 	Logger.Send(TC_EVENTS.XtsHardwareEvents.ExpectedMoversNotFound,'');
 END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="GetTrackAssembly" Id="{ce747361-f640-4f49-a834-f6cbf088a32a}">
-      <Declaration><![CDATA[METHOD PUBLIC GetTrackAssembly : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[DetectedTracks :=  XtsIoEnvironment.XpuTcIo(1).GetTrackCount();
-IF DetectedTracks <> _Tracks THEN
-	Logger.Send(TC_EVENTS.XtsHardwareEvents.XtsTracksCountError,'');
-	RETURN; 
-END_IF
-DetectedParts := XtsIoEnvironment.XpuTcIo(1).GetPartCount();
-FOR i := 1 TO DetectedParts DO
-	DetectedModules[i] := XtsIoEnvironment.XpuTcIo(1).PartTcIo(UDINT_TO_UINT(i)).GetModuleCount();
-END_FOR
-GetTrackAssembly := TRUE;
-
-XtsHWInfo.NoOfModules := DetectedModules;
-XtsHWInfo.NoOfParts := DetectedParts;
-XtsHWInfo.NoOfTracks := DetectedTracks;
-
-]]></ST>
       </Implementation>
     </Method>
     <Method Name="Initialise" Id="{238260bf-972c-4836-891f-55586c0f1b1a}">
@@ -181,7 +144,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF  XtsIoEnvironment.XpuTcIo(1).GetOperationMode() = OperationMode.Simulation THEN
+        <ST><![CDATA[IF  XPU.GetOperationMode() = OperationMode.Simulation THEN
 	IsInSim := TRUE;
 	Logger.Send(TC_EVENTS.XtsHardwareEvents.XtsInSimulationMode,'');
 ELSE
@@ -195,28 +158,28 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR i:=1 TO XtsIoEnvironment.XpuTcIo(1).GetTrackCount() DO
-	XtsIoEnvironment.XpuTcIo(1).TrackTcIo(UDINT_TO_UINT(i)).SetIsIncludedInDetection(FALSE);
+        <ST><![CDATA[FOR i:=1 TO XPU.GetTrackCount() DO
+	XPU.TrackTcIo(UDINT_TO_UINT(i)).SetIsIncludedInDetection(FALSE);
 END_FOR
 
-IF XtsIoEnvironment.XpuTcIo(1).GetTrackCount() = 1 THEN
-	XtsIoEnvironment.XpuTcIo(1).TrackTcIo(1).SetIsIncludedInDetection(TRUE);
-	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(XtsIoEnvironment.XpuTcIo(1).GetTrackCount()));
+IF XPU.GetTrackCount() = 1 THEN
+	XPU.TrackTcIo(1).SetIsIncludedInDetection(TRUE);
+	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(XPU.GetTrackCount()));
 	SetTracksForDetection := TRUE;
 ELSE
 	SetTracksForDetection := TRUE;
 	CASE _TmsSwitch.Switch OF
 		TmsSwitchPosition.Up: 
-			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(3).SetIsIncludedInDetection(TRUE);
+			XPU.TrackTcIo(3).SetIsIncludedInDetection(TRUE);
 		TmsSwitchPosition.Middle:
-			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(1).SetIsIncludedInDetection(TRUE);
-			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(2).SetIsIncludedInDetection(TRUE);
+			XPU.TrackTcIo(1).SetIsIncludedInDetection(TRUE);
+			XPU.TrackTcIo(2).SetIsIncludedInDetection(TRUE);
 		TmsSwitchPosition.Down:
-			XtsIoEnvironment.XpuTcIo(1).TrackTcIo(4).SetIsIncludedInDetection(TRUE);
+			XPU.TrackTcIo(4).SetIsIncludedInDetection(TRUE);
 		ELSE
 			SetTracksForDetection := FALSE;
 	END_CASE
-	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(XtsIoEnvironment.XpuTcIo(1).GetTrackCount()));
+	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(XPU.GetTrackCount()));
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -264,7 +227,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[XtsIoEnvironment.XpuTcIo(1).TriggerRedetection();
+        <ST><![CDATA[XPU.TriggerRedetection();
 Logger.Send(TC_EVENTS.XtsHardwareEvents.MoverDetectionInitiated,'');
 TriggerMoverDetection := true;
 ]]></ST>
@@ -277,20 +240,20 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Mover1 Functionality		
 // Check if "MoverIdDetectionMode" has been activated under the XtsProcessingUnit object.
-IF XtsIoEnvironment.XpuTcIo(1).GetMoverIdDetectionMode() = E_MoverIdDetectionMode.Mover1 THEN
+IF XPU.GetMoverIdDetectionMode() = E_MoverIdDetectionMode.Mover1 THEN
 
 	// Check if the "MoverIdDetection" has already been started or the Mover1 was found.
 	IF NOT (bMoverIdDetectionActive OR bMoverIdDetected OR bTriggerDetect) THEN
 		// Trigger the "MoverIdDetection".
-		XtsIoEnvironment.XpuTcIo(1).TriggerMoverIdDetection();
+		XPU.TriggerMoverIdDetection();
 		Logger.Send(TC_EVENTS.XtsHardwareEvents.Mover1DetectionStarted,'');
 		bTriggerDetect := true;
 	END_IF
 
 	// Check for error or success of "MoverIdDetection".
-	bMoverIdDetectionError 	:= XtsIoEnvironment.XpuTcIo(1).GetHasMoverIdDetectionError();
-	bMoverIdDetected 	:= XtsIoEnvironment.XpuTcIo(1).GetIsMoverIdDetectionValid();
-	bMoverIdDetectionActive	:= XtsIoEnvironment.XpuTcIo(1).GetIsMoverIdDetectionActive();
+	bMoverIdDetectionError 	:= XPU.GetHasMoverIdDetectionError();
+	bMoverIdDetected 	:= XPU.GetIsMoverIdDetectionValid();
+	bMoverIdDetectionActive	:= XPU.GetIsMoverIdDetectionActive();
 	
 	// If the detection has an error, check for errors in output and try again.
 	IF bMoverIdDetectionError THEN
@@ -331,10 +294,6 @@ END_IF]]></ST>
     <LineIds Name="XtsHardware.getMoversDetected">
       <LineId Id="16" Count="5" />
       <LineId Id="10" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsHardware.GetTrackAssembly">
-      <LineId Id="142" Count="14" />
-      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.Initialise">
       <LineId Id="20" Count="1" />
