@@ -5,32 +5,32 @@
 VAR
 	_Tracks : UDINT;
 	_TmsSwitch : ITF_TmsSwitch;
-	XtsIoEnvironment : Tc3_XTS_Utility.FB_TcIoXtsEnvironment;
+	
 	bInit: BOOL;
 	bMoverIdDetectionError		: BOOL;
 	bMoverIdDetectionActive		: BOOL;
 	bMoverIdDetected : BOOL;
-	f24V: ARRAY[1..SystemParameters.nModuleNumber] OF UINT;
-	f48V: ARRAY[1..SystemParameters.nModuleNumber] OF UINT;
-	CurrentLive : ARRAY[1..SystemParameters.nModuleNumber] OF DINT;
-	MaxCurrent : ARRAY [1..SystemParameters.nModuleNumber] OF DINT;
-	nModuleCounter : UINT := 1;
+	
+	nModuleCounter : UDINT := 1;
 	i: UDINT;
 	
 	
 	DetectedModules : ARRAY[1..10] OF UDINT;
-	PartIndex: UINT := 1;
+	PartIndex: UDINT := 1;
 	ModuleIndex : INT := 1;
 	XtsHWInfo : XtsHardwareInfo;
 	XtsHardwareOK : BOOL;
 	bTriggerDetect: BOOL;
 	
+	
+	XtsIoEnvironment : Tc3_XTS_Utility.FB_TcIoXtsEnvironment;
+	XPU: Tc3_XTS_Utility.I_TcIoXtsProcessingUnit;
+	XtsIoEnvInitialiseState : INT;
 	DetectedParts: UDINT;
-	Parts : ARRAY[1..SystemParameters.NumberOfParts] OF XtsPart;
+	XtsParts : ARRAY[1..SystemParameters.NumberOfParts] OF XtsPart;
 	
 	DetectedTracks : UDINT;
-	Tracks : ARRAY[1..SystemParameters.NumberOfTracks] OF XtsTrack;
-	
+	XtsTracks : ARRAY[1..SystemParameters.NumberOfTracks] OF XtsTrack;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
@@ -42,9 +42,6 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Cycle := S_OK;
-IF NOT IsInSim() THEN
-	getModuleInfoData();
-END_IF
 
 ]]></ST>
       </Implementation>
@@ -126,14 +123,42 @@ XtsHWInfo.NoOfTracks := DetectedTracks;
       <Declaration><![CDATA[METHOD Initialise : HRESULT
 VAR_INPUT
 END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF XtsIoEnvironment.Init(TRUE) THEN
-	XtsIoEnvironment.Init(FALSE);
-	Initialise := 2;
-END_IF
 
-XtsIoEnvironment.XpuTcIo(1).GetTrackOids();
+VAR
+	
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE XtsIoEnvInitialiseState OF
+	0:
+		IF XtsIoEnvironment.Init(TRUE) THEN
+			XtsIoEnvironment.Init(FALSE);
+			XtsIoEnvInitialiseState := 1;
+		END_IF
+	1:
+		XPU := XtsIoEnvironment.XpuTcIo(1);
+		XtsIoEnvInitialiseState := 2;
+	2:
+		IF XPU.GetPartCount() = SystemParameters.NumberOfParts THEN
+			FOR i := 1 TO SystemParameters.NumberOfParts DO
+				XtsParts[i].MyXtsIoEnvInterface := XPU.PartTcIo(UDINT_TO_UINT(i));
+			END_FOR
+			XtsIoEnvInitialiseState := 3;
+		ELSE
+			XtsIoEnvInitialiseState := 999;
+		END_IF
+	3:
+		IF XPU.GetTrackCount() = SystemParameters.NumberOfTracks THEN
+			FOR i := 1 TO SystemParameters.NumberOfTracks DO
+				XtsTracks[i].MyXtsIoEnvInterface := XPU.TrackTcIo(UDINT_TO_UINT(i));
+			END_FOR
+			XtsIoEnvInitialiseState := 4;
+		ELSE
+			XtsIoEnvInitialiseState := 999;
+		END_IF
+	4:
+		Initialise := 2;
+		
+END_CASE
 ]]></ST>
       </Implementation>
     </Method>
@@ -277,8 +302,6 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="XtsHardware.Cycle">
       <LineId Id="13" Count="0" />
-      <LineId Id="175" Count="0" />
-      <LineId Id="179" Count="1" />
       <LineId Id="71" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
@@ -301,10 +324,24 @@ END_IF]]></ST>
       <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.Initialise">
-      <LineId Id="7" Count="3" />
-      <LineId Id="15" Count="0" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="16" Count="0" />
+      <LineId Id="20" Count="1" />
+      <LineId Id="24" Count="2" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="27" Count="1" />
+      <LineId Id="32" Count="3" />
+      <LineId Id="37" Count="1" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="39" Count="1" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="42" Count="2" />
+      <LineId Id="46" Count="1" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="48" Count="1" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="51" Count="1" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.IsInSim">
       <LineId Id="3" Count="4" />

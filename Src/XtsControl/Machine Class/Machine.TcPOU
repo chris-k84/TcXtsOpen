@@ -37,7 +37,7 @@ VAR
 																					Station3,Station4,
 																					Station5,Station6];
 	XtsTrackHardware : XtsHardware(XtsModuleRunner) := (Tracks := 1);
-	Xts : XtsTrack(XtsModuleRunner) := (PackMLStateMachine := xtsStateMachine, 
+	Xts : Xts(XtsModuleRunner) := (PackMLStateMachine := xtsStateMachine, 
 										HomePosition := 1000.0,
 										HomeSpeed := 1000.0, 
 										Tracks := 1,

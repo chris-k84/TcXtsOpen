@@ -3,13 +3,51 @@
   <POU Name="XtsTrack" Id="{0ed646c8-24dd-40d8-b451-d6e6a88b90d3}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XtsTrack EXTENDS CyclicBase
 VAR
+	_MyInterface : I_TcIoXtsXpuTrack;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="Cycle" Id="{753f4845-bb32-46bd-9afe-0c535a6bb9c5}">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="MyXtsIoEnvInterface" Id="{de406d6a-fb33-4758-a1bb-071b44e09534}">
+      <Declaration><![CDATA[PROPERTY MyXtsIoEnvInterface : I_TcIoXtsXpuTrack]]></Declaration>
+      <Get Name="Get" Id="{29c07896-dd74-4eb2-b4f6-620c540248e5}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MyXtsIoEnvInterface := _MyInterface;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{efa5de65-cd69-47bf-b917-2b3471279c8e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_MyInterface := MyXtsIoEnvInterface;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <LineIds Name="XtsTrack">
       <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.Cycle">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.MyXtsIoEnvInterface.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.MyXtsIoEnvInterface.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

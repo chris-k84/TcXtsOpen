@@ -28,18 +28,6 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="Is24VOK" Id="{433dd8fe-2958-4ac6-ac13-fe9d0dab48bb}">
-      <Declaration><![CDATA[METHOD Is24VOK : HRESULT
-VAR_INPUT
-END_VAR
-]]></Declaration>
-    </Method>
-    <Method Name="Is48VOK" Id="{9f5c98ca-d638-4861-a01d-f16542bbfba7}">
-      <Declaration><![CDATA[METHOD Is48VOK : HRESULT
-VAR_INPUT
-END_VAR
-]]></Declaration>
-    </Method>
     <Method Name="IsInSim" Id="{11de75bc-4a14-49be-839d-5d91f6e50bb8}">
       <Declaration><![CDATA[METHOD IsInSim : BOOL
 VAR_INPUT

@@ -3,34 +3,49 @@
   <POU Name="XtsPart" Id="{39541d00-22ec-4750-829d-4864a624597e}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XtsPart EXTENDS CyclicBase
 VAR
+	_MyInterface : Tc3_XTS_Utility.I_TcIoXtsXpuPart;
+	f24V: ARRAY[1..SystemParameters.nModuleNumber] OF UINT;
+	f48V: ARRAY[1..SystemParameters.nModuleNumber] OF UINT;
+	CurrentLive : ARRAY[1..SystemParameters.nModuleNumber] OF DINT;
+	MaxCurrent : ARRAY [1..SystemParameters.nModuleNumber] OF DINT;
+	i : UINT;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="Cycle" Id="{6aa26807-846b-4168-ab87-fb4c66b138eb}">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="getModuleInfoData" Id="{3efa41b4-5489-4d81-8938-0f058eef3c58}">
       <Declaration><![CDATA[METHOD getModuleInfoData : BOOL
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF XtsIoEnvironment.XpuTcIo(1).PartTcIo(PartIndex).ModuleCoE(nModuleCounter).InfoData.Update() THEN
-	CurrentLive[ModuleIndex]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(PartIndex).ModuleCoE(nModuleCounter).InfoData.OverallCurrent;
-	MaxCurrent[ModuleIndex]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(PartIndex).ModuleCoE(nModuleCounter).InfoData.MaxOverallCurrentLast500ms;
-	f24V[ModuleIndex]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(PartIndex).ModuleCoE(nModuleCounter).InfoData.AuxiliaryVoltage24V;
-	f48V[ModuleIndex]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(PartIndex).ModuleCoE(nModuleCounter).InfoData.DcLinkVoltage;
-	ModuleIndex := ModuleIndex + 1;
-	IF UINT_TO_UDINT(nModuleCounter) = DetectedModules[PartIndex] THEN
-		nModuleCounter := 1;
-		IF UINT_TO_UDINT(PartIndex) = DetectedParts THEN
-			PartIndex := 1;
-			ModuleIndex := 1;
-		ELSE
-			PartIndex := PartIndex + 1;
-		END_IF
-	ELSE
-		nModuleCounter := nModuleCounter + 1;
-	END_IF
-END_IF]]></ST>
+        <ST><![CDATA[//IF XtsIoEnvironment.XpuTcIo(1).PartTcIo(PartIndex).ModuleCoE(nModuleCounter).InfoData.Update() THEN
+//	CurrentLive[ModuleIndex]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(PartIndex).ModuleCoE(nModuleCounter).InfoData.OverallCurrent;
+//	MaxCurrent[ModuleIndex]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(PartIndex).ModuleCoE(nModuleCounter).InfoData.MaxOverallCurrentLast500ms;
+//	f24V[ModuleIndex]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(PartIndex).ModuleCoE(nModuleCounter).InfoData.AuxiliaryVoltage24V;
+//	f48V[ModuleIndex]:=XtsIoEnvironment.XpuTcIo(1).PartTcIo(PartIndex).ModuleCoE(nModuleCounter).InfoData.DcLinkVoltage;
+//	ModuleIndex := ModuleIndex + 1;
+//	IF UINT_TO_UDINT(nModuleCounter) = DetectedModules[PartIndex] THEN
+//		nModuleCounter := 1;
+//		IF UINT_TO_UDINT(PartIndex) = DetectedParts THEN
+//			PartIndex := 1;
+//			ModuleIndex := 1;
+//		ELSE
+//			PartIndex := PartIndex + 1;
+//		END_IF
+//	ELSE
+//		nModuleCounter := nModuleCounter + 1;
+//	END_IF
+//END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="Is24VOK" Id="{2b0cb545-a877-4023-acf7-204433c79109}">
@@ -40,7 +55,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Is24VOK := 2;
-FOR i := 1 TO UINT_TO_UDINT(SystemParameters.nModuleNumber) DO
+FOR i := 1 TO SystemParameters.nModuleNumber DO
 	IF f24V[i] < 20400 THEN
 		Is24VOK := 1;
 	END_IF
@@ -57,7 +72,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Is48VOK := 2;
-FOR i := 1 TO UINT_TO_UDINT(SystemParameters.nModuleNumber) DO
+FOR i := 1 TO SystemParameters.nModuleNumber DO
 	IF f48V[i] < 46080 THEN
 		Is48VOK := 1;
 	END_IF
@@ -67,21 +82,33 @@ FOR i := 1 TO UINT_TO_UDINT(SystemParameters.nModuleNumber) DO
 END_FOR]]></ST>
       </Implementation>
     </Method>
+    <Property Name="MyXtsIoEnvInterface" Id="{b5f6c838-c909-4a11-9656-9e449699aee4}">
+      <Declaration><![CDATA[PROPERTY MyXtsIoEnvInterface : I_TcIoXtsXpuPart]]></Declaration>
+      <Get Name="Get" Id="{249dae7e-fa2b-4c2d-a421-a33d92e9b50d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MyXtsIoEnvInterface := _MyInterface;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{436f8d77-48c4-4edc-81e4-5821f3038a93}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_MyInterface := MyXtsIoEnvInterface;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <LineIds Name="XtsPart">
       <LineId Id="9" Count="0" />
     </LineIds>
+    <LineIds Name="XtsPart.Cycle">
+      <LineId Id="5" Count="0" />
+    </LineIds>
     <LineIds Name="XtsPart.getModuleInfoData">
-      <LineId Id="70" Count="0" />
-      <LineId Id="74" Count="2" />
-      <LineId Id="72" Count="0" />
-      <LineId Id="77" Count="0" />
-      <LineId Id="82" Count="1" />
-      <LineId Id="87" Count="1" />
-      <LineId Id="92" Count="0" />
-      <LineId Id="90" Count="1" />
-      <LineId Id="89" Count="0" />
-      <LineId Id="85" Count="1" />
-      <LineId Id="84" Count="0" />
+      <LineId Id="95" Count="16" />
       <LineId Id="73" Count="0" />
     </LineIds>
     <LineIds Name="XtsPart.Is24VOK">
@@ -94,6 +121,12 @@ END_FOR]]></ST>
     <LineIds Name="XtsPart.Is48VOK">
       <LineId Id="6" Count="7" />
       <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsPart.MyXtsIoEnvInterface.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsPart.MyXtsIoEnvInterface.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
