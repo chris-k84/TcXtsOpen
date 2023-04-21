@@ -4,7 +4,7 @@
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
 	fbMachine : Machine;
-	State : INT := 99;
+	State : INT;
 	Reset : BOOL;
 	Start : BOOL;
 	Clear : BOOL;
@@ -15,7 +15,7 @@ END_VAR
       <ST><![CDATA[CASE State OF
 	0:
 		IF fbMachine.Initialise() THEN
-			State := 99;
+			State := 1;
 		END_IF
 	1:
 		fbMachine.Cycle();
