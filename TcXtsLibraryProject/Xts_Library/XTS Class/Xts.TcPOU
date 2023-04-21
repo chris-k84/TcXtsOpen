@@ -318,9 +318,9 @@ END_VAR
 		END_IF
 		
 	XtsHardwareState.CheckModuleVoltages:
-		//IF _XtsTrackHardware.Is24VOK() = 2 AND _XtsTrackHardware.Is48VOK() = 2 THEN
+		IF _XtsTrackHardware.Is24VdcOK() = 2 AND _XtsTrackHardware.Is48VdcOK() = 2 THEN
 			XtsHwState := XtsHardwareState.MoverIdDetection;
-		//END_IF
+		END_IF
 	
 	XtsHardwareState.MoverIdDetection:
 		IF _XtsTrackHardware.TriggerMoverID() THEN

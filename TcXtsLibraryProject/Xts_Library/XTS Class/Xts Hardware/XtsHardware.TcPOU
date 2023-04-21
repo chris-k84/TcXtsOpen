@@ -141,6 +141,34 @@ END_CASE
 ]]></ST>
       </Implementation>
     </Method>
+    <Method Name="Is24VdcOK" Id="{27d935e1-90ea-4fda-9458-1a71306cb612}">
+      <Declaration><![CDATA[METHOD Is24VdcOK : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Is24VdcOK := 2;
+FOR i := 1 TO XPU.GetPartCount() DO
+	IF XtsParts[i].Is24VOK() = 1 THEN
+		Is24VdcOK := 1;
+	END_IF
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Is48VdcOK" Id="{0fe8ba5e-5482-4d68-bc25-9bb36a4434e6}">
+      <Declaration><![CDATA[METHOD Is48VdcOK : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Is48VdcOK := 2;
+FOR i := 1 TO XPU.GetPartCount() DO
+	IF XtsParts[i].Is48VOK() = 1 THEN
+		Is48VdcOK := 1;
+	END_IF
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="IsInSim" Id="{1d10bcec-acec-45d5-bf84-489041573d3d}">
       <Declaration><![CDATA[METHOD IsInSim : BOOL
 VAR_INPUT
@@ -308,6 +336,16 @@ END_IF]]></ST>
       <LineId Id="61" Count="0" />
       <LineId Id="22" Count="0" />
       <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsHardware.Is24VdcOK">
+      <LineId Id="8" Count="0" />
+      <LineId Id="5" Count="1" />
+      <LineId Id="9" Count="1" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsHardware.Is48VdcOK">
+      <LineId Id="6" Count="4" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.IsInSim">
       <LineId Id="3" Count="4" />
