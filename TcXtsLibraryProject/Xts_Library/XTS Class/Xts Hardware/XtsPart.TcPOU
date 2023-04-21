@@ -6,6 +6,8 @@ VAR
 	_MyInterface : Tc3_XTS_Utility.I_TcIoXtsXpuPart;
 	XtsIoEnvInitialiseState : INT;
 	MyModuleCount : UDINT;
+	PartDriveState: Tc3_XTS_Utility.DriveState;
+	_ReadyToEnable: BOOL;
 	Modules : ARRAY[1..SystemParameters.MaxModulesInPart] OF I_TcIoXtsPartModule;
 	ModulesCoE : ARRAY[1..SystemParameters.MaxModulesInPart] OF I_AT2xxxXtsMotor;
 	f24V: ARRAY[1..SystemParameters.MaxModulesInPart] OF UINT;
@@ -22,14 +24,44 @@ END_VAR
     <Method Name="Cycle" Id="{6aa26807-846b-4168-ab87-fb4c66b138eb}">
       <Declaration><![CDATA[METHOD PUBLIC  Cycle : HRESULT
 VAR_INPUT
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[getModuleInfoData();]]></ST>
+        <ST><![CDATA[getModuleInfoData();
+
+PartDriveState := _MyInterface.GetDriveState();
+
+CASE PartDriveState OF
+	DriveState.Unknown:
+		_ReadyToEnable := FALSE;
+
+	DriveState.FaultReactionActive:
+		_ReadyToEnable := FALSE;
+
+	DriveState.Fault:
+		_ReadyToEnable := FALSE;
+
+	DriveState.NotReadyToSwitchOn:
+		_ReadyToEnable := FALSE;
+
+	DriveState.SwitchOnDisabled:
+		_ReadyToEnable := FALSE;
+
+	DriveState.ReadyToSwitchOn:
+		_ReadyToEnable := TRUE;
+
+	DriveState.SwitchedOn:
+		_ReadyToEnable := TRUE;
+
+	DriveState.OperationEnabled:
+		_ReadyToEnable := TRUE;
+
+ELSE
+	_ReadyToEnable := FALSE;
+END_CASE]]></ST>
       </Implementation>
     </Method>
     <Method Name="getModuleInfoData" Id="{3efa41b4-5489-4d81-8938-0f058eef3c58}">
-      <Declaration><![CDATA[METHOD getModuleInfoData : BOOL
+      <Declaration><![CDATA[METHOD PRIVATE getModuleInfoData : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -140,6 +172,10 @@ END_VAR
     </LineIds>
     <LineIds Name="XtsPart.Cycle">
       <LineId Id="8" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="47" Count="27" />
     </LineIds>
     <LineIds Name="XtsPart.getModuleInfoData">
       <LineId Id="95" Count="7" />

@@ -26,12 +26,15 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Cycle := S_OK;
-FOR i := 1 TO XPU.GetPartCount() DO
-	XtsParts[i].Cycle();
-END_FOR
-FOR i := 1 TO XPU.GetTrackCount() DO
-	XtsTracks[i].Cycle();
-END_FOR
+IF IsInSim() THEN
+	FOR i := 1 TO XPU.GetPartCount() DO
+		XtsParts[i].Cycle();
+	END_FOR
+	FOR i := 1 TO XPU.GetTrackCount() DO
+		XtsTracks[i].Cycle();
+	END_FOR
+END_IF
+
 
 ]]></ST>
       </Implementation>
@@ -290,7 +293,10 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="XtsHardware.Cycle">
       <LineId Id="13" Count="0" />
-      <LineId Id="184" Count="5" />
+      <LineId Id="193" Count="0" />
+      <LineId Id="196" Count="4" />
+      <LineId Id="194" Count="1" />
+      <LineId Id="189" Count="0" />
       <LineId Id="71" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>

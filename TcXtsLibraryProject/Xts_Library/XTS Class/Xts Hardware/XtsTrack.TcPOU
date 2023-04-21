@@ -8,6 +8,8 @@ VAR
 	MyPartCount : UDINT;
 	Parts : REFERENCE TO ARRAY[1..TcIoXtsEnvironmentParameterList.MaxPartsPerTrack] OF ST_PartInfoItems;
 	i : INT;
+	_TrackLength: LREAL;
+	_TrackIsClosed: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -16,10 +18,10 @@ END_VAR
     <Method Name="Cycle" Id="{753f4845-bb32-46bd-9afe-0c535a6bb9c5}">
       <Declaration><![CDATA[METHOD PUBLIC  Cycle : HRESULT
 VAR_INPUT
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[Cycle := 2;
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="Initialise" Id="{b15a1974-ae41-45a0-b8ce-e38654aa0808}">
@@ -44,6 +46,8 @@ END_VAR
 		
 	3:
 		IF _MyInterface.P_IsInitialized THEN
+			_TrackLength := _MyInterface.GetLength();
+			_TrackIsClosed := _MyInterface.GetIsClosed();
 			XtsIoEnvInitialiseState := 4;
 		END_IF
 	4:
@@ -75,14 +79,17 @@ END_VAR
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.Cycle">
-      <LineId Id="5" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.Initialise">
       <LineId Id="6" Count="7" />
       <LineId Id="18" Count="3" />
       <LineId Id="30" Count="1" />
       <LineId Id="26" Count="0" />
-      <LineId Id="32" Count="2" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="38" Count="1" />
+      <LineId Id="33" Count="1" />
       <LineId Id="27" Count="2" />
       <LineId Id="5" Count="0" />
     </LineIds>
