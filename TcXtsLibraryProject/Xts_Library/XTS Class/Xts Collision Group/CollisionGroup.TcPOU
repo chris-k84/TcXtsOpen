@@ -28,6 +28,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF NOT addMover.Busy THEN
 	addMover.AddMover(MoverToAdd := MoverToAdd);
+	AddMoverToThisGroup := 2;
 END_IF
 
 ]]></ST>
@@ -137,7 +138,9 @@ END_IF]]></ST>
       <LineId Id="52" Count="0" />
     </LineIds>
     <LineIds Name="CollisionGroup.AddMoverToThisGroup">
-      <LineId Id="8" Count="2" />
+      <LineId Id="8" Count="1" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="10" Count="0" />
       <LineId Id="5" Count="0" />
       <LineId Id="7" Count="0" />
     </LineIds>
