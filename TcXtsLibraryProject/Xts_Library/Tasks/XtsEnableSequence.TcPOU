@@ -21,8 +21,7 @@ END_VAR]]></Declaration>
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[EnableTrigger := FALSE;
-State := 0;
-Abort := addMover.Abort();]]></ST>
+State := 0;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Cycle" Id="{2913b891-dfae-43d9-b9d3-4a1a1101f452}">
@@ -154,7 +153,7 @@ END_VAR
       <LineId Id="188" Count="0" />
     </LineIds>
     <LineIds Name="XtsEnableSequence.Abort">
-      <LineId Id="5" Count="2" />
+      <LineId Id="5" Count="1" />
     </LineIds>
     <LineIds Name="XtsEnableSequence.Cycle">
       <LineId Id="6" Count="2" />
