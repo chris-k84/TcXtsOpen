@@ -8,7 +8,6 @@ VAR_OUTPUT
 END_VAR
 VAR
 	_collisionGroup : ICollisionGroup;
-	addMover : AddMoverToGroupTask(_collisionGroup);
 	moverNumbers : UINT;
 	AllMoversEnabled: BOOL;
 	EnableTrigger : BOOL;	
@@ -31,7 +30,7 @@ Abort := addMover.Abort();]]></ST>
 VAR
 	ResetAxesResult : BOOL;
 	CAGroupResetResult : BOOL;
-	AddMoverResult : BOOL;
+	AddMoverResult : HRESULT;
 	AddMoverCallResult : HRESULT;
 	EnableMoverResult : BOOL;
 	CAGroupEnableResult : BOOL;
@@ -66,22 +65,22 @@ END_VAR]]></Declaration>
 		
 	30:
 		arrMovers[moverNumbers].IdentInGroup := UINT_TO_INT( moverNumbers);
-		AddMoverResult := addMover.AddMover(MoverToAdd := arrMovers[moverNumbers]);
-		LogSentResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.AddingMoverToGroup,UINT_TO_STRING(moverNumbers));
-		State := 40;
+		IF _collisionGroup.AddMoverToThisGroup(MoverToAdd := arrMovers[moverNumbers]) =2 THEN
+			LogSentResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.AddingMoverToGroup,UINT_TO_STRING(moverNumbers));
+			State := 40;
+		END_IF
+		
 		
 	40:
-		IF addMover.Done THEN
-			IF moverNumbers <> SystemParameters.NumberOfMovers THEN
-				moverNumbers := moverNumbers + 1;
-				State := 30;
-			ELSE
-				LogSentResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.AllMoversAdded,'');
-				FOR moverNumbers := 1 TO SystemParameters.NumberOfMovers DO
-					EnableMoverResult := arrMovers[moverNumbers].EnableAxis();
-				END_FOR
-				State := 50;
-			END_IF
+		IF moverNumbers <> SystemParameters.NumberOfMovers THEN
+			moverNumbers := moverNumbers + 1;
+			State := 30;
+		ELSE
+			LogSentResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.AllMoversAdded,'');
+			FOR moverNumbers := 1 TO SystemParameters.NumberOfMovers DO
+				EnableMoverResult := arrMovers[moverNumbers].EnableAxis();
+			END_FOR
+			State := 50;
 		END_IF
 		
 	50:
@@ -105,9 +104,7 @@ END_VAR]]></Declaration>
 		END_IF
 	ELSE
 		Cycle := E_FAIL;
-END_CASE
-
-AddMoverCallResult := addMover.Cycle();]]></ST>
+END_CASE]]></ST>
       </Implementation>
     </Method>
     <Method Name="Enable" Id="{1c2a3468-bb52-4165-8d13-732b960a1dd0}">
@@ -129,13 +126,9 @@ VAR_INPUT
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
 	MyCaGroup : ICollisionGroup;
 END_VAR
-VAR
-	AddMoverInitResult : BOOL;
-END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_collisionGroup := MyCaGroup;
-AddMoverInitResult := addMover.FB_init(FALSE, FALSE, myCaGroup);]]></ST>
+        <ST><![CDATA[_collisionGroup := MyCaGroup;]]></ST>
       </Implementation>
     </Method>
     <Property Name="MoverArray" Id="{2acddb92-7228-4ce1-abf4-c52047e8db87}">
@@ -166,12 +159,18 @@ END_VAR
     <LineIds Name="XtsEnableSequence.Cycle">
       <LineId Id="6" Count="2" />
       <LineId Id="74" Count="0" />
-      <LineId Id="9" Count="58" />
+      <LineId Id="9" Count="24" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="93" Count="0" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="36" Count="1" />
+      <LineId Id="39" Count="9" />
+      <LineId Id="50" Count="17" />
       <LineId Id="75" Count="0" />
       <LineId Id="68" Count="0" />
       <LineId Id="80" Count="1" />
-      <LineId Id="69" Count="1" />
-      <LineId Id="5" Count="0" />
+      <LineId Id="69" Count="0" />
     </LineIds>
     <LineIds Name="XtsEnableSequence.Enable">
       <LineId Id="9" Count="2" />
@@ -179,7 +178,6 @@ END_VAR
     </LineIds>
     <LineIds Name="XtsEnableSequence.FB_init">
       <LineId Id="22" Count="0" />
-      <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="XtsEnableSequence.MoverArray.Get">
       <LineId Id="2" Count="0" />

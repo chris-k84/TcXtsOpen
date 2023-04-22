@@ -3,6 +3,13 @@
   <Itf Name="ICollisionGroup" Id="{3fc566cf-3f15-4187-97a8-f8d156c2ea05}">
     <Declaration><![CDATA[INTERFACE ICollisionGroup
 ]]></Declaration>
+    <Method Name="AddMoverToThisGroup" Id="{e0521e35-3414-4dd6-b2e7-4ac92ca8a051}">
+      <Declaration><![CDATA[METHOD AddMoverToThisGroup : HRESULT
+VAR_INPUT
+	MoverToAdd : IMover;
+END_VAR
+]]></Declaration>
+    </Method>
     <Method Name="Disable" Id="{716927af-8c3f-479d-962f-20b060f08214}">
       <Declaration><![CDATA[METHOD Disable : BOOL
 VAR_INPUT

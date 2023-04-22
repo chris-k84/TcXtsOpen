@@ -12,18 +12,34 @@ VAR
 	ReadGroupStatus : Tc3_McCoordinatedMotion.MC_GroupReadStatus;
 	resetCAGroup : ResetGroup(THIS^);
 	enableCAGroup : EnableGroup(THIS^);
-	disableCAGroup : DisableGroup(this^);
+	disableCAGroup : DisableGroup(THIS^);
+	addMover : AddMoverToGroupTask(THIS^);
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
+    <Method Name="AddMoverToThisGroup" Id="{9f418b4e-0cf8-4b65-9d2d-7e6c1a46690c}">
+      <Declaration><![CDATA[METHOD AddMoverToThisGroup : HRESULT
+VAR_INPUT
+	MoverToAdd : IMover;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT addMover.Busy THEN
+	addMover.AddMover(MoverToAdd := MoverToAdd);
+END_IF
+
+]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="Cycle" Id="{6b3cc58f-cb00-45fb-b855-5eb19dbaab5d}">
       <Declaration><![CDATA[METHOD Cycle : HRESULT
 VAR
 	ResetCaGroupResult : HRESULT;
 	EnableCaGroupResult : HRESULT;
 	DisableCaGroupResult : HRESULT;
+	AddMoverCallResult: HRESULT;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -33,6 +49,7 @@ END_VAR
 ResetCaGroupResult := resetCAGroup.Cycle();
 EnableCaGroupResult := enableCAGroup.Cycle();
 DisableCaGroupResult := disableCAGroup.Cycle();
+AddMoverCallResult := addMover.Cycle();
 
 //Cyclic get CaGroup information
 stGroupInformation.sName := 'MainCAGroup';
@@ -119,8 +136,15 @@ END_IF]]></ST>
     <LineIds Name="CollisionGroup">
       <LineId Id="52" Count="0" />
     </LineIds>
+    <LineIds Name="CollisionGroup.AddMoverToThisGroup">
+      <LineId Id="8" Count="2" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
     <LineIds Name="CollisionGroup.Cycle">
-      <LineId Id="6" Count="10" />
+      <LineId Id="6" Count="5" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="12" Count="4" />
       <LineId Id="5" Count="0" />
       <LineId Id="24" Count="0" />
       <LineId Id="23" Count="0" />
