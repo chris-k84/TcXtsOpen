@@ -8,8 +8,6 @@ VAR_OUTPUT
 END_VAR
 VAR
 	_collisionGroup : ICollisionGroup;
-	removeAllAxes : RemoveAllMoverFromGroup(_collisionGroup);
-	grpStop : StopMoverGroup(_collisionGroup);
 	DisableTrigger: BOOL;
 	moverNumbers : UINT := 1;
 	AllMoversDisabled: BOOL;	
@@ -39,8 +37,6 @@ VAR
 	RemoveAllCycleResult : HRESULT;
 	GrpStopCycleResult : HRESULT;
 	LoggerResult : BOOL;
-	GroupStopResult: BOOL;
-	RemoveAllResult: BOOL;
 	CaGroupDisableResult: BOOL;
 	DisbleAxisResult: BOOL;
 END_VAR
@@ -113,8 +109,7 @@ CASE State OF
 		Cycle := E_FAIL;
 END_CASE
 
-RemoveAllCycleResult := removeAllAxes.Cycle();
-GrpStopCycleResult := grpStop.Cycle();
+
 
 IF RemoveAllCycleResult = E_FAIL OR GrpStopCycleResult = E_FAIL THEN
 	Cycle := E_FAIL;
@@ -181,7 +176,8 @@ grpStop.Jerk := Tc3_Mc3Definitions.MC_MAXIMUM;]]></ST>
       <LineId Id="11" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.Cycle">
-      <LineId Id="179" Count="71" />
+      <LineId Id="179" Count="66" />
+      <LineId Id="247" Count="3" />
       <LineId Id="88" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.Disable">

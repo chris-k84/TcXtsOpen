@@ -34,6 +34,18 @@ END_VAR
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
+    <Method Name="GroupStop" Id="{da0fa42b-dbcd-4e72-85b3-93d42f55308f}">
+      <Declaration><![CDATA[METHOD GroupStop : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="RemoveAllMovers" Id="{ef3d94da-4e03-448c-b177-7286a6d747e3}">
+      <Declaration><![CDATA[METHOD RemoveAllMovers : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
     <Method Name="Reset" Id="{52cfbceb-29c1-48af-b76e-6022383fab33}">
       <Declaration><![CDATA[METHOD Reset : BOOL
 VAR_INPUT
