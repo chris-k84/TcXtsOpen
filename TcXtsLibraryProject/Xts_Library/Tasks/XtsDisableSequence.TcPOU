@@ -20,15 +20,11 @@ END_VAR]]></Declaration>
     <Method Name="Abort" Id="{86211cf7-3baa-4942-994c-481ee3b2466c}">
       <Declaration><![CDATA[METHOD Abort : BOOL
 VAR
-	RemoveAxisAbortResult : BOOL;
-	GroupAbortResult : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[DisableTrigger := FALSE;
 State := 0;
-RemoveAxisAbortResult := removeAllAxes.Abort();
-GroupAbortResult := grpStop.Abort();
-Abort := RemoveAxisAbortResult AND GroupAbortResult;]]></ST>
+Abort := true;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Cycle" Id="{981b7190-eb15-4a0a-8875-0afb334ed36e}">
@@ -161,7 +157,7 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.Abort">
-      <LineId Id="24" Count="3" />
+      <LineId Id="24" Count="1" />
       <LineId Id="11" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.Cycle">
