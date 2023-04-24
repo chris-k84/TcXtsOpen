@@ -159,16 +159,6 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Method Name="SetEmergencyDynamics" Id="{e46d706c-c452-462f-8599-1eb3f1547e4f}">
-      <Declaration><![CDATA[METHOD SetEmergencyDynamics : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[grpStop.Deceleration := Tc3_Mc3Definitions.MC_MAXIMUM;
-grpStop.Jerk := Tc3_Mc3Definitions.MC_MAXIMUM;]]></ST>
-      </Implementation>
-    </Method>
     <LineIds Name="XtsDisableSequence">
       <LineId Id="2" Count="0" />
     </LineIds>
@@ -204,9 +194,6 @@ grpStop.Jerk := Tc3_Mc3Definitions.MC_MAXIMUM;]]></ST>
     </LineIds>
     <LineIds Name="XtsDisableSequence.MoverArray.Set">
       <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsDisableSequence.SetEmergencyDynamics">
-      <LineId Id="3" Count="1" />
     </LineIds>
   </POU>
 </TcPlcObject>
