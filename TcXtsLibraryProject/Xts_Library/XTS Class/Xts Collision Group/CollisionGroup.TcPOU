@@ -94,6 +94,15 @@ END_VAR
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="GetAxisCount" Id="{45b9081d-ba05-41c5-b1b6-c67859faca98}">
+      <Declaration><![CDATA[METHOD GetAxisCount : udint
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetAxisCount := _caGroup.NcToPlc.Common.GroupAxesCount;]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="GroupRef" Id="{05d388ea-a899-4954-b35a-8298ecb26dd6}">
       <Declaration><![CDATA[PROPERTY GroupRef : reference to AXES_GROUP_REF]]></Declaration>
       <Get Name="Get" Id="{9960c5ab-7079-4a22-9f43-e4d1a1a5992b}">
@@ -194,6 +203,9 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="CollisionGroup.Enable">
       <LineId Id="5" Count="2" />
+    </LineIds>
+    <LineIds Name="CollisionGroup.GetAxisCount">
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="CollisionGroup.GroupRef.Get">
       <LineId Id="2" Count="0" />

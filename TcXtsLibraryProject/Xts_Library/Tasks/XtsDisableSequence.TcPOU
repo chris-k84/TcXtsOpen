@@ -51,26 +51,29 @@ CASE State OF
 			_Busy := TRUE;
 			_Done := FALSE;
 			_Error := FALSE;
-			IF _collisionGroup.GroupState = CAGroupStatus.mcGroupStateMoving THEN
+			IF _collisionGroup.GroupState = CAGroupStatus.mcGroupStateMoving
+				AND _collisionGroup.GroupStop() = 2 THEN
 				LoggerResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.CAGroupStop,'');
-				GroupStopResult := grpStop.Execute();
 				State := 10;
 			ELSE
-				State := 20;
-				RemoveAllResult := removeAllAxes.RemoveAllMover();
-				LoggerResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.CaGroupRemoveMovers,'');
+				IF _collisionGroup.RemoveAllMovers() = 2 THEN
+					LoggerResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.CaGroupRemoveMovers,'');
+					State := 20;
+				END_IF
+				
 			END_IF
 		END_IF
 		
 	10:
-		IF grpStop.Done THEN
-			State := 20;
+		IF _collisionGroup.GroupState = CAGroupStatus.mcGroupStateStandby THEN
 			LoggerResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.CaGroupRemoveMovers,'');
-			RemoveAllResult := removeAllAxes.RemoveAllMover();
+			IF _collisionGroup.RemoveAllMovers() = 2 THEN
+				State := 20;
+			END_IF
 		END_IF
 	
 	20:
-		IF removeAllAxes.Done THEN
+		IF _collisionGroup.GetAxisCount() = 0 THEN
 			FOR moverNumbers := 1 TO SystemParameters.NumberOfMovers DO
 				arrMovers[moverNumbers].IdentInGroup := 0;
 				DisbleAxisResult := arrMovers[moverNumbers].DisableAxis();
@@ -99,8 +102,6 @@ CASE State OF
 	50:
 		IF _collisionGroup.GroupState = 1 THEN
 			State := 0;
-			grpStop.Deceleration := Tc3_Mc3Definitions.MC_DEFAULT;
-			grpStop.Jerk := Tc3_Mc3Definitions.MC_DEFAULT;
 			Cycle := S_OK;
 			_Busy := FALSE;
 			_Done := TRUE;
@@ -176,7 +177,18 @@ grpStop.Jerk := Tc3_Mc3Definitions.MC_MAXIMUM;]]></ST>
       <LineId Id="11" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.Cycle">
-      <LineId Id="179" Count="66" />
+      <LineId Id="179" Count="9" />
+      <LineId Id="261" Count="0" />
+      <LineId Id="189" Count="0" />
+      <LineId Id="191" Count="1" />
+      <LineId Id="262" Count="1" />
+      <LineId Id="265" Count="0" />
+      <LineId Id="264" Count="0" />
+      <LineId Id="195" Count="5" />
+      <LineId Id="202" Count="1" />
+      <LineId Id="266" Count="1" />
+      <LineId Id="204" Count="31" />
+      <LineId Id="238" Count="7" />
       <LineId Id="247" Count="3" />
       <LineId Id="88" Count="0" />
     </LineIds>
