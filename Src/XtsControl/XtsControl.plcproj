@@ -19,10 +19,6 @@
     <Released>false</Released>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Machine Class\GrippingMachine.TcPOU">
-      <SubType>Code</SubType>
-      <ExcludeFromBuild>true</ExcludeFromBuild>
-    </Compile>
     <Compile Include="Machine Class\Machine.TcPOU">
       <SubType>Code</SubType>
     </Compile>

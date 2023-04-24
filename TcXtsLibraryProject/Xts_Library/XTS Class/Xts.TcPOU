@@ -10,7 +10,6 @@ VAR
 	XtsHwState : XtsHardwareState;
 	EnableSequence : XtsEnableSequence(mcCollisionGroup);
 	DisableSequence : XtsDisableSequence(mcCollisionGroup);
-	GroupStop : StopMoverGroup(mcCollisionGroup);
 	State : UINT;	
 	i : UINT;
 	AtHome: BOOL;
@@ -249,11 +248,11 @@ END_VAR
       <Implementation>
         <ST><![CDATA[CASE State OF
 	0:
-		GroupStop.Execute();
+		mcCollisionGroup.GroupStop();
 		State := 1;
 		
 	1:
-		IF GroupStop.Done THEN
+		IF mcCollisionGroup.GroupState = CAGroupStatus.mcGroupStateStandby THEN
 			State := 0;
 			ipackml.SetStateComplete();
 			Stopping := TRUE;
