@@ -135,9 +135,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_collisionGroup := MyCaGroup;
-removeAllAxes.FB_init(FALSE, FALSE, MyCaGroup := MyCaGroup);
-grpStop.FB_init(FALSE,FALSE,CAGroup := MyCaGroup);]]></ST>
+        <ST><![CDATA[_collisionGroup := MyCaGroup;]]></ST>
       </Implementation>
     </Method>
     <Property Name="MoverArray" Id="{5eeee228-c90c-4059-b15e-d4f3141abdbb}">
@@ -186,8 +184,7 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.FB_init">
-      <LineId Id="21" Count="1" />
-      <LineId Id="8" Count="0" />
+      <LineId Id="21" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.MoverArray.Get">
       <LineId Id="2" Count="0" />
