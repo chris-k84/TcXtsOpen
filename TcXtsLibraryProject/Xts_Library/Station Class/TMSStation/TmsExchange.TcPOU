@@ -35,6 +35,26 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="ExchangePosition" Id="{72e7b26a-6207-46b0-b684-ab389b8f74bf}">
+      <Declaration><![CDATA[PROPERTY ExchangePosition : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{42f393b6-25e0-471d-b60d-0c33ee8e8a32}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{274655bc-bc44-4815-a7c2-3b11c6090289}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[embarkingStation.Position := ExchangePosition + 150;
+holdingStation.Position := ExchangePosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="ExchangeTrackLevel" Id="{416bdb5b-acd9-4922-a121-e2d3d8d0274e}">
       <Declaration><![CDATA[PROPERTY ExchangeTrackLevel : int]]></Declaration>
       <Get Name="Get" Id="{7ed999f7-41f4-4d02-9f01-a951336030fa}">
@@ -153,6 +173,13 @@ END_VAR
     </LineIds>
     <LineIds Name="TmsExchange.EmbarkStation.Get">
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.ExchangePosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.ExchangePosition.Set">
+      <LineId Id="2" Count="0" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="TmsExchange.ExchangeTrackLevel.Get">
       <LineId Id="2" Count="0" />
