@@ -47,10 +47,11 @@ CASE State OF
 			_Busy := TRUE;
 			_Done := FALSE;
 			_Error := FALSE;
-			IF _collisionGroup.GroupState = CAGroupStatus.mcGroupStateMoving
-				AND _collisionGroup.GroupStop() = 2 THEN
-				LoggerResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.CAGroupStop,'');
-				State := 10;
+			IF _collisionGroup.GroupState = CAGroupStatus.mcGroupStateMoving THEN
+				IF _collisionGroup.GroupStop() = 2 THEN
+					LoggerResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.CAGroupStop,'');
+					State := 10;
+				END_IF
 			ELSE
 				IF _collisionGroup.RemoveAllMovers() = 2 THEN
 					LoggerResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.CaGroupRemoveMovers,'');
@@ -164,7 +165,9 @@ END_VAR
       <LineId Id="179" Count="9" />
       <LineId Id="261" Count="0" />
       <LineId Id="189" Count="0" />
-      <LineId Id="191" Count="1" />
+      <LineId Id="191" Count="0" />
+      <LineId Id="276" Count="0" />
+      <LineId Id="192" Count="0" />
       <LineId Id="262" Count="1" />
       <LineId Id="265" Count="0" />
       <LineId Id="264" Count="0" />
