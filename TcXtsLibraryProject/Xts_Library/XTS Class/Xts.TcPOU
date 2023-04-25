@@ -103,7 +103,6 @@ END_VAR
         <ST><![CDATA[Cycle := SUPER^.Cycle();
 EnableResult := EnableSequence.Cycle();
 DisableResult := DisableSequence.Cycle();
-GrpStopResult := GroupStop.Cycle();
 CollisionResult := mcCollisionGroup.Cycle();
 
 IF EnableResult = E_FAIL OR
@@ -380,7 +379,7 @@ END_VAR
     </LineIds>
     <LineIds Name="Xts.Cycle">
       <LineId Id="13" Count="0" />
-      <LineId Id="17" Count="2" />
+      <LineId Id="17" Count="1" />
       <LineId Id="5" Count="0" />
       <LineId Id="30" Count="0" />
       <LineId Id="29" Count="0" />
