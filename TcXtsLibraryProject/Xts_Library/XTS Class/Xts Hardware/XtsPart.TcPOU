@@ -71,7 +71,6 @@ END_VAR
 	MaxCurrent[ModuleIndex]:=ModulesCoE[ModuleIndex].InfoData.MaxOverallCurrentLast500ms;
 	f24V[ModuleIndex]:= ModulesCoE[ModuleIndex].InfoData.AuxiliaryVoltage24V;
 	f48V[ModuleIndex]:=ModulesCoE[ModuleIndex].InfoData.DcLinkVoltage;
-	ModuleIndex := ModuleIndex + 1;
 	IF ModuleIndex = MyModuleCount THEN
 		ModuleIndex := 1;
 	ELSE
@@ -178,7 +177,8 @@ END_VAR
       <LineId Id="47" Count="27" />
     </LineIds>
     <LineIds Name="XtsPart.getModuleInfoData">
-      <LineId Id="95" Count="7" />
+      <LineId Id="95" Count="4" />
+      <LineId Id="101" Count="1" />
       <LineId Id="109" Count="2" />
       <LineId Id="73" Count="0" />
       <LineId Id="112" Count="0" />
