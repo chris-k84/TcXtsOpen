@@ -69,7 +69,8 @@ CASE stSwitchInfo.State OF
 	
 	TmsSwitchState.Waiting:
 		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
-			OR _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
+			OR _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping 
+			OR _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborted THEN
 			AxisDisableResult := SUPER^.DisableAxis();
 			stSwitchInfo.State := TmsSwitchState.Disabling;
 		END_IF
@@ -361,7 +362,9 @@ END_VAR
       <LineId Id="656" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.Cycle">
-      <LineId Id="94" Count="77" />
+      <LineId Id="94" Count="37" />
+      <LineId Id="179" Count="0" />
+      <LineId Id="132" Count="39" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.DownPosition.Get">
