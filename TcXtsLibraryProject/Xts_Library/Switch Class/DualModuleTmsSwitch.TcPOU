@@ -13,7 +13,7 @@ VAR
 	_upPosition : MC_LREAL;
 	_middlePosition : MC_LREAL;
 	_downPosition : MC_LREAL;
-	_SwitchVelocity : MC_LREAL := 100.0;
+	_SwitchVelocity : MC_LREAL;
 	arrTrackIds : ARRAY[1..4] OF OTCID;
 	stSwitchInfo : TmsSwitchInfo;
 	_StateMachine : IPmlStateMachine;

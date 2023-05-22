@@ -69,7 +69,6 @@ IF ipTcIoXtsMover <> 0 THEN
 END_IF
 //bob := 
 //ipTcIoXtsMover.GetActiveTrackObjectId();
-
 Cycle := axesMoveModuloTo.Cycle();]]></ST>
       </Implementation>
     </Method>
@@ -172,7 +171,6 @@ SetMoverInterface := TRUE;]]></ST>
     <LineIds Name="TMS_Mover.Cycle">
       <LineId Id="6" Count="23" />
       <LineId Id="34" Count="0" />
-      <LineId Id="33" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="TMS_Mover.HasCommand">

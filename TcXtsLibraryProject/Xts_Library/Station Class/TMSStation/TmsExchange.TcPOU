@@ -13,6 +13,25 @@ END_VAR
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
+    <Property Name="BoardingVelocity" Id="{f532572a-3453-4f92-ae10-30b70032b173}">
+      <Declaration><![CDATA[PROPERTY BoardingVelocity : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{1407af9b-7f2d-4421-bc6a-f91e47db8760}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[BoardingVelocity := embarkingStation.BoardVelocity;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{b4a11e16-1037-43d0-a3b7-848b029a697b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[embarkingStation.BoardVelocity := BoardingVelocity;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Method Name="Cycle" Id="{90b295e7-21c8-4280-8b63-dc25678715c4}">
       <Declaration><![CDATA[METHOD PUBLIC  Cycle : HRESULT
 VAR
@@ -166,6 +185,12 @@ END_VAR
     </Property>
     <LineIds Name="TmsExchange">
       <LineId Id="77" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.BoardingVelocity.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.BoardingVelocity.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="TmsExchange.Cycle">
       <LineId Id="6" Count="1" />

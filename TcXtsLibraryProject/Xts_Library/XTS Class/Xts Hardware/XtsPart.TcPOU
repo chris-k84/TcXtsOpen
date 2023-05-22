@@ -76,8 +76,7 @@ END_VAR
 	ELSE
 		ModuleIndex := ModuleIndex + 1;
 	END_IF
-END_IF
-]]></ST>
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="Initialise" Id="{f7bcb601-a320-4f3f-bcf3-5ec4e45a7245}">
@@ -181,7 +180,6 @@ END_VAR
       <LineId Id="101" Count="1" />
       <LineId Id="109" Count="2" />
       <LineId Id="73" Count="0" />
-      <LineId Id="112" Count="0" />
     </LineIds>
     <LineIds Name="XtsPart.Initialise">
       <LineId Id="5" Count="0" />
