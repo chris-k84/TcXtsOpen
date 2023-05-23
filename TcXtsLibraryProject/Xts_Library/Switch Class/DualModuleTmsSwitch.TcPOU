@@ -51,21 +51,14 @@ CASE stSwitchInfo.State OF
 		END_IF
 		
 	TmsSwitchState.Enabled:
-		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Resetting THEN
-			IF SUPER^.MoveToPosition(Position := _middlePosition, Velocity := 100.0) OR SUPER^.isAtPosition(position := _middlePosition) THEN
-				stSwitchInfo.State := TmsSwitchState.Resetting;
-			END_IF
+		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Execute THEN
+			stSwitchInfo.State := TmsSwitchState.Waiting;
 		END_IF
 		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
 			OR _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
 			AxisDisableResult := SUPER^.DisableAxis();
 			stSwitchInfo.State := TmsSwitchState.Disabling;
 		END_IF
-		
-	TmsSwitchState.Resetting:
-		IF SUPER^.isAtPosition(position := MiddlePosition) THEN
-			stSwitchInfo.State := TmsSwitchState.Waiting;
-		END_IF	
 	
 	TmsSwitchState.Waiting:
 		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting
@@ -362,7 +355,10 @@ END_VAR
       <LineId Id="656" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.Cycle">
-      <LineId Id="94" Count="37" />
+      <LineId Id="94" Count="19" />
+      <LineId Id="115" Count="0" />
+      <LineId Id="117" Count="5" />
+      <LineId Id="128" Count="3" />
       <LineId Id="179" Count="0" />
       <LineId Id="132" Count="39" />
       <LineId Id="5" Count="0" />
