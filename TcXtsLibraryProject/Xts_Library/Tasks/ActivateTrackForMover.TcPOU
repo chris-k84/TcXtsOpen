@@ -11,6 +11,7 @@ VAR
 	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;
 	_ActivateTrack : BOOL;
 	_newTrackId : OTCID;
+	_errorId: UDINT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -55,6 +56,7 @@ CASE State OF
 				_newTrackId := mcActivateTrack.TrackId;
 			ELSIF mcActivateTrack.Error THEN
 				_Error := TRUE;
+				_errorId := mcActivateTrack.ErrorId;
 			END_IF
 			_Busy := FALSE;
 			mcActivateTrack.Execute := FALSE;
@@ -114,7 +116,9 @@ END_VAR
       <LineId Id="42" Count="0" />
       <LineId Id="6" Count="2" />
       <LineId Id="37" Count="0" />
-      <LineId Id="9" Count="20" />
+      <LineId Id="9" Count="16" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="26" Count="3" />
       <LineId Id="38" Count="0" />
       <LineId Id="30" Count="0" />
       <LineId Id="43" Count="1" />
