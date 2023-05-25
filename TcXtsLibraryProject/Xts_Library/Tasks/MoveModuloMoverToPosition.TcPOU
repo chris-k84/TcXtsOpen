@@ -11,7 +11,7 @@ VAR
 	_Axis : REFERENCE TO AXIS_REF;
 	_MoveMover : BOOL;
 	_stOptions : ST_MoveAbsoluteCAOptions;
-	_ErrorId: INT;
+	_ErrorId: UDINT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -74,7 +74,7 @@ CASE State OF
 				_Done := TRUE;
 			ELSIF moveAbs.Error THEN
 				_Error := TRUE;
-				_ErrorId : moveAbs.ErrorId;
+				_ErrorId := moveAbs.ErrorId;
 			END_IF
 			_Busy := FALSE;
 			moveAbs.Execute := FALSE;
