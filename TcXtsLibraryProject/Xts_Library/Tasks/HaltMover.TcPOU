@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="HaltMover" Id="{16fe934f-2b92-45c5-becd-cbf7a242dbb1}" SpecialFunc="None">
-    <Declaration><![CDATA[{attribute 'hide_all_locals'}
-FUNCTION_BLOCK HaltMover EXTENDS TaskBase
+    <Declaration><![CDATA[FUNCTION_BLOCK HaltMover EXTENDS TaskBase
 VAR_INPUT
 END_VAR
 VAR_OUTPUT

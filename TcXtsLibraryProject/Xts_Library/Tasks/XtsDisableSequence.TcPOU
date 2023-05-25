@@ -48,10 +48,15 @@ CASE State OF
 			_Done := FALSE;
 			_Error := FALSE;
 			IF _collisionGroup.GroupState = CAGroupStatus.mcGroupStateMoving THEN
-				IF _collisionGroup.GroupStop() = 2 THEN
-					LoggerResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.CAGroupStop,'');
-					State := 10;
-				END_IF
+				FOR moverNumbers := 1 TO SystemParameters.NumberOfMovers DO
+					arrMovers[moverNumbers].HaltAxis();
+				END_FOR
+				LoggerResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.CAGroupStop,'');
+				State := 10;
+//				IF _collisionGroup.GroupStop() = 2 THEN
+//					LoggerResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.CAGroupStop,'');
+//					State := 10;
+//				END_IF
 			ELSE
 				IF _collisionGroup.RemoveAllMovers() = 2 THEN
 					LoggerResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.CaGroupRemoveMovers,'');
@@ -163,7 +168,10 @@ END_VAR
     </LineIds>
     <LineIds Name="XtsDisableSequence.Cycle">
       <LineId Id="179" Count="9" />
+      <LineId Id="286" Count="1" />
       <LineId Id="261" Count="0" />
+      <LineId Id="288" Count="1" />
+      <LineId Id="285" Count="0" />
       <LineId Id="189" Count="0" />
       <LineId Id="191" Count="0" />
       <LineId Id="276" Count="0" />

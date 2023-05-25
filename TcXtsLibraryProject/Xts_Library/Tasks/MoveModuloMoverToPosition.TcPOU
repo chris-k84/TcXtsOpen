@@ -11,6 +11,7 @@ VAR
 	_Axis : REFERENCE TO AXIS_REF;
 	_MoveMover : BOOL;
 	_stOptions : ST_MoveAbsoluteCAOptions;
+	_ErrorId: INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -50,8 +51,7 @@ END_VAR
     <Method Name="Cycle" Id="{4cb00213-de2b-40d2-a495-86e25cb3d039}">
       <Declaration><![CDATA[METHOD Cycle : HRESULT
 VAR_INPUT
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Cycle := S_OK;
 CASE State OF
@@ -74,6 +74,7 @@ CASE State OF
 				_Done := TRUE;
 			ELSIF moveAbs.Error THEN
 				_Error := TRUE;
+				_ErrorId : moveAbs.ErrorId;
 			END_IF
 			_Busy := FALSE;
 			moveAbs.Execute := FALSE;
@@ -213,7 +214,9 @@ END_VAR
       <LineId Id="40" Count="0" />
       <LineId Id="6" Count="2" />
       <LineId Id="35" Count="0" />
-      <LineId Id="9" Count="19" />
+      <LineId Id="9" Count="15" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="25" Count="3" />
       <LineId Id="36" Count="0" />
       <LineId Id="29" Count="0" />
       <LineId Id="41" Count="1" />
