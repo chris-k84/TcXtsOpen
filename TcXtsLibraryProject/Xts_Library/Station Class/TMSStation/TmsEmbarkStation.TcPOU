@@ -13,9 +13,10 @@ VAR
         Waiting,
 		HasSwitch,
 		Call,
-		Processing,
+		FindTarget,
 		Boarding,
 		BoardingComplete,
+		ActivateTrackForMover,
 		Moving,
 		Aborting); 
 	_switchPosition: MC_LREAL;
@@ -92,7 +93,7 @@ CASE State OF
 		IF (_TrackLevel = 1 AND (TmsSwitch.Switch = TmsSwitchPosition.Down OR (TmsSwitch.Switch = TmsSwitchPosition.Middle AND isUpAllowed)))
 			OR (_TrackLevel = 2 AND (TmsSwitch.Switch = TmsSwitchPosition.Up OR (TmsSwitch.Switch = TmsSwitchPosition.Middle AND isDownAllowed))) THEN
 				IF TmsSwitch.ExchangeMover(Mover := DepartMover, currentStation := THIS^) THEN
-					State := Processing;
+					State := Boarding;
 				END_IF
 		ELSE
 			State := Call;
@@ -112,63 +113,85 @@ CASE State OF
 		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF
-	
-	Processing:
+			
+	Boarding:
+		BoardMoverResult := DepartMover.MoveTo(Position := _switchPosition, Velocity := _BoardVelocity, BackwardMove := FALSE);
+		IF DepartMover.isAtPosition(position := _switchPosition) THEN
+			State := FindTarget;
+		END_IF
+		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
+		
+	FindTarget:
 		IF _TrackLevel = 1 THEN
 			IF TmsSwitch.Switch = TmsSwitchPosition.Down and isMiddleAllowed THEN
-				IF DepartMover.ActiveTrack = arrTrackIds[4] THEN
-					State := Boarding;
-				ELSE
-					ActivateTrackResult := DepartMover.ActivateTrack(arrTrackIds[4]);
-					State := Boarding;
-				END_IF
 				demandPosition := TmsSwitchPosition.Middle;
 			ELSIF TmsSwitch.Switch = TmsSwitchPosition.Middle AND isUpAllowed THEN
-				IF DepartMover.ActiveTrack = arrTrackIds[1] THEN
-					State := Boarding;
-				ELSE
-					ActivateTrackResult := DepartMover.ActivateTrack(arrTrackIds[1]);
-					State := Boarding;
-				END_IF
 				demandPosition := TmsSwitchPosition.Up;
 			END_IF
 		ELSE
 			IF TmsSwitch.Switch = TmsSwitchPosition.Up AND isMiddleAllowed THEN
-				IF DepartMover.ActiveTrack = arrTrackIds[3] THEN
-					State := Boarding;
-				ELSE
-					ActivateTrackResult := DepartMover.ActivateTrack(arrTrackIds[3]);
-					State := Boarding;
-				END_IF
 				demandPosition := TmsSwitchPosition.Middle;
 			ELSIF TmsSwitch.Switch = TmsSwitchPosition.Middle AND isDownAllowed THEN
-				IF DepartMover.ActiveTrack = arrTrackIds[2] THEN
-					State := Boarding;
-				ELSE
-					ActivateTrackResult := DepartMover.ActivateTrack(arrTrackIds[2]);
-					State := Boarding;
-				END_IF
 				demandPosition := TmsSwitchPosition.Down;
 			END_IF
 		END_IF
+		State := BoardingComplete;
 		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
-		END_IF
-		
-	Boarding:
-		BoardMoverResult := DepartMover.MoveTo(Position := _switchPosition, Velocity := _BoardVelocity, BackwardMove := FALSE);
-		IF DepartMover.isAtPosition(position := _switchPosition) THEN
-			State := BoardingComplete;
 		END_IF
 		
 	BoardingComplete:
 		IF TmsSwitch.MoveTo(positionState := demandPosition) THEN
-			State := Moving;
+			State := ActivateTrackForMover;
 		END_IF
 		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF
 		
+	ActivateTrackForMover:
+//		IF NOT TmsSwitch.IsStationary() THEN
+//			IF _TrackLevel = 1 THEN
+//				IF TmsSwitch.Switch = TmsSwitchPosition.Down and isMiddleAllowed THEN
+//					IF DepartMover.ActiveTrack = arrTrackIds[4] THEN
+//						State := Moving;
+//					ELSE
+//						ActivateTrackResult := DepartMover.ActivateTrack(arrTrackIds[4]);
+//						State := Moving;
+//					END_IF
+//				ELSIF TmsSwitch.Switch = TmsSwitchPosition.Middle AND isUpAllowed THEN
+//					IF DepartMover.ActiveTrack = arrTrackIds[1] THEN
+//						State := Moving;
+//					ELSE
+//						ActivateTrackResult := DepartMover.ActivateTrack(arrTrackIds[1]);
+//						State := Moving;
+//					END_IF
+//				END_IF
+//			ELSE
+//				IF TmsSwitch.Switch = TmsSwitchPosition.Up AND isMiddleAllowed THEN
+//					IF DepartMover.ActiveTrack = arrTrackIds[3] THEN
+//						State := Moving;
+//					ELSE
+//						ActivateTrackResult := DepartMover.ActivateTrack(arrTrackIds[3]);
+//						State := Moving;
+//					END_IF
+//				ELSIF TmsSwitch.Switch = TmsSwitchPosition.Middle AND isDownAllowed THEN
+//					IF DepartMover.ActiveTrack = arrTrackIds[2] THEN
+//						State := Moving;
+//					ELSE
+//						ActivateTrackResult := DepartMover.ActivateTrack(arrTrackIds[2]);
+//						State := Moving;
+//					END_IF
+//				END_IF
+
+//			END_IF
+			State := Moving;
+			IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+				State := Aborting;
+			END_IF
+//		END_IF
+			
 	Moving:
 		IF _Complete AND NOT _HasMover THEN
 			_Operating := FALSE;
@@ -341,7 +364,36 @@ END_VAR
     </LineIds>
     <LineIds Name="TmsEmbarkStation.Cycle">
       <LineId Id="272" Count="0" />
-      <LineId Id="138" Count="123" />
+      <LineId Id="138" Count="53" />
+      <LineId Id="234" Count="4" />
+      <LineId Id="339" Count="1" />
+      <LineId Id="338" Count="0" />
+      <LineId Id="341" Count="1" />
+      <LineId Id="345" Count="1" />
+      <LineId Id="353" Count="1" />
+      <LineId Id="361" Count="3" />
+      <LineId Id="371" Count="1" />
+      <LineId Id="379" Count="2" />
+      <LineId Id="385" Count="0" />
+      <LineId Id="382" Count="2" />
+      <LineId Id="239" Count="7" />
+      <LineId Id="279" Count="0" />
+      <LineId Id="281" Count="0" />
+      <LineId Id="333" Count="0" />
+      <LineId Id="282" Count="7" />
+      <LineId Id="291" Count="6" />
+      <LineId Id="299" Count="8" />
+      <LineId Id="309" Count="6" />
+      <LineId Id="317" Count="0" />
+      <LineId Id="387" Count="0" />
+      <LineId Id="318" Count="0" />
+      <LineId Id="388" Count="0" />
+      <LineId Id="319" Count="1" />
+      <LineId Id="280" Count="0" />
+      <LineId Id="321" Count="0" />
+      <LineId Id="323" Count="9" />
+      <LineId Id="322" Count="0" />
+      <LineId Id="258" Count="3" />
       <LineId Id="265" Count="1" />
       <LineId Id="262" Count="1" />
     </LineIds>

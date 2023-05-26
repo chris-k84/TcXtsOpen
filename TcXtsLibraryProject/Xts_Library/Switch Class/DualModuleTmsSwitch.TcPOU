@@ -17,6 +17,7 @@ VAR
 	arrTrackIds : ARRAY[1..4] OF OTCID;
 	stSwitchInfo : TmsSwitchInfo;
 	_StateMachine : IPmlStateMachine;
+	TrackSet : BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
