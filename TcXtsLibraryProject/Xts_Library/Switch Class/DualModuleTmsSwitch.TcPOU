@@ -69,16 +69,16 @@ CASE stSwitchInfo.State OF
 		END_IF
 		
 	TmsSwitchState.AssignMover:
-		IF HasMover() THEN
-			IF NOT THIS^.isStationary() THEN
-				stSwitchInfo.State := TmsSwitchState.Moving;
-			END_IF
-		ELSE
+		IF NOT THIS^.isStationary() THEN
 			stSwitchInfo.State := TmsSwitchState.Moving;
 		END_IF
 
 	TmsSwitchState.Moving:	
-		IF FindNewTrack() <> 0 THEN
+		IF HasMover() THEN
+			IF FindNewTrack() <> 0 THEN
+				stSwitchInfo.State := TmsSwitchState.Done;
+			END_IF
+		ELSE
 			stSwitchInfo.State := TmsSwitchState.Done;
 		END_IF
 	
@@ -87,9 +87,10 @@ CASE stSwitchInfo.State OF
 			IF _currentStation.SwitchMoveComplete() THEN
 				_exchangeMover := 0;
 				_currentStation := 0;
+				stSwitchInfo.State := TmsSwitchState.Waiting;
 			END_IF	
 		END_IF
-		stSwitchInfo.State := TmsSwitchState.Waiting;
+		
 
 	TmsSwitchState.Disabling:
 		IF NOT THIS^.isEnabled() THEN
@@ -372,12 +373,17 @@ END_VAR
       <LineId Id="117" Count="5" />
       <LineId Id="128" Count="3" />
       <LineId Id="179" Count="0" />
-      <LineId Id="132" Count="5" />
+      <LineId Id="132" Count="4" />
       <LineId Id="140" Count="0" />
-      <LineId Id="189" Count="1" />
-      <LineId Id="141" Count="4" />
-      <LineId Id="187" Count="1" />
-      <LineId Id="148" Count="23" />
+      <LineId Id="189" Count="0" />
+      <LineId Id="143" Count="2" />
+      <LineId Id="200" Count="0" />
+      <LineId Id="206" Count="1" />
+      <LineId Id="203" Count="2" />
+      <LineId Id="199" Count="0" />
+      <LineId Id="149" Count="5" />
+      <LineId Id="198" Count="0" />
+      <LineId Id="155" Count="16" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.DownPosition.Get">
