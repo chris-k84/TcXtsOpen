@@ -64,12 +64,15 @@ CASE State OF
 		END_IF
 		
 	Clearing:
-		State := Waiting;
-		_Operating := FALSE;
-		_Empty := TRUE;
-		_Ready := TRUE;
-		_Complete := FALSE;
-		HoldMover := 0;
+		IF NOT _HasMover THEN
+			State := Waiting;
+			_Operating := FALSE;
+			_Empty := TRUE;
+			_Ready := TRUE;
+			_Complete := FALSE;
+			HoldMover := 0;
+		END_IF
+		
 		
 	Aborting:
 		State := Ready;
@@ -165,7 +168,11 @@ END_VAR
     </LineIds>
     <LineIds Name="TmsHoldStation.Cycle">
       <LineId Id="59" Count="0" />
-      <LineId Id="6" Count="48" />
+      <LineId Id="6" Count="37" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="77" Count="4" />
+      <LineId Id="75" Count="1" />
+      <LineId Id="49" Count="5" />
       <LineId Id="60" Count="1" />
       <LineId Id="55" Count="0" />
       <LineId Id="5" Count="0" />

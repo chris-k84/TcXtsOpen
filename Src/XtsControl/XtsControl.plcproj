@@ -72,7 +72,7 @@
       <Resolution>Tc3_Module, * (Beckhoff Automation GmbH)</Resolution>
     </PlaceholderResolution>
     <PlaceholderResolution Include="Xts Library">
-      <Resolution>Xts Library, 4.0.0.3 (BeckhoffUK)</Resolution>
+      <Resolution>Xts Library, 4.0.0.10 (BeckhoffUK)</Resolution>
     </PlaceholderResolution>
   </ItemGroup>
   <ProjectExtensions>

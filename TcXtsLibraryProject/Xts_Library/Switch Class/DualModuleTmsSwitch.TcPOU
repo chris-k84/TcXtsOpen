@@ -83,12 +83,16 @@ CASE stSwitchInfo.State OF
 		END_IF
 	
 	TmsSwitchState.Done:
-		IF SUPER^.isAtPosition(_demandPosition) AND _currentStation <> 0 THEN
-			IF _currentStation.SwitchMoveComplete() THEN
-				_exchangeMover := 0;
-				_currentStation := 0;
+		IF SUPER^.isAtPosition(_demandPosition) THEN
+			IF _currentStation <> 0 THEN
+				IF _currentStation.SwitchMoveComplete() THEN
+					_exchangeMover := 0;
+					_currentStation := 0;
+					stSwitchInfo.State := TmsSwitchState.Waiting;
+				END_IF	
+			ELSE
 				stSwitchInfo.State := TmsSwitchState.Waiting;
-			END_IF	
+			END_IF
 		END_IF
 		
 
@@ -381,9 +385,13 @@ END_VAR
       <LineId Id="206" Count="1" />
       <LineId Id="203" Count="2" />
       <LineId Id="199" Count="0" />
-      <LineId Id="149" Count="5" />
-      <LineId Id="198" Count="0" />
-      <LineId Id="155" Count="16" />
+      <LineId Id="149" Count="2" />
+      <LineId Id="219" Count="0" />
+      <LineId Id="224" Count="3" />
+      <LineId Id="220" Count="0" />
+      <LineId Id="222" Count="1" />
+      <LineId Id="221" Count="0" />
+      <LineId Id="156" Count="15" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="DualModuleTmsSwitch.DownPosition.Get">
