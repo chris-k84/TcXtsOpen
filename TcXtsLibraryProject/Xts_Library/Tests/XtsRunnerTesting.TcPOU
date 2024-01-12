@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="XtsRunnerTesting" Id="{88ef7940-eca0-45ab-bf43-15147aee1c36}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK XtsRunnerTesting EXTENDS XtsRunner
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsRunnerTesting EXTENDS ObjectRunner
 VAR
 	bExecute:		BOOL;
 	fbTestsuites:	FB_Testsuites;				// Testsuites

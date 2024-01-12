@@ -250,10 +250,10 @@
     <Compile Include="XTS Class\Xts.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="XtsRunner\I_XtsRunner.TcIO">
+    <Compile Include="XtsRunner\I_ObjectRunner.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="XtsRunner\XtsRunner.TcPOU">
+    <Compile Include="XtsRunner\ObjectRunner.TcPOU">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
-  <POU Name="XtsRunner" Id="{4adb75ec-914c-46a2-96a4-b49d6ed1e005}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK XtsRunner EXTENDS CyclicBase IMPLEMENTS I_XtsRunner
+  <POU Name="ObjectRunner" Id="{4adb75ec-914c-46a2-96a4-b49d6ed1e005}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK ObjectRunner EXTENDS CyclicBase IMPLEMENTS I_ObjectRunner
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -124,10 +124,10 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="XtsRunner">
+    <LineIds Name="ObjectRunner">
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="XtsRunner.AddComponent">
+    <LineIds Name="ObjectRunner.AddComponent">
       <LineId Id="20" Count="1" />
       <LineId Id="35" Count="1" />
       <LineId Id="50" Count="0" />
@@ -136,7 +136,7 @@ END_IF]]></ST>
       <LineId Id="23" Count="4" />
       <LineId Id="8" Count="0" />
     </LineIds>
-    <LineIds Name="XtsRunner.Clear">
+    <LineIds Name="ObjectRunner.Clear">
       <LineId Id="22" Count="1" />
       <LineId Id="30" Count="0" />
       <LineId Id="24" Count="1" />
@@ -144,15 +144,15 @@ END_IF]]></ST>
       <LineId Id="26" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="XtsRunner.Cycle">
+    <LineIds Name="ObjectRunner.Cycle">
       <LineId Id="5" Count="1" />
       <LineId Id="8" Count="1" />
       <LineId Id="7" Count="0" />
     </LineIds>
-    <LineIds Name="XtsRunner.GetModuleCount">
+    <LineIds Name="ObjectRunner.GetModuleCount">
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="XtsRunner.Initialise">
+    <LineIds Name="ObjectRunner.Initialise">
       <LineId Id="5" Count="0" />
       <LineId Id="25" Count="1" />
       <LineId Id="30" Count="1" />
@@ -163,7 +163,7 @@ END_IF]]></ST>
       <LineId Id="24" Count="0" />
       <LineId Id="23" Count="0" />
     </LineIds>
-    <LineIds Name="XtsRunner.RemoveModule">
+    <LineIds Name="ObjectRunner.RemoveModule">
       <LineId Id="22" Count="4" />
       <LineId Id="42" Count="1" />
       <LineId Id="45" Count="0" />
