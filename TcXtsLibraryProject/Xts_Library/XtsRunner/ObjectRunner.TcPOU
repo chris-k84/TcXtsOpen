@@ -7,12 +7,15 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	CyclicModules : ARRAY[0..99] OF ICyclic;
+	CyclicModules : ARRAY[0..MaxRegisteredModules] OF ICyclic;
 	ModuleCount : INT := 0;
 	InitModuleCount : INT := 0;
-	InitialiseModules : ARRAY[0..99] OF I_Initialise;
+	InitialiseModules : ARRAY[0..MaxRegisteredModules] OF I_Initialise;
 	i: INT;
 	InitialisationCount : INT;
+END_VAR
+VAR CONSTANT
+	MaxRegisteredModules : INT := 99;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -27,7 +30,7 @@ VAR
 	InitInterface : I_Initialise;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF ModuleCount < 100 THEN
+        <ST><![CDATA[IF ModuleCount < (MaxRegisteredModules + 1) THEN
 	CyclicModules[ModuleCount] := CyclicModule;
 	IF __QUERYINTERFACE(CyclicModule,InitInterface) THEN
 		InitialiseModules[ModuleCount] := InitInterface;
@@ -48,7 +51,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR i := 0 TO 99 DO
+        <ST><![CDATA[FOR i := 0 TO MaxRegisteredModules DO
 	CyclicModules[i] := 0;
 	InitialiseModules[i] := 0;
 END_FOR
@@ -63,7 +66,7 @@ Clear := 2;
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR i := 0 TO 99 DO
+        <ST><![CDATA[FOR i := 0 TO MaxRegisteredModules DO
 	IF CyclicModules[i] <> 0 THEN
 		CyclicModules[i].Cycle();
 	END_IF
@@ -85,7 +88,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF InitialisationCount < 100 THEN
+        <ST><![CDATA[IF InitialisationCount < (MaxRegisteredModules + 1) THEN
 	IF InitialiseModules[InitialisationCount] <> 0 THEN
 		IF InitialiseModules[InitialisationCount].Initialise() = 2 THEN
 			InitialisationCount := InitialisationCount + 1;
@@ -108,7 +111,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF ModuleCount > 0 THEN
 	RemoveModule := E_FAIL;
-	FOR i := 0 TO 99 DO 
+	FOR i := 0 TO MaxRegisteredModules DO 
 		IF CyclicModules[i] = CyclicModule THEN
 			CyclicModules[i] := 0;
 			IF InitialiseModules[i] <> 0 THEN
