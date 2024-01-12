@@ -319,9 +319,9 @@
       <DefaultResolution>Tc3_PackML_V2, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_PackML_V2</Namespace>
     </PlaceholderReference>
-    <PlaceholderReference Include="Tc3_Testing">
-      <DefaultResolution>Tc3_Testing, * (Zerlauth)</DefaultResolution>
-      <Namespace>Tc3_Testing</Namespace>
+    <PlaceholderReference Include="Tc3_UnitTest">
+      <DefaultResolution>Tc3_UnitTest, * (Zerlauth)</DefaultResolution>
+      <Namespace>Tc3_UnitTest</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_XTS_Utility">
       <DefaultResolution>Tc3_XTS_Utility, * (Beckhoff Automation GmbH)</DefaultResolution>
@@ -338,9 +338,6 @@
     <PinnedGlobalDataType Include="ST_XtsHardwareEvents" />
   </ItemGroup>
   <ItemGroup>
-    <PlaceholderResolution Include="Tc3_Testing">
-      <Resolution>Tc3_Testing, 0.0.0.20 (Zerlauth)</Resolution>
-    </PlaceholderResolution>
     <PlaceholderResolution Include="Tc3_XTS_Utility">
       <Resolution>Tc3_XTS_Utility, * (Beckhoff Automation GmbH)</Resolution>
     </PlaceholderResolution>

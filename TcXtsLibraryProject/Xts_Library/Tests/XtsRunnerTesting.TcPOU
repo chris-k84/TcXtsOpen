@@ -20,7 +20,7 @@ fbTestsuites();
 
 IF bExecute THEN
 	// manual execute | override file path
-	fbTestsuites.P_FilePathName:= 'C:\XtsRunnerTestReport.xml';
+	fbTestsuites.P_Options.sFilePathName := 'C:\XtsRunnerTestReport.xml';
 	bExecute:= NOT fbTestsuites.M_Request(E_Base.Execute);
 END_IF
 
