@@ -23,3 +23,9 @@ The movers are provided by a Mover Class, this class takes a sequence class that
 The movers only hold the functionality of the mover itself and the XTS calss the track. There are options for how you control the motion in an XTS system, Station centric and Mover centric. In the station centric model the XTS system is given a set of station, these stations control the mover, as the mover arrives it joins a virtual queue on the station, when the station is complete the mover moves on. 
 
 In a mover centric model the motion is controlled by a mover sequence, you create a motion profile and give it to each mover, the mover then holds the location information and required destination. You can provide station class as an array, a simple indexing sequence would then simply iterate through the array. 
+
+## Station Class
+
+A lot of XTS operations end up with stations, locations on the track where a mover needs to take the load for product loading, work and unloading. Virtually we think of these as stations, they arent really any physical quality so most XTS applications invent them to allow operation. This framework can utilise Stations assuming you implement a station sequencing profile for the movers. The Index Sequence class is an example of this.
+
+The advantage here is the user of the framework only needs to code the station operation and use the inbuilt fields of the class, Done, Ready, Busy etc. The sample Index Sequence responds to stations being done, the mover will move on at that point. 
