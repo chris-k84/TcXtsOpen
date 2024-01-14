@@ -78,6 +78,9 @@
     <Compile Include="Mover Class\TMS_Mover.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Mover Class\XtsMoverAxis.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PackML\IPmlStateMachine.TcIO">
       <SubType>Code</SubType>
     </Compile>

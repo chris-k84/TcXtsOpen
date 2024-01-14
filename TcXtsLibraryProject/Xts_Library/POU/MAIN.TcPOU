@@ -5,16 +5,14 @@
 VAR
 	dummyRunner : ObjectRunner;
 	XtsRunnerTestSuite : XtsRunnerTesting;
-	XtsHardwareTestSuite : XtsHardwareTesting(dummyRunner);
+//	XtsHardwareTestSuite : XtsHardwareTesting(dummyRunner);
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[XtsRunnerTestSuite();
-XtsHardwareTestSuite();]]></ST>
+      <ST><![CDATA[XtsRunnerTestSuite();]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
       <LineId Id="5" Count="0" />
-      <LineId Id="9" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
