@@ -7,7 +7,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	XtsModuleRunner : XtsRunner;
+	XtsModuleRunner : ObjectRunner;
 	xtsStateMachine : PMLStateMachine;
 	Movers : ARRAY[1..10] OF FB_Mover(XtsModuleRunner) := [10((TrackLength := 4000))];
 	iMovers : ARRAY[1..10] OF IMover := [Movers[1],Movers[2],
