@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="XtsMoverAxisTestSuite" Id="{4492a4d6-579d-4fbd-b1c3-0294f878c464}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM XtsMoverAxisTestSuite
+VAR
+	fbTestSuites : FB_Testsuites;
+	fbTestSuite : FB_Testsuite;
+	
+	XtsMoverAxisObj : XtsMoverAxis;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[fbTestSuites();
+fbTestSuites.M_Add(fbTestSuite);
+fbTestSuite();
+
+CASE fbTestSuite.P_Testcase OF
+	E_Testcase.Start:
+		fbTestSuite.M_Testcase('XtsMoverAxis',T#1S,'','',1);
+			 
+	1:
+		
+		fbTestSuite.M_Testcase('XtsMoverAxis',T#1S,'','',2);
+		 
+	2:
+		
+		fbTestSuite.M_Testcase('XtsMoverAxis',T#1S,'','',3);
+		
+	3:
+		
+		fbTestSuite.M_Testcase('XtsMoverAxis',T#1S,'','',E_Testcase.Done);
+	E_Testcase.Done:;	 
+END_CASE
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="XtsMoverAxisTestSuite">
+      <LineId Id="5" Count="0" />
+      <LineId Id="10" Count="1" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="16" Count="4" />
+      <LineId Id="24" Count="3" />
+      <LineId Id="30" Count="1" />
+      <LineId Id="106" Count="4" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="14" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

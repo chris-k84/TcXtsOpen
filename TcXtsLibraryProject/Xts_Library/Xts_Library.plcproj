@@ -220,6 +220,9 @@
     <Compile Include="Tests\XtsHardwareTesting.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tests\XtsMoverAxisTestSuite.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Tests\XtsRunnerTesting.TcPOU">
       <SubType>Code</SubType>
     </Compile>
