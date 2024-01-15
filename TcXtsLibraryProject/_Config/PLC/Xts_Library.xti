@@ -983,7 +983,7 @@ External Setpoint Generation:
 		</DataType>
 	</DataTypes>
 	<Project GUID="{CED1A555-C4FE-4060-8667-CD2676F9349D}" Name="Xts_Library" PrjFilePath="..\..\Xts_Library\Xts_Library.plcproj" TmcFilePath="..\..\Xts_Library\Xts_Library.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Xts_Library\Xts_Library.tmc" TmcHash="{48993914-AE0D-18A3-B40E-5AA3D29E4674}">
+		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Xts_Library\Xts_Library.tmc" TmcHash="{9F3BAD64-1D4C-A241-EE69-653B0E4F763A}">
 			<Name>Xts_Library Instance</Name>
 			<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 			<Vars VarGrpType="1">
