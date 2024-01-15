@@ -16,18 +16,11 @@ fbTestSuite();
 
 CASE fbTestSuite.P_Testcase OF
 	E_Testcase.Start:
+		fbTestSuite.P_Assert.M_Equals(1, XtsMoverAxisObj.Cycle(), "Cycle Called OK");
 		fbTestSuite.M_Testcase('XtsMoverAxis',T#1S,'','',1);
 			 
 	1:
-		
-		fbTestSuite.M_Testcase('XtsMoverAxis',T#1S,'','',2);
-		 
-	2:
-		
-		fbTestSuite.M_Testcase('XtsMoverAxis',T#1S,'','',3);
-		
-	3:
-		
+		fbTestSuite.P_Assert.M_Equals(2, XtsMoverAxisObj.Cycle(), "Cycle Fault OK");
 		fbTestSuite.M_Testcase('XtsMoverAxis',T#1S,'','',E_Testcase.Done);
 	E_Testcase.Done:;	 
 END_CASE
@@ -38,10 +31,11 @@ END_CASE
       <LineId Id="5" Count="0" />
       <LineId Id="10" Count="1" />
       <LineId Id="13" Count="0" />
-      <LineId Id="16" Count="4" />
-      <LineId Id="24" Count="3" />
-      <LineId Id="30" Count="1" />
-      <LineId Id="106" Count="4" />
+      <LineId Id="16" Count="1" />
+      <LineId Id="111" Count="0" />
+      <LineId Id="18" Count="2" />
+      <LineId Id="24" Count="1" />
+      <LineId Id="110" Count="0" />
       <LineId Id="12" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="14" Count="0" />
