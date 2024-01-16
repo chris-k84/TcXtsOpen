@@ -24,8 +24,7 @@ The MAIN program instances a class Machine, this contains the Xts Manager and Ha
 
 ## Tests
 
-Tests will be performed using the TcUnit framework where possible. There currently isnt a integration framework for ST in IEC61131. However as far as possible test should be included and run before any code deployment after any modification.
-Main documentation site is available on: **[www.tcunit.org](https://www.tcunit.org)**
+Tests will be performed using a testing framework **[Tc3_UnitTest](https://github.com/PeterZerlauth/Tc3_UnitTest)** by Peter Zerlauth. Being Honest testing was not done at the start, but at least Unit Tests will be rolled out to the older components. Refactoring components will allow TDD to be used on some elements. To keep it clean any additions must now have a test.
 
 ## Support
 
