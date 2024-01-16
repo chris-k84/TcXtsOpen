@@ -21,10 +21,22 @@ END_VAR
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
+    <Method Name="EnableMover" Id="{d130fe63-f34a-4455-8bb8-4dfcc482e573}">
+      <Declaration><![CDATA[METHOD PUBLIC EnableMover : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="XtsMoverAxis">
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.Cycle">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMoverAxis.EnableMover">
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>

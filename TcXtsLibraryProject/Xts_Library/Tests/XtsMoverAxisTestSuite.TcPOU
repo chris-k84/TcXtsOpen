@@ -16,12 +16,17 @@ fbTestSuite();
 
 CASE fbTestSuite.P_Testcase OF
 	E_Testcase.Start:
-		fbTestSuite.P_Assert.M_Equals(1, XtsMoverAxisObj.Cycle(), "Cycle Called OK");
-		fbTestSuite.M_Testcase('XtsMoverAxis',T#1S,'','',1);
+		fbTestSuite.P_Assert.M_Equals_INT(1, XtsMoverAxisObj.Cycle(), "Cycle method did not return a complete");
+		fbTestSuite.M_Testcase('MoverCycleShouldReturnACompleteSignal',T#1S,'','',1);
 			 
 	1:
-		fbTestSuite.P_Assert.M_Equals(2, XtsMoverAxisObj.Cycle(), "Cycle Fault OK");
-		fbTestSuite.M_Testcase('XtsMoverAxis',T#1S,'','',E_Testcase.Done);
+		fbTestSuite.P_Assert.M_Equals_INT(1, XtsMoverAxisObj.EnableMover(), "Enable command failed when mover disabled ");
+		fbTestSuite.M_Testcase('MoverClassShouldAcceptEnableCommandWhenDisabled',T#1S,'','',2);
+		
+	2:
+		fbTestSuite.P_Assert.M_Equals_INT(-1, XtsMoverAxisObj.Cycle(), "Enable Command was accepted when enabled ");
+		fbTestSuite.M_Testcase('MoverClassShouldRejectEnableCommandWhenEnabled',T#1S,'','',E_Testcase.Done);
+		
 	E_Testcase.Done:;	 
 END_CASE
 
@@ -35,6 +40,8 @@ END_CASE
       <LineId Id="111" Count="0" />
       <LineId Id="18" Count="2" />
       <LineId Id="24" Count="1" />
+      <LineId Id="123" Count="0" />
+      <LineId Id="119" Count="3" />
       <LineId Id="110" Count="0" />
       <LineId Id="12" Count="0" />
       <LineId Id="15" Count="0" />
