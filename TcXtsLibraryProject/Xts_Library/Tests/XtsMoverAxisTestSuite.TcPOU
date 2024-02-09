@@ -7,6 +7,7 @@ VAR
 	fbTestSuite : FB_Testsuite;
 	
 	XtsMoverAxisObj : XtsMoverAxis;
+	bExecute: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -14,17 +15,22 @@ END_VAR
 fbTestSuites.M_Add(fbTestSuite);
 fbTestSuite();
 
+IF bExecute THEN
+	fbTestsuites.P_Options.sFilePathName:= 'C:\test\report.xml';
+	bExecute:= NOT fbTestsuites.M_Request(E_Base.Execute);
+END_IF
+
 CASE fbTestSuite.P_Testcase OF
 	E_Testcase.Start:
-		fbTestSuite.P_Assert.M_Equals_INT(1, XtsMoverAxisObj.Cycle(), "Cycle method did not return a complete");
+		fbTestSuite.P_Assert.M_Equals_DINT(1, XtsMoverAxisObj.Cycle(), 'Cycle method did not return a complete');
 		fbTestSuite.M_Testcase('MoverCycleShouldReturnACompleteSignal',T#1S,'','',1);
 			 
 	1:
-		fbTestSuite.P_Assert.M_Equals_INT(1, XtsMoverAxisObj.EnableMover(), "Enable command failed when mover disabled ");
+		fbTestSuite.P_Assert.M_Equals_DINT(1, XtsMoverAxisObj.EnableMover(), 'Enable command failed when mover disabled');
 		fbTestSuite.M_Testcase('MoverClassShouldAcceptEnableCommandWhenDisabled',T#1S,'','',2);
 		
 	2:
-		fbTestSuite.P_Assert.M_Equals_INT(-1, XtsMoverAxisObj.Cycle(), "Enable Command was accepted when enabled ");
+		fbTestSuite.P_Assert.M_Equals_DINT(-1, XtsMoverAxisObj.Cycle(), 'Enable Command was accepted when enabled');
 		fbTestSuite.M_Testcase('MoverClassShouldRejectEnableCommandWhenEnabled',T#1S,'','',E_Testcase.Done);
 		
 	E_Testcase.Done:;	 
@@ -35,6 +41,8 @@ END_CASE
     <LineIds Name="XtsMoverAxisTestSuite">
       <LineId Id="5" Count="0" />
       <LineId Id="10" Count="1" />
+      <LineId Id="132" Count="3" />
+      <LineId Id="131" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="16" Count="1" />
       <LineId Id="111" Count="0" />
