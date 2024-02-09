@@ -3,14 +3,28 @@
   <POU Name="MAIN" Id="{aa92f88a-2917-437b-b76e-fd83d614eadb}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-
+	XtsMoverClassTestSuite : XtsMoverTestSuite;
+	bExecute: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[XtsMoverAxisTestSuite();]]></ST>
+      <ST><![CDATA[TestSuiteGVL.fbTestsuites();
+
+IF bExecute THEN
+	bExecute:= NOT TestSuiteGVL.fbTestsuites.M_Request(E_Base.Execute);
+END_IF
+
+XtsMoverClassTestSuite();
+]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
       <LineId Id="5" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="19" Count="1" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="17" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

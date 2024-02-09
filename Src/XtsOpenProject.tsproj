@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.35">
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.55">
 	<DataTypes>
 		<DataType>
 			<Name GUID="{C929B002-BF94-48A2-937B-5D20DED8EF3B}">OperationMode</Name>
@@ -3922,7 +3922,7 @@ External Setpoint Generation:
 		</DataType>
 		<DataType>
 			<Name GUID="{FA8688D6-9668-4845-AED5-C25BE790FF69}" Namespace="MC" TcBaseType="true">MC_GearInPosDefaultDynamicsAfterSync</Name>
-			<Comment TxtId=""><![CDATA[Specifies the default dynamics used for MC_GearInPosCA command after the slave axis has become synchronous for the first time.]]></Comment>
+			<Comment TxtId=""><![CDATA[Specifies the default dynamics used for MC_GearInPosCA command after the slave axis has become synchronous for the first time. (see GearInPosCAOptions)]]></Comment>
 			<BitSize>32</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
 			<EnumInfo>
@@ -4019,6 +4019,13 @@ and will return to Group State Standby when the situation permits.
 				<Comment><![CDATA[Indicate whether all axes are physically standing, i.e. velocity and acceleration are zero. This definition differs from the definition of the GroupStateMoving, which indicates whether a Motion Command is currently active.]]></Comment>
 				<BitSize>1</BitSize>
 				<BitOffs>1</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>InPosition</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<Comment><![CDATA[Indicates whether the group is in position.]]></Comment>
+				<BitSize>1</BitSize>
+				<BitOffs>2</BitOffs>
 			</SubItem>
 		</DataType>
 		<DataType>
@@ -4172,7 +4179,7 @@ and will return to Group State Standby when the situation permits.
 		<ImageData Id="1013">424dd6020000000000003600000028000000100000000e000000010018000000000000000000c40e0000c40e0000000000000000000000d8ff00d8ff80808080808080808080808080808000d8ff00d8ff80808080808080808080808080808000d8ff00d8ff80808000d8ff00d8ff80808080808080808080808000d8ff00d8ff80808080808080808080808000d8ff00d8ff80808080808080808000d8ff00d8ff00000000000000000000d8ff00d8ff00000000000000000000d8ff00d8ff80808080808080808080808000000000d8ff00d8ff00000000000000d8ff00d8ff00000000000000d8ff00d8ff00000080808080808080808080808000000000000000d8ff00d8ff00000000d8ff00d8ff00000000d8ff00d8ff00000000000080808080808080808080808000000000000000000000d8ff00d8ff00d8ff00d8ff00d8ff00d8ff0000000000000000008080808080808080808080800000000000000000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000000000008080808080808080808080800000000000000000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000000000008080808080808080808080800000000000000000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000000000008080808080808080808080800000000000000000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff00000000000080808080808080808080808000000000000000000000000000000000d8ff00d8ff00000000000000000000000000000080808080808080808080808000000000000000000000000000000000d8ff00d8ff00000000000000000000000000000080808080808080808080808080808080808080808080808080808000d8ff00d8ff80808080808080808080808080808080808080808080808080808080808080808080808080808080808000d8ff00d8ff808080808080808080808080808080808080808080</ImageData>
 		<ImageData Id="1014">424dd6020000000000003600000028000000100000000e0000000100180000000000a0020000130b0000130b00000000000000000000ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff8e8582b1a9a5ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc3bebbaea9a659565355524f5755525a58555e5b5862605d6764616d6a6772706d817f7cff00ffff00ffff00ffff00ff7e7875e1dddca1a09e7673707b7875817f7c817f7d85838084827f84817e827e7c52504d777472ff00ffff00ffff00ff4845428b89886a686b7c78769693909a979599959398969497969395918f73706e5e5b595e5b58acaaa7ff00ffff00ff45423f53504d94908dff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff7e7a7764625f989693ff00ffff00ff474441534f4ca5a19eff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff9793915f5c59989592ff00ffff00ff524e4b4d4a484f4d4aff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff565451625f5caaa8a5ff00ffff00ffff00ff464442504e4b55535054524f5653505755525755525655515554515a58555b5956726f6cff00ffff00ffff00ffff00ffff00ff5653504443404946434a48454c49474e4b484e4b49504e4b514e4b757370ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff</ImageData>
 	</ImageDatas>
-	<Project ProjectGUID="{00909E45-7EC7-43B9-B736-6F08E4D01D19}" TargetNetId="10.199.224.19.1.1" Target64Bit="true" ShowHideConfigurations="#x106">
+	<Project ProjectGUID="{00909E45-7EC7-43B9-B736-6F08E4D01D19}" TargetNetId="10.112.0.23.1.1" Target64Bit="true" ShowHideConfigurations="#x106">
 		<System>
 			<Settings MaxCpus="4" NonWinCpus="1">
 				<Cpu CpuId="2" BaseTime="2500"/>
@@ -7061,13 +7068,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000005</PTCID>
 										<Name>Control</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000002</PTCID>
 										<Name>CurrentSetpointValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -7077,13 +7084,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000004</PTCID>
 										<Name>Status</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000001</PTCID>
 										<Name>CurrentActualValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -7093,7 +7100,7 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer>
 										<PTCID>#x3f000101</PTCID>
 										<Name>RawPositionValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>32</Elements>
@@ -8557,13 +8564,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000005</PTCID>
 										<Name>Control</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000002</PTCID>
 										<Name>CurrentSetpointValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -8573,13 +8580,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000004</PTCID>
 										<Name>Status</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000001</PTCID>
 										<Name>CurrentActualValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -8589,7 +8596,7 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer>
 										<PTCID>#x3f000101</PTCID>
 										<Name>RawPositionValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>32</Elements>
@@ -10053,13 +10060,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000005</PTCID>
 										<Name>Control</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000002</PTCID>
 										<Name>CurrentSetpointValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -10069,13 +10076,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000004</PTCID>
 										<Name>Status</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000001</PTCID>
 										<Name>CurrentActualValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -10085,7 +10092,7 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer>
 										<PTCID>#x3f000101</PTCID>
 										<Name>RawPositionValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>32</Elements>
@@ -11549,13 +11556,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000005</PTCID>
 										<Name>Control</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000002</PTCID>
 										<Name>CurrentSetpointValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -11565,13 +11572,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000004</PTCID>
 										<Name>Status</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000001</PTCID>
 										<Name>CurrentActualValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -11581,7 +11588,7 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer>
 										<PTCID>#x3f000101</PTCID>
 										<Name>RawPositionValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>32</Elements>
@@ -13045,13 +13052,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000005</PTCID>
 										<Name>Control</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000002</PTCID>
 										<Name>CurrentSetpointValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -13061,13 +13068,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000004</PTCID>
 										<Name>Status</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000001</PTCID>
 										<Name>CurrentActualValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -13077,7 +13084,7 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer>
 										<PTCID>#x3f000101</PTCID>
 										<Name>RawPositionValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>32</Elements>
@@ -14541,13 +14548,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000005</PTCID>
 										<Name>Control</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000002</PTCID>
 										<Name>CurrentSetpointValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -14557,13 +14564,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000004</PTCID>
 										<Name>Status</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000001</PTCID>
 										<Name>CurrentActualValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -14573,7 +14580,7 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer>
 										<PTCID>#x3f000101</PTCID>
 										<Name>RawPositionValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>32</Elements>
@@ -16037,13 +16044,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000005</PTCID>
 										<Name>Control</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000002</PTCID>
 										<Name>CurrentSetpointValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -16053,13 +16060,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000004</PTCID>
 										<Name>Status</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000001</PTCID>
 										<Name>CurrentActualValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -16069,7 +16076,7 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer>
 										<PTCID>#x3f000101</PTCID>
 										<Name>RawPositionValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>32</Elements>
@@ -17533,13 +17540,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000005</PTCID>
 										<Name>Control</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000002</PTCID>
 										<Name>CurrentSetpointValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -17549,13 +17556,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000004</PTCID>
 										<Name>Status</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000001</PTCID>
 										<Name>CurrentActualValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -17565,7 +17572,7 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer>
 										<PTCID>#x3f000101</PTCID>
 										<Name>RawPositionValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>32</Elements>
@@ -19029,13 +19036,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000005</PTCID>
 										<Name>Control</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000002</PTCID>
 										<Name>CurrentSetpointValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -19045,13 +19052,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000004</PTCID>
 										<Name>Status</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000001</PTCID>
 										<Name>CurrentActualValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -19061,7 +19068,7 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer>
 										<PTCID>#x3f000101</PTCID>
 										<Name>RawPositionValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>32</Elements>
@@ -20525,13 +20532,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000005</PTCID>
 										<Name>Control</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000002</PTCID>
 										<Name>CurrentSetpointValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -20541,13 +20548,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000004</PTCID>
 										<Name>Status</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000001</PTCID>
 										<Name>CurrentActualValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -20557,7 +20564,7 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer>
 										<PTCID>#x3f000101</PTCID>
 										<Name>RawPositionValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>32</Elements>
@@ -22021,13 +22028,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000005</PTCID>
 										<Name>Control</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000002</PTCID>
 										<Name>CurrentSetpointValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -22037,13 +22044,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000004</PTCID>
 										<Name>Status</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000001</PTCID>
 										<Name>CurrentActualValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -22053,7 +22060,7 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer>
 										<PTCID>#x3f000101</PTCID>
 										<Name>RawPositionValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>32</Elements>
@@ -23517,13 +23524,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000005</PTCID>
 										<Name>Control</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000002</PTCID>
 										<Name>CurrentSetpointValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -23533,13 +23540,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000004</PTCID>
 										<Name>Status</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000001</PTCID>
 										<Name>CurrentActualValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -23549,7 +23556,7 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer>
 										<PTCID>#x3f000101</PTCID>
 										<Name>RawPositionValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>32</Elements>
@@ -25013,13 +25020,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000005</PTCID>
 										<Name>Control</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000002</PTCID>
 										<Name>CurrentSetpointValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -25029,13 +25036,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000004</PTCID>
 										<Name>Status</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000001</PTCID>
 										<Name>CurrentActualValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -25045,7 +25052,7 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer>
 										<PTCID>#x3f000101</PTCID>
 										<Name>RawPositionValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>32</Elements>
@@ -26509,13 +26516,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000005</PTCID>
 										<Name>Control</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000002</PTCID>
 										<Name>CurrentSetpointValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -26525,13 +26532,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000004</PTCID>
 										<Name>Status</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000001</PTCID>
 										<Name>CurrentActualValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -26541,7 +26548,7 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer>
 										<PTCID>#x3f000101</PTCID>
 										<Name>RawPositionValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>32</Elements>
@@ -28005,13 +28012,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000005</PTCID>
 										<Name>Control</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000002</PTCID>
 										<Name>CurrentSetpointValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -28021,13 +28028,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000004</PTCID>
 										<Name>Status</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000001</PTCID>
 										<Name>CurrentActualValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -28037,7 +28044,7 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer>
 										<PTCID>#x3f000101</PTCID>
 										<Name>RawPositionValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>32</Elements>
@@ -29501,13 +29508,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000005</PTCID>
 										<Name>Control</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000002</PTCID>
 										<Name>CurrentSetpointValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -29517,13 +29524,13 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000004</PTCID>
 										<Name>Status</Name>
-										<Type>UINT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
 										<ContextId>1</ContextId>
 									</DataPointer>
 									<DataPointer DisableCodeGeneration="true">
 										<PTCID>#x00000001</PTCID>
 										<Name>CurrentActualValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>15</Elements>
@@ -29533,7 +29540,7 @@ and will return to Group State Standby when the situation permits.
 									<DataPointer>
 										<PTCID>#x3f000101</PTCID>
 										<Name>RawPositionValues</Name>
-										<Type>INT</Type>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>32</Elements>
@@ -34633,7 +34640,7 @@ and will return to Group State Standby when the situation permits.
 		</System>
 		<Motion>
 			<NC>
-				<SafTask Priority="4" CycleTime="20000" AmsPort="501" Affinity="#x00000004" IoAtBegin="true" SafTaskInfo="256">
+				<SafTask Priority="4" CycleTime="20000" AmsPort="501" Affinity="#x00000004" IoAtBegin="true" AmsNetId="10.199.224.19.1.1" SafTaskInfo="256">
 					<Name>NC-Task 1</Name>
 					<Vars VarGrpType="1" InsertType="1">
 						<Name>Inputs</Name>
@@ -35597,13 +35604,13 @@ and will return to Group State Standby when the situation permits.
 								<DataPointer>
 									<PTCID>#x00000001</PTCID>
 									<Name>InputPointer1</Name>
-									<Type>SoftDriveInput</Type>
+									<Type GUID="{C24B0647-3B21-49BD-B2D0-DEA43DE68F78}">SoftDriveInput</Type>
 									<ContextId>1</ContextId>
 								</DataPointer>
 								<DataPointer>
 									<PTCID>#x00000002</PTCID>
 									<Name>OutputPointer1</Name>
-									<Type>SoftDriveOutput</Type>
+									<Type GUID="{9A1133A5-A1B4-42CA-A470-0B744A5D182F}">SoftDriveOutput</Type>
 									<ContextId>1</ContextId>
 								</DataPointer>
 							</DataPointers>
@@ -38995,13 +39002,13 @@ and will return to Group State Standby when the situation permits.
 								<DataPointer>
 									<PTCID>#x00000001</PTCID>
 									<Name>InputPointer1</Name>
-									<Type>SoftDriveInput</Type>
+									<Type GUID="{C24B0647-3B21-49BD-B2D0-DEA43DE68F78}">SoftDriveInput</Type>
 									<ContextId>1</ContextId>
 								</DataPointer>
 								<DataPointer>
 									<PTCID>#x00000002</PTCID>
 									<Name>OutputPointer1</Name>
-									<Type>SoftDriveOutput</Type>
+									<Type GUID="{9A1133A5-A1B4-42CA-A470-0B744A5D182F}">SoftDriveOutput</Type>
 									<ContextId>1</ContextId>
 								</DataPointer>
 							</DataPointers>
@@ -42393,13 +42400,13 @@ and will return to Group State Standby when the situation permits.
 								<DataPointer>
 									<PTCID>#x00000001</PTCID>
 									<Name>InputPointer1</Name>
-									<Type>SoftDriveInput</Type>
+									<Type GUID="{C24B0647-3B21-49BD-B2D0-DEA43DE68F78}">SoftDriveInput</Type>
 									<ContextId>1</ContextId>
 								</DataPointer>
 								<DataPointer>
 									<PTCID>#x00000002</PTCID>
 									<Name>OutputPointer1</Name>
-									<Type>SoftDriveOutput</Type>
+									<Type GUID="{9A1133A5-A1B4-42CA-A470-0B744A5D182F}">SoftDriveOutput</Type>
 									<ContextId>1</ContextId>
 								</DataPointer>
 							</DataPointers>
@@ -45791,13 +45798,13 @@ and will return to Group State Standby when the situation permits.
 								<DataPointer>
 									<PTCID>#x00000001</PTCID>
 									<Name>InputPointer1</Name>
-									<Type>SoftDriveInput</Type>
+									<Type GUID="{C24B0647-3B21-49BD-B2D0-DEA43DE68F78}">SoftDriveInput</Type>
 									<ContextId>1</ContextId>
 								</DataPointer>
 								<DataPointer>
 									<PTCID>#x00000002</PTCID>
 									<Name>OutputPointer1</Name>
-									<Type>SoftDriveOutput</Type>
+									<Type GUID="{9A1133A5-A1B4-42CA-A470-0B744A5D182F}">SoftDriveOutput</Type>
 									<ContextId>1</ContextId>
 								</DataPointer>
 							</DataPointers>
@@ -49189,13 +49196,13 @@ and will return to Group State Standby when the situation permits.
 								<DataPointer>
 									<PTCID>#x00000001</PTCID>
 									<Name>InputPointer1</Name>
-									<Type>SoftDriveInput</Type>
+									<Type GUID="{C24B0647-3B21-49BD-B2D0-DEA43DE68F78}">SoftDriveInput</Type>
 									<ContextId>1</ContextId>
 								</DataPointer>
 								<DataPointer>
 									<PTCID>#x00000002</PTCID>
 									<Name>OutputPointer1</Name>
-									<Type>SoftDriveOutput</Type>
+									<Type GUID="{9A1133A5-A1B4-42CA-A470-0B744A5D182F}">SoftDriveOutput</Type>
 									<ContextId>1</ContextId>
 								</DataPointer>
 							</DataPointers>
@@ -52587,13 +52594,13 @@ and will return to Group State Standby when the situation permits.
 								<DataPointer>
 									<PTCID>#x00000001</PTCID>
 									<Name>InputPointer1</Name>
-									<Type>SoftDriveInput</Type>
+									<Type GUID="{C24B0647-3B21-49BD-B2D0-DEA43DE68F78}">SoftDriveInput</Type>
 									<ContextId>1</ContextId>
 								</DataPointer>
 								<DataPointer>
 									<PTCID>#x00000002</PTCID>
 									<Name>OutputPointer1</Name>
-									<Type>SoftDriveOutput</Type>
+									<Type GUID="{9A1133A5-A1B4-42CA-A470-0B744A5D182F}">SoftDriveOutput</Type>
 									<ContextId>1</ContextId>
 								</DataPointer>
 							</DataPointers>
@@ -55985,13 +55992,13 @@ and will return to Group State Standby when the situation permits.
 								<DataPointer>
 									<PTCID>#x00000001</PTCID>
 									<Name>InputPointer1</Name>
-									<Type>SoftDriveInput</Type>
+									<Type GUID="{C24B0647-3B21-49BD-B2D0-DEA43DE68F78}">SoftDriveInput</Type>
 									<ContextId>1</ContextId>
 								</DataPointer>
 								<DataPointer>
 									<PTCID>#x00000002</PTCID>
 									<Name>OutputPointer1</Name>
-									<Type>SoftDriveOutput</Type>
+									<Type GUID="{9A1133A5-A1B4-42CA-A470-0B744A5D182F}">SoftDriveOutput</Type>
 									<ContextId>1</ContextId>
 								</DataPointer>
 							</DataPointers>
@@ -59383,13 +59390,13 @@ and will return to Group State Standby when the situation permits.
 								<DataPointer>
 									<PTCID>#x00000001</PTCID>
 									<Name>InputPointer1</Name>
-									<Type>SoftDriveInput</Type>
+									<Type GUID="{C24B0647-3B21-49BD-B2D0-DEA43DE68F78}">SoftDriveInput</Type>
 									<ContextId>1</ContextId>
 								</DataPointer>
 								<DataPointer>
 									<PTCID>#x00000002</PTCID>
 									<Name>OutputPointer1</Name>
-									<Type>SoftDriveOutput</Type>
+									<Type GUID="{9A1133A5-A1B4-42CA-A470-0B744A5D182F}">SoftDriveOutput</Type>
 									<ContextId>1</ContextId>
 								</DataPointer>
 							</DataPointers>
@@ -62781,13 +62788,13 @@ and will return to Group State Standby when the situation permits.
 								<DataPointer>
 									<PTCID>#x00000001</PTCID>
 									<Name>InputPointer1</Name>
-									<Type>SoftDriveInput</Type>
+									<Type GUID="{C24B0647-3B21-49BD-B2D0-DEA43DE68F78}">SoftDriveInput</Type>
 									<ContextId>1</ContextId>
 								</DataPointer>
 								<DataPointer>
 									<PTCID>#x00000002</PTCID>
 									<Name>OutputPointer1</Name>
-									<Type>SoftDriveOutput</Type>
+									<Type GUID="{9A1133A5-A1B4-42CA-A470-0B744A5D182F}">SoftDriveOutput</Type>
 									<ContextId>1</ContextId>
 								</DataPointer>
 							</DataPointers>
@@ -66179,13 +66186,13 @@ and will return to Group State Standby when the situation permits.
 								<DataPointer>
 									<PTCID>#x00000001</PTCID>
 									<Name>InputPointer1</Name>
-									<Type>SoftDriveInput</Type>
+									<Type GUID="{C24B0647-3B21-49BD-B2D0-DEA43DE68F78}">SoftDriveInput</Type>
 									<ContextId>1</ContextId>
 								</DataPointer>
 								<DataPointer>
 									<PTCID>#x00000002</PTCID>
 									<Name>OutputPointer1</Name>
-									<Type>SoftDriveOutput</Type>
+									<Type GUID="{9A1133A5-A1B4-42CA-A470-0B744A5D182F}">SoftDriveOutput</Type>
 									<ContextId>1</ContextId>
 								</DataPointer>
 							</DataPointers>

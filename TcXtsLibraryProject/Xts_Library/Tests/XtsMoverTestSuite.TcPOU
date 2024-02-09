@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="XtsMoverTestSuite" Id="{0851a5af-3a91-4347-bf84-40e9438cdb23}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsMoverTestSuite EXTENDS XtsMoverAxis
+VAR
+	fbTestSuites : FB_Testsuites;
+	fbTestSuite : FB_Testsuite;
+	
+	XtsMoverAxisObj : XtsMoverAxis;
+	bExecute: BOOL;
+END_VAR
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[fbTestSuite();
+
+CASE fbTestSuite.P_Testcase OF
+	E_Testcase.Start:
+		fbTestSuite.P_Assert.M_Equals_DINT(1, XtsMoverAxisObj.Cycle(), 'Cycle method did not return a complete');
+		fbTestSuite.M_Testcase('MoverCycleShouldReturnACompleteSignal',T#1S,'','',1);
+			 
+	1:
+		fbTestSuite.P_Assert.M_Equals_DINT(1, XtsMoverAxisObj.EnableMover(), 'Enable command failed when mover disabled');
+		fbTestSuite.M_Testcase('MoverClassShouldAcceptEnableCommandWhenDisabled',T#1S,'','',2);
+		
+	2:
+		//MyAxisRef.Status.Disabled := FALSE;
+		fbTestSuite.P_Assert.M_Equals_DINT(-1, XtsMoverAxisObj.EnableMover(), 'Enable Command was accepted when enabled');
+		fbTestSuite.M_Testcase('MoverClassShouldRejectEnableCommandWhenEnabled',T#1S,'','',E_Testcase.Done);
+		
+	E_Testcase.Done:;	 
+END_CASE
+]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{89d1ac51-1a68-4b8a-9c62-33c597fb6608}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[//// Add Testsuite to Testsuites
+TestSuiteGVL.fbTestsuites.M_Add(fbTestsuite);
+TestSuiteGVL.fbTestsuites.P_Options.sFilePathName:= 'C:\test\report.xml';]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="XtsMoverTestSuite">
+      <LineId Id="19" Count="0" />
+      <LineId Id="25" Count="10" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="36" Count="4" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMoverTestSuite.FB_init">
+      <LineId Id="8" Count="1" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

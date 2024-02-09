@@ -217,10 +217,14 @@
     <Compile Include="Tasks\XtsEnableSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tests\TestSuiteGVL.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
+    </Compile>
     <Compile Include="Tests\XtsHardwareTesting.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tests\XtsMoverAxisTestSuite.TcPOU">
+    <Compile Include="Tests\XtsMoverTestSuite.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tests\XtsRunnerTesting.TcPOU">
