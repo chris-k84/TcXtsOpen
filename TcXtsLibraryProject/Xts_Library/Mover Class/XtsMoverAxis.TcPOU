@@ -11,7 +11,20 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="Cycle" Id="{b5956233-12ba-4cb8-805f-5693aec42bed}">
+    <Folder Name="Administration" Id="{660864df-8996-42d7-8e95-bfca1c90696e}" />
+    <Folder Name="Commands" Id="{db0a893b-cc1a-482e-a432-7e9d568c5112}" />
+    <Folder Name="ICyclic" Id="{895ad701-1670-4c6d-921e-cd7ccab0c12a}" />
+    <Folder Name="Status" Id="{b27ba391-8a3b-4e51-ae24-bae43a7b6e5f}" />
+    <Method Name="ActivateTrack" Id="{f7604675-5338-4e11-9132-b17d5df72cc8}" FolderPath="Commands\">
+      <Declaration><![CDATA[METHOD ActivateTrack : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{b5956233-12ba-4cb8-805f-5693aec42bed}" FolderPath="ICyclic\">
       <Declaration><![CDATA[METHOD PUBLIC  Cycle : HRESULT
 VAR_INPUT
 END_VAR
@@ -22,7 +35,7 @@ _Disabled := MyAxisRef.Status.Disabled;
 Cycle := 1;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="DisableMover" Id="{a82f95fa-77b4-4c5e-ae67-686dbd3b2d8d}">
+    <Method Name="DisableMover" Id="{a82f95fa-77b4-4c5e-ae67-686dbd3b2d8d}" FolderPath="Commands\">
       <Declaration><![CDATA[METHOD PUBLIC DisableMover : HRESULT
 VAR_INPUT
 END_VAR
@@ -36,7 +49,7 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="EnableMover" Id="{d130fe63-f34a-4455-8bb8-4dfcc482e573}">
+    <Method Name="EnableMover" Id="{d130fe63-f34a-4455-8bb8-4dfcc482e573}" FolderPath="Commands\">
       <Declaration><![CDATA[METHOD PUBLIC EnableMover : HRESULT
 VAR_INPUT
 END_VAR
@@ -50,8 +63,49 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="FB_init" Id="{b6181511-263e-44ed-9731-4c0d1e2c2029}" FolderPath="Administration\">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="HaltAxis" Id="{b177db81-8e99-498a-a7a2-cd0938dd7a2c}" FolderPath="Commands\">
+      <Declaration><![CDATA[METHOD PUBLIC HaltAxis : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="MoveTo" Id="{ea6488b0-fefd-4f9f-a3b2-cfd8c6f64d05}" FolderPath="Commands\">
+      <Declaration><![CDATA[METHOD PUBLIC MoveTo : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ResetAxis" Id="{e9d8249c-2f88-4980-a483-ceda82c7ab80}" FolderPath="Commands\">
+      <Declaration><![CDATA[METHOD PUBLIC ResetAxis : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="XtsMoverAxis">
       <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMoverAxis.ActivateTrack">
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.Cycle">
       <LineId Id="9" Count="0" />
@@ -68,6 +122,18 @@ END_IF]]></ST>
       <LineId Id="9" Count="0" />
       <LineId Id="11" Count="2" />
       <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMoverAxis.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMoverAxis.HaltAxis">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMoverAxis.MoveTo">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMoverAxis.ResetAxis">
+      <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
