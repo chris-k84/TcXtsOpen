@@ -5,6 +5,7 @@
 VAR
 	MyAxisRef : AXIS_REF;
 	MoverPowerCommand : AxisPower(MyAxisRef);
+	_Disabled : BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -17,7 +18,22 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[MyAxisRef.ReadStatus();
+_Disabled := MyAxisRef.Status.Disabled;
 Cycle := 1;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DisableMover" Id="{a82f95fa-77b4-4c5e-ae67-686dbd3b2d8d}">
+      <Declaration><![CDATA[METHOD PUBLIC DisableMover : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT _Disabled AND NOT MoverPowerCommand.Busy THEN
+	MoverPowerCommand.Disable();
+	DisableMover := 1;
+ELSE
+	DisableMover := -1;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="EnableMover" Id="{d130fe63-f34a-4455-8bb8-4dfcc482e573}">
@@ -26,7 +42,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT MoverPowerCommand.Busy AND MyAxisRef.Status.Disabled THEN
+        <ST><![CDATA[IF (NOT MoverPowerCommand.Busy) AND _Disabled THEN
 	MoverPowerCommand.Enable();
 	EnableMover := 1;
 ELSE
@@ -39,7 +55,13 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="XtsMoverAxis.Cycle">
       <LineId Id="9" Count="0" />
+      <LineId Id="13" Count="0" />
       <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMoverAxis.DisableMover">
+      <LineId Id="5" Count="1" />
+      <LineId Id="8" Count="2" />
+      <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.EnableMover">
       <LineId Id="5" Count="0" />

@@ -5,9 +5,6 @@
 VAR
 	fbTestSuites : FB_Testsuites;
 	fbTestSuite : FB_Testsuite;
-	
-	XtsMoverAxisObj : XtsMoverAxis;
-	bExecute: BOOL;
 END_VAR
 
 ]]></Declaration>
@@ -16,17 +13,26 @@ END_VAR
 
 CASE fbTestSuite.P_Testcase OF
 	E_Testcase.Start:
-		fbTestSuite.P_Assert.M_Equals_DINT(1, XtsMoverAxisObj.Cycle(), 'Cycle method did not return a complete');
+		fbTestSuite.P_Assert.M_Equals_DINT(1, THIS^.Cycle(), 'Cycle method did not return a complete');
 		fbTestSuite.M_Testcase('MoverCycleShouldReturnACompleteSignal',T#1S,'','',1);
 			 
 	1:
-		fbTestSuite.P_Assert.M_Equals_DINT(1, XtsMoverAxisObj.EnableMover(), 'Enable command failed when mover disabled');
+		fbTestSuite.P_Assert.M_Equals_DINT(1, THIS^.EnableMover(), 'Enable command failed when mover disabled');
 		fbTestSuite.M_Testcase('MoverClassShouldAcceptEnableCommandWhenDisabled',T#1S,'','',2);
 		
 	2:
-		//MyAxisRef.Status.Disabled := FALSE;
-		fbTestSuite.P_Assert.M_Equals_DINT(-1, XtsMoverAxisObj.EnableMover(), 'Enable Command was accepted when enabled');
-		fbTestSuite.M_Testcase('MoverClassShouldRejectEnableCommandWhenEnabled',T#1S,'','',E_Testcase.Done);
+		_Disabled := FALSE;
+		fbTestSuite.P_Assert.M_Equals_DINT(-1, THIS^.EnableMover(), 'Enable Command was accepted when enabled');
+		fbTestSuite.M_Testcase('GivenMoverEnabledWhenEnableComandThenEnableRejected',T#1S,'','',3);
+		
+	3:
+		fbTestSuite.P_Assert.M_Equals_DINT(1, THIS^.DisableMover(), 'Disable command failed when mover was enabled');
+		fbTestSuite.M_Testcase('GivenMoverEnabledWhenDisabledCommandMadeThenMoverDisables',T#1S,'','',4);
+		
+	4:
+		_Disabled := TRUE;
+		fbTestSuite.P_Assert.M_Equals_DINT(-1, THIS^.DisableMover(), 'Disable command accepted when mover was disabled');
+		fbTestSuite.M_Testcase('GivenMoverDisabledWhenDisabledCommandMadeThenDisableRejected',T#1S,'','',E_Testcase.Done);
 		
 	E_Testcase.Done:;	 
 END_CASE
@@ -49,7 +55,11 @@ TestSuiteGVL.fbTestsuites.P_Options.sFilePathName:= 'C:\test\report.xml';]]></ST
       <LineId Id="19" Count="0" />
       <LineId Id="25" Count="10" />
       <LineId Id="42" Count="0" />
-      <LineId Id="36" Count="4" />
+      <LineId Id="36" Count="1" />
+      <LineId Id="52" Count="5" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="58" Count="1" />
+      <LineId Id="38" Count="2" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverTestSuite.FB_init">
