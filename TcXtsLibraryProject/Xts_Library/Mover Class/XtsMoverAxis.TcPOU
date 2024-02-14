@@ -253,9 +253,30 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Property Name="MoverXtsIoEnvInterface" Id="{6aaf98f4-e1bc-4f35-afbe-48664404e767}" FolderPath="Administration\">
+      <Declaration><![CDATA[PROPERTY PUBLIC MoverXtsIoEnvInterface : I_TcIoXtsXpuMover]]></Declaration>
+      <Get Name="Get" Id="{5b75808a-7c24-4c09-8809-4a555d5acdb1}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{57119448-dfbf-405e-ade1-72aad5224720}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Method Name="MoveTo" Id="{ea6488b0-fefd-4f9f-a3b2-cfd8c6f64d05}" FolderPath="Commands\">
       <Declaration><![CDATA[METHOD PUBLIC MoveTo : HRESULT
 VAR_INPUT
+	RequiredPosition : MC_LREAL;
+	MoveVelocity : MC_LREAL;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -351,6 +372,12 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.MoversActiveTrack.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMoverAxis.MoverXtsIoEnvInterface.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMoverAxis.MoverXtsIoEnvInterface.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.MoveTo">

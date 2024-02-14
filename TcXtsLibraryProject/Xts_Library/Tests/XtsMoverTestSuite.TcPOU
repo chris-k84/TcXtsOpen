@@ -29,10 +29,15 @@ CASE fbTestSuite.P_Testcase OF
 		fbTestSuite.P_Assert.M_Equals_DINT(1, THIS^.DisableMover(), 'Disable command failed when mover was enabled');
 		fbTestSuite.M_Testcase('GivenMoverEnabledWhenDisabledCommandMadeThenMoverDisables',T#1S,'','',4);
 		
-	4:
+	4:	
 		_Disabled := TRUE;
 		fbTestSuite.P_Assert.M_Equals_DINT(-1, THIS^.DisableMover(), 'Disable command accepted when mover was disabled');
-		fbTestSuite.M_Testcase('GivenMoverDisabledWhenDisabledCommandMadeThenDisableRejected',T#1S,'','',E_Testcase.Done);
+		fbTestSuite.M_Testcase('GivenMoverDisabledWhenDisabledCommandMadeThenDisableRejected',T#1S,'','',5);
+		
+	5:
+		fbTestSuite.P_Assert.M_Equals_DINT(1,THIS^.MoveTo(RequiredPosition := 1000.0, MoveVelocity := 1000.0), 'Move command was rejected when mover was ready');
+		fbTestSuite.M_Testcase('GivenMoverReadyWhenMoveCommandMadeThenMoverShouldAcceptMove',T#1S,'','',E_Testcase.Done);
+	
 		
 	E_Testcase.Done:;	 
 END_CASE
@@ -59,6 +64,10 @@ TestSuiteGVL.fbTestsuites.P_Options.sFilePathName:= 'C:\test\report.xml';]]></ST
       <LineId Id="52" Count="5" />
       <LineId Id="60" Count="0" />
       <LineId Id="58" Count="1" />
+      <LineId Id="67" Count="1" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="71" Count="0" />
       <LineId Id="38" Count="2" />
       <LineId Id="9" Count="0" />
     </LineIds>
