@@ -5,9 +5,13 @@
 VAR
 	MyAxisRef : AXIS_REF;
 	MoverPowerCommand : AxisPower(MyAxisRef);
+	MoverMoveCommand : MoveModuloMoverToPosition(MyAxisRef);
 	_Disabled : BOOL;
+	_ActiveTrackLength : MC_LREAL;
 END_VAR
-]]></Declaration>
+VAR CONSTANT
+	_MaxMoverVelocity : MC_LREAL := 4000.0;
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
@@ -280,7 +284,17 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IF NOT MoverMoveCommand.Busy AND MoveVelocity < _MaxMoverVelocity AND RequiredPosition < _ActiveTrackLength THEN
+	IF THIS^.MoverMoveCommand.MoveTo(Position := RequiredPosition, 
+									Velocity := MoveVelocity, 
+									Direction := Tc3_Mc3Definitions.MC_DIRECTION.mcDirectionPositive, 
+									Turns := 0) THEN
+									
+		MoveTo := 1;
+	END_IF
+ELSE
+	MoveTo := -1;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="ResetAxis" Id="{e9d8249c-2f88-4980-a483-ceda82c7ab80}" FolderPath="Commands\">
@@ -381,6 +395,11 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.MoveTo">
+      <LineId Id="12" Count="1" />
+      <LineId Id="21" Count="3" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="19" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.ResetAxis">

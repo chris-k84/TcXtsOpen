@@ -35,8 +35,18 @@ CASE fbTestSuite.P_Testcase OF
 		fbTestSuite.M_Testcase('GivenMoverDisabledWhenDisabledCommandMadeThenDisableRejected',T#1S,'','',5);
 		
 	5:
+		_ActiveTrackLength := 5000.0;
 		fbTestSuite.P_Assert.M_Equals_DINT(1,THIS^.MoveTo(RequiredPosition := 1000.0, MoveVelocity := 1000.0), 'Move command was rejected when mover was ready');
-		fbTestSuite.M_Testcase('GivenMoverReadyWhenMoveCommandMadeThenMoverShouldAcceptMove',T#1S,'','',E_Testcase.Done);
+		fbTestSuite.M_Testcase('GivenMoverReadyWhenMoveCommandMadeThenMoverShouldAcceptMove',T#1S,'','',6);
+		
+	6:
+		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.MoveTo(RequiredPosition := 1000.0, MoveVelocity := 5000.0), 'Move command was accepted when velocity too high');
+		fbTestSuite.M_Testcase('WhenMoveCommandVelocityTooHighThenMoverShouldRejectMove',T#1S,'','',7);
+		
+	7: 
+		_ActiveTrackLength := 1500.0;
+		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.MoveTo(RequiredPosition := 2000.0, MoveVelocity := 1000.0), 'Move command was accepted when position outside modulo');
+		fbTestSuite.M_Testcase('WhenMoveCommandOutsideModuloThenMoverShouldRejectMove',T#1S,'','',E_Testcase.Done);
 	
 		
 	E_Testcase.Done:;	 
@@ -65,8 +75,12 @@ TestSuiteGVL.fbTestsuites.P_Options.sFilePathName:= 'C:\test\report.xml';]]></ST
       <LineId Id="60" Count="0" />
       <LineId Id="58" Count="1" />
       <LineId Id="67" Count="1" />
+      <LineId Id="96" Count="0" />
       <LineId Id="73" Count="0" />
       <LineId Id="80" Count="0" />
+      <LineId Id="87" Count="5" />
+      <LineId Id="95" Count="0" />
+      <LineId Id="93" Count="1" />
       <LineId Id="71" Count="0" />
       <LineId Id="38" Count="2" />
       <LineId Id="9" Count="0" />
