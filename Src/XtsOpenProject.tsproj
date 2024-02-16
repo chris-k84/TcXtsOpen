@@ -4181,7 +4181,7 @@ and will return to Group State Standby when the situation permits.
 	</ImageDatas>
 	<Project ProjectGUID="{00909E45-7EC7-43B9-B736-6F08E4D01D19}" TargetNetId="10.112.0.23.1.1" Target64Bit="true" ShowHideConfigurations="#x106">
 		<System>
-			<Settings MaxCpus="4" NonWinCpus="1">
+			<Settings MaxCpus="4">
 				<Cpu CpuId="2" BaseTime="2500"/>
 				<Cpu CpuId="3" BaseTime="2500"/>
 				<IoIdleTask Affinity="#x00000004"/>
@@ -34640,7 +34640,7 @@ and will return to Group State Standby when the situation permits.
 		</System>
 		<Motion>
 			<NC>
-				<SafTask Priority="4" CycleTime="20000" AmsPort="501" Affinity="#x00000004" IoAtBegin="true" AmsNetId="10.199.224.19.1.1" SafTaskInfo="256">
+				<SafTask Priority="4" CycleTime="20000" AmsPort="501" Affinity="#x00000004" IoAtBegin="true" SafTaskInfo="256">
 					<Name>NC-Task 1</Name>
 					<Vars VarGrpType="1" InsertType="1">
 						<Name>Inputs</Name>

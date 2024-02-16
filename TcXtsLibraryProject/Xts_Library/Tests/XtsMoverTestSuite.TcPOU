@@ -21,7 +21,7 @@ CASE fbTestSuite.P_Testcase OF
 		fbTestSuite.M_Testcase('GivenMoverDisabledWhenEnableCommandThenMoverEnables',T#1S,'','',2);
 		
 	2:
-		_Disabled := FALSE;
+		_MyAxisStatus.Disabled := FALSE;
 		fbTestSuite.P_Assert.M_Equals_DINT(-1, THIS^.EnableMover(), 'Enable Command was accepted when enabled');
 		fbTestSuite.M_Testcase('GivenMoverEnabledWhenEnableComandThenEnableRejected',T#1S,'','',3);
 		
@@ -30,7 +30,7 @@ CASE fbTestSuite.P_Testcase OF
 		fbTestSuite.M_Testcase('GivenMoverEnabledWhenDisabledCommandMadeThenMoverDisables',T#1S,'','',4);
 		
 	4:	
-		_Disabled := TRUE;
+		_MyAxisStatus.Disabled := TRUE;
 		fbTestSuite.P_Assert.M_Equals_DINT(-1, THIS^.DisableMover(), 'Disable command accepted when mover was disabled');
 		fbTestSuite.M_Testcase('GivenMoverDisabledWhenDisabledCommandMadeThenDisableRejected',T#1S,'','',5);
 		
@@ -46,8 +46,24 @@ CASE fbTestSuite.P_Testcase OF
 	7: 
 		_ActiveTrackLength := 1500.0;
 		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.MoveTo(RequiredPosition := 2000.0, MoveVelocity := 1000.0), 'Move command was accepted when position outside modulo');
-		fbTestSuite.M_Testcase('WhenMoveCommandOutsideModuloThenMoverShouldRejectMove',T#1S,'','',E_Testcase.Done);
+		fbTestSuite.M_Testcase('WhenMoveCommandOutsideModuloThenMoverShouldRejectMove',T#1S,'','',8);
+		
+	8:
+		THIS^._MyAxisStatus.NotMoving := FALSE;
+		fbTestSuite.P_Assert.M_Equals_DINT(1,THIS^.HaltAxis(),'Mover halt was rejected when mover moving');
+		fbTestSuite.M_Testcase('GivenMovingMoverWhenHaltCommandThenMoverShouldAcceptHalt',T#1S,'','',9);
+		
+	9:
+		THIS^._MyAxisStatus.NotMoving := FALSE;
+		THIS^.HaltAxis();
+		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.HaltAxis(), 'Mover halt was accepted when halt already commanded');
+		fbTestSuite.M_Testcase('GivenHaltingMoverWhenHaltCommandGivenThenMoverShouldRejectCommand',T#1S,'','',10);
 	
+	10:
+		THIS^.MoverHaltCommand.Abort();
+		THIS^._MyAxisStatus.NotMoving := TRUE;
+		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.HaltAxis(), 'Mover halt was accepted when velo was zero');
+		fbTestSuite.M_Testcase('GivenStationaryMoverWhenHaltCommandedThenMoverShourlRejectCommand',T#1S,'','',E_Testcase.Done);
 		
 	E_Testcase.Done:;	 
 END_CASE
@@ -81,7 +97,17 @@ TestSuiteGVL.fbTestsuites.P_Options.sFilePathName:= 'C:\test\report.xml';]]></ST
       <LineId Id="87" Count="5" />
       <LineId Id="95" Count="0" />
       <LineId Id="93" Count="1" />
+      <LineId Id="103" Count="1" />
+      <LineId Id="118" Count="0" />
+      <LineId Id="105" Count="3" />
+      <LineId Id="119" Count="0" />
+      <LineId Id="112" Count="0" />
+      <LineId Id="109" Count="1" />
       <LineId Id="71" Count="0" />
+      <LineId Id="113" Count="0" />
+      <LineId Id="117" Count="0" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="114" Count="1" />
       <LineId Id="38" Count="2" />
       <LineId Id="9" Count="0" />
     </LineIds>

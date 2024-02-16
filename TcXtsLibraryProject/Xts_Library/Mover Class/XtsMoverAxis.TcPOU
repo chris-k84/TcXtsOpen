@@ -4,9 +4,10 @@
     <Declaration><![CDATA[FUNCTION_BLOCK XtsMoverAxis EXTENDS CyclicBase
 VAR
 	MyAxisRef : AXIS_REF;
+	_MyAxisStatus : ST_AxisStatus;
 	MoverPowerCommand : AxisPower(MyAxisRef);
 	MoverMoveCommand : MoveModuloMoverToPosition(MyAxisRef);
-	_Disabled : BOOL;
+	MoverHaltCommand : HaltMover(MyAxisRef);
 	_ActiveTrackLength : MC_LREAL;
 END_VAR
 VAR CONSTANT
@@ -55,7 +56,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[MyAxisRef.ReadStatus();
-_Disabled := MyAxisRef.Status.Disabled;
+_MyAxisStatus := MyAxisRef.Status;
 Cycle := 1;]]></ST>
       </Implementation>
     </Method>
@@ -84,7 +85,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT _Disabled AND NOT MoverPowerCommand.Busy THEN
+        <ST><![CDATA[IF NOT _MyAxisStatus.Disabled AND NOT MoverPowerCommand.Busy THEN
 	MoverPowerCommand.Disable();
 	DisableMover := 1;
 ELSE
@@ -98,7 +99,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF (NOT MoverPowerCommand.Busy) AND _Disabled THEN
+        <ST><![CDATA[IF (NOT MoverPowerCommand.Busy) AND _MyAxisStatus.Disabled THEN
 	MoverPowerCommand.Enable();
 	EnableMover := 1;
 ELSE
@@ -142,7 +143,15 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IF NOT MoverHaltCommand.Busy AND NOT THIS^.isMoverStationary() THEN
+	IF MoverHaltCommand.Execute() THEN
+		HaltAxis := 1;
+	ELSE
+		HaltAxis := -1;
+	END_IF
+ELSE
+	HaltAxis := -1;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Property Name="IdentInGroup" Id="{4d5563a0-634a-4074-a0e4-612875dd790c}" FolderPath="Administration\">
@@ -197,7 +206,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[isMoverStationary := _MyAxisStatus.NotMoving;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Jerk" Id="{fbc5f504-aa6b-48f8-8a62-bbde3b74b20e}" FolderPath="Dynamics\">
@@ -351,6 +360,13 @@ END_VAR
     </LineIds>
     <LineIds Name="XtsMoverAxis.HaltAxis">
       <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="15" Count="1" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.IdentInGroup.Get">
       <LineId Id="2" Count="0" />
@@ -368,7 +384,7 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.isMoverStationary">
-      <LineId Id="5" Count="0" />
+      <LineId Id="12" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.Jerk.Get">
       <LineId Id="2" Count="0" />

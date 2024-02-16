@@ -71,7 +71,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Execute := _HaltMover := true;]]></ST>
+        <ST><![CDATA[IF NOT _HaltMover THEN
+	Execute := _HaltMover := TRUE;
+ELSE
+	Execute := false;
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_init" Id="{0fd2927a-947b-415e-b53d-5482c2b0a045}">
@@ -107,6 +112,9 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="HaltMover.Execute">
+      <LineId Id="9" Count="1" />
+      <LineId Id="12" Count="1" />
+      <LineId Id="11" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="HaltMover.FB_init">
