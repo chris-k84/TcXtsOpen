@@ -5,10 +5,12 @@
 VAR
 	MyAxisRef : AXIS_REF;
 	_MyAxisStatus : ST_AxisStatus;
+	_MyNCData : NCTOPLC_AXIS_REF;
 	MoverPowerCommand : AxisPower(MyAxisRef);
 	MoverMoveCommand : MoveModuloMoverToPosition(MyAxisRef);
 	MoverHaltCommand : HaltMover(MyAxisRef);
 	MoverResetCommand : AxesReset(MyAxisRef);
+	_ipTcIoXtsMover	: I_TcIoXtsXpuMover;
 	_ActiveTrackLength : MC_LREAL;
 END_VAR
 VAR CONSTANT
@@ -58,6 +60,11 @@ END_VAR
       <Implementation>
         <ST><![CDATA[MyAxisRef.ReadStatus();
 _MyAxisStatus := MyAxisRef.Status;
+_MyNCData := MyAxisRef.NcToPlc;
+MoverPowerCommand.Cycle();
+MoverMoveCommand.Cycle();
+MoverHaltCommand.Cycle();
+MoverResetCommand.Cycle();
 Cycle := 1;]]></ST>
       </Implementation>
     </Method>
@@ -157,23 +164,15 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Property Name="IdentInGroup" Id="{4d5563a0-634a-4074-a0e4-612875dd790c}" FolderPath="Administration\">
-      <Declaration><![CDATA[PROPERTY PUBLIC IdentInGroup : INT]]></Declaration>
+      <Declaration><![CDATA[PROPERTY PUBLIC IdentInGroup : IDENT_IN_GROUP_REF]]></Declaration>
       <Get Name="Get" Id="{6419a53d-e416-464a-881c-e300db0a9add}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[]]></ST>
+          <ST><![CDATA[IdentInGroup := UDINT_TO_IDENTINGROUP(id := _MyNCData.AxisId);]]></ST>
         </Implementation>
       </Get>
-      <Set Name="Set" Id="{8e03804d-040c-4638-8237-dc3e9304a5ce}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[]]></ST>
-        </Implementation>
-      </Set>
     </Property>
     <Method Name="isMoverAtPosition" Id="{f1a74560-cd92-4fa6-83a2-3bacea608337}" FolderPath="Status\">
       <Declaration><![CDATA[METHOD PUBLIC isMoverAtPosition : BOOL
@@ -267,7 +266,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[]]></ST>
+          <ST><![CDATA[MoverXtsIoEnvInterface := _ipTcIoXtsMover;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{57119448-dfbf-405e-ade1-72aad5224720}">
@@ -275,7 +274,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[]]></ST>
+          <ST><![CDATA[_ipTcIoXtsMover := MoverXtsIoEnvInterface;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -332,6 +331,9 @@ END_IF]]></ST>
     <LineIds Name="XtsMoverAxis.Cycle">
       <LineId Id="9" Count="0" />
       <LineId Id="13" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="18" Count="2" />
+      <LineId Id="17" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.Deceleration.Get">
@@ -371,9 +373,6 @@ END_IF]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.IdentInGroup.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsMoverAxis.IdentInGroup.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.isMoverAtPosition">
