@@ -73,7 +73,11 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Execute := _ResetMover := true;]]></ST>
+        <ST><![CDATA[IF NOT _ResetMover THEN
+	Execute := _ResetMover := TRUE;
+ELSE
+	Execute := false;
+END_IF;]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_init" Id="{9a079dc9-6267-424b-87ad-35fb5655339d}">
@@ -107,6 +111,7 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="AxesReset.Execute">
+      <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="AxesReset.FB_init">

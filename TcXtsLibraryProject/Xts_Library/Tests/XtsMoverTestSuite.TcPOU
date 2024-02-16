@@ -63,7 +63,25 @@ CASE fbTestSuite.P_Testcase OF
 		THIS^.MoverHaltCommand.Abort();
 		THIS^._MyAxisStatus.NotMoving := TRUE;
 		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.HaltAxis(), 'Mover halt was accepted when velo was zero');
-		fbTestSuite.M_Testcase('GivenStationaryMoverWhenHaltCommandedThenMoverShourlRejectCommand',T#1S,'','',E_Testcase.Done);
+		fbTestSuite.M_Testcase('GivenStationaryMoverWhenHaltCommandedThenMoverShourlRejectCommand',T#1S,'','',11);
+	
+	11:
+		THIS^.MoverResetCommand.Abort();
+		THIS^._MyAxisStatus.Error := TRUE;
+		fbTestSuite.P_Assert.M_Equals_DINT(1,THIS^.ResetAxis(), 'Mover reset was rejected when mover in error');
+		fbTestSuite.M_Testcase('GivenMoverErrorWhenResetCommandedThemMoverShouldAcceptReset',T#1S,'','',12);
+		
+	12:
+		THIS^._MyAxisStatus.Error := TRUE;
+		THIS^.ResetAxis();
+		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.ResetAxis(), 'Mover reset was accepted when reset already commanded');
+		fbTestSuite.M_Testcase('GivenResettingMoverWhenResetCommandedThenMoverShouldRejectCommand',T#1S,'','',13);
+		
+	13:
+		THIS^.MoverResetCommand.Abort();
+		THIS^._MyAxisStatus.Error := FALSE;
+		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.ResetAxis(), 'Mover reset was accepted when no error');
+		fbTestSuite.M_Testcase('GivenOKMoverWhenResetCommandedThenMoverShouldRejectCommand',T#1S,'','',E_Testcase.Done);
 		
 	E_Testcase.Done:;	 
 END_CASE
@@ -108,7 +126,17 @@ TestSuiteGVL.fbTestsuites.P_Options.sFilePathName:= 'C:\test\report.xml';]]></ST
       <LineId Id="117" Count="0" />
       <LineId Id="120" Count="0" />
       <LineId Id="114" Count="1" />
-      <LineId Id="38" Count="2" />
+      <LineId Id="121" Count="1" />
+      <LineId Id="130" Count="0" />
+      <LineId Id="137" Count="0" />
+      <LineId Id="123" Count="2" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="138" Count="0" />
+      <LineId Id="128" Count="0" />
+      <LineId Id="126" Count="1" />
+      <LineId Id="131" Count="5" />
+      <LineId Id="129" Count="0" />
+      <LineId Id="39" Count="1" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverTestSuite.FB_init">

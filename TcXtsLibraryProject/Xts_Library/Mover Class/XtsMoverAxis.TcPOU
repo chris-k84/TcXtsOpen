@@ -8,6 +8,7 @@ VAR
 	MoverPowerCommand : AxisPower(MyAxisRef);
 	MoverMoveCommand : MoveModuloMoverToPosition(MyAxisRef);
 	MoverHaltCommand : HaltMover(MyAxisRef);
+	MoverResetCommand : AxesReset(MyAxisRef);
 	_ActiveTrackLength : MC_LREAL;
 END_VAR
 VAR CONSTANT
@@ -312,7 +313,15 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IF NOT MoverResetCommand.Busy AND _MyAxisStatus.Error THEN
+	IF MoverResetCommand.Execute() THEN
+		ResetAxis := 1;
+	ELSE
+		ResetAxis := -1;
+	END_IF
+ELSE
+	ResetAxis := -1;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="XtsMoverAxis">
@@ -420,6 +429,12 @@ END_VAR
     </LineIds>
     <LineIds Name="XtsMoverAxis.ResetAxis">
       <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="13" Count="1" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="15" Count="1" />
+      <LineId Id="10" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
