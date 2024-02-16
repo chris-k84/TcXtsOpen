@@ -196,12 +196,6 @@
     <Compile Include="Tasks\MoveModuloMoverToPosition.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tasks\MoveMoverToPosition.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Tasks\MoveMoverToPositionZoned.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Tasks\RemoveAllMoverFromGroup.TcPOU">
       <SubType>Code</SubType>
     </Compile>
