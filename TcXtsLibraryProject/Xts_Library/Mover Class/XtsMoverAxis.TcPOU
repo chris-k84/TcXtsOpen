@@ -86,7 +86,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT _MyAxisStatus.Disabled AND NOT MoverPowerCommand.Busy THEN
+        <ST><![CDATA[IF THIS^.isMoverEnabled() AND NOT MoverPowerCommand.Busy THEN
 	MoverPowerCommand.Disable();
 	DisableMover := 1;
 ELSE
@@ -100,7 +100,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF (NOT MoverPowerCommand.Busy) AND _MyAxisStatus.Disabled THEN
+        <ST><![CDATA[IF (NOT MoverPowerCommand.Busy) AND NOT THIS^.isMoverEnabled() THEN
 	MoverPowerCommand.Enable();
 	EnableMover := 1;
 ELSE
@@ -198,7 +198,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[isMoverEnabled :=  NOT _MyAxisStatus.Disabled;]]></ST>
       </Implementation>
     </Method>
     <Method Name="isMoverStationary" Id="{64b09804-b6c0-46e5-9180-be650a88cf77}" FolderPath="Status\">

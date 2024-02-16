@@ -17,6 +17,7 @@ CASE fbTestSuite.P_Testcase OF
 		fbTestSuite.M_Testcase('GivenMoverCycleCallWhenCalledThenReturnCalledFlag',T#1S,'','',1);
 			 
 	1:
+		_MyAxisStatus.Disabled := TRUE;
 		fbTestSuite.P_Assert.M_Equals_DINT(1, THIS^.EnableMover(), 'Enable command failed when mover disabled');
 		fbTestSuite.M_Testcase('GivenMoverDisabledWhenEnableCommandThenMoverEnables',T#1S,'','',2);
 		
@@ -26,6 +27,7 @@ CASE fbTestSuite.P_Testcase OF
 		fbTestSuite.M_Testcase('GivenMoverEnabledWhenEnableComandThenEnableRejected',T#1S,'','',3);
 		
 	3:
+		_MyAxisStatus.Disabled := FALSE;
 		fbTestSuite.P_Assert.M_Equals_DINT(1, THIS^.DisableMover(), 'Disable command failed when mover was enabled');
 		fbTestSuite.M_Testcase('GivenMoverEnabledWhenDisabledCommandMadeThenMoverDisables',T#1S,'','',4);
 		
@@ -102,10 +104,14 @@ TestSuiteGVL.fbTestsuites.P_Options.sFilePathName:= 'C:\test\report.xml';]]></ST
     </Method>
     <LineIds Name="XtsMoverTestSuite">
       <LineId Id="19" Count="0" />
-      <LineId Id="25" Count="10" />
+      <LineId Id="25" Count="6" />
+      <LineId Id="139" Count="0" />
+      <LineId Id="32" Count="3" />
       <LineId Id="42" Count="0" />
       <LineId Id="36" Count="1" />
-      <LineId Id="52" Count="5" />
+      <LineId Id="52" Count="1" />
+      <LineId Id="140" Count="0" />
+      <LineId Id="54" Count="3" />
       <LineId Id="60" Count="0" />
       <LineId Id="58" Count="1" />
       <LineId Id="67" Count="1" />
