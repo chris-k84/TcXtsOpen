@@ -57,25 +57,13 @@
     <Compile Include="EventLoggerClass\TcMessage_Ext.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Mover Class\FB_Mover.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Mover Class\GearMover.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mover Class\IDynamics.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mover Class\IGearMover.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Mover Class\IMover.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mover Class\ITmsMover.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mover Class\TMS_Mover.TcPOU">
+    <Compile Include="Mover Class\I_XtsMoverAxis.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mover Class\XtsMoverAxis.TcPOU">

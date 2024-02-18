@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="XtsMoverAxis" Id="{f9a43ed2-0578-4aed-857c-1a3adef0c7f6}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK XtsMoverAxis EXTENDS CyclicBase
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsMoverAxis EXTENDS CyclicBase IMPLEMENTS I_XtsMoverAxis
 VAR
 	MyAxisRef : AXIS_REF;
 	_MyAxisStatus : ST_AxisStatus;
@@ -58,12 +58,12 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF NOT MoverActivateTrackCommand.Busy AND THIS^.isMoverStationary() AND NewTrack <> 0  THEN
 	IF MoverActivateTrackCommand.Execute(Track := NewTrack) THEN
-		ResetAxis := 1;
+		ActivateTrack := 1;
 	ELSE
-		ResetAxis := -1;
+		ActivateTrack := -1;
 	END_IF
 ELSE
-	ResetAxis := -1;
+	ActivateTrack := -1;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -111,7 +111,8 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[MoverMoveCommand.Deceleration := MoverHaltCommand.Deceleration := Deceleration;]]></ST>
+          <ST><![CDATA[MoverMoveCommand.Deceleration := Deceleration;
+MoverHaltCommand.Deceleration := Deceleration;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -171,7 +172,8 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[IF Gap >= 50.0 THEN
-	MoverMoveCommand.Gap := MoverHaltCommand.Gap := Gap;
+	MoverMoveCommand.Gap := Gap;
+	MoverHaltCommand.Gap := Gap;
 ELSE
 	Gap := 100.0;
 END_IF
@@ -227,10 +229,7 @@ ELSE
 	ELSE
 		isMoverAtPosition := FALSE;
 	END_IF
-END_IF
-_ipTcIoXtsMover.GetActiveTrackObjectId()
-
-]]></ST>
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="isMoverDetected" Id="{c1a5811f-71c0-458a-bf03-7bfa946db86b}" FolderPath="Status\">
@@ -275,7 +274,8 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[MoverMoveCommand.Jerk := MoverHaltCommand.Jerk := Jerk;]]></ST>
+          <ST><![CDATA[MoverMoveCommand.Jerk := Jerk;
+MoverHaltCommand.Jerk := Jerk;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -388,6 +388,7 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="XtsMoverAxis.Deceleration.Set">
       <LineId Id="2" Count="0" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.DisableMover">
       <LineId Id="5" Count="1" />
@@ -408,6 +409,7 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="XtsMoverAxis.Gap.Set">
       <LineId Id="5" Count="1" />
+      <LineId Id="10" Count="0" />
       <LineId Id="8" Count="1" />
       <LineId Id="7" Count="0" />
       <LineId Id="2" Count="0" />
@@ -426,8 +428,7 @@ END_IF]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.isMoverAtPosition">
-      <LineId Id="10" Count="15" />
-      <LineId Id="5" Count="0" />
+      <LineId Id="10" Count="13" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.isMoverDetected">
       <LineId Id="5" Count="0" />
@@ -443,6 +444,7 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="XtsMoverAxis.Jerk.Set">
       <LineId Id="2" Count="0" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.MoverErrorID.Get">
       <LineId Id="2" Count="0" />

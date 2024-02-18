@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="I_XtsMoverAxis" Id="{3dcfc709-5ede-408c-bb46-9ff1ab7ba3a2}">
+    <Declaration><![CDATA[INTERFACE I_XtsMoverAxis
+]]></Declaration>
+    <Property Name="Acceleration" Id="{968dd06c-5bd7-474e-8a7d-3c6c7a848d78}">
+      <Declaration><![CDATA[PROPERTY Acceleration : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{ad3ccb1b-ebe0-4c79-851d-54fe9678941a}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{ad0cd55c-ffe5-41e5-89e5-44c936340625}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Method Name="ActivateTrack" Id="{ba6e327e-25a9-4189-a1a0-64429eeca8b6}">
+      <Declaration><![CDATA[METHOD ActivateTrack : HRESULT
+VAR_INPUT
+	NewTrack : OTCID;
+	Track : I_XtsTrack;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="Deceleration" Id="{925224a3-633f-4afb-a6bb-5e2282bf0166}">
+      <Declaration><![CDATA[PROPERTY Deceleration : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{ee77943b-5dd1-4851-bfac-c1f6c08f427a}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{cf0b19b4-9657-4139-bc2e-afb49fbc4d88}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Method Name="DisableMover" Id="{ab15092e-3fa3-489a-9dc6-5a5b357cf3f5}">
+      <Declaration><![CDATA[METHOD DisableMover : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="EnableMover" Id="{12e4840c-ab85-431d-8aa9-ce712b4847e4}">
+      <Declaration><![CDATA[METHOD EnableMover : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="Gap" Id="{fb9a5121-dbab-42c7-b05b-e0e4367182c8}">
+      <Declaration><![CDATA[PROPERTY Gap : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{0b18224e-8e16-4474-96e3-0906bc0c9a81}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{2dea6ad0-842c-4a1e-91cb-fd845bae918b}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Method Name="HaltAxis" Id="{881642ff-213b-4030-944f-bd624c008c64}">
+      <Declaration><![CDATA[METHOD HaltAxis : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="isMoverAtPosition" Id="{bc703c47-0b4d-4374-b07c-1240b49b484e}">
+      <Declaration><![CDATA[METHOD isMoverAtPosition : BOOL
+VAR_INPUT
+	Position : MC_LREAL;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="isMoverDetected" Id="{bebf9077-4fa3-41f0-a58b-68e771a6d3a7}">
+      <Declaration><![CDATA[METHOD isMoverDetected : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="isMoverEnabled" Id="{2ad921d2-fe23-4c3a-8e9a-22becef3f18a}">
+      <Declaration><![CDATA[METHOD isMoverEnabled : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="isMoverStationary" Id="{7e7da463-610e-4ddb-b6e7-ef0925f02451}">
+      <Declaration><![CDATA[METHOD isMoverStationary : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="Jerk" Id="{8063437d-ace9-4769-bdaf-bbbe2e6cdcb8}">
+      <Declaration><![CDATA[PROPERTY Jerk : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{7a71a7bc-503a-407e-bd5c-807dc27f8a07}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{943274ff-ff90-4228-a079-22863adf0d58}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="MoverErrorID" Id="{b22f6e77-1f1b-46fd-9beb-24cd7598be7b}">
+      <Declaration><![CDATA[PROPERTY PUBLIC MoverErrorID : DWORD]]></Declaration>
+      <Get Name="Get" Id="{a8d82d04-fa66-4bdd-839c-2ee85269a247}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="MoversActiveTrack" Id="{f033ba71-1699-4f66-8762-38178a524724}">
+      <Declaration><![CDATA[PROPERTY PUBLIC MoversActiveTrack : OTCID]]></Declaration>
+      <Get Name="Get" Id="{ab30b8a7-22d3-4a5c-a941-ce17b5400c54}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Method Name="MoveTo" Id="{ff1a94f0-d91e-4f1f-8540-ce9d25779d5e}">
+      <Declaration><![CDATA[METHOD MoveTo : HRESULT
+VAR_INPUT
+	RequiredPosition : MC_LREAL;
+	MoveVelocity : MC_LREAL;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="ResetAxis" Id="{6858a2d4-c501-4639-b0f6-64db9416c8f9}">
+      <Declaration><![CDATA[METHOD ResetAxis : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>
