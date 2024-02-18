@@ -13,73 +13,79 @@ END_VAR
 
 CASE fbTestSuite.P_Testcase OF
 	E_Testcase.Start:
+		THIS^._MyNCData.AxisId := 1;
 		fbTestSuite.P_Assert.M_Equals_DINT(1, THIS^.Cycle(), 'Cycle method did not return a complete');
-		fbTestSuite.M_Testcase('GivenMoverCycleCallWhenCalledThenReturnCalledFlag',T#1S,'','',1);
-			 
+		fbTestSuite.M_Testcase('GivenTheMoverIsFoundWhenCycleCalledThenCyclicTaskShouldRun',T#1S,'','',1);
+		
 	1:
-		_MyAxisStatus.Disabled := TRUE;
-		fbTestSuite.P_Assert.M_Equals_DINT(1, THIS^.EnableMover(), 'Enable command failed when mover disabled');
-		fbTestSuite.M_Testcase('GivenMoverDisabledWhenEnableCommandThenMoverEnables',T#1S,'','',2);
+		THIS^._MyNCData.AxisId := 0;
+		fbTestSuite.P_Assert.M_Equals_DINT(-1, THIS^.Cycle(), 'Cycle method ran without vaild NC connection');
+		fbTestSuite.M_Testcase('GivenNoNCWhenCycleCalledThenCyclicShouldNotRun',T#1S,'','',2);	
 		
 	2:
-		_MyAxisStatus.Disabled := FALSE;
-		fbTestSuite.P_Assert.M_Equals_DINT(-1, THIS^.EnableMover(), 'Enable Command was accepted when enabled');
-		fbTestSuite.M_Testcase('GivenMoverEnabledWhenEnableComandThenEnableRejected',T#1S,'','',3);
+		_MyAxisStatus.Disabled := TRUE;
+		fbTestSuite.P_Assert.M_Equals_DINT(1, THIS^.EnableMover(), 'Enable command failed when mover disabled');
+		fbTestSuite.M_Testcase('GivenMoverDisabledWhenEnableCommandThenMoverEnables',T#1S,'','',3);
 		
 	3:
 		_MyAxisStatus.Disabled := FALSE;
-		fbTestSuite.P_Assert.M_Equals_DINT(1, THIS^.DisableMover(), 'Disable command failed when mover was enabled');
-		fbTestSuite.M_Testcase('GivenMoverEnabledWhenDisabledCommandMadeThenMoverDisables',T#1S,'','',4);
+		fbTestSuite.P_Assert.M_Equals_DINT(-1, THIS^.EnableMover(), 'Enable Command was accepted when enabled');
+		fbTestSuite.M_Testcase('GivenMoverEnabledWhenEnableComandThenEnableRejected',T#1S,'','',4);
 		
-	4:	
+	4:
+		_MyAxisStatus.Disabled := FALSE;
+		fbTestSuite.P_Assert.M_Equals_DINT(1, THIS^.DisableMover(), 'Disable command failed when mover was enabled');
+		fbTestSuite.M_Testcase('GivenMoverEnabledWhenDisabledCommandMadeThenMoverDisables',T#1S,'','',5);
+		
+	5:	
 		_MyAxisStatus.Disabled := TRUE;
 		fbTestSuite.P_Assert.M_Equals_DINT(-1, THIS^.DisableMover(), 'Disable command accepted when mover was disabled');
-		fbTestSuite.M_Testcase('GivenMoverDisabledWhenDisabledCommandMadeThenDisableRejected',T#1S,'','',5);
-		
-	5:
-		_ActiveTrackLength := 5000.0;
-		fbTestSuite.P_Assert.M_Equals_DINT(1,THIS^.MoveTo(RequiredPosition := 1000.0, MoveVelocity := 1000.0), 'Move command was rejected when mover was ready');
-		fbTestSuite.M_Testcase('GivenMoverReadyWhenMoveCommandMadeThenMoverShouldAcceptMove',T#1S,'','',6);
+		fbTestSuite.M_Testcase('GivenMoverDisabledWhenDisabledCommandMadeThenDisableRejected',T#1S,'','',6);
 		
 	6:
-		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.MoveTo(RequiredPosition := 1000.0, MoveVelocity := 5000.0), 'Move command was accepted when velocity too high');
-		fbTestSuite.M_Testcase('WhenMoveCommandVelocityTooHighThenMoverShouldRejectMove',T#1S,'','',7);
+		_ActiveTrackLength := 5000.0;
+		fbTestSuite.P_Assert.M_Equals_DINT(1,THIS^.MoveTo(RequiredPosition := 1000.0, MoveVelocity := 1000.0), 'Move command was rejected when mover was ready');
+		fbTestSuite.M_Testcase('GivenMoverReadyWhenMoveCommandMadeThenMoverShouldAcceptMove',T#1S,'','',7);
 		
-	7: 
+	7:
+		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.MoveTo(RequiredPosition := 1000.0, MoveVelocity := 5000.0), 'Move command was accepted when velocity too high');
+		fbTestSuite.M_Testcase('WhenMoveCommandVelocityTooHighThenMoverShouldRejectMove',T#1S,'','',8);
+		
+	8: 
 		_ActiveTrackLength := 1500.0;
 		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.MoveTo(RequiredPosition := 2000.0, MoveVelocity := 1000.0), 'Move command was accepted when position outside modulo');
-		fbTestSuite.M_Testcase('WhenMoveCommandOutsideModuloThenMoverShouldRejectMove',T#1S,'','',8);
-		
-	8:
-		THIS^._MyAxisStatus.NotMoving := FALSE;
-		fbTestSuite.P_Assert.M_Equals_DINT(1,THIS^.HaltAxis(),'Mover halt was rejected when mover moving');
-		fbTestSuite.M_Testcase('GivenMovingMoverWhenHaltCommandThenMoverShouldAcceptHalt',T#1S,'','',9);
+		fbTestSuite.M_Testcase('WhenMoveCommandOutsideModuloThenMoverShouldRejectMove',T#1S,'','',9);
 		
 	9:
 		THIS^._MyAxisStatus.NotMoving := FALSE;
+		fbTestSuite.P_Assert.M_Equals_DINT(1,THIS^.HaltAxis(),'Mover halt was rejected when mover moving');
+		fbTestSuite.M_Testcase('GivenMovingMoverWhenHaltCommandThenMoverShouldAcceptHalt',T#1S,'','',10);
+		
+	10:
+		THIS^._MyAxisStatus.NotMoving := FALSE;
 		THIS^.HaltAxis();
 		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.HaltAxis(), 'Mover halt was accepted when halt already commanded');
-		fbTestSuite.M_Testcase('GivenHaltingMoverWhenHaltCommandGivenThenMoverShouldRejectCommand',T#1S,'','',10);
+		fbTestSuite.M_Testcase('GivenHaltingMoverWhenHaltCommandGivenThenMoverShouldRejectCommand',T#1S,'','',11);
 	
-	10:
+	11:
 		THIS^.MoverHaltCommand.Abort();
 		THIS^._MyAxisStatus.NotMoving := TRUE;
 		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.HaltAxis(), 'Mover halt was accepted when velo was zero');
-		fbTestSuite.M_Testcase('GivenStationaryMoverWhenHaltCommandedThenMoverShourlRejectCommand',T#1S,'','',11);
+		fbTestSuite.M_Testcase('GivenStationaryMoverWhenHaltCommandedThenMoverShourlRejectCommand',T#1S,'','',12);
 	
-	11:
+	12:
 		THIS^.MoverResetCommand.Abort();
 		THIS^._MyAxisStatus.Error := TRUE;
 		fbTestSuite.P_Assert.M_Equals_DINT(1,THIS^.ResetAxis(), 'Mover reset was rejected when mover in error');
-		fbTestSuite.M_Testcase('GivenMoverErrorWhenResetCommandedThemMoverShouldAcceptReset',T#1S,'','',12);
+		fbTestSuite.M_Testcase('GivenMoverErrorWhenResetCommandedThemMoverShouldAcceptReset',T#1S,'','',13);
 		
-	12:
+	13:
 		THIS^._MyAxisStatus.Error := TRUE;
 		THIS^.ResetAxis();
 		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.ResetAxis(), 'Mover reset was accepted when reset already commanded');
-		fbTestSuite.M_Testcase('GivenResettingMoverWhenResetCommandedThenMoverShouldRejectCommand',T#1S,'','',13);
+		fbTestSuite.M_Testcase('GivenResettingMoverWhenResetCommandedThenMoverShouldRejectCommand',T#1S,'','',14);
 		
-	13:
+	14:
 		THIS^.MoverResetCommand.Abort();
 		THIS^._MyAxisStatus.Error := FALSE;
 		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.ResetAxis(), 'Mover reset was accepted when no error');
@@ -104,7 +110,14 @@ TestSuiteGVL.fbTestsuites.P_Options.sFilePathName:= 'C:\test\report.xml';]]></ST
     </Method>
     <LineIds Name="XtsMoverTestSuite">
       <LineId Id="19" Count="0" />
-      <LineId Id="25" Count="6" />
+      <LineId Id="25" Count="2" />
+      <LineId Id="147" Count="0" />
+      <LineId Id="28" Count="1" />
+      <LineId Id="148" Count="2" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="152" Count="0" />
+      <LineId Id="151" Count="0" />
+      <LineId Id="31" Count="0" />
       <LineId Id="139" Count="0" />
       <LineId Id="32" Count="3" />
       <LineId Id="42" Count="0" />
