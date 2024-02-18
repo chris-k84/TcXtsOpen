@@ -58,6 +58,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF NOT MoverActivateTrackCommand.Busy AND THIS^.isMoverStationary() AND NewTrack <> 0  THEN
 	IF MoverActivateTrackCommand.Execute(Track := NewTrack) THEN
+		_CurrentTrack := Track;
 		ActivateTrack := 1;
 	ELSE
 		ActivateTrack := -1;
@@ -368,7 +369,9 @@ END_IF]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.ActivateTrack">
-      <LineId Id="10" Count="7" />
+      <LineId Id="10" Count="1" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="12" Count="5" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.Cycle">
