@@ -77,9 +77,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Execute := _ActivateTrack := TRUE;
-mcActivateTrack.TrackId := Track;
-]]></ST>
+        <ST><![CDATA[IF NOT _ActivateTrack THEN
+	Execute := _ActivateTrack := TRUE;
+	mcActivateTrack.TrackId := Track;
+ELSE
+	Execute := false;
+END_IF;]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_init" Id="{9e9b624b-0704-4356-b4df-5729cc93ede4}">
@@ -126,8 +129,9 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="ActivateTrackForMover.Execute">
-      <LineId Id="5" Count="0" />
-      <LineId Id="8" Count="0" />
+      <LineId Id="13" Count="1" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="15" Count="1" />
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="ActivateTrackForMover.FB_init">

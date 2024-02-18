@@ -10,8 +10,13 @@ VAR
 	MoverMoveCommand : MoveModuloMoverToPosition(MyAxisRef);
 	MoverHaltCommand : HaltMover(MyAxisRef);
 	MoverResetCommand : AxesReset(MyAxisRef);
+	MoverActivateTrackCommand : ActivateTrackForMover(MyAxisRef);
 	_ipTcIoXtsMover	: I_TcIoXtsXpuMover;
 	_ActiveTrackLength : MC_LREAL;
+	TrackChangeTrigger : R_TRIG;
+	//axesMoveModuloTo 		: MoveModuloMoverToPosition(_Axis) := (Gap := 100.0);
+	_MoverAbsMoveOptions : ST_MoveAbsoluteCAOptions;
+	_stTmsActPositions			: ST_PositionInfo;
 END_VAR
 VAR CONSTANT
 	_MaxMoverVelocity : MC_LREAL := 4000.0;
@@ -46,10 +51,19 @@ END_VAR
     <Method Name="ActivateTrack" Id="{f7604675-5338-4e11-9132-b17d5df72cc8}" FolderPath="Commands\">
       <Declaration><![CDATA[METHOD ActivateTrack : HRESULT
 VAR_INPUT
+	NewTrack : OTCID;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IF NOT MoverActivateTrackCommand.Busy AND THIS^.isMoverStationary() AND NewTrack <> 0  THEN
+	IF MoverActivateTrackCommand.Execute(Track := NewTrack) THEN
+		ResetAxis := 1;
+	ELSE
+		ResetAxis := -1;
+	END_IF
+ELSE
+	ResetAxis := -1;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="Cycle" Id="{b5956233-12ba-4cb8-805f-5693aec42bed}" FolderPath="ICyclic\">
@@ -66,7 +80,18 @@ END_VAR
 	MoverMoveCommand.Cycle();
 	MoverHaltCommand.Cycle();
 	MoverResetCommand.Cycle();
+	MoverActivateTrackCommand.Cycle();
+	TrackChangeTrigger(CLK := MoverActivateTrackCommand.Done);
+	IF TrackChangeTrigger.Q THEN
+		_MoverAbsMoveOptions.PositionReferenceSystem :=  MoverActivateTrackCommand.NewTrackId;
+		MoverMoveCommand.Options := _MoverAbsMoveOptions;
+	END_IF
+	IF _ipTcIoXtsMover <> 0 THEN
+		_stTmsActPositions := _ipTcIoXtsMover.GetPositionInfo();
+	END_IF
 	Cycle := 1;
+ELSE
+	Cycle := -1;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -328,13 +353,19 @@ END_IF]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.ActivateTrack">
+      <LineId Id="10" Count="7" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.Cycle">
       <LineId Id="25" Count="0" />
       <LineId Id="28" Count="5" />
       <LineId Id="26" Count="0" />
-      <LineId Id="34" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="43" Count="2" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="38" Count="2" />
+      <LineId Id="34" Count="2" />
       <LineId Id="27" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.Deceleration.Get">

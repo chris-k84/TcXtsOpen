@@ -89,7 +89,21 @@ CASE fbTestSuite.P_Testcase OF
 		THIS^.MoverResetCommand.Abort();
 		THIS^._MyAxisStatus.Error := FALSE;
 		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.ResetAxis(), 'Mover reset was accepted when no error');
-		fbTestSuite.M_Testcase('GivenOKMoverWhenResetCommandedThenMoverShouldRejectCommand',T#1S,'','',E_Testcase.Done);
+		fbTestSuite.M_Testcase('GivenOKMoverWhenResetCommandedThenMoverShouldRejectCommand',T#1S,'','',15);
+		
+	15:
+		_MyAxisStatus.NotMoving := TRUE;
+		fbTestSuite.P_Assert.M_Equals_DINT(1, THIS^.ActivateTrack(newTrack := 16#1), 'Mover rejected valid active track command');
+		fbTestSuite.M_Testcase('GivenAStationaryMoverWhenActiveTrackGivenThenMoverShouldAcceptNewTrack',T#1S,'','',e_Testcase.Done);
+		
+	16:
+		_MyAxisStatus.NotMoving := FALSE;
+		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.ActivateTrack(newTrack := 16#1), 'Mover accepted track command when moving');
+		fbTestSuite.M_Testcase('GivenMovingMoverWhenActiveTrackCommandThenMoverSouldRejectCommand',T#1S,'','',E_Testcase.Done);
+		
+	17:
+		fbTestSuite.P_Assert.M_Equals_DINT(-1, THIS^.ActivateTrack(newTrack := 16#1), 'MoverAccepted invalid track');
+		fbTestSuite.M_Testcase('GivenInvalidTrackWhenActiveTrackCommandThenMoverShouldReject',T#1S,'','',E_Testcase.Done);
 		
 	E_Testcase.Done:;	 
 END_CASE
@@ -154,6 +168,12 @@ TestSuiteGVL.fbTestsuites.P_Options.sFilePathName:= 'C:\test\report.xml';]]></ST
       <LineId Id="128" Count="0" />
       <LineId Id="126" Count="1" />
       <LineId Id="131" Count="5" />
+      <LineId Id="153" Count="1" />
+      <LineId Id="157" Count="0" />
+      <LineId Id="155" Count="1" />
+      <LineId Id="158" Count="1" />
+      <LineId Id="166" Count="0" />
+      <LineId Id="160" Count="5" />
       <LineId Id="129" Count="0" />
       <LineId Id="39" Count="1" />
       <LineId Id="9" Count="0" />
