@@ -7,7 +7,7 @@ VAR
 	_MyAxisStatus : ST_AxisStatus;
 	_MyNCData : NCTOPLC_AXIS_REF;
 	MoverPowerCommand : AxisPower(MyAxisRef);
-	MoverMoveCommand : MoveModuloMoverToPosition(MyAxisRef);
+	MoverMoveCommand : MoveModuloMoverToPosition(MyAxisRef) := (Gap := 100.0);
 	MoverHaltCommand : HaltMover(MyAxisRef);
 	MoverResetCommand : AxesReset(MyAxisRef);
 	MoverActivateTrackCommand : ActivateTrackForMover(MyAxisRef);
@@ -36,7 +36,7 @@ END_VAR]]></Declaration>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[]]></ST>
+          <ST><![CDATA[Acceleration := MoverMoveCommand.Acceleration;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{95cc2e62-d911-4757-83d0-b9b38a36fdde}">
@@ -44,7 +44,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[]]></ST>
+          <ST><![CDATA[MoverMoveCommand.Acceleration := Acceleration;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -102,7 +102,7 @@ END_IF]]></ST>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[]]></ST>
+          <ST><![CDATA[Deceleration := MoverMoveCommand.Deceleration;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{dbf3cf03-c8db-40c9-ab3e-669bb5cdced1}">
@@ -110,7 +110,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[]]></ST>
+          <ST><![CDATA[MoverMoveCommand.Deceleration := MoverHaltCommand.Deceleration := Deceleration;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -161,7 +161,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[]]></ST>
+          <ST><![CDATA[Gap := MoverMoveCommand.Gap;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{280f9258-e1cd-43be-bf57-16929cbbc8d6}">
@@ -169,7 +169,12 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[]]></ST>
+          <ST><![CDATA[IF Gap >= 50.0 THEN
+	MoverMoveCommand.Gap := MoverHaltCommand.Gap := Gap;
+ELSE
+	Gap := 100.0;
+END_IF
+]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -244,7 +249,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[]]></ST>
+          <ST><![CDATA[Jerk := MoverMoveCommand.Jerk;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{6a6a16a3-4f19-4f4d-bd8d-8441ae3b5cf2}">
@@ -252,7 +257,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[]]></ST>
+          <ST><![CDATA[MoverMoveCommand.Jerk := MoverHaltCommand.Jerk := Jerk;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -274,17 +279,9 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[]]></ST>
+          <ST><![CDATA[MoversActiveTrack := _ipTcIoXtsMover.GetActiveTrackObjectId();]]></ST>
         </Implementation>
       </Get>
-      <Set Name="Set" Id="{aeee35b5-98d2-447e-a256-eb59ada0b9a1}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[]]></ST>
-        </Implementation>
-      </Set>
     </Property>
     <Property Name="MoverXtsIoEnvInterface" Id="{6aaf98f4-e1bc-4f35-afbe-48664404e767}" FolderPath="Administration\">
       <Declaration><![CDATA[PROPERTY PUBLIC MoverXtsIoEnvInterface : I_TcIoXtsXpuMover]]></Declaration>
@@ -313,7 +310,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT MoverMoveCommand.Busy AND MoveVelocity < _MaxMoverVelocity AND RequiredPosition < _ActiveTrackLength THEN
+        <ST><![CDATA[IF NOT MoverMoveCommand.Busy AND MoveVelocity < _MaxMoverVelocity AND RequiredPosition < _ActiveTrackLength AND Gap >= 50.0 THEN
 	IF THIS^.MoverMoveCommand.MoveTo(Position := RequiredPosition, 
 									Velocity := MoveVelocity, 
 									Direction := Tc3_Mc3Definitions.MC_DIRECTION.mcDirectionPositive, 
@@ -392,6 +389,9 @@ END_IF]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.Gap.Set">
+      <LineId Id="5" Count="1" />
+      <LineId Id="8" Count="1" />
+      <LineId Id="7" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.HaltAxis">
@@ -429,9 +429,6 @@ END_IF]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.MoversActiveTrack.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsMoverAxis.MoversActiveTrack.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.MoverXtsIoEnvInterface.Get">

@@ -65,6 +65,25 @@ END_CASE
 haltMover(Axis := _Axis);]]></ST>
       </Implementation>
     </Method>
+    <Property Name="Deceleration" Id="{c87d7270-1a2e-466f-a142-6139e2eda06f}">
+      <Declaration><![CDATA[PROPERTY Deceleration : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{a049ca93-b85d-4787-b520-72ad6ac74f0d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Deceleration := haltMover.Deceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{ae2611d3-59b2-4268-a7c2-500b25ff0ec0}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[haltMover.Deceleration := Deceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Method Name="Execute" Id="{87eca2aa-365e-4c2f-b198-b62e8029fb82}">
       <Declaration><![CDATA[METHOD Execute : BOOL
 VAR_INPUT
@@ -91,6 +110,44 @@ END_VAR
         <ST><![CDATA[_Axis REF= Axis;]]></ST>
       </Implementation>
     </Method>
+    <Property Name="Gap" Id="{a94177ce-b18c-4479-ae6f-5707566b0317}">
+      <Declaration><![CDATA[PROPERTY Gap : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{ec2ed493-6955-4aef-baef-795d6fef3927}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Gap := haltMover.Gap;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{43b68502-e2f4-4b37-a3be-43a3ab3afcec}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[haltMover.Gap := Gap;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Jerk" Id="{36146f01-bab8-49f7-9914-96e1977269b5}">
+      <Declaration><![CDATA[PROPERTY Jerk : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{bd60b227-3eb3-44e9-be6f-0a525b541f10}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Jerk := haltMover.Jerk;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{356145f4-af65-48cf-aa74-d0bf709b5382}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[haltMover.Jerk := Jerk;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <LineIds Name="HaltMover">
       <LineId Id="9" Count="0" />
     </LineIds>
@@ -111,6 +168,12 @@ END_VAR
       <LineId Id="30" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
+    <LineIds Name="HaltMover.Deceleration.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="HaltMover.Deceleration.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
     <LineIds Name="HaltMover.Execute">
       <LineId Id="9" Count="1" />
       <LineId Id="12" Count="1" />
@@ -119,6 +182,18 @@ END_VAR
     </LineIds>
     <LineIds Name="HaltMover.FB_init">
       <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="HaltMover.Gap.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="HaltMover.Gap.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="HaltMover.Jerk.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="HaltMover.Jerk.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
