@@ -14,9 +14,9 @@ VAR
 	_ipTcIoXtsMover	: I_TcIoXtsXpuMover;
 	_ActiveTrackLength : MC_LREAL;
 	TrackChangeTrigger : R_TRIG;
-	//axesMoveModuloTo 		: MoveModuloMoverToPosition(_Axis) := (Gap := 100.0);
 	_MoverAbsMoveOptions : ST_MoveAbsoluteCAOptions;
 	_stTmsActPositions			: ST_PositionInfo;
+	_CurrentTrack : I_XtsTrack;
 END_VAR
 VAR CONSTANT
 	_MaxMoverVelocity : MC_LREAL := 4000.0;
@@ -52,6 +52,7 @@ END_VAR
       <Declaration><![CDATA[METHOD ActivateTrack : HRESULT
 VAR_INPUT
 	NewTrack : OTCID;
+	Track : I_XtsTrack;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -84,7 +85,7 @@ END_VAR
 	TrackChangeTrigger(CLK := MoverActivateTrackCommand.Done);
 	IF TrackChangeTrigger.Q THEN
 		_MoverAbsMoveOptions.PositionReferenceSystem :=  MoverActivateTrackCommand.NewTrackId;
-		MoverMoveCommand.Options := _MoverAbsMoveOptions;
+		MoverMoveCommand.Options := _MoverAbsMoveOptions;	
 	END_IF
 	IF _ipTcIoXtsMover <> 0 THEN
 		_stTmsActPositions := _ipTcIoXtsMover.GetPositionInfo();
@@ -209,10 +210,27 @@ END_VAR
     <Method Name="isMoverAtPosition" Id="{f1a74560-cd92-4fa6-83a2-3bacea608337}" FolderPath="Status\">
       <Declaration><![CDATA[METHOD PUBLIC isMoverAtPosition : BOOL
 VAR_INPUT
+	Position : MC_LREAL;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IF Position > 1 THEN
+	IF _stTmsActPositions.fTrackPosition < position + 1 AND _stTmsActPositions.fTrackPosition > position - 1 THEN
+		isMoverAtPosition := TRUE;
+	ELSE
+		isMoverAtPosition := FALSE;
+	END_IF  
+ELSE
+	IF _stTmsActPositions.fTrackPosition < position + 1 AND _stTmsActPositions.fTrackPosition > 0.0  
+		OR _stTmsActPositions.fTrackPosition < _CurrentTrack.TrackLength AND _stTmsActPositions.fTrackPosition > _CurrentTrack.TrackLength - 1 THEN
+		isMoverAtPosition := TRUE;
+	ELSE
+		isMoverAtPosition := FALSE;
+	END_IF
+END_IF
+_ipTcIoXtsMover.GetActiveTrackObjectId()
+
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="isMoverDetected" Id="{c1a5811f-71c0-458a-bf03-7bfa946db86b}" FolderPath="Status\">
@@ -408,6 +426,7 @@ END_IF]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.isMoverAtPosition">
+      <LineId Id="10" Count="15" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.isMoverDetected">

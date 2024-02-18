@@ -239,6 +239,9 @@
     <Compile Include="XTS Class\Xts Hardware\IXtsHardware.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="XTS Class\Xts Hardware\I_XtsTrack.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="XTS Class\Xts Hardware\XtsHardware.TcPOU">
       <SubType>Code</SubType>
     </Compile>
