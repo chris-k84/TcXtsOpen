@@ -137,7 +137,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF (NOT MoverPowerCommand.Busy) AND NOT THIS^.isMoverEnabled() THEN
+        <ST><![CDATA[IF (NOT MoverPowerCommand.Busy) AND NOT THIS^.isMoverEnabled() AND _CurrentTrack <> 0 THEN
 	MoverPowerCommand.Enable();
 	EnableMover := 1;
 ELSE

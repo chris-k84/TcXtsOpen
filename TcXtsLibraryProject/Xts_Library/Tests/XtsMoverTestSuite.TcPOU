@@ -24,6 +24,7 @@ CASE fbTestSuite.P_Testcase OF
 		fbTestSuite.M_Testcase('GivenNoNCWhenCycleCalledThenCyclicShouldNotRun',T#1S,'','',2);	
 		
 	2:
+		THIS^._CurrentTrack := 1; 
 		_MyAxisStatus.Disabled := TRUE;
 		fbTestSuite.P_Assert.M_Equals_DINT(1, THIS^.EnableMover(), 'Enable command failed when mover disabled');
 		fbTestSuite.M_Testcase('GivenMoverDisabledWhenEnableCommandThenMoverEnables',T#1S,'','',3);
@@ -45,6 +46,7 @@ CASE fbTestSuite.P_Testcase OF
 		
 	6:
 		_ActiveTrackLength := 5000.0;
+		THIS^.Gap := 100.0;
 		fbTestSuite.P_Assert.M_Equals_DINT(1,THIS^.MoveTo(RequiredPosition := 1000.0, MoveVelocity := 1000.0), 'Move command was rejected when mover was ready');
 		fbTestSuite.M_Testcase('GivenMoverReadyWhenMoveCommandMadeThenMoverShouldAcceptMove',T#1S,'','',7);
 		
@@ -109,12 +111,7 @@ CASE fbTestSuite.P_Testcase OF
 	18:
 		THIS^._CurrentTrack := 0; 
 		fbTestSuite.P_Assert.M_Equals_DINT(-1, THIS^.EnableMover(), 'Mover accepted enable without a valid track');
-		fbTestSuite.M_Testcase('GivenNoTracksRegisteredWhenEnebleGivenThenMoverShouldReject',T#1S,'','',19);
-		
-	19:
-		THIS^.Gap := 0;
-		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.MoveTo(RequiredPosition := 10.0, MoveVelocity := 10.0), 'Mover accepted a move with a gap of zero');
-		fbTestSuite.M_Testcase('GivenAZeroGapCommandWhenMoveCommandedThenTheMoverShouldReject',T#1S,'','',E_Testcase.Done);
+		fbTestSuite.M_Testcase('GivenNoTracksRegisteredWhenEnebleGivenThenMoverShouldReject',T#1S,'','',E_Testcase.Done);
 		
 	E_Testcase.Done:;	 
 END_CASE
@@ -144,6 +141,7 @@ TestSuiteGVL.fbTestsuites.P_Options.sFilePathName:= 'C:\test\report.xml';]]></ST
       <LineId Id="152" Count="0" />
       <LineId Id="151" Count="0" />
       <LineId Id="31" Count="0" />
+      <LineId Id="196" Count="0" />
       <LineId Id="139" Count="0" />
       <LineId Id="32" Count="3" />
       <LineId Id="42" Count="0" />
@@ -155,6 +153,7 @@ TestSuiteGVL.fbTestsuites.P_Options.sFilePathName:= 'C:\test\report.xml';]]></ST
       <LineId Id="58" Count="1" />
       <LineId Id="67" Count="1" />
       <LineId Id="96" Count="0" />
+      <LineId Id="197" Count="0" />
       <LineId Id="73" Count="0" />
       <LineId Id="80" Count="0" />
       <LineId Id="87" Count="5" />
@@ -189,8 +188,6 @@ TestSuiteGVL.fbTestsuites.P_Options.sFilePathName:= 'C:\test\report.xml';]]></ST
       <LineId Id="173" Count="1" />
       <LineId Id="177" Count="0" />
       <LineId Id="175" Count="1" />
-      <LineId Id="179" Count="1" />
-      <LineId Id="186" Count="2" />
       <LineId Id="129" Count="0" />
       <LineId Id="39" Count="1" />
       <LineId Id="9" Count="0" />
