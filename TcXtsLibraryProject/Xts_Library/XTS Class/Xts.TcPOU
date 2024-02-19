@@ -14,7 +14,7 @@ VAR
 	i : UINT;
 	AtHome: BOOL;
 	_tracks : UINT;
-	_MoverArray : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover;
+	_MoverArray : ARRAY[1..SystemParameters.NumberOfMovers] OF I_XtsMoverAxis;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
@@ -49,14 +49,13 @@ END_CASE
     <Method Name="ActivateTracksInMovers" Id="{682f2d4e-bf73-44bf-93e3-716a6d45755c}" FolderPath="Operations\">
       <Declaration><![CDATA[METHOD PUBLIC ActivateTracksInMovers : BOOL
 VAR
-	TmsMoverInterface : ITmsMover;
+	iXtsMover : I_XtsMoverAxis;
 	ActivateTrackResult : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR i := 1 TO SystemParameters.NumberOfMovers DO
-	IF __QUERYINTERFACE(_MoverArray[i],TmsMoverInterface) THEN
-		ActivateTrackResult := TmsMoverInterface.ActivateTrack(newTrack := TmsMoverInterface.ActiveTrack);
-	END_IF
+	iXtsMover.ActivateTrack(newTrack := iXtsMover.MoversActiveTrack,
+									Track := _XtsTrackHardware.GetTrackByOTCID(trackOTCID := iXtsMover.MoversActiveTrack));
 END_FOR
 ActivateTracksInMovers := true;]]></ST>
       </Implementation>
@@ -129,15 +128,10 @@ END_VAR
     <Method Name="GetTMSMoverInterface" Id="{0e64eced-3444-47ea-9660-c818e7a9dea9}" FolderPath="Operations\">
       <Declaration><![CDATA[METHOD PUBLIC GetTMSMoverInterface : BOOL
 VAR_INPUT
-END_VAR
-VAR
-	TmsMoverInterface : ITmsMover;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR i := 1 TO SystemParameters.NumberOfMovers DO
-	IF __QUERYINTERFACE(_MoverArray[i],TmsMoverInterface) THEN
-		TmsMoverInterface.SetMoverInterface(MoverInterface := _XtsTrackHardware.GetMoverEnvInterface(i));
-	END_IF
+	_MoverArray[i].MoverXtsIoEnvInterface :=_XtsTrackHardware.GetMoverEnvInterface(i);
 END_FOR]]></ST>
       </Implementation>
     </Method>
@@ -180,7 +174,7 @@ END_VAR
       </Set>
     </Property>
     <Property Name="MoverArray" Id="{5c1cfa9c-be49-4324-bcf5-1be968bfce44}">
-      <Declaration><![CDATA[PROPERTY MoverArray : array[1..SystemParameters.NumberOfMovers] of IMover]]></Declaration>
+      <Declaration><![CDATA[PROPERTY MoverArray : array[1..SystemParameters.NumberOfMovers] of I_XtsMoverAxis]]></Declaration>
       <Get Name="Get" Id="{2b512b99-b3b1-44cb-bf62-7cd45f8e95a6}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -207,7 +201,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR i := 1 TO SystemParameters.NumberOfMovers DO
-	_MoverArray[i].MoveTo(Position := _homePosition, Velocity := _HomeSpeed, BackwardMove := FALSE);
+	_MoverArray[i].MoveTo(RequiredPosition := _homePosition, MoveVelocity := _HomeSpeed);
 END_FOR 
 MoverHomeSequence := TRUE;]]></ST>
       </Implementation>
@@ -227,7 +221,7 @@ END_VAR
 	1:
 		AtHome := TRUE;
 		FOR i := 1 TO SystemParameters.NumberOfMovers DO
-				AtHome := AtHome AND _MoverArray[i].isStationary();
+				AtHome := AtHome AND _MoverArray[i].isMoverStationary();
 		END_FOR 
 		IF AtHome THEN
 			State := 0;
@@ -365,7 +359,10 @@ END_VAR
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="Xts.ActivateTracksInMovers">
-      <LineId Id="23" Count="4" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="27" Count="0" />
       <LineId Id="12" Count="0" />
     </LineIds>
     <LineIds Name="Xts.Clearing">
@@ -391,7 +388,8 @@ END_VAR
       <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="Xts.GetTMSMoverInterface">
-      <LineId Id="29" Count="3" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="31" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="Xts.HomePosition.Get">

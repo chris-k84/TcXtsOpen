@@ -20,6 +20,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Property Name="AxisRef" Id="{b9459322-2642-4758-9d1a-f140abbed4b3}">
+      <Declaration><![CDATA[PROPERTY AxisRef : Reference to Axis_ref]]></Declaration>
+      <Get Name="Get" Id="{fca9e840-ce68-48f6-aaf7-b30da4df166b}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
     <Property Name="Deceleration" Id="{925224a3-633f-4afb-a6bb-5e2282bf0166}">
       <Declaration><![CDATA[PROPERTY Deceleration : mc_lreal]]></Declaration>
       <Get Name="Get" Id="{ee77943b-5dd1-4851-bfac-c1f6c08f427a}">
@@ -56,6 +62,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Property Name="IdentInGroup" Id="{892b953d-abf1-49a8-bf89-421385c1791d}">
+      <Declaration><![CDATA[PROPERTY PUBLIC IdentInGroup : IDENT_IN_GROUP_REF]]></Declaration>
+      <Get Name="Get" Id="{b023befb-8f40-468b-ada4-daaf368f7d24}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
     <Method Name="isMoverAtPosition" Id="{bc703c47-0b4d-4374-b07c-1240b49b484e}">
       <Declaration><![CDATA[METHOD isMoverAtPosition : BOOL
 VAR_INPUT
@@ -101,6 +113,15 @@ END_VAR
       <Get Name="Get" Id="{ab30b8a7-22d3-4a5c-a941-ce17b5400c54}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
+    </Property>
+    <Property Name="MoverXtsIoEnvInterface" Id="{192fc175-f0e7-4171-9425-47deb3799f9d}">
+      <Declaration><![CDATA[PROPERTY PUBLIC MoverXtsIoEnvInterface : I_TcIoXtsXpuMover]]></Declaration>
+      <Get Name="Get" Id="{e7a8a250-ae9b-4ad7-bf97-7690d04cb985}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{f163ce07-1471-4036-baf2-4d783308d9bd}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
     </Property>
     <Method Name="MoveTo" Id="{ff1a94f0-d91e-4f1f-8540-ce9d25779d5e}">
       <Declaration><![CDATA[METHOD MoveTo : HRESULT

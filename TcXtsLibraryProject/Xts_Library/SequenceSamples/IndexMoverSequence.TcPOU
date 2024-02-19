@@ -9,7 +9,7 @@ VAR
 	_MoverVelocity : MC_LREAL := 1000.0;
 	stSequenceInfo : MoverSequenceInfo;
 	StationArray : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess;
-	ThisMover : IMover;
+	ThisMover : I_XtsMoverAxis;
 	StateMachine : IPmlStateMachine;
 	_startPosition : MC_LREAL;
 END_VAR]]></Declaration>
@@ -46,7 +46,7 @@ END_IF
 Cycle := S_OK;
 CASE State OF
 	IndexSequenceState.Init:
-		IF ThisMover.isDetected() THEN
+		IF ThisMover.isMoverDetected() THEN
 			State := IndexSequenceState.Available;
 		END_IF
 		
@@ -56,7 +56,7 @@ CASE State OF
 		END_IF
 		
 	IndexSequenceState.MovingToStart:
-		IF ThisMover.isAtPosition(position := _startPosition) THEN
+		IF ThisMover.isMoverAtPosition(position := _startPosition) THEN
 			State := IndexSequenceState.AtStart;
 		END_IF
 			
@@ -66,8 +66,8 @@ CASE State OF
 		END_IF
 
 	IndexSequenceState.MovingToStation:
-		IF ThisMover.isStationary() THEN 
-			IF ThisMover.isAtPosition(TargetStationPosition) THEN
+		IF ThisMover.isMoverStationary() THEN 
+			IF ThisMover.isMoverAtPosition(TargetStationPosition) THEN
 				IF StationArray[CurrentStation].IsProcess THEN
 					State := IndexSequenceState.AtProcess;
 				ELSE
@@ -80,7 +80,7 @@ CASE State OF
 		END_IF
 		
 	IndexSequenceState.QueuedAtStation:
-		IF NOT ThisMover.isStationary() THEN
+		IF NOT ThisMover.isMoverStationary() THEN
 				State := IndexSequenceState.MovingToStation;
 		END_IF
 
@@ -90,23 +90,21 @@ CASE State OF
 		END_IF
 
 	IndexSequenceState.AtProcess:
-		ThisMover.MoveTo(Position := StationArray[CurrentStation].EndPosition,
-								Velocity := StationArray[CurrentStation].ProcessVelocity,
-								BackwardMove := FALSE);
+		ThisMover.MoveTo(RequiredPosition := StationArray[CurrentStation].EndPosition,
+								MoveVelocity := StationArray[CurrentStation].ProcessVelocity);
 		State := IndexSequenceState.InProcess;
 								
 	IndexSequenceState.InProcess:
-		IF ThisMover.isStationary() THEN 
-			IF ThisMover.isAtPosition(StationArray[CurrentStation].EndPosition) THEN
+		IF ThisMover.isMoverStationary() THEN 
+			IF ThisMover.isMoverAtPosition(StationArray[CurrentStation].EndPosition) THEN
 				State := IndexSequenceState.GetNextMove;
 			END_IF
 		END_IF
 	
 	IndexSequenceState.GetNextMove:
 		IF CurrentStation = SystemParameters.NumberOfStations THEN
-			IF ThisMover.MoveTo(Position := _startPosition,
-							Velocity := _MoverVelocity,
-							BackwardMove := FALSE) THEN
+			IF ThisMover.MoveTo(RequiredPosition := _startPosition,
+							MoveVelocity := _MoverVelocity) = 1 THEN
 				State := IndexSequenceState.MovingToStart;
 				StationArray[CurrentStation].MoverAway();
 				CurrentStation := 0; 
@@ -121,9 +119,8 @@ CASE State OF
 		ELSE
 			TargetStationPosition := StationArray[CurrentStation + 1].Position;
 		END_IF
-		IF 	ThisMover.MoveTo(Position := TargetStationPosition,
-							Velocity := _MoverVelocity,
-							BackwardMove := FALSE) THEN
+		IF 	ThisMover.MoveTo(RequiredPosition := TargetStationPosition,
+							MoveVelocity := _MoverVelocity) = 1 THEN
 			IF CurrentStation <> 0 THEN
 				StationArray[CurrentStation].MoverAway();	
 			END_IF		
@@ -187,7 +184,7 @@ END_VAR
       </Set>
     </Property>
     <Property Name="MyMover" Id="{d0dbd650-93c6-4e7f-a733-abc40a2f12bf}">
-      <Declaration><![CDATA[PROPERTY MyMover : IMover]]></Declaration>
+      <Declaration><![CDATA[PROPERTY MyMover : I_XtsMoverAxis]]></Declaration>
       <Get Name="Get" Id="{52e46adf-1b9f-404f-a8d7-de686d91d4ef}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -275,7 +272,10 @@ END_VAR
     <LineIds Name="IndexMoverSequence.Cycle">
       <LineId Id="6" Count="4" />
       <LineId Id="120" Count="0" />
-      <LineId Id="11" Count="99" />
+      <LineId Id="11" Count="47" />
+      <LineId Id="60" Count="12" />
+      <LineId Id="74" Count="15" />
+      <LineId Id="91" Count="19" />
       <LineId Id="121" Count="1" />
       <LineId Id="111" Count="5" />
       <LineId Id="5" Count="0" />

@@ -9,8 +9,8 @@ END_VAR
 VAR
 	XtsModuleRunner : ObjectRunner;
 	xtsStateMachine : PMLStateMachine;
-	Movers : ARRAY[1..10] OF FB_Mover(XtsModuleRunner) := [10((TrackLength := 4000))];
-	iMovers : ARRAY[1..10] OF IMover := [Movers[1],Movers[2],
+	Movers : ARRAY[1..SystemParameters.NumberOfMovers] OF XtsMoverAxis(XtsModuleRunner);
+	iMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF I_XtsMoverAxis := [Movers[1],Movers[2],
 											Movers[3],Movers[4],
 											Movers[5],Movers[6],
 											Movers[7],Movers[8],

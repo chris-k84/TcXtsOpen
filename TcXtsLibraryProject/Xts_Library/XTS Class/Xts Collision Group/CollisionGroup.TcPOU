@@ -24,7 +24,7 @@ END_VAR
     <Method Name="AddMoverToThisGroup" Id="{9f418b4e-0cf8-4b65-9d2d-7e6c1a46690c}">
       <Declaration><![CDATA[METHOD AddMoverToThisGroup : HRESULT
 VAR_INPUT
-	MoverToAdd : IMover;
+	MoverToAdd : I_XtsMoverAxis;
 END_VAR
 ]]></Declaration>
       <Implementation>

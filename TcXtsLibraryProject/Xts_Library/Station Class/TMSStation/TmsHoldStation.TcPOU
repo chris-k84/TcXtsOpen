@@ -91,21 +91,15 @@ END_IF]]></ST>
     <Method Name="HasMover" Id="{a266c45f-308b-42ff-85d6-9dbbc61ca57d}">
       <Declaration><![CDATA[METHOD HasMover : BOOL
 VAR_INPUT
-	mover : IMover;
-END_VAR
-VAR
-	TmsMoverInterface : ITmsMover;
+	mover : I_XtsMoverAxis;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF StationMovers <= 2 THEN
 	StationMovers := StationMovers + 1;
-	IF __QUERYINTERFACE(mover,TmsMoverInterface) THEN
-		HoldMover := TmsMoverInterface;
-		_HasMover := TRUE;
-		HasMover := TRUE;
-	ELSE
-		HasMover := FALSE;
-	END_IF
+
+	HoldMover := TmsMoverInterface;
+	_HasMover := TRUE;
+	HasMover := TRUE;
 ELSE
 	HasMover := FALSE;
 END_IF]]></ST>
@@ -183,8 +177,6 @@ END_VAR
     <LineIds Name="TmsHoldStation.HasMover">
       <LineId Id="33" Count="4" />
       <LineId Id="49" Count="0" />
-      <LineId Id="47" Count="1" />
-      <LineId Id="38" Count="0" />
       <LineId Id="45" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>

@@ -11,7 +11,7 @@ VAR
 	moverNumbers : UINT;
 	AllMoversEnabled: BOOL;
 	EnableTrigger : BOOL;	
-	arrMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover;
+	arrMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF I_XtsMoverAxis;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
@@ -27,7 +27,6 @@ State := 0;]]></ST>
     <Method Name="Cycle" Id="{2913b891-dfae-43d9-b9d3-4a1a1101f452}">
       <Declaration><![CDATA[METHOD Cycle : HRESULT
 VAR
-	ResetAxesResult : BOOL;
 	CAGroupResetResult : BOOL;
 	AddMoverResult : HRESULT;
 	AddMoverCallResult : HRESULT;
@@ -50,7 +49,7 @@ END_VAR]]></Declaration>
 		
 	10:
 		FOR moverNumbers := 1 TO SystemParameters.NumberOfMovers DO
-			ResetAxesResult := arrMovers[moverNumbers].ResetAxis();
+			arrMovers[moverNumbers].ResetAxis();
 		END_FOR
 		moverNumbers := 1;
 		State := 20;
@@ -63,7 +62,6 @@ END_VAR]]></Declaration>
 		State := 30;
 		
 	30:
-		arrMovers[moverNumbers].IdentInGroup := UINT_TO_INT( moverNumbers);
 		IF _collisionGroup.AddMoverToThisGroup(MoverToAdd := arrMovers[moverNumbers]) =2 THEN
 			LogSentResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.AddingMoverToGroup,UINT_TO_STRING(moverNumbers));
 			State := 40;
@@ -77,7 +75,7 @@ END_VAR]]></Declaration>
 		ELSE
 			LogSentResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.AllMoversAdded,'');
 			FOR moverNumbers := 1 TO SystemParameters.NumberOfMovers DO
-				EnableMoverResult := arrMovers[moverNumbers].EnableAxis();
+				arrMovers[moverNumbers].EnableMover();
 			END_FOR
 			State := 50;
 		END_IF
@@ -85,7 +83,7 @@ END_VAR]]></Declaration>
 	50:
 		AllMoversEnabled := TRUE;
 		FOR moverNumbers := 1 TO SystemParameters.NumberOfMovers DO
-			AllMoversEnabled := TRUE AND arrMovers[moverNumbers].isEnabled();
+			AllMoversEnabled := TRUE AND arrMovers[moverNumbers].isMoverEnabled();
 		END_FOR
 		IF AllMoversEnabled THEN
 			LogSentResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.AllMoversEnabled,'');
@@ -131,7 +129,7 @@ END_VAR
       </Implementation>
     </Method>
     <Property Name="MoverArray" Id="{2acddb92-7228-4ce1-abf4-c52047e8db87}">
-      <Declaration><![CDATA[PROPERTY MoverArray : array[1..SystemParameters.NumberOfMovers] of IMover]]></Declaration>
+      <Declaration><![CDATA[PROPERTY MoverArray : array[1..SystemParameters.NumberOfMovers] of I_XtsMoverAxis]]></Declaration>
       <Get Name="Get" Id="{45d4b80a-6470-4599-bc0b-107c251d2b9f}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -158,7 +156,8 @@ END_VAR
     <LineIds Name="XtsEnableSequence.Cycle">
       <LineId Id="6" Count="2" />
       <LineId Id="74" Count="0" />
-      <LineId Id="9" Count="24" />
+      <LineId Id="9" Count="22" />
+      <LineId Id="33" Count="0" />
       <LineId Id="91" Count="0" />
       <LineId Id="93" Count="0" />
       <LineId Id="92" Count="0" />

@@ -15,6 +15,7 @@ VAR
 	XtsIoEnvInitialiseState : INT;
 	XtsParts : ARRAY[1..SystemParameters.NumberOfParts] OF XtsPart;
 	XtsTracks : ARRAY[1..SystemParameters.NumberOfTracks] OF XtsTrack;
+	Tracks: ARRAY [1..Tc3_XTS_Utility.TcIoXtsEnvironmentParameterList.MaxXtsTracksPerXpu] OF Tc3_XTS_Utility.OTCID;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
@@ -88,6 +89,20 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="GetTrackByOTCID" Id="{59a9af65-fa71-4618-8272-ea9d7339d25e}">
+      <Declaration><![CDATA[METHOD GetTrackByOTCID : I_XtsTrack
+VAR_INPUT
+	trackOTCID : OTCID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR i := 1 TO SystemParameters.NumberOfTracks DO
+	IF trackOTCID = XtsTracks[i].MyOTCID THEN
+		GetTrackByOTCID := XtsTracks[i];
+	END_IF
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="Initialise" Id="{238260bf-972c-4836-891f-55586c0f1b1a}">
       <Declaration><![CDATA[METHOD Initialise : HRESULT
 VAR_INPUT
@@ -116,9 +131,12 @@ END_VAR]]></Declaration>
 			XtsIoEnvInitialiseState := 999;
 		END_IF
 	3:
+		XPU.GetTrackOids();
+		Tracks := XPU.P_TrackOids;
 		IF XPU.GetTrackCount() = SystemParameters.NumberOfTracks THEN
 			FOR i := 1 TO SystemParameters.NumberOfTracks DO
 				XtsTracks[i].MyXtsIoEnvInterface := XPU.TrackTcIo(UDINT_TO_UINT(i));
+				XtsTracks[i].MyOTCID := Tracks[i];
 			END_FOR
 			XtsIoEnvInitialiseState := 4;
 		ELSE
@@ -314,6 +332,12 @@ END_IF]]></ST>
       <LineId Id="16" Count="5" />
       <LineId Id="10" Count="0" />
     </LineIds>
+    <LineIds Name="XtsHardware.GetTrackByOTCID">
+      <LineId Id="5" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="9" Count="1" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
     <LineIds Name="XtsHardware.Initialise">
       <LineId Id="20" Count="1" />
       <LineId Id="24" Count="2" />
@@ -324,8 +348,12 @@ END_IF]]></ST>
       <LineId Id="41" Count="0" />
       <LineId Id="39" Count="1" />
       <LineId Id="36" Count="0" />
-      <LineId Id="42" Count="2" />
-      <LineId Id="46" Count="1" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="75" Count="1" />
+      <LineId Id="43" Count="1" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="47" Count="0" />
       <LineId Id="50" Count="0" />
       <LineId Id="48" Count="1" />
       <LineId Id="45" Count="0" />

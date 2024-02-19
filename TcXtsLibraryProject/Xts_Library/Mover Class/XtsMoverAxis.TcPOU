@@ -68,6 +68,17 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Property Name="AxisRef" Id="{a7d5ea1d-51bb-4c87-90b3-db66fd196d20}" FolderPath="Administration\">
+      <Declaration><![CDATA[PROPERTY AxisRef : Reference to Axis_ref]]></Declaration>
+      <Get Name="Get" Id="{8c3b00e4-86fb-42e3-b0e0-5789e5045419}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[AxisRef REF= MyAxisRef;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Method Name="Cycle" Id="{b5956233-12ba-4cb8-805f-5693aec42bed}" FolderPath="ICyclic\">
       <Declaration><![CDATA[METHOD PUBLIC  Cycle : HRESULT
 VAR_INPUT
@@ -373,6 +384,9 @@ END_IF]]></ST>
       <LineId Id="23" Count="0" />
       <LineId Id="12" Count="5" />
       <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMoverAxis.AxisRef.Get">
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.Cycle">
       <LineId Id="25" Count="0" />

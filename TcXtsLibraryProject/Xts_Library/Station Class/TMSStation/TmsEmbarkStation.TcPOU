@@ -3,7 +3,7 @@
   <POU Name="TmsEmbarkStation" Id="{4d15a973-29cb-4ffe-934a-8f072d992ec0}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK TmsEmbarkStation EXTENDS Process IMPLEMENTS ITF_SwitchStation
 VAR
-	DepartMover : ITmsMover;
+	DepartMover : I_XtsMoverAxis;
 	_StateMachine : IPmlStateMachine;
 	_TmsSwitch : ITF_TmsSwitch;
 	_TrackLevel : INT := 1; //1 is low, 2 is high
@@ -215,18 +215,13 @@ BaseCallResult := SUPER^.Cycle();]]></ST>
     <Method Name="HasMover" Id="{466b4750-cbf0-42df-80f2-b3d4852756ba}">
       <Declaration><![CDATA[METHOD HasMover : BOOL
 VAR_INPUT
-	mover : IMover;
-END_VAR
-VAR
-	TmsMoverInterface : ITmsMover;
+	mover : I_XtsMoverAxis;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF StationMovers <= 2 THEN
 	StationMovers := StationMovers + 1;
-	IF __QUERYINTERFACE(mover,TmsMoverInterface) THEN
-		DepartMover := TmsMoverInterface;
-		_HasMover := true;
-	END_IF
+	DepartMover := TmsMoverInterface;
+	_HasMover := TRUE;
 END_IF
 HasMover := TRUE;]]></ST>
       </Implementation>
@@ -398,7 +393,9 @@ END_VAR
       <LineId Id="262" Count="1" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.HasMover">
-      <LineId Id="40" Count="6" />
+      <LineId Id="40" Count="1" />
+      <LineId Id="43" Count="1" />
+      <LineId Id="46" Count="0" />
       <LineId Id="27" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.MoverAway">

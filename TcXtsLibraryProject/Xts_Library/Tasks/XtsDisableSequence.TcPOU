@@ -11,7 +11,7 @@ VAR
 	DisableTrigger: BOOL;
 	moverNumbers : UINT := 1;
 	AllMoversDisabled: BOOL;	
-	arrMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF IMover;
+	arrMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF I_XtsMoverAxis;
 	CaGroupResetResult: BOOL;
 END_VAR]]></Declaration>
     <Implementation>
@@ -77,8 +77,7 @@ CASE State OF
 	20:
 		IF _collisionGroup.GetAxisCount() = 0 THEN
 			FOR moverNumbers := 1 TO SystemParameters.NumberOfMovers DO
-				arrMovers[moverNumbers].IdentInGroup := 0;
-				DisbleAxisResult := arrMovers[moverNumbers].DisableAxis();
+				arrMovers[moverNumbers].DisableMover();
 			END_FOR
 			State := 30;
 		END_IF
@@ -86,7 +85,7 @@ CASE State OF
 	30:
 		AllMoversDisabled := TRUE;
 		FOR moverNumbers := 1 TO SystemParameters.NumberOfMovers DO
-			AllMoversDisabled := TRUE AND NOT arrMovers[moverNumbers].isEnabled();
+			AllMoversDisabled := TRUE AND NOT arrMovers[moverNumbers].isMoverEnabled();
 		END_FOR
 		IF AllMoversDisabled THEN
 			LoggerResult := Logger.Send(TC_EVENTS.XtsCaGroupEvents.AllMoversDisabled,'');
@@ -141,7 +140,7 @@ END_VAR
       </Implementation>
     </Method>
     <Property Name="MoverArray" Id="{5eeee228-c90c-4059-b15e-d4f3141abdbb}">
-      <Declaration><![CDATA[PROPERTY MoverArray : array[1..SystemParameters.NumberOfMovers] of IMover]]></Declaration>
+      <Declaration><![CDATA[PROPERTY MoverArray : array[1..SystemParameters.NumberOfMovers] of I_XtsMoverAxis]]></Declaration>
       <Get Name="Get" Id="{b10eaf89-7079-42df-9644-c9a26f75907c}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -182,7 +181,8 @@ END_VAR
       <LineId Id="195" Count="5" />
       <LineId Id="202" Count="1" />
       <LineId Id="266" Count="1" />
-      <LineId Id="204" Count="31" />
+      <LineId Id="204" Count="4" />
+      <LineId Id="210" Count="25" />
       <LineId Id="238" Count="7" />
       <LineId Id="247" Count="3" />
       <LineId Id="88" Count="0" />

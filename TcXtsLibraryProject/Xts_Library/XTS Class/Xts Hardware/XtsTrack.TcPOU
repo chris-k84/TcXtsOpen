@@ -10,6 +10,7 @@ VAR
 	i : INT;
 	_TrackLength: LREAL;
 	_TrackIsClosed: BOOL;
+	_OTCID : OTCID;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -56,6 +57,25 @@ END_VAR
 END_CASE]]></ST>
       </Implementation>
     </Method>
+    <Property Name="MyOTCID" Id="{d34cfe46-c497-4e94-b74d-f99a6000b358}">
+      <Declaration><![CDATA[PROPERTY MyOTCID : OTCID]]></Declaration>
+      <Get Name="Get" Id="{855c0947-7cfe-4f24-8259-2331fd728b0d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_OTCID := MyOTCID;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{52d396c9-aa72-4a6c-b0f5-3d8704d35aca}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MyOTCID := _OTCID;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="MyXtsIoEnvInterface" Id="{de406d6a-fb33-4758-a1bb-071b44e09534}">
       <Declaration><![CDATA[PROPERTY MyXtsIoEnvInterface : I_TcIoXtsXpuTrack]]></Declaration>
       <Get Name="Get" Id="{29c07896-dd74-4eb2-b4f6-620c540248e5}">
@@ -103,6 +123,12 @@ END_VAR
       <LineId Id="33" Count="1" />
       <LineId Id="27" Count="2" />
       <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.MyOTCID.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsTrack.MyOTCID.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrack.MyXtsIoEnvInterface.Get">
       <LineId Id="2" Count="0" />

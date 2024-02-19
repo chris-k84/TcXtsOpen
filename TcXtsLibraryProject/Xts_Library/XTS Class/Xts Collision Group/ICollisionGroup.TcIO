@@ -6,7 +6,7 @@
     <Method Name="AddMoverToThisGroup" Id="{e0521e35-3414-4dd6-b2e7-4ac92ca8a051}">
       <Declaration><![CDATA[METHOD AddMoverToThisGroup : HRESULT
 VAR_INPUT
-	MoverToAdd : IMover;
+	MoverToAdd : I_XtsMoverAxis;
 END_VAR
 ]]></Declaration>
     </Method>

@@ -7,7 +7,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	_exchangeMover : IMover;
+	_exchangeMover : I_XtsMoverAxis;
 	_currentStation : ITF_SwitchStation;
 	_demandPosition : MC_LREAL;
 	_upPosition : MC_LREAL;

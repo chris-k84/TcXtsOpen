@@ -3,6 +3,15 @@
   <Itf Name="I_XtsTrack" Id="{b580e084-f2aa-4b9e-b34b-5773df679de5}">
     <Declaration><![CDATA[INTERFACE I_XtsTrack
 ]]></Declaration>
+    <Property Name="MyOTCID" Id="{8be67bfb-cfe2-4d62-98cc-25000c035505}">
+      <Declaration><![CDATA[PROPERTY MyOTCID : OTCID]]></Declaration>
+      <Get Name="Get" Id="{4e95c9bb-aa4d-4ade-9bfa-d3c230375802}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{5a69d026-ba0e-42f2-ad56-82e6069370de}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
     <Property Name="TrackLength" Id="{d09b154e-641d-4452-b45a-353375f2a798}">
       <Declaration><![CDATA[PROPERTY TrackLength : MC_Lreal]]></Declaration>
       <Get Name="Get" Id="{227be027-fd95-4a28-b451-be32068fa3af}">

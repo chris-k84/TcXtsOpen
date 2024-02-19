@@ -12,7 +12,7 @@ END_VAR
     <Method Name="HasMover" Id="{e0d36098-8d65-476a-990c-e6fc9c4a3a40}">
       <Declaration><![CDATA[METHOD HasMover : BOOL
 VAR_INPUT
-	mover : IMover;
+	mover : I_XtsMoverAxis;
 END_VAR
 ]]></Declaration>
     </Method>
