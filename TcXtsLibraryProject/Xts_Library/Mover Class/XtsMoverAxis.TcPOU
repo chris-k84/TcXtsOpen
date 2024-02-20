@@ -102,6 +102,9 @@ IF isMoverDetected() THEN
 	IF _ipTcIoXtsMover <> 0 THEN
 		_stTmsActPositions := _ipTcIoXtsMover.GetPositionInfo();
 	END_IF
+	IF _CurrentTrack <> 0 THEN
+		_ActiveTrackLength := _CurrentTrack.TrackLength;
+	END_IF
 	Cycle := 1;
 ELSE
 	Cycle := -1;
@@ -398,6 +401,7 @@ END_IF]]></ST>
       <LineId Id="47" Count="0" />
       <LineId Id="46" Count="0" />
       <LineId Id="38" Count="2" />
+      <LineId Id="57" Count="2" />
       <LineId Id="34" Count="2" />
       <LineId Id="27" Count="0" />
     </LineIds>
