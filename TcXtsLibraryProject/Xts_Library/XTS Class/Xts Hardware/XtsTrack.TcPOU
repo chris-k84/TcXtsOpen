@@ -64,7 +64,7 @@ END_CASE]]></ST>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[_OTCID := MyOTCID;]]></ST>
+          <ST><![CDATA[MyOTCID := _OTCID;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{52d396c9-aa72-4a6c-b0f5-3d8704d35aca}">
@@ -72,7 +72,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[MyOTCID := _OTCID;]]></ST>
+          <ST><![CDATA[_OTCID := MyOTCID;]]></ST>
         </Implementation>
       </Set>
     </Property>

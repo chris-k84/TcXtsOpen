@@ -49,9 +49,7 @@ VAR
 	i: INT;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-
-]]></ST>
+      <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="Cycle" Id="{a8675662-99c5-487a-bbe7-b5e32c1c2bf4}">
       <Declaration><![CDATA[METHOD PUBLIC  Cycle : HRESULT
@@ -99,8 +97,6 @@ END_VAR
       </Implementation>
     </Method>
     <LineIds Name="Machine">
-      <LineId Id="496" Count="0" />
-      <LineId Id="509" Count="0" />
       <LineId Id="25" Count="0" />
     </LineIds>
     <LineIds Name="Machine.Cycle">

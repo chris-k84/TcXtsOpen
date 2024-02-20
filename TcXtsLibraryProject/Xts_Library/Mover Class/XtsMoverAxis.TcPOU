@@ -85,10 +85,10 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF isMoverDetected() THEN
-	MyAxisRef.ReadStatus();
-	_MyAxisStatus := MyAxisRef.Status;
-	_MyNCData := MyAxisRef.NcToPlc;
+        <ST><![CDATA[MyAxisRef.ReadStatus();
+_MyNCData := MyAxisRef.NcToPlc;
+_MyAxisStatus := MyAxisRef.Status;
+IF isMoverDetected() THEN
 	MoverPowerCommand.Cycle();
 	MoverMoveCommand.Cycle();
 	MoverHaltCommand.Cycle();
@@ -389,8 +389,9 @@ END_IF]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.Cycle">
+      <LineId Id="51" Count="2" />
       <LineId Id="25" Count="0" />
-      <LineId Id="28" Count="5" />
+      <LineId Id="31" Count="2" />
       <LineId Id="26" Count="0" />
       <LineId Id="37" Count="0" />
       <LineId Id="43" Count="2" />

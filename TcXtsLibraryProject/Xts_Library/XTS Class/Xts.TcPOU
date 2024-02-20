@@ -49,13 +49,12 @@ END_CASE
     <Method Name="ActivateTracksInMovers" Id="{682f2d4e-bf73-44bf-93e3-716a6d45755c}" FolderPath="Operations\">
       <Declaration><![CDATA[METHOD PUBLIC ActivateTracksInMovers : BOOL
 VAR
-	iXtsMover : I_XtsMoverAxis;
 	ActivateTrackResult : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR i := 1 TO SystemParameters.NumberOfMovers DO
-	iXtsMover.ActivateTrack(newTrack := iXtsMover.MoversActiveTrack,
-									Track := _XtsTrackHardware.GetTrackByOTCID(trackOTCID := iXtsMover.MoversActiveTrack));
+	_MoverArray[i].ActivateTrack(newTrack := _MoverArray[i].MoversActiveTrack,
+									Track := _XtsTrackHardware.GetTrackByOTCID(trackOTCID := _MoverArray[i].MoversActiveTrack));
 END_FOR
 ActivateTracksInMovers := true;]]></ST>
       </Implementation>
@@ -68,17 +67,17 @@ END_VAR
       <Implementation>
         <ST><![CDATA[CASE State OF
 	0:
-		IF EnableSequence.Enable() THEN
+		IF ActivateTracksInMovers() THEN
 			State := 1;
 		END_IF	
 		
 	1:
-		IF EnableSequence.Done THEN
+		IF EnableSequence.Enable() THEN
 			State := 2;
 		END_IF
 		
 	2:
-		IF ActivateTracksInMovers() THEN
+		IF  EnableSequence.Done THEN
 			ipackml.SetStateComplete();
 			State := 0;
 			Clearing := TRUE;
