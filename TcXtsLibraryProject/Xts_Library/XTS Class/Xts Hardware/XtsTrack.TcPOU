@@ -102,7 +102,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[_MyInterface.GetLength();]]></ST>
+          <ST><![CDATA[TrackLength := _MyInterface.GetLength();]]></ST>
         </Implementation>
       </Get>
     </Property>
