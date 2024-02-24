@@ -5,7 +5,8 @@
 VAR
 	fbTestSuites : FB_Testsuites;
 	fbTestSuite : FB_Testsuite;
-	XtsTrackStub : I_XtsTrack;
+	xtsTrack : XtsTrackStub;
+	iXtsTrackStub : I_XtsTrack := xtsTrack;
 END_VAR
 
 ]]></Declaration>
@@ -111,9 +112,11 @@ CASE fbTestSuite.P_Testcase OF
 	18:
 		THIS^._CurrentTrack := 0; 
 		fbTestSuite.P_Assert.M_Equals_DINT(-1, THIS^.EnableMover(), 'Mover accepted enable without a valid track');
-		fbTestSuite.M_Testcase('GivenNoTracksRegisteredWhenEnebleGivenThenMoverShouldReject',T#1S,'','',E_Testcase.Done);
+		fbTestSuite.M_Testcase('GivenNoTracksRegisteredWhenEnebleGivenThenMoverShouldReject',T#1S,'','',19);
 		
 	19: //when mover is given a new track it sets that as track length
+		fbTestSuite.P_Assert.M_Equals_DINT(1, THIS^.ActivateTrack(NewTrack := 1, Track := iXtsTrackStub), 'Mover did not set the track length when given new track');
+		fbTestSuite.M_Testcase('GivenNewTrackWhenActivateTrackCalledThenMoverShouldAcceptNewTrackLength',T#1S,'','',E_Testcase.Done);
 		
 	E_Testcase.Done:;	 
 END_CASE
@@ -191,6 +194,8 @@ TestSuiteGVL.fbTestsuites.P_Options.sFilePathName:= 'C:\test\report.xml';]]></ST
       <LineId Id="177" Count="0" />
       <LineId Id="175" Count="1" />
       <LineId Id="205" Count="1" />
+      <LineId Id="214" Count="0" />
+      <LineId Id="218" Count="0" />
       <LineId Id="129" Count="0" />
       <LineId Id="39" Count="1" />
       <LineId Id="9" Count="0" />
