@@ -97,16 +97,16 @@ CASE fbTestSuite.P_Testcase OF
 		
 	15:
 		_MyAxisStatus.NotMoving := TRUE;
-		fbTestSuite.P_Assert.M_Equals_DINT(1, THIS^.ActivateTrack(newTrack := 16#1,Track := XtsTrackStub), 'Mover rejected valid active track command');
+		fbTestSuite.P_Assert.M_Equals_DINT(1, THIS^.ActivateTrack(newTrack := 16#1,iXtsTrackStub), 'Mover rejected valid active track command');
 		fbTestSuite.M_Testcase('GivenAStationaryMoverWhenActiveTrackGivenThenMoverShouldAcceptNewTrack',T#1S,'','',16);
 		
 	16:
 		_MyAxisStatus.NotMoving := FALSE;
-		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.ActivateTrack(newTrack := 16#1,XtsTrackStub), 'Mover accepted track command when moving');
+		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.ActivateTrack(newTrack := 16#1,iXtsTrackStub), 'Mover accepted track command when moving');
 		fbTestSuite.M_Testcase('GivenMovingMoverWhenActiveTrackCommandThenMoverSouldRejectCommand',T#1S,'','',17);
 		
 	17:
-		fbTestSuite.P_Assert.M_Equals_DINT(-1, THIS^.ActivateTrack(newTrack := 16#1,XtsTrackStub), 'Mover Accepted invalid track');
+		fbTestSuite.P_Assert.M_Equals_DINT(-1, THIS^.ActivateTrack(newTrack := 16#1,iXtsTrackStub), 'Mover Accepted invalid track');
 		fbTestSuite.M_Testcase('GivenInvalidTrackWhenActiveTrackCommandThenMoverShouldReject',T#1S,'','',18);
 		
 	18:

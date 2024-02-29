@@ -8,7 +8,7 @@ VAR
 	XtsRunnerTestSuite : FB_Testsuite;
 	
 	// Test-vars	
-	arrCyclicModules : ARRAY[1..101] OF FB_Mover(THIS^);
+	arrCyclicModules : ARRAY[1..101] OF XtsMoverAxis(THIS^);
 	InitialiseModule : XtsHardware(THIS^);
 	InitAddedCheck : BOOL;
 	CyclicAddedCheck: BOOL;

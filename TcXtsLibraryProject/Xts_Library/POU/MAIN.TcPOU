@@ -3,6 +3,7 @@
   <POU Name="MAIN" Id="{aa92f88a-2917-437b-b76e-fd83d614eadb}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
+	XtsRunnerTestSuit : XtsRunnerTesting();
 	ObjRunner : ObjectRunner;
 	XtsMoverClassTestSuite : XtsMoverTestSuite(ObjRunner);
 	bExecute: BOOL;
@@ -16,6 +17,7 @@ IF bExecute THEN
 END_IF
 
 XtsMoverClassTestSuite();
+XtsRunnerTestSuit();
 ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
@@ -25,6 +27,7 @@ XtsMoverClassTestSuite();
       <LineId Id="10" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="14" Count="0" />
+      <LineId Id="29" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
   </POU>
