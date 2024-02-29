@@ -33,7 +33,7 @@ END_VAR]]></Declaration>
         <ST><![CDATA[IF ModuleCount < (MaxRegisteredModules + 1) THEN
 	CyclicModules[ModuleCount] := CyclicModule;
 	IF __QUERYINTERFACE(CyclicModule,InitInterface) THEN
-		InitialiseModules[ModuleCount] := InitInterface;
+		InitialiseModules[InitModuleCount] := InitInterface;
 		InitModuleCount := InitModuleCount + 1;
 	END_IF
 	ModuleCount := ModuleCount + 1;
