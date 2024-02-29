@@ -78,6 +78,7 @@ END_VAR
 	END_FOR
 	
 	xtsStateMachine.PmlModeCommand(Mode := E_PMLProtectedUnitMode.ePMLProtUnitMode_Production);
+	xtsStateMachine.PmlStateCommand(Command := E_PMLCommand.ePMLCommand_Abort);
 	Initialise := true;
 END_IF
 
@@ -111,6 +112,7 @@ END_VAR
       <LineId Id="111" Count="0" />
       <LineId Id="116" Count="0" />
       <LineId Id="79" Count="0" />
+      <LineId Id="120" Count="0" />
       <LineId Id="74" Count="1" />
       <LineId Id="73" Count="0" />
       <LineId Id="66" Count="0" />

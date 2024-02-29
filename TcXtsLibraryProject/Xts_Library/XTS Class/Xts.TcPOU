@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="Xts" Id="{4538c683-94fc-49a1-b5ad-30ffec5e4eff}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK Xts EXTENDS PML_Method_Base
+    <Declaration><![CDATA[FUNCTION_BLOCK Xts EXTENDS PML_Method_Base IMPLEMENTS I_Initialise
 VAR
 	_homePosition : MC_LREAL;
 	_HomeSpeed : MC_LREAL;
@@ -172,6 +172,56 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Method Name="Initialise" Id="{3c52ae7d-89c5-4979-a1bd-5023a279947c}">
+      <Declaration><![CDATA[METHOD Initialise : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE XtsHwState OF
+	XtsHardwareState.Init:
+		IF _XtsTrackHardware.SetTracksForDetection() THEN
+			XtsHwState := XtsHardwareState.Redetect;
+		END_IF
+		
+	XtsHardwareState.Redetect:
+		IF _XtsTrackHardware.TriggerMoverDetection() THEN
+			XtsHwState := XtsHardwareState.MoversValid;
+		END_IF
+		
+	XtsHardwareState.MoversValid:
+		IF _XtsTrackHardware.getAllMoversValid() THEN
+			XtsHwState := XtsHardwareState.AllMoversFound;
+		END_IF
+	
+	XtsHardwareState.AllMoversFound:
+		IF _XtsTrackHardware.getMoversDetected() THEN
+			XtsHwState := XtsHardwareState.XTSMode;
+		END_IF
+		
+	XtsHardwareState.XTSMode:
+		IF _XtsTrackHardware.IsInSim() THEN
+			XtsHwState := XtsHardwareState.MoverIdDetection;
+		ELSE
+			XtsHwState := XtsHardwareState.CheckModuleVoltages;
+		END_IF
+		
+	XtsHardwareState.CheckModuleVoltages:
+		IF _XtsTrackHardware.Is24VdcOK() = 2 AND _XtsTrackHardware.Is48VdcOK() = 2 THEN
+			XtsHwState := XtsHardwareState.MoverIdDetection;
+		END_IF
+	
+	XtsHardwareState.MoverIdDetection:
+		IF _XtsTrackHardware.TriggerMoverID() THEN
+			XtsHwState := XtsHardwareState.HWReady;
+			GetTMSMoverInterface();
+		END_IF
+	
+	XtsHardwareState.HWReady:
+		Initialise := 2;	
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="MoverArray" Id="{5c1cfa9c-be49-4324-bcf5-1be968bfce44}">
       <Declaration><![CDATA[PROPERTY MoverArray : array[1..SystemParameters.NumberOfMovers] of I_XtsMoverAxis]]></Declaration>
       <Get Name="Get" Id="{2b512b99-b3b1-44cb-bf62-7cd45f8e95a6}">
@@ -280,50 +330,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE XtsHwState OF
-	XtsHardwareState.Init:
-		IF _XtsTrackHardware.SetTracksForDetection() THEN
-			XtsHwState := XtsHardwareState.Redetect;
-		END_IF
-		
-	XtsHardwareState.Redetect:
-		IF _XtsTrackHardware.TriggerMoverDetection() THEN
-			XtsHwState := XtsHardwareState.MoversValid;
-		END_IF
-		
-	XtsHardwareState.MoversValid:
-		IF _XtsTrackHardware.getAllMoversValid() THEN
-			XtsHwState := XtsHardwareState.AllMoversFound;
-		END_IF
-	
-	XtsHardwareState.AllMoversFound:
-		IF _XtsTrackHardware.getMoversDetected() THEN
-			XtsHwState := XtsHardwareState.XTSMode;
-		END_IF
-		
-	XtsHardwareState.XTSMode:
-		IF _XtsTrackHardware.IsInSim() THEN
-			XtsHwState := XtsHardwareState.MoverIdDetection;
-		ELSE
-			XtsHwState := XtsHardwareState.CheckModuleVoltages;
-		END_IF
-		
-	XtsHardwareState.CheckModuleVoltages:
-		IF _XtsTrackHardware.Is24VdcOK() = 2 AND _XtsTrackHardware.Is48VdcOK() = 2 THEN
-			XtsHwState := XtsHardwareState.MoverIdDetection;
-		END_IF
-	
-	XtsHardwareState.MoverIdDetection:
-		IF _XtsTrackHardware.TriggerMoverID() THEN
-			XtsHwState := XtsHardwareState.HWReady;
-			GetTMSMoverInterface();
-			ipackml.PmlStateCommand(Command := E_PMLCommand.ePMLCommand_Abort);
-		END_IF
-	
-	XtsHardwareState.HWReady:
-		
-		
-END_CASE]]></ST>
+        <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
     <Property Name="XtsTrackHardware" Id="{10aeacae-a746-485a-b0e8-a2e9fb26c42b}">
@@ -403,6 +410,11 @@ END_VAR
     <LineIds Name="Xts.HomeSpeed.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
+    <LineIds Name="Xts.Initialise">
+      <LineId Id="6" Count="36" />
+      <LineId Id="44" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
     <LineIds Name="Xts.MoverArray.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
@@ -440,13 +452,6 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="Xts.Undefined">
-      <LineId Id="74" Count="4" />
-      <LineId Id="84" Count="30" />
-      <LineId Id="123" Count="1" />
-      <LineId Id="115" Count="1" />
-      <LineId Id="120" Count="0" />
-      <LineId Id="125" Count="0" />
-      <LineId Id="122" Count="0" />
       <LineId Id="73" Count="0" />
     </LineIds>
     <LineIds Name="Xts.XtsTrackHardware.Get">

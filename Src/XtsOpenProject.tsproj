@@ -4181,17 +4181,11 @@ and will return to Group State Standby when the situation permits.
 	</ImageDatas>
 	<Project ProjectGUID="{00909E45-7EC7-43B9-B736-6F08E4D01D19}" Target64Bit="true" ShowHideConfigurations="#x106">
 		<System>
-			<Settings MaxCpus="4">
+			<Settings MaxCpus="20">
 				<Cpu CpuId="2" BaseTime="2500"/>
 				<Cpu CpuId="3" BaseTime="2500"/>
 				<IoIdleTask Affinity="#x00000004"/>
 			</Settings>
-			<Licenses>
-				<Target>
-					<ManualSelect>{57BD9670-089D-434A-85CF-90A857EE0EFF}</ManualSelect>
-					<ManualSelect>{8C57D0A8-BD63-4554-BAE1-E9C797EF0D0E}</ManualSelect>
-				</Target>
-			</Licenses>
 			<Tasks>
 				<Task Id="3" Priority="20" CycleTime="100000" AmsPort="350" Affinity="#x00000004" AdtTasks="true">
 					<Name>PlcTask</Name>
@@ -34640,7 +34634,7 @@ and will return to Group State Standby when the situation permits.
 		</System>
 		<Motion>
 			<NC>
-				<SafTask Priority="4" CycleTime="20000" AmsPort="501" Affinity="#x00000004" IoAtBegin="true" AmsNetId="10.112.0.23.1.1" SafTaskInfo="256">
+				<SafTask Priority="4" CycleTime="20000" AmsPort="501" Affinity="#x00000004" IoAtBegin="true" SafTaskInfo="256">
 					<Name>NC-Task 1</Name>
 					<Vars VarGrpType="1" InsertType="1">
 						<Name>Inputs</Name>
