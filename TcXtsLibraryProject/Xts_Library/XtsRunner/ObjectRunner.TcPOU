@@ -12,7 +12,7 @@ VAR
 	InitModuleCount : INT := 0;
 	InitialiseModules : ARRAY[0..MaxRegisteredModules] OF I_Initialise;
 	i: INT;
-	InitialisationCount : INT;
+	InitialisationCount : INT := 0;
 END_VAR
 VAR CONSTANT
 	MaxRegisteredModules : INT := 99;
@@ -66,7 +66,7 @@ Clear := 2;
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR i := 0 TO MaxRegisteredModules DO
+        <ST><![CDATA[FOR i := 0 TO ModuleCount DO
 	IF CyclicModules[i] <> 0 THEN
 		CyclicModules[i].Cycle();
 	END_IF
@@ -88,7 +88,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF InitialisationCount < (MaxRegisteredModules + 1) THEN
+        <ST><![CDATA[IF InitialisationCount < InitModuleCount THEN
 	IF InitialiseModules[InitialisationCount] <> 0 THEN
 		IF InitialiseModules[InitialisationCount].Initialise() = 2 THEN
 			InitialisationCount := InitialisationCount + 1;
