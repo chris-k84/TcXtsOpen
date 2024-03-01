@@ -86,10 +86,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[MyAxisRef.ReadStatus();
-_MyNCData := MyAxisRef.NcToPlc;
-_MyAxisStatus := MyAxisRef.Status;
-IF isMoverDetected() THEN
+        <ST><![CDATA[IF isMoverDetected() THEN
 	MoverPowerCommand.Cycle();
 	MoverMoveCommand.Cycle();
 	MoverHaltCommand.Cycle();
@@ -106,7 +103,10 @@ IF isMoverDetected() THEN
 	Cycle := 1;
 ELSE
 	Cycle := -1;
-END_IF]]></ST>
+END_IF
+MyAxisRef.ReadStatus();
+_MyNCData := MyAxisRef.NcToPlc;
+_MyAxisStatus := MyAxisRef.Status;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Deceleration" Id="{3def2bbc-f7ec-4120-acb9-2ff2a2789bd5}" FolderPath="Dynamics\">
@@ -391,7 +391,6 @@ END_IF]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.Cycle">
-      <LineId Id="51" Count="2" />
       <LineId Id="25" Count="0" />
       <LineId Id="31" Count="2" />
       <LineId Id="26" Count="0" />
@@ -402,6 +401,9 @@ END_IF]]></ST>
       <LineId Id="38" Count="2" />
       <LineId Id="34" Count="2" />
       <LineId Id="27" Count="0" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="58" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.Deceleration.Get">
       <LineId Id="2" Count="0" />
