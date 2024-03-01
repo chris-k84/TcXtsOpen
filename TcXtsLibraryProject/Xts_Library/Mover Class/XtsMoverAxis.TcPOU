@@ -204,7 +204,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT axesGear.Busy THEN
+        <ST><![CDATA[IF NOT axesGear.Busy AND __ISVALIDREF(axesGear.MyGearMaster) AND MasterPosition <= _ActiveTrackLength AND SlavePosition <= _ActiveTrackLength THEN
 	IF axesGear.Sync(MasterPosition := MasterPosition, SlavePosition := SlavePosition) THEN
 		Gear := 1;
 	ELSE
@@ -385,6 +385,25 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Property Name="MyMasterRef" Id="{9a3e9617-3bee-43bf-8371-dedd27acecb0}" FolderPath="Administration\">
+      <Declaration><![CDATA[PROPERTY MyMasterRef : REFERENCE TO AXIS_REF]]></Declaration>
+      <Get Name="Get" Id="{d8c8a090-d5eb-4847-8f12-c276f8e68cfb}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MyMasterRef REF= axesGear.MyGearMaster;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{f5a13744-c943-4208-a476-90f7059f62be}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[axesGear.MyGearMaster REF= MyMasterRef;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Method Name="ResetAxis" Id="{e9d8249c-2f88-4980-a483-ceda82c7ab80}" FolderPath="Commands\">
       <Declaration><![CDATA[METHOD PUBLIC ResetAxis : HRESULT
 VAR_INPUT
@@ -531,6 +550,12 @@ END_IF]]></ST>
       <LineId Id="25" Count="0" />
       <LineId Id="19" Count="1" />
       <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMoverAxis.MyMasterRef.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMoverAxis.MyMasterRef.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.ResetAxis">
       <LineId Id="5" Count="0" />

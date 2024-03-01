@@ -7,6 +7,7 @@ VAR
 	fbTestSuite : FB_Testsuite;
 	xtsTrack : XtsTrackStub;
 	iXtsTrackStub : I_XtsTrack := xtsTrack;
+	GearMasterFake : AXIS_REF;
 END_VAR
 
 ]]></Declaration>
@@ -123,21 +124,30 @@ CASE fbTestSuite.P_Testcase OF
 		fbTestSuite.M_Testcase('GivenNewTrackWhenActivateTrackCalledThenMoverShouldAcceptNewTrackLength',T#1S,'','',20);
 		
 	20:
-		fbTestSuite.P_Assert.M_Equals_DINT(1, THIS^.Gear(1000.0,2000.0), 'The Mover rejected valid gear command');
-		fbTestSuite.M_Testcase('GivenAValidMoverWhenGearCommandIssuedThenMoverShouldAcceptCommand',T#1S,'','',21);
+		THIS^.MyMasterRef REF= 0;
+		_ActiveTrackLength := 2500.0;
+		THIS^.axesGear.Abort();
+		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.Gear(1000.0,2000.0), 'Mover accepted command with no valid master');
+		fbTestSuite.M_Testcase('GivenNoMasterWhenGearCommandThenMoverShouldReject',T#1S,'','',21);
 		
 	21:
 		THIS^.axesGear.Abort();
-		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.Gear(1000.0,2000.0), 'Mover accepted command with no valid master');
-		fbTestSuite.M_Testcase('GivenNoMasterWhenGearCommandThenMoverShouldReject',T#1S,'','',22);
+		THIS^.MyMasterRef REF= GearMasterFake;
+		_ActiveTrackLength := 2500.0;
+		fbTestSuite.P_Assert.M_Equals_DINT(1, THIS^.Gear(1000.0,2000.0), 'The Mover rejected valid gear command');
+		fbTestSuite.M_Testcase('GivenAValidMoverWhenGearCommandIssuedThenMoverShouldAcceptCommand',T#1S,'','',22);
 		
 	22:
+		THIS^.MyMasterRef REF= GearMasterFake;
 		THIS^.axesGear.Abort();
+		_ActiveTrackLength := 4000.0;
 		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.Gear(5000.0,1000.0), 'Mover accepted master position outside track');
 		fbTestSuite.M_Testcase('GivenAValidMoverWhenGearCommandOutsideTrackThenMoverShouldReject',T#1S,'','',23);
 		
 	23:
+		THIS^.MyMasterRef REF= GearMasterFake;
 		THIS^.axesGear.Abort();
+		_ActiveTrackLength := 5000.0;
 		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.Gear(2000.0,10000.0), 'Mover accepted slave position outside track');
 		fbTestSuite.M_Testcase('GivenAValidMoverWhenGearCommandOutsideTrackThenMoverShouldReject',T#1S,'','',E_Testcase.Done);
 		
@@ -226,12 +236,25 @@ TestSuiteGVL.fbTestsuites.P_Options.sFilePathName:= 'C:\test\report.xml';]]></ST
       <LineId Id="246" Count="1" />
       <LineId Id="214" Count="0" />
       <LineId Id="218" Count="0" />
-      <LineId Id="248" Count="5" />
-      <LineId Id="264" Count="0" />
-      <LineId Id="254" Count="3" />
+      <LineId Id="248" Count="1" />
+      <LineId Id="287" Count="0" />
+      <LineId Id="298" Count="0" />
+      <LineId Id="283" Count="1" />
+      <LineId Id="282" Count="0" />
+      <LineId Id="251" Count="0" />
+      <LineId Id="253" Count="0" />
+      <LineId Id="297" Count="0" />
+      <LineId Id="285" Count="0" />
+      <LineId Id="299" Count="0" />
+      <LineId Id="286" Count="0" />
+      <LineId Id="255" Count="2" />
+      <LineId Id="271" Count="0" />
       <LineId Id="265" Count="0" />
+      <LineId Id="300" Count="0" />
       <LineId Id="258" Count="3" />
+      <LineId Id="272" Count="0" />
       <LineId Id="267" Count="0" />
+      <LineId Id="301" Count="0" />
       <LineId Id="262" Count="1" />
       <LineId Id="129" Count="0" />
       <LineId Id="39" Count="1" />
