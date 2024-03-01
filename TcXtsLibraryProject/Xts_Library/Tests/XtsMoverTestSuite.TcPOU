@@ -120,7 +120,26 @@ CASE fbTestSuite.P_Testcase OF
 		THIS^.MoverActivateTrackCommand.Abort();
 		_MyAxisStatus.NotMoving := TRUE;
 		fbTestSuite.P_Assert.M_Equals_DINT(1, THIS^.ActivateTrack(NewTrack := 1, Track := iXtsTrackStub), 'Mover did not set the track length when given new track');
-		fbTestSuite.M_Testcase('GivenNewTrackWhenActivateTrackCalledThenMoverShouldAcceptNewTrackLength',T#1S,'','',E_Testcase.Done);
+		fbTestSuite.M_Testcase('GivenNewTrackWhenActivateTrackCalledThenMoverShouldAcceptNewTrackLength',T#1S,'','',20);
+		
+	20:
+		fbTestSuite.P_Assert.M_Equals_DINT(1, THIS^.Gear(1000.0,2000.0), 'The Mover rejected valid gear command');
+		fbTestSuite.M_Testcase('GivenAValidMoverWhenGearCommandIssuedThenMoverShouldAcceptCommand',T#1S,'','',21);
+		
+	21:
+		THIS^.axesGear.Abort();
+		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.Gear(1000.0,2000.0), 'Mover accepted command with no valid master');
+		fbTestSuite.M_Testcase('GivenNoMasterWhenGearCommandThenMoverShouldReject',T#1S,'','',22);
+		
+	22:
+		THIS^.axesGear.Abort();
+		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.Gear(5000.0,1000.0), 'Mover accepted master position outside track');
+		fbTestSuite.M_Testcase('GivenAValidMoverWhenGearCommandOutsideTrackThenMoverShouldReject',T#1S,'','',23);
+		
+	23:
+		THIS^.axesGear.Abort();
+		fbTestSuite.P_Assert.M_Equals_DINT(-1,THIS^.Gear(2000.0,10000.0), 'Mover accepted slave position outside track');
+		fbTestSuite.M_Testcase('GivenAValidMoverWhenGearCommandOutsideTrackThenMoverShouldReject',T#1S,'','',E_Testcase.Done);
 		
 	E_Testcase.Done:;	 
 END_CASE
@@ -207,6 +226,13 @@ TestSuiteGVL.fbTestsuites.P_Options.sFilePathName:= 'C:\test\report.xml';]]></ST
       <LineId Id="246" Count="1" />
       <LineId Id="214" Count="0" />
       <LineId Id="218" Count="0" />
+      <LineId Id="248" Count="5" />
+      <LineId Id="264" Count="0" />
+      <LineId Id="254" Count="3" />
+      <LineId Id="265" Count="0" />
+      <LineId Id="258" Count="3" />
+      <LineId Id="267" Count="0" />
+      <LineId Id="262" Count="1" />
       <LineId Id="129" Count="0" />
       <LineId Id="39" Count="1" />
       <LineId Id="9" Count="0" />

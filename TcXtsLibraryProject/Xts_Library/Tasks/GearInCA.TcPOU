@@ -69,7 +69,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[AxisReference REF= axis;]]></ST>
+        <ST><![CDATA[_SlaveAxis REF= axis;]]></ST>
       </Implementation>
     </Method>
     <Property Name="MyGearMaster" Id="{a46ef8fb-4e90-4897-9dcd-a04c2dd2e88d}">
@@ -101,7 +101,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[GearInPosCA.MasterSyncPosition := MasterPosition;
 GearInPosCA.SlaveSyncPosition := SlavePosition;
-_GearMover := true;]]></ST>
+_GearMover := Sync := true;]]></ST>
       </Implementation>
     </Method>
     <Property Name="SyncStrategy" Id="{74227846-5fda-4bbe-ac22-10f463d682ca}">

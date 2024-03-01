@@ -93,6 +93,7 @@ END_VAR
 	MoverHaltCommand.Cycle();
 	MoverResetCommand.Cycle();
 	MoverActivateTrackCommand.Cycle();
+	axesGear.Cycle();
 	TrackChangeTrigger(CLK := MoverActivateTrackCommand.Done);
 	IF TrackChangeTrigger.Q THEN
 		_MoverAbsMoveOptions.PositionReferenceSystem :=  MoverActivateTrackCommand.NewTrackId;
@@ -195,6 +196,26 @@ END_IF
         </Implementation>
       </Set>
     </Property>
+    <Method Name="Gear" Id="{b0aa32af-e1ad-43df-b90e-7e7d830bc963}" FolderPath="Commands\">
+      <Declaration><![CDATA[METHOD PUBLIC Gear : HRESULT
+VAR_INPUT
+	MasterPosition : MC_LREAL;
+	SlavePosition : MC_LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT axesGear.Busy THEN
+	IF axesGear.Sync(MasterPosition := MasterPosition, SlavePosition := SlavePosition) THEN
+		Gear := 1;
+	ELSE
+		Gear := -1;
+	END_IF
+ELSE
+	Gear := -1;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="HaltAxis" Id="{b177db81-8e99-498a-a7a2-cd0938dd7a2c}" FolderPath="Commands\">
       <Declaration><![CDATA[METHOD PUBLIC HaltAxis : HRESULT
 VAR_INPUT
@@ -223,6 +244,15 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Method Name="inGear" Id="{0809336a-3200-4d64-8806-8b040d87d191}" FolderPath="Status\">
+      <Declaration><![CDATA[METHOD inGear : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[inGear := axesGear.GearInPosCA.InSync;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="isMoverAtPosition" Id="{f1a74560-cd92-4fa6-83a2-3bacea608337}" FolderPath="Status\">
       <Declaration><![CDATA[METHOD PUBLIC isMoverAtPosition : BOOL
 VAR_INPUT
@@ -396,6 +426,7 @@ END_IF]]></ST>
       <LineId Id="31" Count="2" />
       <LineId Id="26" Count="0" />
       <LineId Id="37" Count="0" />
+      <LineId Id="60" Count="0" />
       <LineId Id="43" Count="2" />
       <LineId Id="47" Count="0" />
       <LineId Id="46" Count="0" />
@@ -437,6 +468,15 @@ END_IF]]></ST>
       <LineId Id="7" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
+    <LineIds Name="XtsMoverAxis.Gear">
+      <LineId Id="9" Count="1" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="28" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="20" Count="1" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
     <LineIds Name="XtsMoverAxis.HaltAxis">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
@@ -449,6 +489,9 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="XtsMoverAxis.IdentInGroup.Get">
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMoverAxis.inGear">
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.isMoverAtPosition">
       <LineId Id="10" Count="13" />
