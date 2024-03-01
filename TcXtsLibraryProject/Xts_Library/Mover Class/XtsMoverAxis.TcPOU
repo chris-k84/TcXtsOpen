@@ -11,6 +11,7 @@ VAR
 	MoverHaltCommand : HaltMover(MyAxisRef);
 	MoverResetCommand : AxesReset(MyAxisRef);
 	MoverActivateTrackCommand : ActivateTrackForMover(MyAxisRef);
+	axesGear	: GearInCA(MyAxisRef);
 	_ipTcIoXtsMover	: I_TcIoXtsXpuMover;
 	_ActiveTrackLength : MC_LREAL;
 	TrackChangeTrigger : R_TRIG;
