@@ -21,7 +21,6 @@ END_VAR]]></Declaration>
     </Implementation>
     <Folder Name="Action States" Id="{52cebbbe-42d9-490e-86b9-bf5151fd8965}" />
     <Folder Name="Operations" Id="{0e8598c4-3d58-4c14-a12f-6fd3f3ea02bf}" />
-    <Folder Name="Wait States" Id="{63f323b6-e159-475d-b0ee-857bfb772605}" />
     <Method Name="Aborting" Id="{f4025447-c7fa-4c21-bcd4-655228f2af38}" FolderPath="Action States\">
       <Declaration><![CDATA[METHOD PROTECTED Aborting : BOOL
 VAR
@@ -324,15 +323,6 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Method Name="Undefined" Id="{a91364b7-9260-4707-a829-905210de4834}" FolderPath="Wait States\">
-      <Declaration><![CDATA[METHOD PROTECTED Undefined : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Method>
     <Property Name="XtsTrackHardware" Id="{10aeacae-a746-485a-b0e8-a2e9fb26c42b}">
       <Declaration><![CDATA[PROPERTY XtsTrackHardware : IXtsHardware]]></Declaration>
       <Get Name="Get" Id="{b51a74ba-fecc-49a6-94a3-853ee17e2470}">
@@ -450,9 +440,6 @@ END_VAR
     </LineIds>
     <LineIds Name="Xts.Tracks.Set">
       <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.Undefined">
-      <LineId Id="73" Count="0" />
     </LineIds>
     <LineIds Name="Xts.XtsTrackHardware.Get">
       <LineId Id="2" Count="0" />
