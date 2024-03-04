@@ -12,10 +12,12 @@ END_VAR
 
 CASE fbTestSuite.P_Testcase OF
 	E_Testcase.Start:
+		THIS^._ICaGroup := 1;
 		fbTestSuite.P_Assert.M_Equals_DINT(1, THIS^.Cycle(), 'Cycle method did not return a complete');
 		fbTestSuite.M_Testcase('GivenTheGroupExistsWhenCycleCalledThenCyclicTaskShouldRun',T#1S,'','',1);
 		
 	1:
+		THIS^._ICaGroup := 0;
 		fbTestSuite.P_Assert.M_Equals_DINT(-1, THIS^.Cycle(), 'Cycle method ran without vaild NC connection');
 		fbTestSuite.M_Testcase('GivenNoCaRefWhenCycleCalledThenCyclicShouldNotRun',T#1S,'','',E_Testcase.Done);	
 		
@@ -38,7 +40,9 @@ TestSuiteGVL.fbTestsuites.P_Options.sFilePathName:= 'C:\test\report.xml';]]></ST
     </Method>
     <LineIds Name="XtsCaGroupTestSuite">
       <LineId Id="12" Count="3" />
+      <LineId Id="152" Count="0" />
       <LineId Id="17" Count="3" />
+      <LineId Id="153" Count="0" />
       <LineId Id="22" Count="2" />
       <LineId Id="151" Count="0" />
       <LineId Id="9" Count="0" />

@@ -1343,7 +1343,7 @@ and will return to Group State Standby when the situation permits.
 		</DataType>
 	</DataTypes>
 	<Project GUID="{CED1A555-C4FE-4060-8667-CD2676F9349D}" Name="Xts_Library" PrjFilePath="..\..\Xts_Library\Xts_Library.plcproj" TmcFilePath="..\..\Xts_Library\Xts_Library.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Xts_Library\Xts_Library.tmc" TmcHash="{4A1C2932-9D22-027E-B73B-3CD4551A2D23}">
+		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Xts_Library\Xts_Library.tmc" TmcHash="{B4C16CB4-F08E-1423-9885-F3B1E26ADE71}">
 			<Name>Xts_Library Instance</Name>
 			<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 			<Vars VarGrpType="1">

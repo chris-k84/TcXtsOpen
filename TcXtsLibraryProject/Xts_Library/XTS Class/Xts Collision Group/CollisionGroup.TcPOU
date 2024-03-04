@@ -9,6 +9,7 @@ END_VAR
 VAR
 	stGroupInformation : CAGroupInfo;
 	_caGroup : Tc3_McCoordinatedMotion.AXES_GROUP_REF;
+	_ICaGroup : I_Mc2CaGroup;
 	ReadGroupStatus : Tc3_McCoordinatedMotion.MC_GroupReadStatus;
 	resetCAGroup : ResetGroup(THIS^);
 	enableCAGroup : EnableGroup(THIS^);
@@ -48,28 +49,28 @@ VAR
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[ReadGroupStatus(
+        <ST><![CDATA[IF _ICaGroup <> 0 THEN
+	ReadGroupStatus(
 	AxesGroup:= _caGroup, 
 	Enable:= TRUE );
-ResetCaGroupResult := resetCAGroup.Cycle();
-EnableCaGroupResult := enableCAGroup.Cycle();
-DisableCaGroupResult := disableCAGroup.Cycle();
-AddMoverCallResult := addMover.Cycle();
-RemoveAllCycleResult := removeAllAxes.Cycle();
-GrpStopCycleResult := grpStop.Cycle();
-
-
-//Cyclic get CaGroup information
-stGroupInformation.sName := 'MainCAGroup';
-stGroupInformation.eGroupState := _caGroup.NcToPlc.Common.GroupStatus.State;
-stGroupInformation.nAxesCount	:= UDINT_TO_INT(_caGroup.NcToPlc.Common.GroupAxesCount);
-stGroupInformation.nId			:= _caGroup.NcToPlc.Common.GroupOID;	
-
-IF ResetCaGroupResult = E_FAIL OR
-	EnableCaGroupResult = E_FAIL OR
-	DisableCaGroupResult = E_FAIL THEN
-	Cycle := E_FAIL;
-END_IF]]></ST>
+	ResetCaGroupResult := resetCAGroup.Cycle();
+	EnableCaGroupResult := enableCAGroup.Cycle();
+	DisableCaGroupResult := disableCAGroup.Cycle();
+	AddMoverCallResult := addMover.Cycle();
+	RemoveAllCycleResult := removeAllAxes.Cycle();
+	GrpStopCycleResult := grpStop.Cycle();
+	
+	
+	//Cyclic get CaGroup information
+	stGroupInformation.sName := 'MainCAGroup';
+	stGroupInformation.eGroupState := _caGroup.NcToPlc.Common.GroupStatus.State;
+	stGroupInformation.nAxesCount	:= UDINT_TO_INT(_caGroup.NcToPlc.Common.GroupAxesCount);
+	stGroupInformation.nId			:= _caGroup.NcToPlc.Common.GroupOID;	
+	Cycle := 1;
+ELSE
+	Cycle := -1;
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="Disable" Id="{236769ac-ee48-442c-86de-25258567af7c}">
@@ -185,18 +186,13 @@ END_IF]]></ST>
       <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="CollisionGroup.Cycle">
-      <LineId Id="6" Count="5" />
-      <LineId Id="35" Count="0" />
-      <LineId Id="44" Count="0" />
-      <LineId Id="43" Count="0" />
-      <LineId Id="46" Count="0" />
-      <LineId Id="12" Count="4" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="59" Count="14" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="74" Count="1" />
+      <LineId Id="58" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="24" Count="0" />
-      <LineId Id="23" Count="0" />
-      <LineId Id="25" Count="0" />
-      <LineId Id="27" Count="1" />
-      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="CollisionGroup.Disable">
       <LineId Id="5" Count="2" />

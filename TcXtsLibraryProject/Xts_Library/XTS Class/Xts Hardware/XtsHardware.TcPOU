@@ -34,10 +34,7 @@ IF NOT IsInSim() THEN
 	FOR i := 1 TO XPU.GetTrackCount() DO
 		XtsTracks[i].Cycle();
 	END_FOR
-END_IF
-
-
-]]></ST>
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_init" Id="{7d0880e3-23ff-433e-9f1f-2df9860acb17}">
@@ -62,6 +59,15 @@ END_VAR
 	 getAllMoversValid := TRUE;
 	 Logger.Send(TC_EVENTS.XtsHardwareEvents.AllMoversValid,'');
  END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetCaGroupInterface" Id="{99f85b1e-932d-42a1-9963-9051d68aedba}">
+      <Declaration><![CDATA[METHOD GetCaGroupInterface : I_Mc2CaGroup
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetCaGroupInterface := XtsIoEnvironment.Mc2CaGroup(1);]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetMoverEnvInterface" Id="{1fc643c6-ecb9-4760-af6a-4f21ce7c87e0}">
@@ -314,15 +320,15 @@ END_IF]]></ST>
       <LineId Id="193" Count="0" />
       <LineId Id="196" Count="4" />
       <LineId Id="194" Count="1" />
-      <LineId Id="189" Count="0" />
-      <LineId Id="71" Count="0" />
-      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.FB_init">
       <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.getAllMoversValid">
       <LineId Id="9" Count="2" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsHardware.GetCaGroupInterface">
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsHardware.GetMoverEnvInterface">
