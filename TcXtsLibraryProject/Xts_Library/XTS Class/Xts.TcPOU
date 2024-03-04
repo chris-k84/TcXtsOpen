@@ -131,7 +131,9 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR i := 1 TO SystemParameters.NumberOfMovers DO
 	_MoverArray[i].MoverXtsIoEnvInterface :=_XtsTrackHardware.GetMoverEnvInterface(i);
-END_FOR]]></ST>
+END_FOR
+
+mcCollisionGroup.CAGroupXtsIoEnvInterface := _XtsTrackHardware.GetCaGroupInterface();]]></ST>
       </Implementation>
     </Method>
     <Property Name="HomePosition" Id="{7488af26-181d-46aa-9621-c1c9bb1f6cd2}">
@@ -397,6 +399,8 @@ END_VAR
       <LineId Id="29" Count="0" />
       <LineId Id="31" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="34" Count="0" />
     </LineIds>
     <LineIds Name="Xts.HomePosition.Get">
       <LineId Id="2" Count="0" />

@@ -9,6 +9,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Method Name="GetCaGroupInterface" Id="{e1a52bd7-37ee-4f6b-8be7-a41fbec3233d}">
+      <Declaration><![CDATA[METHOD GetCaGroupInterface : I_Mc2CaGroup
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
     <Method Name="GetMoverEnvInterface" Id="{06175234-441e-45a7-b310-01adbe58b90a}">
       <Declaration><![CDATA[METHOD GetMoverEnvInterface : I_TcIoXtsXpuMover
 VAR_INPUT
