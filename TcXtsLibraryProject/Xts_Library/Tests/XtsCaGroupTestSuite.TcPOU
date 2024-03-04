@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="XtsCaGroupTestSuite" Id="{2eaaf776-65bd-4255-8c9b-d74a2ff9abd7}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsCaGroupTestSuite EXTENDS CollisionGroup
+VAR
+	fbTestSuites : FB_Testsuites;
+	fbTestSuite : FB_Testsuite;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[fbTestSuite();
+
+CASE fbTestSuite.P_Testcase OF
+	E_Testcase.Start:
+		fbTestSuite.P_Assert.M_Equals_DINT(1, THIS^.Cycle(), 'Cycle method did not return a complete');
+		fbTestSuite.M_Testcase('GivenTheGroupExistsWhenCycleCalledThenCyclicTaskShouldRun',T#1S,'','',1);
+		
+	1:
+		fbTestSuite.P_Assert.M_Equals_DINT(-1, THIS^.Cycle(), 'Cycle method ran without vaild NC connection');
+		fbTestSuite.M_Testcase('GivenNoCaRefWhenCycleCalledThenCyclicShouldNotRun',T#1S,'','',E_Testcase.Done);	
+		
+	E_Testcase.Done:;	 
+END_CASE]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{da707272-400d-49d5-9b07-a89bdade97bb}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	XtsRunner : I_ObjectRunner;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[//// Add Testsuite to Testsuites
+TestSuiteGVL.fbTestsuites.M_Add(fbTestsuite);
+TestSuiteGVL.fbTestsuites.P_Options.sFilePathName:= 'C:\test\report.xml';]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="XtsCaGroupTestSuite">
+      <LineId Id="12" Count="3" />
+      <LineId Id="17" Count="3" />
+      <LineId Id="22" Count="2" />
+      <LineId Id="151" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsCaGroupTestSuite.FB_init">
+      <LineId Id="8" Count="1" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

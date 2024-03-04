@@ -3,7 +3,6 @@
   <POU Name="XtsMoverTestSuite" Id="{0851a5af-3a91-4347-bf84-40e9438cdb23}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XtsMoverTestSuite EXTENDS XtsMoverAxis
 VAR
-	fbTestSuites : FB_Testsuites;
 	fbTestSuite : FB_Testsuite;
 	xtsTrack : XtsTrackStub;
 	iXtsTrackStub : I_XtsTrack := xtsTrack;

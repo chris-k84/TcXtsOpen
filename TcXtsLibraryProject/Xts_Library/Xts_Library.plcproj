@@ -194,6 +194,9 @@
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>
+    <Compile Include="Tests\XtsCaGroupTestSuite.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Tests\XtsHardwareTesting.TcPOU">
       <SubType>Code</SubType>
     </Compile>
