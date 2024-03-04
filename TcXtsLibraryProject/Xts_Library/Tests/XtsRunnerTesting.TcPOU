@@ -3,8 +3,6 @@
   <POU Name="XtsRunnerTesting" Id="{88ef7940-eca0-45ab-bf43-15147aee1c36}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XtsRunnerTesting EXTENDS ObjectRunner
 VAR
-	bExecute:		BOOL;
-	fbTestsuites:	FB_Testsuites;				// Testsuites
 	XtsRunnerTestSuite : FB_Testsuite;
 	
 	// Test-vars	
@@ -15,19 +13,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Run
-fbTestsuites();
-
-IF bExecute THEN
-	// manual execute | override file path
-	fbTestsuites.P_Options.sFilePathName := 'C:\XtsRunnerTestReport.xml';
-	bExecute:= NOT fbTestsuites.M_Request(E_Base.Execute);
-END_IF
-
-// Add Testsuite to Testsuites
-fbTestsuites.M_Add(XtsRunnerTestSuite);			
-
-{region "XtsRunnerTestSuite"}
+      <ST><![CDATA[{region "XtsRunnerTestSuite"}
 XtsRunnerTestSuite();
 CASE XtsRunnerTestSuite.P_Testcase OF
 	E_Testcase.Start:
@@ -127,8 +113,21 @@ CASE XtsRunnerTestSuite.P_Testcase OF
 END_CASE
 {endregion}]]></ST>
     </Implementation>
+    <Method Name="FB_init" Id="{1010bb27-4a08-43fe-a384-155288b292ea}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[//// Add Testsuite to Testsuites
+TestSuiteGVL.fbTestsuites.M_Add(XtsRunnerTestSuite);
+TestSuiteGVL.fbTestsuites.P_Options.sFilePathName:= 'C:\test\report.xml';]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="XtsRunnerTesting">
-      <LineId Id="24" Count="15" />
+      <LineId Id="36" Count="3" />
       <LineId Id="41" Count="0" />
       <LineId Id="150" Count="0" />
       <LineId Id="109" Count="1" />
@@ -181,6 +180,10 @@ END_CASE
       <LineId Id="196" Count="0" />
       <LineId Id="86" Count="5" />
       <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsRunnerTesting.FB_init">
+      <LineId Id="8" Count="1" />
+      <LineId Id="7" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

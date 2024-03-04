@@ -3,9 +3,9 @@
   <POU Name="MAIN" Id="{aa92f88a-2917-437b-b76e-fd83d614eadb}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	XtsRunnerTestSuit : XtsRunnerTesting();
+	_XtsRunnerTestSuit : XtsRunnerTesting();
 	ObjRunner : ObjectRunner;
-	XtsMoverClassTestSuite : XtsMoverTestSuite(ObjRunner);
+	_XtsMoverClassTestSuite : XtsMoverTestSuite(ObjRunner);
 	bExecute: BOOL;
 	_XtsCaGroupTestSuite : XtsCaGroupTestSuite(ObjRunner);
 END_VAR
@@ -17,8 +17,8 @@ IF bExecute THEN
 	bExecute:= NOT TestSuiteGVL.fbTestsuites.M_Request(E_Base.Execute);
 END_IF
 
-XtsMoverClassTestSuite();
-XtsRunnerTestSuit();
+_XtsMoverClassTestSuite();
+_XtsRunnerTestSuit();
 _XtsCaGroupTestSuite();
 ]]></ST>
     </Implementation>
