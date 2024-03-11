@@ -2,11 +2,9 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="XTSIOEnvVarWrapper" Id="{03c3c931-6ee3-4ab9-88b9-320f3e1d8e15}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XTSIOEnvVarWrapper
-VAR_INPUT
-END_VAR
-VAR_OUTPUT
-END_VAR
 VAR
+	XtsIoEnvironment : Tc3_XTS_Utility.FB_TcIoXtsEnvironment;
+	XPU: Tc3_XTS_Utility.I_TcIoXtsProcessingUnit;
 END_VAR
 ]]></Declaration>
     <Implementation>
