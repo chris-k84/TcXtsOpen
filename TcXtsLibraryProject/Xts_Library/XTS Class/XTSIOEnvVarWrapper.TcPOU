@@ -10,6 +10,16 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="GetCaGroupInterface" Id="{12f834a0-9ae6-48b5-9bae-7bc717cd2b2d}">
+      <Declaration><![CDATA[METHOD GetCaGroupInterface : I_Mc2CaGroup
+VAR_INPUT
+	CAGroupNumber : INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetCaGroupInterface := XtsIoEnvironment.Mc2CaGroup(CAGroupNumber);]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="GetMotorModuleInterface" Id="{9af7c768-b524-4dfc-b4c9-d134e43969ae}">
       <Declaration><![CDATA[METHOD PUBLIC GetMotorModuleInterface : I_TcIoXtsPartModule
 VAR_INPUT
@@ -65,6 +75,9 @@ END_IF]]></ST>
     </Method>
     <LineIds Name="XTSIOEnvVarWrapper">
       <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSIOEnvVarWrapper.GetCaGroupInterface">
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XTSIOEnvVarWrapper.GetMotorModuleInterface">
       <LineId Id="5" Count="0" />
