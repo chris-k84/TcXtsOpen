@@ -10,6 +10,17 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="GetMotorModuleInterface" Id="{9af7c768-b524-4dfc-b4c9-d134e43969ae}">
+      <Declaration><![CDATA[METHOD PUBLIC GetMotorModuleInterface : I_TcIoXtsPartModule
+VAR_INPUT
+	PartNumber : INT;
+	ModuleNumber : INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[XPU.PartTcIo(PartNumber).ModuleTcIo(ModuleNumber);]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="GetMoverInterface" Id="{dbc9b774-d169-476b-835b-9bf55e4a60d9}">
       <Declaration><![CDATA[METHOD PUBLIC GetMoverInterface : I_TcIoXtsXpuMover
 VAR_INPUT
@@ -34,8 +45,7 @@ END_VAR
       <Declaration><![CDATA[METHOD PUBLIC GetTrackInterface : I_TcIoXtsXpuTrack
 VAR_INPUT
 	TrackNumber : INT;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetTrackInterface := XPU.TrackTcIo(TrackNumber);]]></ST>
       </Implementation>
@@ -55,6 +65,9 @@ END_IF]]></ST>
     </Method>
     <LineIds Name="XTSIOEnvVarWrapper">
       <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSIOEnvVarWrapper.GetMotorModuleInterface">
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XTSIOEnvVarWrapper.GetMoverInterface">
       <LineId Id="5" Count="0" />
