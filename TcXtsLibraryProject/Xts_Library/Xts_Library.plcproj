@@ -233,6 +233,9 @@
     <Compile Include="XTS Class\Xts Hardware\XtsHardwareState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="XTS Class\Xts Hardware\XtsMotorModule.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="XTS Class\Xts Hardware\XtsPart.TcPOU">
       <SubType>Code</SubType>
     </Compile>

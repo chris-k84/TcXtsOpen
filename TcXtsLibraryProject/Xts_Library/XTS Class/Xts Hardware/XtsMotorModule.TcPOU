@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="XtsMotorModule" Id="{447db564-ab24-433c-b078-4cedd1c7411e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK XtsMotorModule EXTENDS CyclicBase
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Cycle" Id="{1188f197-bbd0-4970-903a-af249f1ed9e0}">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Initialise" Id="{0d230f78-299f-458d-bcac-a537a1290197}">
+      <Declaration><![CDATA[METHOD Initialise : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="XtsMotorModule">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMotorModule.Cycle">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMotorModule.Initialise">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
