@@ -10,8 +10,66 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="GetMoverInterface" Id="{dbc9b774-d169-476b-835b-9bf55e4a60d9}">
+      <Declaration><![CDATA[METHOD PUBLIC GetMoverInterface : I_TcIoXtsXpuMover
+VAR_INPUT
+	MoverId : INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetMoverInterface := XPU.MoverTcIo(MoverID);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetPartInterface" Id="{a60c8186-f31f-4591-b959-ebb1bad32c7a}">
+      <Declaration><![CDATA[METHOD PUBLIC GetPartInterface : I_TcIoXtsXpuPart
+VAR_INPUT
+	PartNumber : INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetPartInterface := XPU.PartTcIo(PartNumber);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetTrackInterface" Id="{36334a76-598d-4a99-aaef-0a407eed48bd}">
+      <Declaration><![CDATA[METHOD PUBLIC GetTrackInterface : I_TcIoXtsXpuTrack
+VAR_INPUT
+	TrackNumber : INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetTrackInterface := XPU.TrackTcIo(TrackNumber);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Initialise" Id="{f0d17991-21f7-403c-899a-0fcccbff041e}">
+      <Declaration><![CDATA[METHOD PUBLIC Initialise : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF XtsIoEnvironment.Init(TRUE) THEN
+	XtsIoEnvironment.Init(FALSE);
+	XPU := XtsIoEnvironment.XpuTcIo(1);
+	Initialise := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="XTSIOEnvVarWrapper">
       <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSIOEnvVarWrapper.GetMoverInterface">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSIOEnvVarWrapper.GetPartInterface">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSIOEnvVarWrapper.GetTrackInterface">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSIOEnvVarWrapper.Initialise">
+      <LineId Id="7" Count="1" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
