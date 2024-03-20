@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="ITF_XTSIOEnvVarWrapper" Id="{30a06d50-ef59-4bfa-9dd3-f949d401bfcc}">
+    <Declaration><![CDATA[INTERFACE ITF_XTSIOEnvVarWrapper
+]]></Declaration>
+    <Method Name="GetCaGroupInterface" Id="{e5766ff7-d74d-4918-8c8c-b6404824695c}">
+      <Declaration><![CDATA[METHOD GetCaGroupInterface : I_Mc2CaGroup
+VAR_INPUT
+	CAGroupNumber : INT;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="GetMotorModuleInterface" Id="{c9e316a7-456a-49d5-b1f4-827c270545da}">
+      <Declaration><![CDATA[METHOD PUBLIC GetMotorModuleInterface : I_TcIoXtsPartModule
+VAR_INPUT
+	PartNumber : INT;
+	ModuleNumber : INT;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="GetMoverInterface" Id="{30f73f3d-ac87-4263-a943-1883fb33de68}">
+      <Declaration><![CDATA[METHOD PUBLIC GetMoverInterface : I_TcIoXtsXpuMover
+VAR_INPUT
+	MoverId : INT;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="GetPartInterface" Id="{33ed9cb1-a852-4796-a6f8-db3ef7d84470}">
+      <Declaration><![CDATA[METHOD PUBLIC GetPartInterface : I_TcIoXtsXpuPart
+VAR_INPUT
+	PartNumber : INT;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="GetTrackInterface" Id="{46ac4c9d-e2d5-4696-a8bf-e6e5f3db6a25}">
+      <Declaration><![CDATA[METHOD PUBLIC GetTrackInterface : I_TcIoXtsXpuTrack
+VAR_INPUT
+	TrackNumber : INT;
+END_VAR]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

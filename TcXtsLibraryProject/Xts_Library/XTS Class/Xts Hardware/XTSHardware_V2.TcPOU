@@ -1,17 +1,124 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="XTSHardware_V2" Id="{2082c175-1a19-4a3f-b920-8dbd46477756}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK XTSHardware_V2 EXTENDS CyclicBase
+    <Declaration><![CDATA[FUNCTION_BLOCK XTSHardware_V2 EXTENDS CyclicBase IMPLEMENTS I_Initialise
 VAR
 	XtsParts : ARRAY[1..SystemParameters.NumberOfParts] OF XtsPart;
 	XtsTracks : ARRAY[1..SystemParameters.NumberOfTracks] OF XtsTrack;
+	MyXtsIoEnvVarRef : ITF_XTSIOEnvVarWrapper;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="Initialise" Id="{95822be7-e433-46ff-bfc3-e4b3c51e2a74}">
+      <Declaration><![CDATA[METHOD Initialise : HRESULT
+VAR_INPUT
+END_VAR
+
+VAR
+	
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE XtsIoEnvInitialiseState OF
+	0:
+		IF XPU.GetPartCount() = SystemParameters.NumberOfParts THEN
+			FOR i := 1 TO SystemParameters.NumberOfParts DO
+				XtsParts[i].MyXtsIoEnvInterface := XPU.PartTcIo(UDINT_TO_UINT(i));
+			END_FOR
+			XtsIoEnvInitialiseState := 3;
+		ELSE
+			XtsIoEnvInitialiseState := 999;
+		END_IF
+	3:
+		XPU.GetTrackOids();
+		Tracks := XPU.P_TrackOids;
+		IF XPU.GetTrackCount() = SystemParameters.NumberOfTracks THEN
+			FOR i := 1 TO SystemParameters.NumberOfTracks DO
+				XtsTracks[i].MyXtsIoEnvInterface := XPU.TrackTcIo(UDINT_TO_UINT(i));
+				XtsTracks[i].MyOTCID := Tracks[i];
+			END_FOR
+			XtsIoEnvInitialiseState := 4;
+		ELSE
+			XtsIoEnvInitialiseState := 999;
+		END_IF
+	4:
+		XtsIoEnvInitialiseState := 5;
+		FOR i := 1 TO XPU.GetPartCount() DO
+			IF XtsParts[i].Initialise() <> 2 THEN
+				XtsIoEnvInitialiseState := 4;
+			END_IF
+		END_FOR
+	5:
+		XtsIoEnvInitialiseState := 6;
+		FOR i := 1 TO XPU.GetTrackCount() DO
+			IF XtsTracks[i].Initialise() <> 2 THEN
+				XtsIoEnvInitialiseState := 5;
+			END_IF
+		END_FOR
+	6:
+		Initialise := 2;
+END_CASE
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="XtsIoEnvVarWrapper" Id="{9f0e6f27-b8f0-452c-b07d-d4d2a7ed1b3b}">
+      <Declaration><![CDATA[PROPERTY XtsIoEnvVarWrapper : itf_xtsioenvvarwrapper]]></Declaration>
+      <Get Name="Get" Id="{ef18a883-259a-46c5-ac1a-fd1d0138159b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[XtsIoEnvVarWrapper := MyXtsIoEnvVarRef;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{3f18a9fd-c75b-45a9-b0a5-a4cb82b21b6b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MyXtsIoEnvVarRef := XtsIoEnvVarWrapper;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <LineIds Name="XTSHardware_V2">
       <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSHardware_V2.Initialise">
+      <LineId Id="20" Count="1" />
+      <LineId Id="34" Count="1" />
+      <LineId Id="37" Count="1" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="39" Count="1" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="75" Count="1" />
+      <LineId Id="43" Count="1" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="48" Count="1" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="58" Count="1" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="64" Count="4" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSHardware_V2.XtsIoEnvVarWrapper.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSHardware_V2.XtsIoEnvVarWrapper.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
