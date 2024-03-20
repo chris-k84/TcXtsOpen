@@ -22,6 +22,12 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[CASE XtsIoEnvInitialiseState OF
 	0:
+		IF MyXtsIoEnvVarRef <> 0 THEN
+			IF MyXtsIoEnvVarRef.IsInitialised() THEN
+				XtsIoEnvInitialiseState := 1;
+			END_IF
+		END_IF
+	1:
 		IF XPU.GetPartCount() = SystemParameters.NumberOfParts THEN
 			FOR i := 1 TO SystemParameters.NumberOfParts DO
 				XtsParts[i].MyXtsIoEnvInterface := XPU.PartTcIo(UDINT_TO_UINT(i));
@@ -86,6 +92,11 @@ END_VAR
     </LineIds>
     <LineIds Name="XTSHardware_V2.Initialise">
       <LineId Id="20" Count="1" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="88" Count="1" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="85" Count="0" />
       <LineId Id="34" Count="1" />
       <LineId Id="37" Count="1" />
       <LineId Id="41" Count="0" />

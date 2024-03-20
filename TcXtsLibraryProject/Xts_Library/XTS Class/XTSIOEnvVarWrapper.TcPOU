@@ -74,6 +74,15 @@ END_VAR
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="IsInitialised" Id="{66e54d32-1c95-4eb4-ba62-654c54ac7108}">
+      <Declaration><![CDATA[METHOD IsInitialised : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IsInitialised := Initialised;]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="XTSIOEnvVarWrapper">
       <LineId Id="9" Count="0" />
     </LineIds>
@@ -96,6 +105,9 @@ END_IF]]></ST>
       <LineId Id="7" Count="1" />
       <LineId Id="10" Count="0" />
       <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSIOEnvVarWrapper.IsInitialised">
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>

@@ -38,5 +38,11 @@ VAR_INPUT
 	TrackNumber : INT;
 END_VAR]]></Declaration>
     </Method>
+    <Method Name="IsInitialised" Id="{2cbac030-77c4-4d36-9dea-9ce3d8292980}">
+      <Declaration><![CDATA[METHOD IsInitialised : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
   </Itf>
 </TcPlcObject>
