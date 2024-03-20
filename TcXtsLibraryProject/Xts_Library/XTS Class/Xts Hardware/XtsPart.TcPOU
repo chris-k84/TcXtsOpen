@@ -8,6 +8,7 @@ VAR
 	MyModuleCount : UDINT;
 	PartDriveState: Tc3_XTS_Utility.DriveState;
 	_ReadyToEnable: BOOL;
+	MyModules : ARRAY[1..SystemParameters.MaxModulesInPart] OF XtsMotorModule;
 	Modules : ARRAY[1..SystemParameters.MaxModulesInPart] OF I_TcIoXtsPartModule;
 	ModulesCoE : ARRAY[1..SystemParameters.MaxModulesInPart] OF I_AT2xxxXtsMotor;
 	f24V: ARRAY[1..SystemParameters.MaxModulesInPart] OF UINT;
