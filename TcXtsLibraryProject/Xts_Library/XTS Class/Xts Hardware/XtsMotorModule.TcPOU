@@ -5,6 +5,10 @@
 VAR
 	MyModuleIoInterface : I_TcIoXtsPartModule;
 	MyModuleCoEInterface : I_AT2xxxXtsMotor;
+	CurrentLive: DINT;
+	MaxCurrent: DINT;
+	f24V: UINT;
+	f48V: UINT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -16,7 +20,15 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IF MyModuleCoEInterface <> 0 THEN
+	MyModuleCoEInterface.InfoData.Update();
+	CurrentLive:=MyModuleCoEInterface.InfoData.OverallCurrent;
+	MaxCurrent:=MyModuleCoEInterface.InfoData.MaxOverallCurrentLast500ms;
+	f24V:= MyModuleCoEInterface.InfoData.AuxiliaryVoltage24V;
+	f48V:=MyModuleCoEInterface.InfoData.DcLinkVoltage;
+END_IF
+
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="Initialise" Id="{0d230f78-299f-458d-bcac-a537a1290197}">
@@ -27,6 +39,34 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF MyModuleIoInterface.P_IsInitialized THEN
 	Initialise := 1;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Is24VOK" Id="{9b08696d-e0e1-46f9-950f-7b12a84e7180}">
+      <Declaration><![CDATA[METHOD Is24VOK : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF f24V[i] < 20400 THEN
+	Is24VOK := 1;
+END_IF
+IF f24V[i] > 28800 THEN
+	Is24VOK := 1;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Is48VOK" Id="{f76f25e2-8796-412c-b16e-72d1b643b91d}">
+      <Declaration><![CDATA[METHOD Is48VOK : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF f48V[i] < 46080 THEN
+	Is48VOK := 1;
+END_IF
+IF f48V[i] > 49920 THEN
+	Is48VOK := 1;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -72,11 +112,21 @@ END_VAR
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="XtsMotorModule.Cycle">
-      <LineId Id="5" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="19" Count="3" />
+      <LineId Id="17" Count="1" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="15" Count="0" />
     </LineIds>
     <LineIds Name="XtsMotorModule.Initialise">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="1" />
+    </LineIds>
+    <LineIds Name="XtsMotorModule.Is24VOK">
+      <LineId Id="13" Count="5" />
+    </LineIds>
+    <LineIds Name="XtsMotorModule.Is48VOK">
+      <LineId Id="8" Count="5" />
     </LineIds>
     <LineIds Name="XtsMotorModule.MyCoEInterface.Get">
       <LineId Id="2" Count="0" />

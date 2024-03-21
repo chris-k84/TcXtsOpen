@@ -27,9 +27,7 @@ END_VAR
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[getModuleInfoData();
-
-PartDriveState := _MyInterface.GetDriveState();
+        <ST><![CDATA[PartDriveState := _MyInterface.GetDriveState();
 
 CASE PartDriveState OF
 	DriveState.Unknown:
@@ -59,25 +57,6 @@ CASE PartDriveState OF
 ELSE
 	_ReadyToEnable := FALSE;
 END_CASE]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="getModuleInfoData" Id="{3efa41b4-5489-4d81-8938-0f058eef3c58}">
-      <Declaration><![CDATA[METHOD PRIVATE getModuleInfoData : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF ModulesCoE[ModuleIndex].InfoData.Update() THEN
-	CurrentLive[ModuleIndex]:=ModulesCoE[ModuleIndex].InfoData.OverallCurrent;
-	MaxCurrent[ModuleIndex]:=ModulesCoE[ModuleIndex].InfoData.MaxOverallCurrentLast500ms;
-	f24V[ModuleIndex]:= ModulesCoE[ModuleIndex].InfoData.AuxiliaryVoltage24V;
-	f48V[ModuleIndex]:=ModulesCoE[ModuleIndex].InfoData.DcLinkVoltage;
-	IF ModuleIndex = MyModuleCount THEN
-		ModuleIndex := 1;
-	ELSE
-		ModuleIndex := ModuleIndex + 1;
-	END_IF
-END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="Initialise" Id="{f7bcb601-a320-4f3f-bcf3-5ec4e45a7245}">
@@ -115,40 +94,6 @@ END_VAR
 END_CASE]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Is24VOK" Id="{2b0cb545-a877-4023-acf7-204433c79109}">
-      <Declaration><![CDATA[METHOD Is24VOK : HRESULT
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[Is24VOK := 2;
-FOR i := 1 TO UDINT_TO_UINT(MyModuleCount) DO
-	IF f24V[i] < 20400 THEN
-		Is24VOK := 1;
-	END_IF
-	IF f24V[i] > 28800 THEN
-		Is24VOK := 1;
-	END_IF
-END_FOR]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="Is48VOK" Id="{85bd6738-1af1-443c-8d2c-d0704993fb05}">
-      <Declaration><![CDATA[METHOD Is48VOK : HRESULT
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[Is48VOK := 2;
-FOR i := 1 TO UDINT_TO_UINT(MyModuleCount) DO
-	IF f48V[i] < 46080 THEN
-		Is48VOK := 1;
-	END_IF
-	IF f48V[i] > 49920 THEN
-		Is48VOK := 1;
-	END_IF
-END_FOR]]></ST>
-      </Implementation>
-    </Method>
     <Property Name="MyXtsIoEnvInterface" Id="{b5f6c838-c909-4a11-9656-9e449699aee4}">
       <Declaration><![CDATA[PROPERTY MyXtsIoEnvInterface : I_TcIoXtsXpuPart]]></Declaration>
       <Get Name="Get" Id="{249dae7e-fa2b-4c2d-a421-a33d92e9b50d}">
@@ -172,17 +117,9 @@ END_VAR
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="XtsPart.Cycle">
-      <LineId Id="8" Count="0" />
-      <LineId Id="13" Count="0" />
       <LineId Id="46" Count="0" />
       <LineId Id="75" Count="0" />
       <LineId Id="47" Count="27" />
-    </LineIds>
-    <LineIds Name="XtsPart.getModuleInfoData">
-      <LineId Id="95" Count="4" />
-      <LineId Id="101" Count="1" />
-      <LineId Id="109" Count="2" />
-      <LineId Id="73" Count="0" />
     </LineIds>
     <LineIds Name="XtsPart.Initialise">
       <LineId Id="5" Count="0" />
@@ -201,17 +138,6 @@ END_VAR
       <LineId Id="30" Count="1" />
       <LineId Id="21" Count="0" />
       <LineId Id="7" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsPart.Is24VOK">
-      <LineId Id="10" Count="1" />
-      <LineId Id="15" Count="2" />
-      <LineId Id="19" Count="1" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsPart.Is48VOK">
-      <LineId Id="6" Count="7" />
-      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsPart.MyXtsIoEnvInterface.Get">
       <LineId Id="2" Count="0" />
