@@ -56,7 +56,11 @@ CASE PartDriveState OF
 
 ELSE
 	_ReadyToEnable := FALSE;
-END_CASE]]></ST>
+END_CASE
+
+FOR i := 1 TO UDINT_TO_UINT(MyModuleCount) DO
+	MyModules[i].Cycle();
+END_FOR]]></ST>
       </Implementation>
     </Method>
     <Method Name="Initialise" Id="{f7bcb601-a320-4f3f-bcf3-5ec4e45a7245}">
@@ -118,6 +122,9 @@ END_VAR
       <LineId Id="46" Count="0" />
       <LineId Id="75" Count="0" />
       <LineId Id="47" Count="27" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="80" Count="1" />
     </LineIds>
     <LineIds Name="XtsPart.Initialise">
       <LineId Id="5" Count="0" />
