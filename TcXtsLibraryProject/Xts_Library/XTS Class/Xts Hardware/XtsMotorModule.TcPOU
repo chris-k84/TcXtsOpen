@@ -25,7 +25,9 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IF MyModuleIoInterface.P_IsInitialized THEN
+	Initialise := 1;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Property Name="MyCoEInterface" Id="{deb7d555-7556-4b66-ad9b-3c26c6b34c42}">
@@ -74,6 +76,7 @@ END_VAR
     </LineIds>
     <LineIds Name="XtsMotorModule.Initialise">
       <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="1" />
     </LineIds>
     <LineIds Name="XtsMotorModule.MyCoEInterface.Get">
       <LineId Id="2" Count="0" />
