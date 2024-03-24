@@ -22,6 +22,8 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF MyModuleCoEInterface <> 0 THEN
 	MyModuleCoEInterface.InfoData.Update();
+	MyModuleCoEInterface.DiagData.Update();
+	//MyModuleCoEInterface.AllCoE.UpdateAllCoEData();
 	CurrentLive:=MyModuleCoEInterface.InfoData.OverallCurrent;
 	MaxCurrent:=MyModuleCoEInterface.InfoData.MaxOverallCurrentLast500ms;
 	f24V:= MyModuleCoEInterface.InfoData.AuxiliaryVoltage24V;
@@ -48,10 +50,10 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF f24V[i] < 20400 THEN
+        <ST><![CDATA[IF f24V < 20400 THEN
 	Is24VOK := 1;
 END_IF
-IF f24V[i] > 28800 THEN
+IF f24V > 28800 THEN
 	Is24VOK := 1;
 END_IF]]></ST>
       </Implementation>
@@ -62,10 +64,10 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF f48V[i] < 46080 THEN
+        <ST><![CDATA[IF f48V < 46080 THEN
 	Is48VOK := 1;
 END_IF
-IF f48V[i] > 49920 THEN
+IF f48V > 49920 THEN
 	Is48VOK := 1;
 END_IF]]></ST>
       </Implementation>
@@ -113,7 +115,9 @@ END_VAR
     </LineIds>
     <LineIds Name="XtsMotorModule.Cycle">
       <LineId Id="16" Count="0" />
-      <LineId Id="19" Count="3" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="27" Count="1" />
+      <LineId Id="20" Count="2" />
       <LineId Id="17" Count="1" />
       <LineId Id="9" Count="0" />
       <LineId Id="15" Count="0" />
