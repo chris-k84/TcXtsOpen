@@ -5,7 +5,11 @@
 VAR
 	XtsParts : ARRAY[1..SystemParameters.NumberOfParts] OF XtsPart;
 	XtsTracks : ARRAY[1..SystemParameters.NumberOfTracks] OF XtsTrack;
+	TrackOTCIDs: ARRAY [1..Tc3_XTS_Utility.TcIoXtsEnvironmentParameterList.MaxXtsTracksPerXpu] OF Tc3_XTS_Utility.OTCID;
+	MyXPUInterface : Tc3_XTS_Utility.I_TcIoXtsProcessingUnit;
 	MyXtsIoEnvVarRef : ITF_XTSIOEnvVarWrapper;
+	XtsIoEnvInitialiseState : INT;
+	i: INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -28,21 +32,21 @@ END_VAR]]></Declaration>
 			END_IF
 		END_IF
 	1:
-		IF XPU.GetPartCount() = SystemParameters.NumberOfParts THEN
+		IF MyXPUInterface.GetPartCount() = SystemParameters.NumberOfParts THEN
 			FOR i := 1 TO SystemParameters.NumberOfParts DO
-				XtsParts[i].MyXtsIoEnvInterface := XPU.PartTcIo(UDINT_TO_UINT(i));
+				XtsParts[i].MyXtsIoEnvInterface := MyXPUInterface.PartTcIo(UDINT_TO_UINT(i));
 			END_FOR
 			XtsIoEnvInitialiseState := 3;
 		ELSE
 			XtsIoEnvInitialiseState := 999;
 		END_IF
 	3:
-		XPU.GetTrackOids();
-		Tracks := XPU.P_TrackOids;
-		IF XPU.GetTrackCount() = SystemParameters.NumberOfTracks THEN
+		MyXPUInterface.GetTrackOids();
+		TrackOTCIDs := MyXPUInterface.P_TrackOids;
+		IF MyXPUInterface.GetTrackCount() = SystemParameters.NumberOfTracks THEN
 			FOR i := 1 TO SystemParameters.NumberOfTracks DO
-				XtsTracks[i].MyXtsIoEnvInterface := XPU.TrackTcIo(UDINT_TO_UINT(i));
-				XtsTracks[i].MyOTCID := Tracks[i];
+				XtsTracks[i].MyXtsIoEnvInterface := MyXPUInterface.TrackTcIo(UDINT_TO_UINT(i));
+				XtsTracks[i].MyOTCID := TrackOTCIDs[i];
 			END_FOR
 			XtsIoEnvInitialiseState := 4;
 		ELSE
@@ -50,14 +54,14 @@ END_VAR]]></Declaration>
 		END_IF
 	4:
 		XtsIoEnvInitialiseState := 5;
-		FOR i := 1 TO XPU.GetPartCount() DO
+		FOR i := 1 TO UDINT_TO_INT(MyXPUInterface.GetPartCount()) DO
 			IF XtsParts[i].Initialise() <> 2 THEN
 				XtsIoEnvInitialiseState := 4;
 			END_IF
 		END_FOR
 	5:
 		XtsIoEnvInitialiseState := 6;
-		FOR i := 1 TO XPU.GetTrackCount() DO
+		FOR i := 1 TO UDINT_TO_INT(MyXPUInterface.GetTrackCount()) DO
 			IF XtsTracks[i].Initialise() <> 2 THEN
 				XtsIoEnvInitialiseState := 5;
 			END_IF
