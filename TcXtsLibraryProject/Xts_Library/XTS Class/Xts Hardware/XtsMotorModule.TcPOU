@@ -7,6 +7,8 @@ VAR
 	MyModuleCoEInterface : I_AT2xxxXtsMotor;
 	CurrentLive: DINT;
 	MaxCurrent: DINT;
+	Nominal24Vdc : LREAL := 24000;
+	Nominal48Vdc : LREAL := 48000;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -46,10 +48,10 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF MyModuleCoEInterface.InfoData.AuxiliaryVoltage24V < 20400 THEN
+        <ST><![CDATA[IF MyModuleCoEInterface.InfoData.AuxiliaryVoltage24V < (Nominal24Vdc * 0.9) THEN
 	Is24VOK := 1;
 END_IF
-IF MyModuleCoEInterface.InfoData.AuxiliaryVoltage24V > 28800 THEN
+IF MyModuleCoEInterface.InfoData.AuxiliaryVoltage24V > (Nominal24Vdc * 1.1) THEN
 	Is24VOK := 1;
 END_IF]]></ST>
       </Implementation>
@@ -60,10 +62,10 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF MyModuleCoEInterface.InfoData.DcLinkVoltage < 46080 THEN
+        <ST><![CDATA[IF MyModuleCoEInterface.InfoData.DcLinkVoltage < (Nominal48Vdc * 0.9) THEN
 	Is48VOK := 1;
 END_IF
-IF MyModuleCoEInterface.InfoData.DcLinkVoltage > 49920 THEN
+IF MyModuleCoEInterface.InfoData.DcLinkVoltage > (Nominal48Vdc * 1.1) THEN
 	Is48VOK := 1;
 END_IF]]></ST>
       </Implementation>
