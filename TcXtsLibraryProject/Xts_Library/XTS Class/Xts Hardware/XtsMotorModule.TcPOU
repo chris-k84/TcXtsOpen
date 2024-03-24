@@ -7,8 +7,6 @@ VAR
 	MyModuleCoEInterface : I_AT2xxxXtsMotor;
 	CurrentLive: DINT;
 	MaxCurrent: DINT;
-	f24V: UINT;
-	f48V: UINT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -26,8 +24,6 @@ END_VAR
 	//MyModuleCoEInterface.AllCoE.UpdateAllCoEData();
 	CurrentLive:=MyModuleCoEInterface.InfoData.OverallCurrent;
 	MaxCurrent:=MyModuleCoEInterface.InfoData.MaxOverallCurrentLast500ms;
-	f24V:= MyModuleCoEInterface.InfoData.AuxiliaryVoltage24V;
-	f48V:=MyModuleCoEInterface.InfoData.DcLinkVoltage;
 END_IF
 
 ]]></ST>
@@ -50,10 +46,10 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF f24V < 20400 THEN
+        <ST><![CDATA[IF MyModuleCoEInterface.InfoData.AuxiliaryVoltage24V < 20400 THEN
 	Is24VOK := 1;
 END_IF
-IF f24V > 28800 THEN
+IF MyModuleCoEInterface.InfoData.AuxiliaryVoltage24V > 28800 THEN
 	Is24VOK := 1;
 END_IF]]></ST>
       </Implementation>
@@ -64,10 +60,10 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF f48V < 46080 THEN
+        <ST><![CDATA[IF MyModuleCoEInterface.InfoData.DcLinkVoltage < 46080 THEN
 	Is48VOK := 1;
 END_IF
-IF f48V > 49920 THEN
+IF MyModuleCoEInterface.InfoData.DcLinkVoltage > 49920 THEN
 	Is48VOK := 1;
 END_IF]]></ST>
       </Implementation>
@@ -117,8 +113,8 @@ END_VAR
       <LineId Id="16" Count="0" />
       <LineId Id="19" Count="0" />
       <LineId Id="27" Count="1" />
-      <LineId Id="20" Count="2" />
-      <LineId Id="17" Count="1" />
+      <LineId Id="20" Count="1" />
+      <LineId Id="18" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="15" Count="0" />
     </LineIds>
