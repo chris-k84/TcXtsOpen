@@ -5,7 +5,7 @@
 VAR
 	_EmbarkStation : IProcess;
 	_StateMachine : IPmlStateMachine;
-	HoldMover : ITmsMover;
+	HoldMover : I_XtsMoverAxis;
 	State :(
 		Init,                                               
 		Ready,                                 
@@ -96,8 +96,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF StationMovers <= 2 THEN
 	StationMovers := StationMovers + 1;
-
-	HoldMover := TmsMoverInterface;
+	HoldMover := mover;
 	_HasMover := TRUE;
 	HasMover := TRUE;
 ELSE
@@ -175,7 +174,8 @@ END_VAR
       <LineId Id="68" Count="1" />
     </LineIds>
     <LineIds Name="TmsHoldStation.HasMover">
-      <LineId Id="33" Count="4" />
+      <LineId Id="33" Count="1" />
+      <LineId Id="36" Count="1" />
       <LineId Id="49" Count="0" />
       <LineId Id="45" Count="1" />
       <LineId Id="5" Count="0" />
