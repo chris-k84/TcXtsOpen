@@ -14,7 +14,7 @@ VAR
 	_middlePosition : MC_LREAL;
 	_downPosition : MC_LREAL;
 	_SwitchVelocity : MC_LREAL;
-	arrTrackIds : ARRAY[1..4] OF OTCID;
+	arrTrackIds : ARRAY[1..4] OF I_XtsTrack;
 	stSwitchInfo : TmsSwitchInfo;
 	_StateMachine : IPmlStateMachine;
 END_VAR
@@ -134,7 +134,7 @@ END_VAR
     <Method Name="ExchangeMover" Id="{55ccaa02-7858-4213-8d05-433f72c712e6}">
       <Declaration><![CDATA[METHOD PUBLIC ExchangeMover : BOOL
 VAR_INPUT
-	Mover : IMover;
+	Mover : I_XtsMoverAxis;
 	CurrentStation : ITF_SwitchStation;
 END_VAR
 ]]></Declaration>
@@ -152,8 +152,8 @@ END_IF
     <Method Name="FindNewTrack" Id="{f8facd12-02a9-4323-9c07-28752afef02e}">
       <Declaration><![CDATA[METHOD PUBLIC FindNewTrack : OTCID
 VAR
-	TmsMoverInterface : ITmsMover;
-	ActivateTrackResult : BOOL;
+	TmsMoverInterface : I_XtsMoverAxis;
+	ActivateTrackResult : DINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[//IF __QUERYINTERFACE(_exchangeMover,TmsMoverInterface) THEN
@@ -174,18 +174,18 @@ END_VAR]]></Declaration>
 //	END_IF
 //END_IF
 //FindNewTrack := TmsMoverInterface.ActiveTrack;
-IF __QUERYINTERFACE(_exchangeMover,TmsMoverInterface) THEN
-	IF _demandPosition = _upPosition THEN
-		ActivateTrackResult := TmsMoverInterface.ActivateTrack(newTrack := arrTrackIds[3]);
-	ELSIF _demandPosition = _middlePosition THEN
-		ActivateTrackResult := TmsMoverInterface.ActivateTrack(newTrack := arrTrackIds[1]);
-	ELSIF _demandPosition = _downPosition THEN
-		ActivateTrackResult := TmsMoverInterface.ActivateTrack(newTrack := arrTrackIds[4]);	
-	ELSE
-		;
-	END_IF
+
+IF _demandPosition = _upPosition THEN
+	ActivateTrackResult := TmsMoverInterface.ActivateTrack(newTrack := arrTrackIds[3].MyOTCID,Track := arrTrackIds[3]);
+ELSIF _demandPosition = _middlePosition THEN
+	ActivateTrackResult := TmsMoverInterface.ActivateTrack(newTrack := arrTrackIds[1].MyOTCID, Track := arrTrackIds[1]);
+ELSIF _demandPosition = _downPosition THEN
+	ActivateTrackResult := TmsMoverInterface.ActivateTrack(newTrack := arrTrackIds[4].MyOTCID, Track := arrTrackIds[4]);	
+ELSE
+	;
 END_IF
-FindNewTrack := TmsMoverInterface.ActiveTrack;]]></ST>
+
+//FindNewTrack := TmsMoverInterface.ActiveTrack;]]></ST>
       </Implementation>
     </Method>
     <Method Name="HasMover" Id="{0c44fa73-b6c5-42b1-9f3a-b9c3b353571a}">
@@ -331,7 +331,7 @@ END_VAR
       </Set>
     </Property>
     <Property Name="TrackIds" Id="{297989bc-9ff5-412a-89d0-1e0ef6098068}">
-      <Declaration><![CDATA[PROPERTY TrackIds : array[1..4] of otcid]]></Declaration>
+      <Declaration><![CDATA[PROPERTY TrackIds : array[1..4] of I_XtsTrack]]></Declaration>
       <Get Name="Get" Id="{721632d5-47ed-4060-a975-8bc16c5085ad}">
         <Declaration><![CDATA[VAR
 END_VAR
