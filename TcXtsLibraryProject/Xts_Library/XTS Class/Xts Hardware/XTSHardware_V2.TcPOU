@@ -1,43 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
-  <POU Name="XtsHardware" Id="{01d7c7ee-eaba-4d97-9e2a-cab8b593df67}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK XtsHardware EXTENDS CyclicBase IMPLEMENTS IXtsHardware, I_Initialise
+  <POU Name="XTSHardware_V2" Id="{2082c175-1a19-4a3f-b920-8dbd46477756}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK XTSHardware_V2 EXTENDS CyclicBase IMPLEMENTS I_Initialise
 VAR
-	_TmsSwitch : ITF_TmsSwitch;
-	bInit: BOOL;
-	bMoverIdDetectionError		: BOOL;
-	bMoverIdDetectionActive		: BOOL;
-	bMoverIdDetected : BOOL;
-	i: UDINT;
-	bTriggerDetect: BOOL;
-	XtsIoEnvironment : Tc3_XTS_Utility.FB_TcIoXtsEnvironment;
-	XPU: Tc3_XTS_Utility.I_TcIoXtsProcessingUnit;
-	XtsIoEnvInitialiseState : INT;
 	XtsParts : ARRAY[1..SystemParameters.NumberOfParts] OF XtsPart;
 	XtsTracks : ARRAY[1..SystemParameters.NumberOfTracks] OF XtsTrack;
-	Tracks: ARRAY [1..Tc3_XTS_Utility.TcIoXtsEnvironmentParameterList.MaxXtsTracksPerXpu] OF Tc3_XTS_Utility.OTCID;
-END_VAR]]></Declaration>
+	TrackOTCIDs: ARRAY [1..Tc3_XTS_Utility.TcIoXtsEnvironmentParameterList.MaxXtsTracksPerXpu] OF Tc3_XTS_Utility.OTCID;
+	MyXPUInterface : Tc3_XTS_Utility.I_TcIoXtsProcessingUnit;
+	MyXtsIoEnvVarRef : ITF_XTSIOEnvVarWrapper;
+	XtsIoEnvInitialiseState : INT;
+	i: INT;
+	MyPartCount: UDINT;
+	MyTrackCount: UDINT;
+END_VAR
+]]></Declaration>
     <Implementation>
-      <ST><![CDATA[{analysis -2}]]></ST>
+      <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="Cycle" Id="{b464f15b-ca99-474e-bc8b-11279972c349}">
-      <Declaration><![CDATA[METHOD Cycle : HRESULT
+    <Method Name="Cycle" Id="{907368a2-7640-4dfa-a8a9-6f1d20861921}">
+      <Declaration><![CDATA[METHOD PUBLIC  Cycle : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Cycle := S_OK;
-IF NOT IsInSim() THEN
-	FOR i := 1 TO XPU.GetPartCount() DO
-		XtsParts[i].Cycle();
-	END_FOR
-	FOR i := 1 TO XPU.GetTrackCount() DO
-		XtsTracks[i].Cycle();
-	END_FOR
-END_IF]]></ST>
+        <ST><![CDATA[FOR i := 1 TO UDINT_TO_INT(MyPartCount) DO
+	XtsParts[i].Cycle();
+END_FOR
+FOR i := 1 TO UDINT_TO_INT(MyTrackCount) DO
+	XtsTracks[i].Cycle();
+END_FOR]]></ST>
       </Implementation>
     </Method>
-    <Method Name="FB_init" Id="{7d0880e3-23ff-433e-9f1f-2df9860acb17}">
+    <Method Name="FB_init" Id="{2a32c613-d5c7-4a65-bbe0-cb97daebdaa6}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
@@ -49,7 +43,7 @@ END_VAR
         <ST><![CDATA[XtsRunner.AddComponent(THIS^);]]></ST>
       </Implementation>
     </Method>
-    <Method Name="getAllMoversValid" Id="{c4e70289-55ca-41b9-a3bc-195801ae93a3}">
+    <Method Name="getAllMoversValid" Id="{61902ec7-4049-4544-9a8e-27dabf1b61be}">
       <Declaration><![CDATA[METHOD getAllMoversValid : BOOL
 VAR_INPUT
 END_VAR
@@ -61,26 +55,7 @@ END_VAR
  END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="GetCaGroupInterface" Id="{99f85b1e-932d-42a1-9963-9051d68aedba}">
-      <Declaration><![CDATA[METHOD GetCaGroupInterface : I_Mc2CaGroup
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[GetCaGroupInterface := XtsIoEnvironment.Mc2CaGroup(1);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="GetMoverEnvInterface" Id="{1fc643c6-ecb9-4760-af6a-4f21ce7c87e0}">
-      <Declaration><![CDATA[METHOD PUBLIC GetMoverEnvInterface : I_TcIoXtsXpuMover
-VAR_INPUT
-	MoverNumber : UINT;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[GetMoverEnvInterface := XPU.MoverTcIo(MoverNumber);	]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="getMoversDetected" Id="{5e49a15e-96a4-4ef0-90a8-d0eb7c5a7559}">
+    <Method Name="getMoversDetected" Id="{6134912a-11cc-419f-9366-ca4c2c2c2f9f}">
       <Declaration><![CDATA[METHOD getMoversDetected : BOOL
 VAR_INPUT
 END_VAR
@@ -95,7 +70,7 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="GetTrackByOTCID" Id="{59a9af65-fa71-4618-8272-ea9d7339d25e}">
+    <Method Name="GetTrackByOTCID" Id="{d55b1037-e87a-4176-a531-719c46a289ea}">
       <Declaration><![CDATA[METHOD GetTrackByOTCID : I_XtsTrack
 VAR_INPUT
 	trackOTCID : OTCID;
@@ -109,7 +84,7 @@ END_VAR
 END_FOR]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Initialise" Id="{238260bf-972c-4836-891f-55586c0f1b1a}">
+    <Method Name="Initialise" Id="{95822be7-e433-46ff-bfc3-e4b3c51e2a74}">
       <Declaration><![CDATA[METHOD Initialise : HRESULT
 VAR_INPUT
 END_VAR
@@ -120,29 +95,30 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[CASE XtsIoEnvInitialiseState OF
 	0:
-		IF XtsIoEnvironment.Init(TRUE) THEN
-			XtsIoEnvironment.Init(FALSE);
-			XtsIoEnvInitialiseState := 1;
+		IF MyXtsIoEnvVarRef <> 0 THEN
+			IF MyXtsIoEnvVarRef.IsInitialised() THEN
+				MyXPUInterface := MyXtsIoEnvVarRef.GetXPUInterface();
+				XtsIoEnvInitialiseState := 1;
+			END_IF
 		END_IF
 	1:
-		XPU := XtsIoEnvironment.XpuTcIo(1);
-		XtsIoEnvInitialiseState := 2;
-	2:
-		IF XPU.GetPartCount() = SystemParameters.NumberOfParts THEN
-			FOR i := 1 TO SystemParameters.NumberOfParts DO
-				XtsParts[i].MyXtsIoEnvInterface := XPU.PartTcIo(UDINT_TO_UINT(i));
+		MyPartCount := MyXPUInterface.GetPartCount();
+		IF MyPartCount = SystemParameters.NumberOfParts THEN
+			FOR i := 1 TO UDINT_TO_INT(MyPartCount) DO
+				XtsParts[i].MyXtsIoEnvInterface := MyXPUInterface.PartTcIo(UDINT_TO_UINT(i));
 			END_FOR
 			XtsIoEnvInitialiseState := 3;
 		ELSE
 			XtsIoEnvInitialiseState := 999;
 		END_IF
 	3:
-		XPU.GetTrackOids();
-		Tracks := XPU.P_TrackOids;
-		IF XPU.GetTrackCount() = SystemParameters.NumberOfTracks THEN
-			FOR i := 1 TO SystemParameters.NumberOfTracks DO
-				XtsTracks[i].MyXtsIoEnvInterface := XPU.TrackTcIo(UDINT_TO_UINT(i));
-				XtsTracks[i].MyOTCID := Tracks[i];
+		MyTrackCount := MyXPUInterface.GetTrackCount();
+		MyXPUInterface.GetTrackOids();
+		TrackOTCIDs := MyXPUInterface.P_TrackOids;
+		IF MyTrackCount = SystemParameters.NumberOfTracks THEN
+			FOR i := 1 TO UDINT_TO_INT(MyTrackCount) DO
+				XtsTracks[i].MyXtsIoEnvInterface := MyXPUInterface.TrackTcIo(UDINT_TO_UINT(i));
+				XtsTracks[i].MyOTCID := TrackOTCIDs[i];
 			END_FOR
 			XtsIoEnvInitialiseState := 4;
 		ELSE
@@ -150,14 +126,14 @@ END_VAR]]></Declaration>
 		END_IF
 	4:
 		XtsIoEnvInitialiseState := 5;
-		FOR i := 1 TO XPU.GetPartCount() DO
+		FOR i := 1 TO UDINT_TO_INT(MyPartCount) DO
 			IF XtsParts[i].Initialise() <> 2 THEN
 				XtsIoEnvInitialiseState := 4;
 			END_IF
 		END_FOR
 	5:
 		XtsIoEnvInitialiseState := 6;
-		FOR i := 1 TO XPU.GetTrackCount() DO
+		FOR i := 1 TO UDINT_TO_INT(MyTrackCount) DO
 			IF XtsTracks[i].Initialise() <> 2 THEN
 				XtsIoEnvInitialiseState := 5;
 			END_IF
@@ -168,7 +144,7 @@ END_CASE
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Is24VdcOK" Id="{27d935e1-90ea-4fda-9458-1a71306cb612}">
+    <Method Name="Is24VdcOK" Id="{16c30a69-c544-4706-ba78-c8aed5346201}">
       <Declaration><![CDATA[METHOD Is24VdcOK : HRESULT
 VAR_INPUT
 END_VAR
@@ -182,7 +158,7 @@ FOR i := 1 TO XPU.GetPartCount() DO
 END_FOR]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Is48VdcOK" Id="{0fe8ba5e-5482-4d68-bc25-9bb36a4434e6}">
+    <Method Name="Is48VdcOK" Id="{ff4a117c-24f4-4466-b159-c15d29dc7330}">
       <Declaration><![CDATA[METHOD Is48VdcOK : HRESULT
 VAR_INPUT
 END_VAR
@@ -196,7 +172,7 @@ FOR i := 1 TO XPU.GetPartCount() DO
 END_FOR]]></ST>
       </Implementation>
     </Method>
-    <Method Name="IsInSim" Id="{1d10bcec-acec-45d5-bf84-489041573d3d}">
+    <Method Name="IsInSim" Id="{c26b05e6-e2eb-40cc-bea5-adcd4dafa0e7}">
       <Declaration><![CDATA[METHOD IsInSim : BOOL
 VAR_INPUT
 END_VAR
@@ -210,7 +186,7 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="SetTracksForDetection" Id="{ddc7d054-a36f-42ec-9521-b7a91e617287}">
+    <Method Name="SetTracksForDetection" Id="{33a6fd5d-a8a8-4e54-be38-eeae850dd3e9}">
       <Declaration><![CDATA[METHOD SetTracksForDetection : BOOL
 VAR_INPUT
 END_VAR
@@ -241,9 +217,9 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Property Name="TmsSwitch" Id="{3e77501e-8518-4e1c-97a5-5dc9bc6d0fd4}">
+    <Property Name="TmsSwitch" Id="{0322d914-772f-4e3a-bafc-27238e97b814}">
       <Declaration><![CDATA[PROPERTY TmsSwitch : ITF_TmsSwitch]]></Declaration>
-      <Get Name="Get" Id="{b0d03380-5fb6-4b27-9e19-7629ccd57ac3}">
+      <Get Name="Get" Id="{51272062-e362-42b5-8460-3b4abe74d2c0}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
@@ -251,7 +227,7 @@ END_VAR
           <ST><![CDATA[TmsSwitch := _TmsSwitch;]]></ST>
         </Implementation>
       </Get>
-      <Set Name="Set" Id="{ca7bb02b-1706-4344-953d-c58662955917}">
+      <Set Name="Set" Id="{b37394d7-4ee5-4cc5-b259-7cd76193ad38}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
@@ -260,7 +236,7 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Method Name="TriggerMoverDetection" Id="{7ec0784a-bc20-43d5-9663-6bc83fb38f70}">
+    <Method Name="TriggerMoverDetection" Id="{15e78533-ebfe-46e6-bd25-18e4044d6883}">
       <Declaration><![CDATA[METHOD TriggerMoverDetection : BOOL
 VAR_INPUT
 END_VAR
@@ -272,7 +248,7 @@ TriggerMoverDetection := true;
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="TriggerMoverID" Id="{3caa48f4-4134-416c-8ece-2720f801ed03}">
+    <Method Name="TriggerMoverID" Id="{23436421-ecb3-466c-b86b-5fefe5c7904c}">
       <Declaration><![CDATA[METHOD TriggerMoverID : BOOL
 VAR_INPUT
 END_VAR]]></Declaration>
@@ -312,49 +288,67 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="XtsHardware">
-      <LineId Id="58" Count="0" />
+    <Property Name="XtsIoEnvVarWrapper" Id="{9f0e6f27-b8f0-452c-b07d-d4d2a7ed1b3b}">
+      <Declaration><![CDATA[PROPERTY XtsIoEnvVarWrapper : itf_xtsioenvvarwrapper]]></Declaration>
+      <Get Name="Get" Id="{ef18a883-259a-46c5-ac1a-fd1d0138159b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[XtsIoEnvVarWrapper := MyXtsIoEnvVarRef;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{3f18a9fd-c75b-45a9-b0a5-a4cb82b21b6b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MyXtsIoEnvVarRef := XtsIoEnvVarWrapper;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="XTSHardware_V2">
+      <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="XtsHardware.Cycle">
-      <LineId Id="13" Count="0" />
-      <LineId Id="193" Count="0" />
-      <LineId Id="196" Count="4" />
-      <LineId Id="194" Count="1" />
+    <LineIds Name="XTSHardware_V2.Cycle">
+      <LineId Id="6" Count="1" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="1" />
+      <LineId Id="8" Count="0" />
     </LineIds>
-    <LineIds Name="XtsHardware.FB_init">
+    <LineIds Name="XTSHardware_V2.FB_init">
       <LineId Id="7" Count="0" />
     </LineIds>
-    <LineIds Name="XtsHardware.getAllMoversValid">
+    <LineIds Name="XTSHardware_V2.getAllMoversValid">
       <LineId Id="9" Count="2" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="XtsHardware.GetCaGroupInterface">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsHardware.GetMoverEnvInterface">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsHardware.getMoversDetected">
+    <LineIds Name="XTSHardware_V2.getMoversDetected">
       <LineId Id="16" Count="5" />
       <LineId Id="10" Count="0" />
     </LineIds>
-    <LineIds Name="XtsHardware.GetTrackByOTCID">
+    <LineIds Name="XTSHardware_V2.GetTrackByOTCID">
       <LineId Id="5" Count="0" />
       <LineId Id="7" Count="0" />
       <LineId Id="9" Count="1" />
       <LineId Id="8" Count="0" />
     </LineIds>
-    <LineIds Name="XtsHardware.Initialise">
+    <LineIds Name="XTSHardware_V2.Initialise">
       <LineId Id="20" Count="1" />
-      <LineId Id="24" Count="2" />
-      <LineId Id="23" Count="0" />
-      <LineId Id="27" Count="1" />
-      <LineId Id="32" Count="3" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="104" Count="0" />
+      <LineId Id="88" Count="1" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="85" Count="0" />
+      <LineId Id="96" Count="0" />
+      <LineId Id="34" Count="1" />
       <LineId Id="37" Count="1" />
       <LineId Id="41" Count="0" />
       <LineId Id="39" Count="1" />
       <LineId Id="36" Count="0" />
       <LineId Id="42" Count="0" />
+      <LineId Id="97" Count="0" />
       <LineId Id="75" Count="1" />
       <LineId Id="43" Count="1" />
       <LineId Id="46" Count="0" />
@@ -377,21 +371,21 @@ END_IF]]></ST>
       <LineId Id="22" Count="0" />
       <LineId Id="10" Count="0" />
     </LineIds>
-    <LineIds Name="XtsHardware.Is24VdcOK">
+    <LineIds Name="XTSHardware_V2.Is24VdcOK">
       <LineId Id="8" Count="0" />
       <LineId Id="5" Count="1" />
       <LineId Id="9" Count="1" />
       <LineId Id="7" Count="0" />
     </LineIds>
-    <LineIds Name="XtsHardware.Is48VdcOK">
+    <LineIds Name="XTSHardware_V2.Is48VdcOK">
       <LineId Id="6" Count="4" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="XtsHardware.IsInSim">
+    <LineIds Name="XTSHardware_V2.IsInSim">
       <LineId Id="3" Count="4" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsHardware.SetTracksForDetection">
+    <LineIds Name="XTSHardware_V2.SetTracksForDetection">
       <LineId Id="31" Count="8" />
       <LineId Id="56" Count="0" />
       <LineId Id="40" Count="7" />
@@ -399,23 +393,29 @@ END_IF]]></ST>
       <LineId Id="48" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="XtsHardware.TmsSwitch.Get">
+    <LineIds Name="XTSHardware_V2.TmsSwitch.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsHardware.TmsSwitch.Set">
+    <LineIds Name="XTSHardware_V2.TmsSwitch.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XtsHardware.TriggerMoverDetection">
+    <LineIds Name="XTSHardware_V2.TriggerMoverDetection">
       <LineId Id="11" Count="2" />
       <LineId Id="6" Count="0" />
     </LineIds>
-    <LineIds Name="XtsHardware.TriggerMoverID">
+    <LineIds Name="XTSHardware_V2.TriggerMoverID">
       <LineId Id="40" Count="2" />
       <LineId Id="44" Count="4" />
       <LineId Id="73" Count="0" />
       <LineId Id="76" Count="0" />
       <LineId Id="49" Count="21" />
       <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSHardware_V2.XtsIoEnvVarWrapper.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSHardware_V2.XtsIoEnvVarWrapper.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
