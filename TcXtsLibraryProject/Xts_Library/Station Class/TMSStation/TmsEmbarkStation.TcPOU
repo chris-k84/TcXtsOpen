@@ -54,7 +54,7 @@ END_VAR
       <Declaration><![CDATA[METHOD PUBLIC  Cycle : HRESULT
 VAR
 	ActivateTrackResult : BOOL;
-	BoardMoverResult : BOOL;
+	BoardMoverResult : HRESULT;
 	BaseCallResult : HRESULT;
 END_VAR
 ]]></Declaration>
@@ -115,8 +115,8 @@ CASE State OF
 		END_IF
 			
 	Boarding:
-		BoardMoverResult := DepartMover.MoveTo(Position := _switchPosition, Velocity := _BoardVelocity, BackwardMove := FALSE);
-		IF DepartMover.isAtPosition(position := _switchPosition) THEN
+		BoardMoverResult := DepartMover.MoveTo(RequiredPosition := _switchPosition, MoveVelocity := _BoardVelocity);
+		IF DepartMover.isMoverAtPosition(position := _switchPosition) THEN
 			State := FindTarget;
 		END_IF
 		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
@@ -220,7 +220,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF StationMovers <= 2 THEN
 	StationMovers := StationMovers + 1;
-	DepartMover := TmsMoverInterface;
+	DepartMover := mover;
 	_HasMover := TRUE;
 END_IF
 HasMover := TRUE;]]></ST>
