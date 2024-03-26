@@ -61,6 +61,15 @@ END_VAR]]></Declaration>
         <ST><![CDATA[GetTrackInterface := XPU.TrackTcIo(TrackNumber);]]></ST>
       </Implementation>
     </Method>
+    <Method Name="GetXPUInterface" Id="{a6b4198a-d372-4fc0-b700-debb44563dc0}">
+      <Declaration><![CDATA[METHOD GetXPUInterface : I_TcIoXtsProcessingUnit
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetXPUInterface := XPU;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="Initialise" Id="{f0d17991-21f7-403c-899a-0fcccbff041e}">
       <Declaration><![CDATA[METHOD PUBLIC Initialise : BOOL
 VAR_INPUT
@@ -99,6 +108,9 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XTSIOEnvVarWrapper.GetTrackInterface">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSIOEnvVarWrapper.GetXPUInterface">
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XTSIOEnvVarWrapper.Initialise">
