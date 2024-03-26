@@ -9,12 +9,6 @@ VAR
 	PartDriveState: Tc3_XTS_Utility.DriveState;
 	_ReadyToEnable: BOOL;
 	MyModules : ARRAY[1..SystemParameters.MaxModulesInPart] OF XtsMotorModule;
-	Modules : ARRAY[1..SystemParameters.MaxModulesInPart] OF I_TcIoXtsPartModule;
-	ModulesCoE : ARRAY[1..SystemParameters.MaxModulesInPart] OF I_AT2xxxXtsMotor;
-	f24V: ARRAY[1..SystemParameters.MaxModulesInPart] OF UINT;
-	f48V: ARRAY[1..SystemParameters.MaxModulesInPart] OF UINT;
-	CurrentLive : ARRAY[1..SystemParameters.MaxModulesInPart] OF DINT;
-	MaxCurrent : ARRAY [1..SystemParameters.MaxModulesInPart] OF DINT;
 	ModuleIndex: UDINT := 1;
 	i : UINT;
 END_VAR
@@ -96,6 +90,34 @@ END_VAR
 END_CASE]]></ST>
       </Implementation>
     </Method>
+    <Method Name="Is24VBusOK" Id="{d79d6eda-1f90-4384-9dda-ac7f4aaa7f07}">
+      <Declaration><![CDATA[METHOD Is24VBusOK : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Is24VBusOK := TRUE;
+FOR i := 1 TO UDINT_TO_UINT(MyModuleCount) DO
+	IF MyModules[i].Is24VOK() = 1 THEN
+		Is24VBusOK := FALSE;
+	END_IF
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Is48VBusOK" Id="{44113d88-367f-494b-87cf-4655fd94d258}">
+      <Declaration><![CDATA[METHOD Is48VBusOK : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Is48VBusOK := TRUE;
+FOR i := 1 TO UDINT_TO_UINT(MyModuleCount) DO
+	IF MyModules[i].Is48VOK() = 1 THEN
+		Is48VBusOK := FALSE;
+	END_IF
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="MyXtsIoEnvInterface" Id="{b5f6c838-c909-4a11-9656-9e449699aee4}">
       <Declaration><![CDATA[PROPERTY MyXtsIoEnvInterface : I_TcIoXtsXpuPart]]></Declaration>
       <Get Name="Get" Id="{249dae7e-fa2b-4c2d-a421-a33d92e9b50d}">
@@ -142,6 +164,15 @@ END_VAR
       <LineId Id="30" Count="1" />
       <LineId Id="21" Count="0" />
       <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsPart.Is24VBusOK">
+      <LineId Id="5" Count="2" />
+      <LineId Id="9" Count="1" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsPart.Is48VBusOK">
+      <LineId Id="6" Count="4" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="XtsPart.MyXtsIoEnvInterface.Get">
       <LineId Id="2" Count="0" />

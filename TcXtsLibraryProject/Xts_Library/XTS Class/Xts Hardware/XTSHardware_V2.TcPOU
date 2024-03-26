@@ -9,9 +9,14 @@ VAR
 	MyXPUInterface : Tc3_XTS_Utility.I_TcIoXtsProcessingUnit;
 	MyXtsIoEnvVarRef : ITF_XTSIOEnvVarWrapper;
 	XtsIoEnvInitialiseState : INT;
-	i: INT;
+	i: UDINT;
 	MyPartCount: UDINT;
 	MyTrackCount: UDINT;
+	_TmsSwitch : ITF_TmsSwitch;
+	bMoverIdDetectionActive: BOOL;
+	bTriggerDetect: BOOL;
+	bMoverIdDetectionError: BOOL;
+	bMoverIdDetected: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -49,7 +54,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[ IF XPU.GetAreAllPositionsValid() THEN
+        <ST><![CDATA[ IF MyXPUInterface.GetAreAllPositionsValid() THEN
 	 getAllMoversValid := TRUE;
 	 Logger.Send(TC_EVENTS.XtsHardwareEvents.AllMoversValid,'');
  END_IF]]></ST>
@@ -61,9 +66,9 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF XPU.GetDetectedMoverCount() = XPU.GetExpectedMoverCount() THEN
+        <ST><![CDATA[IF MyXPUInterface.GetDetectedMoverCount() = MyXPUInterface.GetExpectedMoverCount() THEN
 	getMoversDetected := TRUE;
-	Logger.Send(TC_EVENTS.XtsHardwareEvents.ExpectedMoversDetected,UDINT_TO_STRING(XtsIoEnvironment.XpuTcIo(1).GetExpectedMoverCount()));
+	Logger.Send(TC_EVENTS.XtsHardwareEvents.ExpectedMoversDetected,UDINT_TO_STRING(MyXPUInterface.GetExpectedMoverCount()));
 ELSE
 	getMoversDetected := FALSE;
 	Logger.Send(TC_EVENTS.XtsHardwareEvents.ExpectedMoversNotFound,'');
@@ -151,8 +156,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Is24VdcOK := 2;
-FOR i := 1 TO XPU.GetPartCount() DO
-	IF XtsParts[i].Is24VOK() = 1 THEN
+FOR i := 1 TO MyXPUInterface.GetPartCount() DO
+	IF XtsParts[i].Is24VBusOK() = 1 THEN
 		Is24VdcOK := 1;
 	END_IF
 END_FOR]]></ST>
@@ -165,8 +170,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Is48VdcOK := 2;
-FOR i := 1 TO XPU.GetPartCount() DO
-	IF XtsParts[i].Is48VOK() = 1 THEN
+FOR i := 1 TO MyXPUInterface.GetPartCount() DO
+	IF XtsParts[i].Is48VBusOK() = 1 THEN
 		Is48VdcOK := 1;
 	END_IF
 END_FOR]]></ST>
@@ -178,7 +183,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF  XPU.GetOperationMode() = OperationMode.Simulation THEN
+        <ST><![CDATA[IF  MyXPUInterface.GetOperationMode() = OperationMode.Simulation THEN
 	IsInSim := TRUE;
 	Logger.Send(TC_EVENTS.XtsHardwareEvents.XtsInSimulationMode,'');
 ELSE
@@ -192,28 +197,28 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR i:=1 TO XPU.GetTrackCount() DO
-	XPU.TrackTcIo(UDINT_TO_UINT(i)).SetIsIncludedInDetection(FALSE);
+        <ST><![CDATA[FOR i:=1 TO MyXPUInterface.GetTrackCount() DO
+	MyXPUInterface.TrackTcIo(UDINT_TO_UINT(i)).SetIsIncludedInDetection(FALSE);
 END_FOR
 
-IF XPU.GetTrackCount() = 1 THEN
-	XPU.TrackTcIo(1).SetIsIncludedInDetection(TRUE);
-	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(XPU.GetTrackCount()));
+IF MyXPUInterface.GetTrackCount() = 1 THEN
+	MyXPUInterface.TrackTcIo(1).SetIsIncludedInDetection(TRUE);
+	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(MyXPUInterface.GetTrackCount()));
 	SetTracksForDetection := TRUE;
 ELSE
 	SetTracksForDetection := TRUE;
 	CASE _TmsSwitch.Switch OF
 		TmsSwitchPosition.Up: 
-			XPU.TrackTcIo(3).SetIsIncludedInDetection(TRUE);
+			MyXPUInterface.TrackTcIo(3).SetIsIncludedInDetection(TRUE);
 		TmsSwitchPosition.Middle:
-			XPU.TrackTcIo(1).SetIsIncludedInDetection(TRUE);
-			XPU.TrackTcIo(2).SetIsIncludedInDetection(TRUE);
+			MyXPUInterface.TrackTcIo(1).SetIsIncludedInDetection(TRUE);
+			MyXPUInterface.TrackTcIo(2).SetIsIncludedInDetection(TRUE);
 		TmsSwitchPosition.Down:
-			XPU.TrackTcIo(4).SetIsIncludedInDetection(TRUE);
+			MyXPUInterface.TrackTcIo(4).SetIsIncludedInDetection(TRUE);
 		ELSE
 			SetTracksForDetection := FALSE;
 	END_CASE
-	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(XPU.GetTrackCount()));
+	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(MyXPUInterface.GetTrackCount()));
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -242,7 +247,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[XPU.TriggerRedetection();
+        <ST><![CDATA[MyXPUInterface.TriggerRedetection();
 Logger.Send(TC_EVENTS.XtsHardwareEvents.MoverDetectionInitiated,'');
 TriggerMoverDetection := true;
 ]]></ST>
@@ -255,20 +260,21 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Mover1 Functionality		
 // Check if "MoverIdDetectionMode" has been activated under the XtsProcessingUnit object.
-IF XPU.GetMoverIdDetectionMode() = E_MoverIdDetectionMode.Mover1 THEN
+IF MyXPUInterface.GetMoverIdDetectionMode() = E_MoverIdDetectionMode.Mover1 THEN
 
 	// Check if the "MoverIdDetection" has already been started or the Mover1 was found.
 	IF NOT (bMoverIdDetectionActive OR bMoverIdDetected OR bTriggerDetect) THEN
+		
 		// Trigger the "MoverIdDetection".
-		XPU.TriggerMoverIdDetection();
+		MyXPUInterface.TriggerMoverIdDetection();
 		Logger.Send(TC_EVENTS.XtsHardwareEvents.Mover1DetectionStarted,'');
 		bTriggerDetect := true;
 	END_IF
 
 	// Check for error or success of "MoverIdDetection".
-	bMoverIdDetectionError 	:= XPU.GetHasMoverIdDetectionError();
-	bMoverIdDetected 	:= XPU.GetIsMoverIdDetectionValid();
-	bMoverIdDetectionActive	:= XPU.GetIsMoverIdDetectionActive();
+	bMoverIdDetectionError 	:= MyXPUInterface.GetHasMoverIdDetectionError();
+	bMoverIdDetected 	:= MyXPUInterface.GetIsMoverIdDetectionValid();
+	bMoverIdDetectionActive	:= MyXPUInterface.GetIsMoverIdDetectionActive();
 	
 	// If the detection has an error, check for errors in output and try again.
 	IF bMoverIdDetectionError THEN
@@ -405,7 +411,9 @@ END_VAR
     </LineIds>
     <LineIds Name="XTSHardware_V2.TriggerMoverID">
       <LineId Id="40" Count="2" />
-      <LineId Id="44" Count="4" />
+      <LineId Id="44" Count="2" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="47" Count="1" />
       <LineId Id="73" Count="0" />
       <LineId Id="76" Count="0" />
       <LineId Id="49" Count="21" />

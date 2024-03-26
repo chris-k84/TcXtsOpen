@@ -7,7 +7,7 @@ VAR
 	
 	// Test-vars	
 	arrCyclicModules : ARRAY[1..101] OF XtsMoverAxis(THIS^);
-	InitialiseModule : XtsHardware(THIS^);
+	InitialiseModule : XTSHardware_V2(THIS^);
 	InitAddedCheck : BOOL;
 	CyclicAddedCheck: BOOL;
 END_VAR
