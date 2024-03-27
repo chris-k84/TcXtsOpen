@@ -36,18 +36,6 @@ FOR i := 1 TO UDINT_TO_INT(MyTrackCount) DO
 END_FOR]]></ST>
       </Implementation>
     </Method>
-    <Method Name="FB_init" Id="{2a32c613-d5c7-4a65-bbe0-cb97daebdaa6}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	XtsRunner : I_ObjectRunner;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[XtsRunner.AddComponent(THIS^);]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="getAllMoversValid" Id="{61902ec7-4049-4544-9a8e-27dabf1b61be}">
       <Declaration><![CDATA[METHOD getAllMoversValid : BOOL
 VAR_INPUT
@@ -321,9 +309,6 @@ END_VAR
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="1" />
       <LineId Id="8" Count="0" />
-    </LineIds>
-    <LineIds Name="XTSHardware_V2.FB_init">
-      <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="XTSHardware_V2.getAllMoversValid">
       <LineId Id="9" Count="2" />
