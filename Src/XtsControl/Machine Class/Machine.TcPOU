@@ -36,7 +36,7 @@ VAR
 	iStationArray : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess := [Station1,Station2,
 																					Station3,Station4,
 																					Station5,Station6];
-	XtsTrackHardware : XtsHardware(XtsModuleRunner);
+	XtsTrackHardware : XTSHardware_V2(XtsModuleRunner);
 	Xts : Xts(XtsModuleRunner) := (PackMLStateMachine := xtsStateMachine, 
 										HomePosition := 1000.0,
 										HomeSpeed := 1000.0, 

@@ -123,18 +123,6 @@ END_VAR
         <ST><![CDATA[XtsRunner.AddComponent(THIS^);]]></ST>
       </Implementation>
     </Method>
-    <Method Name="GetTMSMoverInterface" Id="{0e64eced-3444-47ea-9660-c818e7a9dea9}" FolderPath="Operations\">
-      <Declaration><![CDATA[METHOD PUBLIC GetTMSMoverInterface : BOOL
-VAR_INPUT
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[FOR i := 1 TO SystemParameters.NumberOfMovers DO
-	_MoverArray[i].MoverXtsIoEnvInterface :=_XtsTrackHardware.GetMoverEnvInterface(i);
-END_FOR
-
-mcCollisionGroup.CAGroupXtsIoEnvInterface := _XtsTrackHardware.GetCaGroupInterface();]]></ST>
-      </Implementation>
-    </Method>
     <Property Name="HomePosition" Id="{7488af26-181d-46aa-9621-c1c9bb1f6cd2}">
       <Declaration><![CDATA[PROPERTY PUBLIC HomePosition : mc_lreal]]></Declaration>
       <Get Name="Get" Id="{204400f9-e0e2-4b38-927a-449ec513969c}">
@@ -215,7 +203,7 @@ END_VAR
 	XtsHardwareState.MoverIdDetection:
 		IF _XtsTrackHardware.TriggerMoverID() THEN
 			XtsHwState := XtsHardwareState.HWReady;
-			GetTMSMoverInterface();
+			//GetTMSMoverInterface();
 		END_IF
 	
 	XtsHardwareState.HWReady:
@@ -384,13 +372,6 @@ END_VAR
     </LineIds>
     <LineIds Name="Xts.FB_init">
       <LineId Id="7" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.GetTMSMoverInterface">
-      <LineId Id="29" Count="0" />
-      <LineId Id="31" Count="0" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="35" Count="0" />
-      <LineId Id="34" Count="0" />
     </LineIds>
     <LineIds Name="Xts.HomePosition.Get">
       <LineId Id="2" Count="0" />
