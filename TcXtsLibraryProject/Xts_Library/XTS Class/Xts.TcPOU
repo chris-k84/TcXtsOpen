@@ -189,6 +189,11 @@ END_VAR
       <Implementation>
         <ST><![CDATA[CASE XtsHwState OF
 	XtsHardwareState.Init:
+		IF XtsIoEnvVar.Initialise() THEN
+			XtsHwState := XtsHardwareState.SetDetection;
+		END_IF
+	
+	XtsHardwareState.SetDetection:
 		IF XtsHardware.SetTracksForDetection() THEN
 			XtsHwState := XtsHardwareState.Redetect;
 		END_IF
@@ -394,7 +399,10 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="Xts.Initialise">
-      <LineId Id="6" Count="36" />
+      <LineId Id="6" Count="1" />
+      <LineId Id="53" Count="2" />
+      <LineId Id="51" Count="1" />
+      <LineId Id="8" Count="34" />
       <LineId Id="44" Count="3" />
       <LineId Id="5" Count="0" />
     </LineIds>

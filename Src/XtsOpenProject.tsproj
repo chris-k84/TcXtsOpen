@@ -4186,6 +4186,11 @@ and will return to Group State Standby when the situation permits.
 				<Cpu CpuId="3" BaseTime="2500"/>
 				<IoIdleTask Affinity="#x00000004"/>
 			</Settings>
+			<Licenses>
+				<Target>
+					<ManualSelect>{8C57D0A8-BD63-4554-BAE1-E9C797EF0D0E}</ManualSelect>
+				</Target>
+			</Licenses>
 			<Tasks>
 				<Task Id="3" Priority="20" CycleTime="100000" AmsPort="350" Affinity="#x00000004" AdtTasks="true">
 					<Name>PlcTask</Name>
