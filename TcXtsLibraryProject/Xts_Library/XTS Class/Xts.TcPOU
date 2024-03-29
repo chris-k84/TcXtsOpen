@@ -7,7 +7,7 @@ VAR
 	_HomeSpeed : MC_LREAL;
 	XtsIoEnvVar : XTSIOEnvVarWrapper;
 	mcCollisionGroup : CollisionGroup;
-	XtsHardware : XTSHardware_V2;
+	XtsHardware : XTSHardware_V2 := (XtsIoEnvVarWrapper := XtsIoEnvVar);
 	_XtsTrackHardware : IXtsHardware;
 	XtsHwState : XtsHardwareState;
 	EnableSequence : XtsEnableSequence(mcCollisionGroup);
