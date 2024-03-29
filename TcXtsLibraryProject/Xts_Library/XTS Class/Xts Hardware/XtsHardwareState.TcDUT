@@ -6,15 +6,16 @@
 TYPE XtsHardwareState :
 (
 	Init := 0,
-	SetDetection := 1,                                              
-	Redetect := 2,
-	MoversValid := 3,                                 
-	AllMoversFound := 4,
-	MoverIdDetection := 5,
-	XTSMode := 6,
-	CheckModuleVoltages := 7,
-	HWReady := 8,
-	HWError := 9
+	InitialiseHardware := 1,
+	SetDetection := 2,                                              
+	Redetect := 3,
+	MoversValid := 4,                                 
+	AllMoversFound := 5,
+	MoverIdDetection := 6,
+	XTSMode := 7,
+	CheckModuleVoltages := 8,
+	HWReady := 9,
+	HWError := 10
 );
 END_TYPE
 ]]></Declaration>
