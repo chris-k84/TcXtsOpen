@@ -191,6 +191,7 @@ END_VAR
 	XtsHardwareState.Init:
 		IF XtsIoEnvVar.Initialise() THEN
 			XtsHwState := XtsHardwareState.InitialiseHardware;
+			mcCollisionGroup.CAGroupXtsIoEnvInterface := XtsIoEnvVar.GetCaGroupInterface(1);
 		END_IF
 	
 	XtsHardwareState.InitialiseHardware:
@@ -405,7 +406,9 @@ END_VAR
     </LineIds>
     <LineIds Name="Xts.Initialise">
       <LineId Id="6" Count="1" />
-      <LineId Id="53" Count="7" />
+      <LineId Id="53" Count="1" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="55" Count="5" />
       <LineId Id="51" Count="1" />
       <LineId Id="8" Count="34" />
       <LineId Id="44" Count="3" />

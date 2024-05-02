@@ -77,7 +77,7 @@ END_VAR
 		END_IF
 	1:
 		MyModuleCount := _MyInterface.GetModuleCount();
-		IF MyModuleCount = 0 THEN
+		IF InSim THEN
 			XtsIoEnvInitialiseState := 3;
 			FOR i := 1 TO UDINT_TO_UINT(MyModuleCount) DO
 				MyModules[i].SetInSim();
@@ -151,6 +151,15 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Method Name="SetInSim" Id="{273102d0-bbf8-41a5-af45-2632119808d5}">
+      <Declaration><![CDATA[METHOD SetInSim : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[InSim := true;]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="XtsPart">
       <LineId Id="9" Count="0" />
     </LineIds>
@@ -202,6 +211,9 @@ END_VAR
     </LineIds>
     <LineIds Name="XtsPart.MyXtsIoEnvInterface.Set">
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsPart.SetInSim">
+      <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

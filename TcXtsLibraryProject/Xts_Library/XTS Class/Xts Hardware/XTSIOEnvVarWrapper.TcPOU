@@ -4,6 +4,7 @@
     <Declaration><![CDATA[FUNCTION_BLOCK XTSIOEnvVarWrapper IMPLEMENTS ITF_XTSIOEnvVarWrapper
 VAR
 	XtsIoEnvironment : Tc3_XTS_Utility.FB_TcIoXtsEnvironment;
+	stXtsEnvironmentConfiguration	: ST_XtsEnvironmentConfiguration;
 	XPU: Tc3_XTS_Utility.I_TcIoXtsProcessingUnit;
 	Initialised : BOOL;
 END_VAR
@@ -11,6 +12,18 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="FB_init" Id="{5798f5d6-785a-4124-98b0-b4ab031dfdac}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stXtsEnvironmentConfiguration.bEnableInitCaGroup := TRUE;
+XtsIoEnvironment.P_XtsEnvironmentConfiguration := stXtsEnvironmentConfiguration;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="GetCaGroupInterface" Id="{12f834a0-9ae6-48b5-9bae-7bc717cd2b2d}">
       <Declaration><![CDATA[METHOD GetCaGroupInterface : I_Mc2CaGroup
 VAR_INPUT
@@ -18,7 +31,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[GetCaGroupInterface := XtsIoEnvironment.Mc2CaGroup(CAGroupNumber);]]></ST>
+        <ST><![CDATA[GetCaGroupInterface := XtsIoEnvironment.Mc2CaGroup(1);]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetMotorModuleInterface" Id="{9af7c768-b524-4dfc-b4c9-d134e43969ae}">
@@ -94,6 +107,10 @@ END_VAR
     </Method>
     <LineIds Name="XTSIOEnvVarWrapper">
       <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSIOEnvVarWrapper.FB_init">
+      <LineId Id="8" Count="0" />
+      <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="XTSIOEnvVarWrapper.GetCaGroupInterface">
       <LineId Id="5" Count="0" />
