@@ -38,7 +38,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF MyModuleIoInterface.P_IsInitialized THEN
-	Initialise := 1;
+	Initialise := 2;
 END_IF]]></ST>
       </Implementation>
     </Method>
