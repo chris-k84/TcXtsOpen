@@ -10,6 +10,7 @@ VAR
 	_ReadyToEnable: BOOL;
 	MyModules : ARRAY[1..SystemParameters.MaxModulesInPart] OF XtsMotorModule;
 	ModuleIndex: UDINT := 1;
+	InSim : BOOL;
 	i : UINT;
 END_VAR
 ]]></Declaration>
@@ -66,17 +67,30 @@ END_VAR
         <ST><![CDATA[CASE XtsIoEnvInitialiseState OF
 	0:
 		IF _MyInterface <> 0 THEN
-			XtsIoEnvInitialiseState := 1;
+			IF InSim THEN
+				XtsIoEnvInitialiseState := 3;
+			ELSE
+				XtsIoEnvInitialiseState := 1;
+			END_IF
 		ELSE
 			XtsIoEnvInitialiseState := 999;
 		END_IF
 	1:
 		MyModuleCount := _MyInterface.GetModuleCount();
-		FOR i := 1 TO UDINT_TO_UINT(MyModuleCount) DO
-			MyModules[i].MyCoEInterface := _MyInterface.ModuleCoE(i);
-			MyModules[i].MyModuleInterface := _MyInterface.ModuleTcIo(i);
-		END_FOR
-		XtsIoEnvInitialiseState := 2;
+		IF MyModuleCount = 0 THEN
+			XtsIoEnvInitialiseState := 3;
+			FOR i := 1 TO UDINT_TO_UINT(MyModuleCount) DO
+				MyModules[i].SetInSim();
+			END_FOR
+			InSim := true;
+		ELSE
+			FOR i := 1 TO UDINT_TO_UINT(MyModuleCount) DO
+				MyModules[i].MyCoEInterface := _MyInterface.ModuleCoE(i);
+				MyModules[i].MyModuleInterface := _MyInterface.ModuleTcIo(i);
+			END_FOR
+			XtsIoEnvInitialiseState := 2;
+		END_IF
+		
 	2:
 		XtsIoEnvInitialiseState := 3;
 		FOR i := 1 TO UDINT_TO_UINT(MyModuleCount) DO
@@ -150,13 +164,22 @@ END_VAR
     </LineIds>
     <LineIds Name="XtsPart.Initialise">
       <LineId Id="5" Count="0" />
-      <LineId Id="8" Count="2" />
+      <LineId Id="8" Count="1" />
+      <LineId Id="40" Count="1" />
+      <LineId Id="43" Count="1" />
+      <LineId Id="42" Count="0" />
       <LineId Id="12" Count="1" />
       <LineId Id="11" Count="0" />
       <LineId Id="14" Count="1" />
-      <LineId Id="35" Count="1" />
-      <LineId Id="16" Count="0" />
-      <LineId Id="18" Count="2" />
+      <LineId Id="45" Count="1" />
+      <LineId Id="55" Count="1" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="50" Count="3" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="19" Count="1" />
       <LineId Id="29" Count="0" />
       <LineId Id="24" Count="1" />
       <LineId Id="27" Count="1" />

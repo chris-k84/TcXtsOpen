@@ -9,6 +9,7 @@ VAR
 	MaxCurrent: DINT;
 	Nominal24Vdc : LREAL := 24000;
 	Nominal48Vdc : LREAL := 48000;
+	InSim : BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -20,7 +21,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF MyModuleCoEInterface <> 0 THEN
+        <ST><![CDATA[IF MyModuleCoEInterface <> 0 AND NOT InSim THEN
 	MyModuleCoEInterface.InfoData.Update();
 	MyModuleCoEInterface.DiagData.Update();
 	//MyModuleCoEInterface.AllCoE.UpdateAllCoEData();
@@ -108,6 +109,15 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Method Name="SetInSim" Id="{13eee03f-0b41-4595-95d5-55a5ef2b6f3f}">
+      <Declaration><![CDATA[METHOD SetInSim : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[InSim := true;]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="XtsMotorModule">
       <LineId Id="9" Count="0" />
     </LineIds>
@@ -141,6 +151,9 @@ END_VAR
     </LineIds>
     <LineIds Name="XtsMotorModule.MyModuleInterface.Set">
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMotorModule.SetInSim">
+      <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
