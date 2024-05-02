@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="XtsSystemInitialisation" Id="{3651fba9-c72e-488e-9f30-9cd847bba8bf}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE XtsSystemInitialisation :
+(
+	Init := 0,
+	PassGroupReference := 1,
+	InitialiseHardware := 2,
+	SetDetection := 3,                                              
+	Redetect := 4,
+	MoversValid := 5,                                 
+	AllMoversFound := 6,
+	MoverIdDetection := 7,
+	XTSMode := 8,
+	CheckModuleVoltages := 9,
+	HWReady := 10,
+	HWError := 999
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
