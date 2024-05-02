@@ -1,11 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="Machine" Id="{e8d4edde-6e68-4e80-9f5b-2e9346044142}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK Machine EXTENDS CyclicBase
-VAR_INPUT
-END_VAR
-VAR_OUTPUT
-END_VAR
+    <Declaration><![CDATA[FUNCTION_BLOCK Machine EXTENDS PML_Method_Base
 VAR
 	XtsModuleRunner : ObjectRunner;
 	xtsStateMachine : PMLStateMachine;
@@ -36,7 +32,6 @@ VAR
 	iStationArray : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess := [Station1,Station2,
 																					Station3,Station4,
 																					Station5,Station6];
-//	XtsTrackHardware : XTSHardware_V2;
 	Xts : Xts(XtsModuleRunner) := (HomePosition := 1000.0,
 										HomeSpeed := 1000.0, 
 										Tracks := 1,
@@ -44,16 +39,38 @@ VAR
 	MoverSequences : ARRAY[1..10] OF IndexMoverSequence(XtsModuleRunner) := [10((MyStateMachine := xtsStateMachine,
 																				MyStations := iStationArray,
 																				MyStartPosition := Xts.HomePosition))];	
+	i : INT;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="Aborting" Id="{5e47e9ec-af05-4f55-a014-ec50066f7440}">
+      <Declaration><![CDATA[METHOD PROTECTED Aborting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Xts.DisableXTS();
+ipackml.SetStateComplete();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Clearing" Id="{29611cf3-b33d-4081-8744-6b6cb57a9ba1}">
+      <Declaration><![CDATA[METHOD PROTECTED Clearing : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Xts.ActivateTracksInMovers();
+ipackml.SetStateComplete();]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="Cycle" Id="{a8675662-99c5-487a-bbe7-b5e32c1c2bf4}">
       <Declaration><![CDATA[METHOD PUBLIC  Cycle : HRESULT
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[xtsStateMachine.Cycle();
+        <ST><![CDATA[SUPER^.Cycle();
+xtsStateMachine.Cycle();
 XtsModuleRunner.Cycle();
 Station1.Cycle();
 Station2.Cycle();
@@ -73,14 +90,22 @@ END_VAR
 	FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
 		MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyMover := Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i]; 
 	END_FOR
-	
+	THIS^.PackMLStateMachine := xtsStateMachine;
 	xtsStateMachine.PmlModeCommand(Mode := E_PMLProtectedUnitMode.ePMLProtUnitMode_Production);
 	xtsStateMachine.PmlStateCommand(Command := E_PMLCommand.ePMLCommand_Abort);
 	Initialise := true;
 END_IF
-
-
 ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Resetting" Id="{9f1f9d34-e777-4487-9353-8daf70debb65}">
+      <Declaration><![CDATA[METHOD PROTECTED Resetting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Xts.EnableXTS();
+ipackml.SetStateComplete();]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetPackML" Id="{53c56351-61ed-4063-8940-94e0a76b1fed}">
@@ -94,10 +119,27 @@ END_VAR
         <ST><![CDATA[xtsStateMachine.PmlStateCommand(Command := state);]]></ST>
       </Implementation>
     </Method>
+    <Method Name="Starting" Id="{6289f1df-c8c2-4a24-9238-0ac10992d955}">
+      <Declaration><![CDATA[METHOD PROTECTED Starting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Xts.MoverHomeSequence();
+ipackml.SetStateComplete();]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="Machine">
       <LineId Id="72" Count="0" />
     </LineIds>
+    <LineIds Name="Machine.Aborting">
+      <LineId Id="5" Count="1" />
+    </LineIds>
+    <LineIds Name="Machine.Clearing">
+      <LineId Id="5" Count="1" />
+    </LineIds>
     <LineIds Name="Machine.Cycle">
+      <LineId Id="20" Count="0" />
       <LineId Id="7" Count="0" />
       <LineId Id="5" Count="0" />
       <LineId Id="12" Count="5" />
@@ -110,13 +152,18 @@ END_VAR
       <LineId Id="116" Count="0" />
       <LineId Id="79" Count="0" />
       <LineId Id="120" Count="0" />
-      <LineId Id="74" Count="1" />
-      <LineId Id="73" Count="0" />
-      <LineId Id="66" Count="0" />
-      <LineId Id="63" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="124" Count="0" />
+      <LineId Id="75" Count="0" />
+    </LineIds>
+    <LineIds Name="Machine.Resetting">
+      <LineId Id="5" Count="1" />
     </LineIds>
     <LineIds Name="Machine.SetPackML">
       <LineId Id="29" Count="0" />
+    </LineIds>
+    <LineIds Name="Machine.Starting">
+      <LineId Id="5" Count="1" />
     </LineIds>
   </POU>
 </TcPlcObject>
