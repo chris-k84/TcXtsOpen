@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="Xts" Id="{4538c683-94fc-49a1-b5ad-30ffec5e4eff}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK Xts EXTENDS PML_Method_Base IMPLEMENTS I_Initialise
+    <Declaration><![CDATA[FUNCTION_BLOCK Xts IMPLEMENTS ICyclic, I_Initialise
 VAR
 	_homePosition : MC_LREAL;
 	_HomeSpeed : MC_LREAL;
@@ -20,32 +20,7 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
-    <Folder Name="Action States" Id="{52cebbbe-42d9-490e-86b9-bf5151fd8965}" />
     <Folder Name="Operations" Id="{0e8598c4-3d58-4c14-a12f-6fd3f3ea02bf}" />
-    <Method Name="Aborting" Id="{f4025447-c7fa-4c21-bcd4-655228f2af38}" FolderPath="Action States\">
-      <Declaration><![CDATA[METHOD PROTECTED Aborting : BOOL
-VAR
-	
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[CASE State OF
-	0:
-		DisableSequence.Disable();
-		State := 1;
-			
-	1:
-		IF DisableSequence.Done THEN
-			State := 0;
-			ipackml.SetStateComplete();
-			Aborting := TRUE;
-		END_IF
-	ELSE
-		Aborting := FALSE;
-END_CASE
-]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="ActivateTracksInMovers" Id="{682f2d4e-bf73-44bf-93e3-716a6d45755c}" FolderPath="Operations\">
       <Declaration><![CDATA[METHOD PUBLIC ActivateTracksInMovers : BOOL
 VAR
@@ -59,35 +34,6 @@ END_FOR
 ActivateTracksInMovers := true;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Clearing" Id="{7ebb7a7d-7271-4f69-b79f-9ca8eeb5c574}" FolderPath="Action States\">
-      <Declaration><![CDATA[METHOD PROTECTED Clearing : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[CASE State OF
-	0:
-		IF ActivateTracksInMovers() THEN
-			State := 1;
-		END_IF	
-		
-	1:
-		IF EnableSequence.Enable() THEN
-			State := 2;
-		END_IF
-		
-	2:
-		IF  EnableSequence.Done THEN
-			ipackml.SetStateComplete();
-			State := 0;
-			Clearing := TRUE;
-		END_IF
-	ELSE
-		Clearing := FALSE;
-END_CASE
-]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="Cycle" Id="{da42838e-fb00-40a5-96f4-b787aa883566}">
       <Declaration><![CDATA[METHOD PUBLIC Cycle : HRESULT
 VAR
@@ -98,8 +44,7 @@ VAR
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Cycle := SUPER^.Cycle();
-EnableResult := EnableSequence.Cycle();
+        <ST><![CDATA[EnableResult := EnableSequence.Cycle();
 DisableResult := DisableSequence.Cycle();
 CollisionResult := mcCollisionGroup.Cycle();
 
@@ -110,6 +55,24 @@ IF EnableResult = E_FAIL OR
 	Cycle := E_FAIL;
 END_IF
 ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DisableXTS" Id="{e2a85e5a-c7bf-481d-be4f-81acebc29fb7}" FolderPath="Operations\">
+      <Declaration><![CDATA[METHOD DisableXTS : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[DisableSequence.Disable();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="EnableXTS" Id="{e800781e-1435-4747-9cb4-9b9fab34ca22}" FolderPath="Operations\">
+      <Declaration><![CDATA[METHOD EnableXTS : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[EnableSequence.Enable();]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_init" Id="{7656e6f5-212b-4fe7-8cf3-636ae6db9244}">
@@ -189,7 +152,7 @@ END_VAR
         <ST><![CDATA[CASE XtsHwState OF
 	XtsSystemInitialisation.Init:
 		IF XtsIoEnvVar.Initialise() THEN
-			XtsHwState := XtsSystemInitialisation.InitialiseHardware;
+			XtsHwState := XtsSystemInitialisation.PassGroupReference;
 		END_IF
 		
 	XtsSystemInitialisation.PassGroupReference:
@@ -277,54 +240,13 @@ END_FOR
 MoverHomeSequence := TRUE;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Resetting" Id="{284a2a86-6aa9-45b7-b9c4-39c067c7a709}" FolderPath="Action States\">
-      <Declaration><![CDATA[METHOD PROTECTED Resetting : BOOL
+    <Method Name="StopXts" Id="{4b648283-f5f4-4d47-a58f-be53e519365d}" FolderPath="Operations\">
+      <Declaration><![CDATA[METHOD StopXts : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE State OF
-	0:
-		IF MoverHomeSequence() THEN
-			State := 1;
-		END_IF
-	
-	1:
-		AtHome := TRUE;
-		FOR i := 1 TO SystemParameters.NumberOfMovers DO
-				AtHome := AtHome AND _MoverArray[i].isMoverStationary();
-		END_FOR 
-		IF AtHome THEN
-			State := 0;
-			ipackml.SetStateComplete();	
-			Resetting := TRUE;
-		END_IF
-	ELSE
-		Resetting := FALSE;	
-END_CASE]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="Stopping" Id="{3cd6a931-8a7e-487a-9f0d-8a2db098be82}" FolderPath="Action States\">
-      <Declaration><![CDATA[METHOD PROTECTED Stopping : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[CASE State OF
-	0:
-		mcCollisionGroup.GroupStop();
-		State := 1;
-		
-	1:
-		IF mcCollisionGroup.GroupState = CAGroupStatus.mcGroupStateStandby THEN
-			State := 0;
-			ipackml.SetStateComplete();
-			Stopping := TRUE;
-		END_IF
-	ELSE
-		Stopping := FALSE;
-END_CASE
-]]></ST>
+        <ST><![CDATA[mcCollisionGroup.GroupStop();]]></ST>
       </Implementation>
     </Method>
     <Property Name="Tracks" Id="{8eb8f4ad-907d-4ff8-9789-8832cf169bda}">
@@ -349,15 +271,6 @@ END_VAR
     <LineIds Name="Xts">
       <LineId Id="78" Count="0" />
     </LineIds>
-    <LineIds Name="Xts.Aborting">
-      <LineId Id="22" Count="0" />
-      <LineId Id="25" Count="7" />
-      <LineId Id="38" Count="0" />
-      <LineId Id="23" Count="0" />
-      <LineId Id="36" Count="1" />
-      <LineId Id="24" Count="0" />
-      <LineId Id="9" Count="0" />
-    </LineIds>
     <LineIds Name="Xts.ActivateTracksInMovers">
       <LineId Id="23" Count="0" />
       <LineId Id="25" Count="0" />
@@ -365,17 +278,7 @@ END_VAR
       <LineId Id="27" Count="0" />
       <LineId Id="12" Count="0" />
     </LineIds>
-    <LineIds Name="Xts.Clearing">
-      <LineId Id="45" Count="0" />
-      <LineId Id="48" Count="13" />
-      <LineId Id="65" Count="0" />
-      <LineId Id="46" Count="0" />
-      <LineId Id="66" Count="1" />
-      <LineId Id="47" Count="0" />
-      <LineId Id="18" Count="0" />
-    </LineIds>
     <LineIds Name="Xts.Cycle">
-      <LineId Id="13" Count="0" />
       <LineId Id="17" Count="1" />
       <LineId Id="5" Count="0" />
       <LineId Id="30" Count="0" />
@@ -383,6 +286,12 @@ END_VAR
       <LineId Id="33" Count="3" />
       <LineId Id="32" Count="0" />
       <LineId Id="28" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.DisableXTS">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.EnableXTS">
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="Xts.FB_init">
       <LineId Id="7" Count="0" />
@@ -429,22 +338,8 @@ END_VAR
       <LineId Id="5" Count="0" />
       <LineId Id="8" Count="0" />
     </LineIds>
-    <LineIds Name="Xts.Resetting">
-      <LineId Id="41" Count="0" />
-      <LineId Id="44" Count="12" />
-      <LineId Id="60" Count="0" />
-      <LineId Id="42" Count="0" />
-      <LineId Id="61" Count="1" />
-      <LineId Id="43" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.Stopping">
-      <LineId Id="21" Count="0" />
-      <LineId Id="24" Count="7" />
-      <LineId Id="35" Count="0" />
-      <LineId Id="22" Count="0" />
-      <LineId Id="36" Count="1" />
-      <LineId Id="23" Count="0" />
-      <LineId Id="9" Count="0" />
+    <LineIds Name="Xts.StopXts">
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="Xts.Tracks.Get">
       <LineId Id="2" Count="0" />
