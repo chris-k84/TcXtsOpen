@@ -207,6 +207,24 @@ END_VAR
 END_CASE]]></ST>
       </Implementation>
     </Method>
+    <Method Name="IsXtsIdle" Id="{98f4e7e8-94b6-4461-9a7b-2bd1c0aafde4}">
+      <Declaration><![CDATA[METHOD IsXtsIdle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IsXtsIdle := DisableSequence.Done;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="IsXtsReady" Id="{73e2c3f0-1b32-45c2-a8cc-fbf01ac18258}">
+      <Declaration><![CDATA[METHOD IsXtsReady : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IsXtsReady := EnableSequence.Done;]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="MoverArray" Id="{5c1cfa9c-be49-4324-bcf5-1be968bfce44}">
       <Declaration><![CDATA[PROPERTY MoverArray : array[1..SystemParameters.NumberOfMovers] of I_XtsMoverAxis]]></Declaration>
       <Get Name="Get" Id="{2b512b99-b3b1-44cb-bf62-7cd45f8e95a6}">
@@ -323,6 +341,12 @@ END_VAR
       <LineId Id="51" Count="1" />
       <LineId Id="8" Count="34" />
       <LineId Id="44" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.IsXtsIdle">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.IsXtsReady">
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="Xts.MoverArray.Get">

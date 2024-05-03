@@ -11,22 +11,22 @@ VAR
 											Movers[5],Movers[6],
 											Movers[7],Movers[8],
 											Movers[9],Movers[10]];
-	Station1 : StationSample := (Position := 1200.0, 
+	Station1 : StationSample := (Position := 1400.0, 
 									TempPropTime := T#1S,
 									MyStateMachine := xtsStateMachine);
-	Station2 : StationSample := (Position := 1300.0, 
+	Station2 : StationSample := (Position := 2100.0, 
 									TempPropTime := T#2S,
 									MyStateMachine := xtsStateMachine);
-	Station3 : StationSample := (Position := 1400.0, 
+	Station3 : StationSample := (Position := 2500.0, 
 									TempPropTime := T#2S,
 									MyStateMachine := xtsStateMachine);
-	Station4 : StationSample := (Position := 2200.0, 
+	Station4 : StationSample := (Position := 2600.0, 
 									TempPropTime := T#1S,
 									MyStateMachine := xtsStateMachine);
-	Station5 : StationSample := (Position := 2600.0, 
+	Station5 : StationSample := (Position := 3100.0, 
 									TempPropTime := T#1S,
 									MyStateMachine := xtsStateMachine);
-	Station6 : StationSample := (Position := 100.0, 
+	Station6 : StationSample := (Position := 200.0, 
 									TempPropTime := T#1S,
 									MyStateMachine := xtsStateMachine);
 	iStationArray : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess := [Station1,Station2,
@@ -50,8 +50,11 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Xts.DisableXTS();
-ipackml.SetStateComplete();]]></ST>
+        <ST><![CDATA[IF NOT Xts.IsXtsIdle() THEN
+	Xts.DisableXTS();
+ELSE
+	ipackml.SetStateComplete();
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="Clearing" Id="{29611cf3-b33d-4081-8744-6b6cb57a9ba1}">
@@ -104,8 +107,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Xts.EnableXTS();
-ipackml.SetStateComplete();]]></ST>
+        <ST><![CDATA[IF NOT Xts.IsXtsReady() THEN
+	Xts.EnableXTS();
+ELSE
+	ipackml.SetStateComplete();
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetPackML" Id="{53c56351-61ed-4063-8940-94e0a76b1fed}">
@@ -133,7 +140,7 @@ ipackml.SetStateComplete();]]></ST>
       <LineId Id="72" Count="0" />
     </LineIds>
     <LineIds Name="Machine.Aborting">
-      <LineId Id="5" Count="1" />
+      <LineId Id="11" Count="4" />
     </LineIds>
     <LineIds Name="Machine.Clearing">
       <LineId Id="5" Count="1" />
@@ -157,7 +164,10 @@ ipackml.SetStateComplete();]]></ST>
       <LineId Id="75" Count="0" />
     </LineIds>
     <LineIds Name="Machine.Resetting">
-      <LineId Id="5" Count="1" />
+      <LineId Id="10" Count="1" />
+      <LineId Id="13" Count="1" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="Machine.SetPackML">
       <LineId Id="29" Count="0" />
