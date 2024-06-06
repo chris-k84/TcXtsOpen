@@ -64,6 +64,18 @@ END_IF
 Cycle := S_OK;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="FB_init" Id="{69a5d69c-bd9f-46d9-a082-043e9c8ac3eb}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	XtsRunner : I_ObjectRunner;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[XtsRunner.AddComponent(THIS^);]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="HasMover" Id="{cfa7f397-450b-4982-8373-384ee5df1767}">
       <Declaration><![CDATA[METHOD HasMover : BOOL
 VAR_INPUT
@@ -174,6 +186,9 @@ END_IF]]></ST>
     <LineIds Name="Station.Cycle">
       <LineId Id="27" Count="14" />
       <LineId Id="22" Count="0" />
+    </LineIds>
+    <LineIds Name="Station.FB_init">
+      <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="Station.HasMover">
       <LineId Id="7" Count="2" />
