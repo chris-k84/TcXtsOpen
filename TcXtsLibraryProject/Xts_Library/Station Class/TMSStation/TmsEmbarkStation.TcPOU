@@ -23,7 +23,6 @@ VAR
 		Done,
 		Aborting); 
 	_switchPosition: MC_LREAL;
-	demandPosition : TmsSwitchPosition;
 	arrTrackIds : ARRAY[1..SystemParameters.NumberOfTracks] OF I_XtsTrack;
 	isUpAllowed : BOOL := TRUE;
 	isDownAllowed : BOOL := FALSE;
