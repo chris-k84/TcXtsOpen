@@ -125,6 +125,25 @@ holdingStation.MyStateMachine := MyStateMachine;]]></ST>
         </Implementation>
       </Set>
     </Property>
+    <Property Name="SwitchLowerPosition" Id="{50231232-5e8f-4e29-9828-1275ddad7c48}">
+      <Declaration><![CDATA[PROPERTY SwitchLowerPosition : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{d161c959-ac3c-4c0a-be5a-a0c3a788007e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[SwitchLowerPosition := embarkingStation.SwitchLowerPosition;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{3d8d0d38-3ebf-4444-be66-5a66307afeec}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[embarkingStation.SwitchLowerPosition := SwitchLowerPosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="SwitchTravelPosition" Id="{81526570-b9a9-41d5-adf0-49b50e38e46c}">
       <Declaration><![CDATA[PROPERTY SwitchTravelPosition : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{cd5a599e-fb72-4d8d-b6d6-a8e1cee905ed}">
@@ -144,28 +163,27 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Property Name="TmsSwitch" Id="{85a620f6-c211-4e12-b763-3ad2fed889bb}">
-      <Declaration><![CDATA[PROPERTY TmsSwitch : ITF_TmsSwitch]]></Declaration>
-      <Get Name="Get" Id="{b943f30d-f4ed-4d81-b9a4-8eb6002901bc}">
+    <Property Name="SwitchUpperPosition" Id="{7e15bf8e-041e-40bd-9bf3-44ab86a54371}">
+      <Declaration><![CDATA[PROPERTY SwitchUpperPosition : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{fa23b4c1-696d-493f-8b44-0e0c75859dec}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[TmsSwitch := _TmsSwitch;]]></ST>
+          <ST><![CDATA[SwitchUpperPosition := embarkingStation.SwitchUpperPosition;]]></ST>
         </Implementation>
       </Get>
-      <Set Name="Set" Id="{cb3000c8-bad5-4070-9c48-eb4e16c736f9}">
+      <Set Name="Set" Id="{5d817073-52c5-42bb-88e6-aed9feec32b5}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[_TmsSwitch := TmsSwitch;
-embarkingStation.TmsSwitch := TmsSwitch;]]></ST>
+          <ST><![CDATA[embarkingStation.SwitchUpperPosition := SwitchUpperPosition;]]></ST>
         </Implementation>
       </Set>
     </Property>
     <Property Name="TrackIds" Id="{31a30eda-833a-450a-89f7-9d9f22e2b4ec}">
-      <Declaration><![CDATA[PROPERTY PUBLIC TrackIds : Array[1..4] of OTCID]]></Declaration>
+      <Declaration><![CDATA[PROPERTY PUBLIC TrackIds : Array[1..2] of I_XtsTrack]]></Declaration>
       <Get Name="Get" Id="{a5973870-9ace-4fb7-8902-58880a368a69}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -222,18 +240,23 @@ END_VAR
       <LineId Id="2" Count="0" />
       <LineId Id="5" Count="1" />
     </LineIds>
+    <LineIds Name="TmsExchange.SwitchLowerPosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsExchange.SwitchLowerPosition.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
     <LineIds Name="TmsExchange.SwitchTravelPosition.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="TmsExchange.SwitchTravelPosition.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="TmsExchange.TmsSwitch.Get">
+    <LineIds Name="TmsExchange.SwitchUpperPosition.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="TmsExchange.TmsSwitch.Set">
+    <LineIds Name="TmsExchange.SwitchUpperPosition.Set">
       <LineId Id="2" Count="0" />
-      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="TmsExchange.TrackIds.Get">
       <LineId Id="2" Count="0" />

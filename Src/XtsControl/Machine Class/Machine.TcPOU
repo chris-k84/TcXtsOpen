@@ -11,22 +11,22 @@ VAR
 											Movers[5],Movers[6],
 											Movers[7],Movers[8],
 											Movers[9],Movers[10]];
-	Station1 : StationSample := (Position := 1400.0, 
+	Station1 : StationSample(XtsModuleRunner) := (Position := 1400.0, 
 									TempPropTime := T#1S,
 									MyStateMachine := xtsStateMachine);
-	Station2 : StationSample := (Position := 2100.0, 
+	Station2 : StationSample(XtsModuleRunner) := (Position := 2100.0, 
 									TempPropTime := T#2S,
 									MyStateMachine := xtsStateMachine);
-	Station3 : StationSample := (Position := 2500.0, 
+	Station3 : StationSample(XtsModuleRunner) := (Position := 2500.0, 
 									TempPropTime := T#2S,
 									MyStateMachine := xtsStateMachine);
-	Station4 : StationSample := (Position := 2600.0, 
+	Station4 : StationSample(XtsModuleRunner) := (Position := 2600.0, 
 									TempPropTime := T#1S,
 									MyStateMachine := xtsStateMachine);
-	Station5 : StationSample := (Position := 3100.0, 
+	Station5 : StationSample(XtsModuleRunner) := (Position := 3100.0, 
 									TempPropTime := T#1S,
 									MyStateMachine := xtsStateMachine);
-	Station6 : StationSample := (Position := 200.0, 
+	Station6 : StationSample(XtsModuleRunner) := (Position := 200.0, 
 									TempPropTime := T#1S,
 									MyStateMachine := xtsStateMachine);
 	iStationArray : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess := [Station1,Station2,
@@ -74,13 +74,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.Cycle();
 xtsStateMachine.Cycle();
-XtsModuleRunner.Cycle();
-Station1.Cycle();
-Station2.Cycle();
-Station3.Cycle();
-Station4.Cycle();
-Station5.Cycle();
-Station6.Cycle();]]></ST>
+XtsModuleRunner.Cycle();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Initialise" Id="{4069299b-b0bd-441e-b636-7c39202b14ad}">
@@ -149,7 +143,6 @@ ipackml.SetStateComplete();]]></ST>
       <LineId Id="20" Count="0" />
       <LineId Id="7" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="12" Count="5" />
     </LineIds>
     <LineIds Name="Machine.Initialise">
       <LineId Id="72" Count="0" />

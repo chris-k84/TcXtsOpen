@@ -12,7 +12,7 @@ VAR
 	i: UDINT;
 	MyPartCount: UDINT;
 	MyTrackCount: UDINT;
-	_TmsSwitch : ITF_TmsSwitch;
+	//_TmsSwitch : ITF_TmsSwitch;
 	bMoverIdDetectionActive: BOOL;
 	bTriggerDetect: BOOL;
 	bMoverIdDetectionError: BOOL;
@@ -198,40 +198,21 @@ IF MyXPUInterface.GetTrackCount() = 1 THEN
 	SetTracksForDetection := TRUE;
 ELSE
 	SetTracksForDetection := TRUE;
-	CASE _TmsSwitch.Switch OF
-		TmsSwitchPosition.Up: 
-			MyXPUInterface.TrackTcIo(3).SetIsIncludedInDetection(TRUE);
-		TmsSwitchPosition.Middle:
-			MyXPUInterface.TrackTcIo(1).SetIsIncludedInDetection(TRUE);
-			MyXPUInterface.TrackTcIo(2).SetIsIncludedInDetection(TRUE);
-		TmsSwitchPosition.Down:
-			MyXPUInterface.TrackTcIo(4).SetIsIncludedInDetection(TRUE);
-		ELSE
-			SetTracksForDetection := FALSE;
-	END_CASE
+//	CASE _TmsSwitch.Switch OF
+//		TmsSwitchPosition.Up: 
+//			MyXPUInterface.TrackTcIo(3).SetIsIncludedInDetection(TRUE);
+//		TmsSwitchPosition.Middle:
+//			MyXPUInterface.TrackTcIo(1).SetIsIncludedInDetection(TRUE);
+//			MyXPUInterface.TrackTcIo(2).SetIsIncludedInDetection(TRUE);
+//		TmsSwitchPosition.Down:
+//			MyXPUInterface.TrackTcIo(4).SetIsIncludedInDetection(TRUE);
+//		ELSE
+//			SetTracksForDetection := FALSE;
+//	END_CASE
 	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(MyXPUInterface.GetTrackCount()));
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Property Name="TmsSwitch" Id="{0322d914-772f-4e3a-bafc-27238e97b814}">
-      <Declaration><![CDATA[PROPERTY TmsSwitch : ITF_TmsSwitch]]></Declaration>
-      <Get Name="Get" Id="{51272062-e362-42b5-8460-3b4abe74d2c0}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[TmsSwitch := _TmsSwitch;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{b37394d7-4ee5-4cc5-b259-7cd76193ad38}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[_TmsSwitch := TmsSwitch;]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
     <Method Name="TriggerMoverDetection" Id="{15e78533-ebfe-46e6-bd25-18e4044d6883}">
       <Declaration><![CDATA[METHOD TriggerMoverDetection : BOOL
 VAR_INPUT
@@ -388,12 +369,6 @@ END_VAR
       <LineId Id="54" Count="1" />
       <LineId Id="48" Count="1" />
       <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="XTSHardware_V2.TmsSwitch.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XTSHardware_V2.TmsSwitch.Set">
-      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XTSHardware_V2.TriggerMoverDetection">
       <LineId Id="11" Count="2" />

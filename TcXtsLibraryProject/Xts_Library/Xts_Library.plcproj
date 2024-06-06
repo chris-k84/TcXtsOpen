@@ -18,7 +18,7 @@
     <Released>false</Released>
     <Title>Xts Library</Title>
     <Company>BeckhoffUK</Company>
-    <ProjectVersion>6.0.0.0</ProjectVersion>
+    <ProjectVersion>6.0.0.1</ProjectVersion>
     <LibraryCategories>
       <LibraryCategory xmlns="">
         <Id>{4c30be10-0c29-4796-921e-62ecfda40191}</Id>
@@ -118,24 +118,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Station Class\TMSStation\TmsHoldStation.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Switch Class\DualModuleTmsSwitch.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Switch Class\ITF_TmsSwitch.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Switch Class\TmsSwitchInfo.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Switch Class\TmsSwitchMode.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Switch Class\TmsSwitchPosition.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Switch Class\TmsSwitchState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SystemParameters.TcGVL">
@@ -273,7 +255,6 @@
     <Folder Include="Station Class\Process" />
     <Folder Include="Station Class\Station" />
     <Folder Include="Station Class\TMSStation" />
-    <Folder Include="Switch Class" />
     <Folder Include="Tasks" />
     <Folder Include="VISUs" />
     <Folder Include="XTS Class" />

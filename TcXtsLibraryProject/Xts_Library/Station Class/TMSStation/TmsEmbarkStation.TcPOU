@@ -5,7 +5,9 @@
 VAR
 	DepartMover : I_XtsMoverAxis;
 	_StateMachine : IPmlStateMachine;
-	_TmsSwitch : ITF_TmsSwitch;
+	SwitchAxis : MC2_Axis_Base;
+	_switchUpperPosition : MC_LREAL;
+	_switchLowerPosition : MC_LREAL;
 	_TrackLevel : INT := 1; //1 is low, 2 is high
 	State :(
 		Init,                                               
@@ -18,14 +20,16 @@ VAR
 		BoardingComplete,
 		ActivateTrackForMover,
 		Moving,
+		Done,
 		Aborting); 
 	_switchPosition: MC_LREAL;
 	demandPosition : TmsSwitchPosition;
-	arrTrackIds : ARRAY[1..4] OF OTCID;
+	arrTrackIds : ARRAY[1..SystemParameters.NumberOfTracks] OF I_XtsTrack;
 	isUpAllowed : BOOL := TRUE;
 	isDownAllowed : BOOL := FALSE;
 	isMiddleAllowed : BOOL := TRUE;
 	_BoardVelocity : MC_LREAL;
+	_SwitchVelocity : MC_LREAL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -90,11 +94,9 @@ CASE State OF
 		END_IF
 	
 	HasSwitch:
-		IF (_TrackLevel = 1 AND (TmsSwitch.Switch = TmsSwitchPosition.Down OR (TmsSwitch.Switch = TmsSwitchPosition.Middle AND isUpAllowed)))
-			OR (_TrackLevel = 2 AND (TmsSwitch.Switch = TmsSwitchPosition.Up OR (TmsSwitch.Switch = TmsSwitchPosition.Middle AND isDownAllowed))) THEN
-				IF TmsSwitch.ExchangeMover(Mover := DepartMover, currentStation := THIS^) THEN
+		IF (_TrackLevel = 1 AND (SwitchAxis.isAtPosition(_switchLowerPosition) ))
+			OR (_TrackLevel = 2 AND (SwitchAxis.isAtPosition(_switchUpperPosition))) THEN
 					State := Boarding;
-				END_IF
 		ELSE
 			State := Call;
 		END_IF
@@ -103,9 +105,11 @@ CASE State OF
 		END_IF	
 		
 	Call:
-		IF NOT TmsSwitch.HasMover() AND TmsSwitch.IsStationary() THEN
-			IF TmsSwitch.MoveTo(positionState := TmsSwitchPosition.Middle) THEN
-				State := HasSwitch;
+		IF SwitchAxis.IsStationary() THEN
+			IF _TrackLevel = 1 THEN
+				SwitchAxis.MoveToPosition(Position := _switchLowerPosition, Velocity := _SwitchVelocity);
+			ELSE
+				SwitchAxis.MoveToPosition(Position := _switchUpperPosition, Velocity := _SwitchVelocity);
 			END_IF
 		ELSE
 			State := Waiting;
@@ -117,33 +121,26 @@ CASE State OF
 	Boarding:
 		BoardMoverResult := DepartMover.MoveTo(RequiredPosition := _switchPosition, MoveVelocity := _BoardVelocity);
 		IF DepartMover.isMoverAtPosition(position := _switchPosition) THEN
-			State := FindTarget;
+			State := BoardingComplete;
 		END_IF
 		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF
 		
-	FindTarget:
+	BoardingComplete:
 		IF _TrackLevel = 1 THEN
-			IF TmsSwitch.Switch = TmsSwitchPosition.Down and isMiddleAllowed THEN
-				demandPosition := TmsSwitchPosition.Middle;
-			ELSIF TmsSwitch.Switch = TmsSwitchPosition.Middle AND isUpAllowed THEN
-				demandPosition := TmsSwitchPosition.Up;
-			END_IF
+			SwitchAxis.MoveToPosition(Position := _switchUpperPosition, Velocity := _SwitchVelocity);
 		ELSE
-			IF TmsSwitch.Switch = TmsSwitchPosition.Up AND isMiddleAllowed THEN
-				demandPosition := TmsSwitchPosition.Middle;
-			ELSIF TmsSwitch.Switch = TmsSwitchPosition.Middle AND isDownAllowed THEN
-				demandPosition := TmsSwitchPosition.Down;
-			END_IF
+			SwitchAxis.MoveToPosition(Position := _switchLowerPosition, Velocity := _SwitchVelocity);
 		END_IF
 		State := BoardingComplete;
 		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF
 		
-	BoardingComplete:
-		IF TmsSwitch.MoveTo(positionState := demandPosition) THEN
+	Moving:
+		IF (_TrackLevel = 1 AND SwitchAxis.isAtPosition(position := _switchUpperPosition)) OR
+			(_TrackLevel = 2 AND SwitchAxis.isAtPosition(position := _switchLowerPosition)) THEN
 			State := ActivateTrackForMover;
 		END_IF
 		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
@@ -151,48 +148,18 @@ CASE State OF
 		END_IF
 		
 	ActivateTrackForMover:
-//		IF NOT TmsSwitch.IsStationary() THEN
-//			IF _TrackLevel = 1 THEN
-//				IF TmsSwitch.Switch = TmsSwitchPosition.Down and isMiddleAllowed THEN
-//					IF DepartMover.ActiveTrack = arrTrackIds[4] THEN
-//						State := Moving;
-//					ELSE
-//						ActivateTrackResult := DepartMover.ActivateTrack(arrTrackIds[4]);
-//						State := Moving;
-//					END_IF
-//				ELSIF TmsSwitch.Switch = TmsSwitchPosition.Middle AND isUpAllowed THEN
-//					IF DepartMover.ActiveTrack = arrTrackIds[1] THEN
-//						State := Moving;
-//					ELSE
-//						ActivateTrackResult := DepartMover.ActivateTrack(arrTrackIds[1]);
-//						State := Moving;
-//					END_IF
-//				END_IF
-//			ELSE
-//				IF TmsSwitch.Switch = TmsSwitchPosition.Up AND isMiddleAllowed THEN
-//					IF DepartMover.ActiveTrack = arrTrackIds[3] THEN
-//						State := Moving;
-//					ELSE
-//						ActivateTrackResult := DepartMover.ActivateTrack(arrTrackIds[3]);
-//						State := Moving;
-//					END_IF
-//				ELSIF TmsSwitch.Switch = TmsSwitchPosition.Middle AND isDownAllowed THEN
-//					IF DepartMover.ActiveTrack = arrTrackIds[2] THEN
-//						State := Moving;
-//					ELSE
-//						ActivateTrackResult := DepartMover.ActivateTrack(arrTrackIds[2]);
-//						State := Moving;
-//					END_IF
-//				END_IF
-
-//			END_IF
-			State := Moving;
-			IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-				State := Aborting;
-			END_IF
-//		END_IF
+		IF _TrackLevel = 1 THEN
+			DepartMover.ActivateTrack(NewTrack := arrTrackIds[2].MyOTCID, Track := arrTrackIds[2]);
+		ELSE
+			DepartMover.ActivateTrack(NewTrack := arrTrackIds[1].MyOTCID, Track := arrTrackIds[1]);
+		END_IF
+		State := Moving;
+		_Complete := TRUE;
+		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
+			State := Aborting;
+		END_IF
 			
-	Moving:
+	Done:
 		IF _Complete AND NOT _HasMover THEN
 			_Operating := FALSE;
 			_Empty := TRUE;
@@ -260,6 +227,25 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Property Name="SwitchLowerPosition" Id="{190ee51d-8616-4771-bea0-4a043a7d3d59}">
+      <Declaration><![CDATA[PROPERTY SwitchLowerPosition : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{2179123a-03ea-4eb3-8d32-50c09c60e6da}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{98459ca6-5c5e-4646-8d93-b28fde23c27f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Method Name="SwitchMoveComplete" Id="{a8eedfd9-7707-47a4-b55d-1e335fa7f41f}">
       <Declaration><![CDATA[METHOD PUBLIC SwitchMoveComplete : BOOL
 VAR_INPUT
@@ -290,28 +276,28 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Property Name="TmsSwitch" Id="{32709822-da92-40fc-979a-5a9084ca9dfd}">
-      <Declaration><![CDATA[PROPERTY TmsSwitch : ITF_TmsSwitch]]></Declaration>
-      <Get Name="Get" Id="{afd06df8-55b5-473c-ad0b-a2b8f0614d91}">
+    <Property Name="SwitchUpperPosition" Id="{5e471955-b1fa-42e8-8457-954969d80adc}">
+      <Declaration><![CDATA[PROPERTY SwitchUpperPosition : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{6218b073-eaf9-44e9-8692-abdac10dd02b}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[TmsSwitch := _TmsSwitch;]]></ST>
+          <ST><![CDATA[]]></ST>
         </Implementation>
       </Get>
-      <Set Name="Set" Id="{afdc9e35-5be9-439b-973f-2fdfa7b2941c}">
+      <Set Name="Set" Id="{5e38ec9d-d9b7-4541-b1f9-c48e79167e2a}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[_TmsSwitch := TmsSwitch;]]></ST>
+          <ST><![CDATA[]]></ST>
         </Implementation>
       </Set>
     </Property>
-    <Property Name="TrackIds" Id="{5077a096-7fe1-4a0a-87f3-6619fda26f3f}">
-      <Declaration><![CDATA[PROPERTY TrackIds : array[1..4] of otcid]]></Declaration>
-      <Get Name="Get" Id="{b5bca1f7-f5d0-4d03-9e76-4e8c0b77044c}">
+    <Property Name="TrackIds" Id="{061f1ace-88f0-4461-91e3-203af1d3961d}">
+      <Declaration><![CDATA[PROPERTY TrackIds : array[1..2] of I_XtsTrack]]></Declaration>
+      <Get Name="Get" Id="{eb5d1a17-a69b-486a-bd32-b1fce0797a7b}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
@@ -319,7 +305,7 @@ END_VAR
           <ST><![CDATA[TrackIds := arrTrackIds;]]></ST>
         </Implementation>
       </Get>
-      <Set Name="Set" Id="{bdbe3d16-cad0-4d02-9f21-8379c823a76d}">
+      <Set Name="Set" Id="{f6abe2e3-3d9c-4b6c-81bd-f3b0563c7882}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
@@ -359,33 +345,36 @@ END_VAR
     </LineIds>
     <LineIds Name="TmsEmbarkStation.Cycle">
       <LineId Id="272" Count="0" />
-      <LineId Id="138" Count="53" />
+      <LineId Id="138" Count="31" />
+      <LineId Id="171" Count="0" />
+      <LineId Id="173" Count="8" />
+      <LineId Id="395" Count="1" />
+      <LineId Id="398" Count="1" />
+      <LineId Id="397" Count="0" />
+      <LineId Id="185" Count="6" />
       <LineId Id="234" Count="4" />
       <LineId Id="339" Count="1" />
       <LineId Id="338" Count="0" />
       <LineId Id="341" Count="1" />
-      <LineId Id="345" Count="1" />
-      <LineId Id="353" Count="1" />
-      <LineId Id="361" Count="3" />
-      <LineId Id="371" Count="1" />
-      <LineId Id="379" Count="2" />
+      <LineId Id="345" Count="0" />
+      <LineId Id="362" Count="1" />
+      <LineId Id="380" Count="1" />
       <LineId Id="385" Count="0" />
       <LineId Id="382" Count="2" />
-      <LineId Id="239" Count="7" />
+      <LineId Id="239" Count="1" />
+      <LineId Id="400" Count="0" />
+      <LineId Id="404" Count="0" />
+      <LineId Id="401" Count="0" />
+      <LineId Id="241" Count="0" />
+      <LineId Id="244" Count="2" />
       <LineId Id="279" Count="0" />
       <LineId Id="281" Count="0" />
-      <LineId Id="333" Count="0" />
-      <LineId Id="282" Count="7" />
-      <LineId Id="291" Count="6" />
-      <LineId Id="299" Count="8" />
-      <LineId Id="309" Count="6" />
-      <LineId Id="317" Count="0" />
-      <LineId Id="387" Count="0" />
+      <LineId Id="405" Count="3" />
       <LineId Id="318" Count="0" />
       <LineId Id="388" Count="0" />
+      <LineId Id="409" Count="0" />
       <LineId Id="319" Count="1" />
       <LineId Id="280" Count="0" />
-      <LineId Id="321" Count="0" />
       <LineId Id="323" Count="9" />
       <LineId Id="322" Count="0" />
       <LineId Id="258" Count="3" />
@@ -411,6 +400,12 @@ END_VAR
     <LineIds Name="TmsEmbarkStation.MyStateMachine.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
+    <LineIds Name="TmsEmbarkStation.SwitchLowerPosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkStation.SwitchLowerPosition.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
     <LineIds Name="TmsEmbarkStation.SwitchMoveComplete">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
@@ -421,10 +416,10 @@ END_VAR
     <LineIds Name="TmsEmbarkStation.SwitchTravelPosition.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="TmsEmbarkStation.TmsSwitch.Get">
+    <LineIds Name="TmsEmbarkStation.SwitchUpperPosition.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="TmsEmbarkStation.TmsSwitch.Set">
+    <LineIds Name="TmsEmbarkStation.SwitchUpperPosition.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.TrackIds.Get">
