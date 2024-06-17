@@ -441,6 +441,25 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="TriggerMoverArrive" Id="{9bb7f072-ab21-4ec2-9434-ad1366cf5fb7}" FolderPath="Administration\">
+      <Declaration><![CDATA[METHOD TriggerMoverArrive : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_ipTcIoXtsMover.TriggerArrive();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TriggerMoverLeave" Id="{074e60e5-1df3-46d8-92fd-930fc05fcb13}" FolderPath="Administration\">
+      <Declaration><![CDATA[METHOD TriggerMoverLeave : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_ipTcIoXtsMover.TriggerLeave();
+]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="XtsMoverAxis">
       <LineId Id="9" Count="0" />
     </LineIds>
@@ -591,6 +610,12 @@ END_IF]]></ST>
       <LineId Id="12" Count="0" />
       <LineId Id="15" Count="1" />
       <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMoverAxis.TriggerMoverArrive">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMoverAxis.TriggerMoverLeave">
+      <LineId Id="5" Count="1" />
     </LineIds>
   </POU>
 </TcPlcObject>

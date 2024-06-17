@@ -3,7 +3,11 @@
   <Itf Name="I_XtsMoverAxis" Id="{3dcfc709-5ede-408c-bb46-9ff1ab7ba3a2}">
     <Declaration><![CDATA[INTERFACE I_XtsMoverAxis
 ]]></Declaration>
-    <Property Name="Acceleration" Id="{968dd06c-5bd7-474e-8a7d-3c6c7a848d78}">
+    <Folder Name="Administration" Id="{4954b02a-5467-474b-b4cc-9e953c27295d}" />
+    <Folder Name="Commands" Id="{106fb726-2896-4a76-8d42-ca08d03a1871}" />
+    <Folder Name="Dynamics" Id="{f06c35fd-2445-4fb9-97b8-caf92ac08b38}" />
+    <Folder Name="Status" Id="{6f079834-b92a-4de6-abe6-7b90d541a1af}" />
+    <Property Name="Acceleration" Id="{968dd06c-5bd7-474e-8a7d-3c6c7a848d78}" FolderPath="Dynamics\">
       <Declaration><![CDATA[PROPERTY Acceleration : mc_lreal]]></Declaration>
       <Get Name="Get" Id="{ad3ccb1b-ebe0-4c79-851d-54fe9678941a}">
         <Declaration><![CDATA[]]></Declaration>
@@ -12,7 +16,7 @@
         <Declaration><![CDATA[]]></Declaration>
       </Set>
     </Property>
-    <Method Name="ActivateTrack" Id="{ba6e327e-25a9-4189-a1a0-64429eeca8b6}">
+    <Method Name="ActivateTrack" Id="{ba6e327e-25a9-4189-a1a0-64429eeca8b6}" FolderPath="Commands\">
       <Declaration><![CDATA[METHOD ActivateTrack : HRESULT
 VAR_INPUT
 	NewTrack : OTCID;
@@ -20,13 +24,13 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Property Name="AxisRef" Id="{b9459322-2642-4758-9d1a-f140abbed4b3}">
+    <Property Name="AxisRef" Id="{b9459322-2642-4758-9d1a-f140abbed4b3}" FolderPath="Administration\">
       <Declaration><![CDATA[PROPERTY AxisRef : Reference to Axis_ref]]></Declaration>
       <Get Name="Get" Id="{fca9e840-ce68-48f6-aaf7-b30da4df166b}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
-    <Property Name="Deceleration" Id="{925224a3-633f-4afb-a6bb-5e2282bf0166}">
+    <Property Name="Deceleration" Id="{925224a3-633f-4afb-a6bb-5e2282bf0166}" FolderPath="Dynamics\">
       <Declaration><![CDATA[PROPERTY Deceleration : mc_lreal]]></Declaration>
       <Get Name="Get" Id="{ee77943b-5dd1-4851-bfac-c1f6c08f427a}">
         <Declaration><![CDATA[]]></Declaration>
@@ -35,19 +39,19 @@ END_VAR
         <Declaration><![CDATA[]]></Declaration>
       </Set>
     </Property>
-    <Method Name="DisableMover" Id="{ab15092e-3fa3-489a-9dc6-5a5b357cf3f5}">
+    <Method Name="DisableMover" Id="{ab15092e-3fa3-489a-9dc6-5a5b357cf3f5}" FolderPath="Commands\">
       <Declaration><![CDATA[METHOD DisableMover : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="EnableMover" Id="{12e4840c-ab85-431d-8aa9-ce712b4847e4}">
+    <Method Name="EnableMover" Id="{12e4840c-ab85-431d-8aa9-ce712b4847e4}" FolderPath="Commands\">
       <Declaration><![CDATA[METHOD EnableMover : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Property Name="Gap" Id="{fb9a5121-dbab-42c7-b05b-e0e4367182c8}">
+    <Property Name="Gap" Id="{fb9a5121-dbab-42c7-b05b-e0e4367182c8}" FolderPath="Dynamics\">
       <Declaration><![CDATA[PROPERTY Gap : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{0b18224e-8e16-4474-96e3-0906bc0c9a81}">
         <Declaration><![CDATA[]]></Declaration>
@@ -56,44 +60,52 @@ END_VAR
         <Declaration><![CDATA[]]></Declaration>
       </Set>
     </Property>
-    <Method Name="HaltAxis" Id="{881642ff-213b-4030-944f-bd624c008c64}">
+    <Method Name="Gear" Id="{e0c78185-a7ab-4223-b289-235f40f7bfac}" FolderPath="Commands\">
+      <Declaration><![CDATA[METHOD PUBLIC Gear : HRESULT
+VAR_INPUT
+	MasterPosition : MC_LREAL;
+	SlavePosition : MC_LREAL;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="HaltAxis" Id="{881642ff-213b-4030-944f-bd624c008c64}" FolderPath="Commands\">
       <Declaration><![CDATA[METHOD HaltAxis : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Property Name="IdentInGroup" Id="{892b953d-abf1-49a8-bf89-421385c1791d}">
+    <Property Name="IdentInGroup" Id="{892b953d-abf1-49a8-bf89-421385c1791d}" FolderPath="Administration\">
       <Declaration><![CDATA[PROPERTY PUBLIC IdentInGroup : IDENT_IN_GROUP_REF]]></Declaration>
       <Get Name="Get" Id="{b023befb-8f40-468b-ada4-daaf368f7d24}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
-    <Method Name="isMoverAtPosition" Id="{bc703c47-0b4d-4374-b07c-1240b49b484e}">
+    <Method Name="isMoverAtPosition" Id="{bc703c47-0b4d-4374-b07c-1240b49b484e}" FolderPath="Status\">
       <Declaration><![CDATA[METHOD isMoverAtPosition : BOOL
 VAR_INPUT
 	Position : MC_LREAL;
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="isMoverDetected" Id="{bebf9077-4fa3-41f0-a58b-68e771a6d3a7}">
+    <Method Name="isMoverDetected" Id="{bebf9077-4fa3-41f0-a58b-68e771a6d3a7}" FolderPath="Status\">
       <Declaration><![CDATA[METHOD isMoverDetected : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="isMoverEnabled" Id="{2ad921d2-fe23-4c3a-8e9a-22becef3f18a}">
+    <Method Name="isMoverEnabled" Id="{2ad921d2-fe23-4c3a-8e9a-22becef3f18a}" FolderPath="Status\">
       <Declaration><![CDATA[METHOD isMoverEnabled : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="isMoverStationary" Id="{7e7da463-610e-4ddb-b6e7-ef0925f02451}">
+    <Method Name="isMoverStationary" Id="{7e7da463-610e-4ddb-b6e7-ef0925f02451}" FolderPath="Status\">
       <Declaration><![CDATA[METHOD isMoverStationary : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Property Name="Jerk" Id="{8063437d-ace9-4769-bdaf-bbbe2e6cdcb8}">
+    <Property Name="Jerk" Id="{8063437d-ace9-4769-bdaf-bbbe2e6cdcb8}" FolderPath="Dynamics\">
       <Declaration><![CDATA[PROPERTY Jerk : mc_lreal]]></Declaration>
       <Get Name="Get" Id="{7a71a7bc-503a-407e-bd5c-807dc27f8a07}">
         <Declaration><![CDATA[]]></Declaration>
@@ -102,19 +114,19 @@ END_VAR
         <Declaration><![CDATA[]]></Declaration>
       </Set>
     </Property>
-    <Property Name="MoverErrorID" Id="{b22f6e77-1f1b-46fd-9beb-24cd7598be7b}">
+    <Property Name="MoverErrorID" Id="{b22f6e77-1f1b-46fd-9beb-24cd7598be7b}" FolderPath="Status\">
       <Declaration><![CDATA[PROPERTY PUBLIC MoverErrorID : DWORD]]></Declaration>
       <Get Name="Get" Id="{a8d82d04-fa66-4bdd-839c-2ee85269a247}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
-    <Property Name="MoversActiveTrack" Id="{f033ba71-1699-4f66-8762-38178a524724}">
+    <Property Name="MoversActiveTrack" Id="{f033ba71-1699-4f66-8762-38178a524724}" FolderPath="Status\">
       <Declaration><![CDATA[PROPERTY PUBLIC MoversActiveTrack : OTCID]]></Declaration>
       <Get Name="Get" Id="{ab30b8a7-22d3-4a5c-a941-ce17b5400c54}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
-    <Property Name="MoverXtsIoEnvInterface" Id="{192fc175-f0e7-4171-9425-47deb3799f9d}">
+    <Property Name="MoverXtsIoEnvInterface" Id="{192fc175-f0e7-4171-9425-47deb3799f9d}" FolderPath="Administration\">
       <Declaration><![CDATA[PROPERTY PUBLIC MoverXtsIoEnvInterface : I_TcIoXtsXpuMover]]></Declaration>
       <Get Name="Get" Id="{e7a8a250-ae9b-4ad7-bf97-7690d04cb985}">
         <Declaration><![CDATA[]]></Declaration>
@@ -123,7 +135,7 @@ END_VAR
         <Declaration><![CDATA[]]></Declaration>
       </Set>
     </Property>
-    <Method Name="MoveTo" Id="{ff1a94f0-d91e-4f1f-8540-ce9d25779d5e}">
+    <Method Name="MoveTo" Id="{ff1a94f0-d91e-4f1f-8540-ce9d25779d5e}" FolderPath="Commands\">
       <Declaration><![CDATA[METHOD MoveTo : HRESULT
 VAR_INPUT
 	RequiredPosition : MC_LREAL;
@@ -131,7 +143,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Property Name="MyCAGroup" Id="{7bdbd73e-c8bd-4342-9139-b02fb8b34afa}">
+    <Property Name="MyCAGroup" Id="{7bdbd73e-c8bd-4342-9139-b02fb8b34afa}" FolderPath="Administration\">
       <Declaration><![CDATA[PROPERTY MyCAGroup : ITF_CAMover]]></Declaration>
       <Get Name="Get" Id="{02d1886c-e164-4472-af91-ae6725f23e23}">
         <Declaration><![CDATA[]]></Declaration>
@@ -140,8 +152,29 @@ END_VAR
         <Declaration><![CDATA[]]></Declaration>
       </Set>
     </Property>
-    <Method Name="ResetAxis" Id="{6858a2d4-c501-4639-b0f6-64db9416c8f9}">
+    <Property Name="MyMasterRef" Id="{ef955fbf-3876-4064-a941-698a35c297a1}" FolderPath="Administration\">
+      <Declaration><![CDATA[PROPERTY MyMasterRef : REFERENCE TO AXIS_REF]]></Declaration>
+      <Get Name="Get" Id="{a4aadfe1-030c-4097-bbb9-7ab611ed666a}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{f70f72b0-a05b-4221-b76a-6ab9157d064d}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Method Name="ResetAxis" Id="{6858a2d4-c501-4639-b0f6-64db9416c8f9}" FolderPath="Commands\">
       <Declaration><![CDATA[METHOD ResetAxis : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="TriggerMoverArrive" Id="{ce200a85-cca0-47d0-8b7e-22e3d01f8c11}" FolderPath="Administration\">
+      <Declaration><![CDATA[METHOD TriggerMoverArrive : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="TriggerMoverLeave" Id="{fe2ebe40-b0b7-4184-8656-d9f18bf6a0ec}" FolderPath="Administration\">
+      <Declaration><![CDATA[METHOD TriggerMoverLeave : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
