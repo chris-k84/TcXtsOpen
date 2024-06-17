@@ -21,6 +21,7 @@ VAR
 	Products : DINT;
 	LastStation : BOOL;
 	MyMover : I_XtsMoverAxis;
+	_MyRunner : I_ObjectRunner;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -62,18 +63,6 @@ IF LastStation THEN
 END_IF
 
 Cycle := S_OK;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="FB_init" Id="{69a5d69c-bd9f-46d9-a082-043e9c8ac3eb}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	XtsRunner : I_ObjectRunner;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[XtsRunner.AddComponent(THIS^);]]></ST>
       </Implementation>
     </Method>
     <Method Name="HasMover" Id="{cfa7f397-450b-4982-8373-384ee5df1767}">
@@ -148,6 +137,26 @@ MyMover := 0;
 MoverAway := TRUE;]]></ST>
       </Implementation>
     </Method>
+    <Property Name="MyRunner" Id="{06fb6165-5055-41cf-828d-a2e797768ba3}">
+      <Declaration><![CDATA[PROPERTY MyRunner : I_ObjectRunner]]></Declaration>
+      <Get Name="Get" Id="{11c6237a-d242-4ea6-8b8d-7075a43fa1ed}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MyRunner := _MyRunner;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{5894d3b2-dc84-4ab2-82ea-31e1e6535966}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_MyRunner := MyRunner;
+_MyRunner.AddComponent(This^);]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="Position" Id="{e826f73c-3eb0-49b1-8a82-785d3b45b5a4}">
       <Declaration><![CDATA[PROPERTY Position : MC_LREAL
 ]]></Declaration>
@@ -187,9 +196,6 @@ END_IF]]></ST>
       <LineId Id="27" Count="14" />
       <LineId Id="22" Count="0" />
     </LineIds>
-    <LineIds Name="Station.FB_init">
-      <LineId Id="7" Count="0" />
-    </LineIds>
     <LineIds Name="Station.HasMover">
       <LineId Id="7" Count="2" />
       <LineId Id="4" Count="0" />
@@ -218,6 +224,13 @@ END_IF]]></ST>
       <LineId Id="2" Count="0" />
       <LineId Id="6" Count="0" />
       <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="Station.MyRunner.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Station.MyRunner.Set">
+      <LineId Id="2" Count="0" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="Station.Position.Get">
       <LineId Id="5" Count="3" />

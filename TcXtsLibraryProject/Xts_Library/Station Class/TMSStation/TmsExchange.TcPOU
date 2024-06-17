@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="TmsExchange" Id="{bbb0a31b-f62e-4332-abc9-0bed198282f3}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC TmsExchange EXTENDS Process
+    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC TmsExchange EXTENDS Station
 VAR
 	_StateMachine : IPmlStateMachine;
 	
@@ -43,7 +43,7 @@ Cycle := embarkingStation.Cycle();
       </Implementation>
     </Method>
     <Property Name="EmbarkStation" Id="{508d1299-8885-4c14-a332-b33475d26bfa}">
-      <Declaration><![CDATA[PROPERTY EmbarkStation : IProcess]]></Declaration>
+      <Declaration><![CDATA[PROPERTY EmbarkStation : IStation]]></Declaration>
       <Get Name="Get" Id="{ba314324-3359-4a1a-8fb3-9807e1185edd}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -92,20 +92,8 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Method Name="FB_init" Id="{51b9c1a4-59fb-4ccf-93ed-017147aabf5d}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	XtsRunner : I_ObjectRunner;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[XtsRunner.AddComponent(THIS^);]]></ST>
-      </Implementation>
-    </Method>
     <Property Name="HoldStation" Id="{4d40e862-480a-426f-89ed-edc013bb8c8d}">
-      <Declaration><![CDATA[PROPERTY HoldStation : IProcess]]></Declaration>
+      <Declaration><![CDATA[PROPERTY HoldStation : IStation]]></Declaration>
       <Get Name="Get" Id="{7b1202a4-917f-403c-b005-ec2e639cb9d8}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -194,7 +182,7 @@ END_VAR
       </Set>
     </Property>
     <Property Name="TrackIds" Id="{31a30eda-833a-450a-89f7-9d9f22e2b4ec}">
-      <Declaration><![CDATA[PROPERTY PUBLIC TrackIds : Array[1..2] of I_XtsTrack]]></Declaration>
+      <Declaration><![CDATA[PROPERTY PUBLIC TrackIds : Array[1..SystemParameters.NumberOfTracks] of I_XtsTrack]]></Declaration>
       <Get Name="Get" Id="{a5973870-9ace-4fb7-8902-58880a368a69}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -240,9 +228,6 @@ END_VAR
     </LineIds>
     <LineIds Name="TmsExchange.ExchangeTrackLevel.Set">
       <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="TmsExchange.FB_init">
-      <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="TmsExchange.HoldStation.Get">
       <LineId Id="2" Count="0" />

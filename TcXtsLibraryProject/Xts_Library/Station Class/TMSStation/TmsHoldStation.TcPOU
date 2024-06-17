@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="TmsHoldStation" Id="{f846901d-7486-433e-831a-23bbb539a0bb}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK TmsHoldStation EXTENDS Process 
+    <Declaration><![CDATA[FUNCTION_BLOCK TmsHoldStation EXTENDS Station 
 VAR
-	_EmbarkStation : IProcess;
+	_EmbarkStation : IStation;
 	_StateMachine : IPmlStateMachine;
 	HoldMover : I_XtsMoverAxis;
 	State :(
@@ -119,7 +119,7 @@ MoverAway := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Property Name="MyEmbarkStation" Id="{32ce3b1d-cc83-40cf-875e-de2f759160d5}">
-      <Declaration><![CDATA[PROPERTY MyEmbarkStation : IProcess]]></Declaration>
+      <Declaration><![CDATA[PROPERTY MyEmbarkStation : IStation]]></Declaration>
       <Get Name="Get" Id="{45759e1b-1442-4588-af19-79e9ae38f49e}">
         <Declaration><![CDATA[VAR
 END_VAR

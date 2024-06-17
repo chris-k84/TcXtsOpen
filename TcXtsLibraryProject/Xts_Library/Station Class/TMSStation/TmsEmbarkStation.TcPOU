@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="TmsEmbarkStation" Id="{4d15a973-29cb-4ffe-934a-8f072d992ec0}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK TmsEmbarkStation EXTENDS Process IMPLEMENTS ITF_SwitchStation
+    <Declaration><![CDATA[FUNCTION_BLOCK TmsEmbarkStation EXTENDS Station IMPLEMENTS ITF_SwitchStation
 VAR
 	DepartMover : I_XtsMoverAxis;
 	_StateMachine : IPmlStateMachine;
@@ -296,7 +296,7 @@ END_VAR
       </Set>
     </Property>
     <Property Name="TrackIds" Id="{061f1ace-88f0-4461-91e3-203af1d3961d}">
-      <Declaration><![CDATA[PROPERTY TrackIds : array[1..2] of I_XtsTrack]]></Declaration>
+      <Declaration><![CDATA[PROPERTY TrackIds : array[1..SystemParameters.NumberOfTracks] of I_XtsTrack]]></Declaration>
       <Get Name="Get" Id="{eb5d1a17-a69b-486a-bd32-b1fce0797a7b}">
         <Declaration><![CDATA[VAR
 END_VAR
