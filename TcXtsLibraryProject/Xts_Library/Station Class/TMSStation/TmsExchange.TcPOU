@@ -101,9 +101,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[XtsRunner.AddComponent(THIS^);
-embarkingStation.FB_init(FALSE,FALSE,XtsRunner);
-holdingStation.FB_init(false,false,XtsRunner);]]></ST>
+        <ST><![CDATA[XtsRunner.AddComponent(THIS^);]]></ST>
       </Implementation>
     </Method>
     <Property Name="HoldStation" Id="{4d40e862-480a-426f-89ed-edc013bb8c8d}">
@@ -245,7 +243,6 @@ END_VAR
     </LineIds>
     <LineIds Name="TmsExchange.FB_init">
       <LineId Id="7" Count="0" />
-      <LineId Id="9" Count="1" />
     </LineIds>
     <LineIds Name="TmsExchange.HoldStation.Get">
       <LineId Id="2" Count="0" />

@@ -175,7 +175,8 @@ CASE State OF
 	ELSE
 		Cycle := E_FAIL;
 END_CASE
-BaseCallResult := SUPER^.Cycle();]]></ST>
+BaseCallResult := SUPER^.Cycle();
+SwitchAxis.Cycle();]]></ST>
       </Implementation>
     </Method>
     <Method Name="HasMover" Id="{466b4750-cbf0-42df-80f2-b3d4852756ba}">
@@ -379,6 +380,7 @@ END_VAR
       <LineId Id="258" Count="3" />
       <LineId Id="265" Count="1" />
       <LineId Id="262" Count="1" />
+      <LineId Id="416" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkStation.HasMover">
       <LineId Id="40" Count="1" />
