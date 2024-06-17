@@ -18,6 +18,7 @@ VAR
 	_MoverAbsMoveOptions : ST_MoveAbsoluteCAOptions;
 	_stTmsActPositions			: ST_PositionInfo;
 	_CurrentTrack : I_XtsTrack;
+	_MyCAGroup : REFERENCE TO AXES_GROUP_REF;
 END_VAR
 VAR CONSTANT
 	_MaxMoverVelocity : MC_LREAL := 4000.0;
@@ -385,6 +386,25 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Property Name="MyCAGroup" Id="{ef4ebc28-e3bd-4e4a-8472-4104ad14ebae}" FolderPath="Administration\">
+      <Declaration><![CDATA[PROPERTY MyCAGroup : REFERENCE TO AXES_Group_REF]]></Declaration>
+      <Get Name="Get" Id="{d4b3e253-6981-43ac-859c-776f6b4fec7d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MyCAGroup REF= _MyCAGroup;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{54c77228-8f9c-4310-9bfc-ef466b7143ba}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_MyCAGroup REF= MyCAGroup;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="MyMasterRef" Id="{9a3e9617-3bee-43bf-8371-dedd27acecb0}" FolderPath="Administration\">
       <Declaration><![CDATA[PROPERTY MyMasterRef : REFERENCE TO AXIS_REF]]></Declaration>
       <Get Name="Get" Id="{d8c8a090-d5eb-4847-8f12-c276f8e68cfb}">
@@ -550,6 +570,12 @@ END_IF]]></ST>
       <LineId Id="25" Count="0" />
       <LineId Id="19" Count="1" />
       <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMoverAxis.MyCAGroup.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMoverAxis.MyCAGroup.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.MyMasterRef.Get">
       <LineId Id="2" Count="0" />
