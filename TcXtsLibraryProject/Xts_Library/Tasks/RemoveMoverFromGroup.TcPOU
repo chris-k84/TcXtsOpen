@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="RemoveMoverFromGroup" Id="{33b40d75-d01d-4ded-8ec6-9cce1233ee05}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK RemoveMoverFromGroup EXTENDS TaskBase
+VAR
+	mcRemoveAxisFromGroup : MC_RemoveAxisFromGroup;
+	_GroupRef : ICollisionGroup;
+	_Leave: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Cycle" Id="{8ab278dc-8dad-4664-bee0-b30bd7e80670}">
+      <Declaration><![CDATA[METHOD Cycle : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Cycle := S_OK;
+CASE State OF
+	0:
+		IF _Leave THEN
+			Cycle := S_PENDING;
+			_Done := FALSE;
+			_Error := FALSE;
+			_Busy := TRUE;
+			mcRemoveAxisFromGroup.Execute := TRUE;
+			IF mcRemoveAxisFromGroup.Busy THEN
+				State := 10;
+				_Leave := FALSE;
+			END_IF
+		END_IF
+	
+	10:
+		IF NOT mcRemoveAxisFromGroup.Busy THEN
+			IF mcRemoveAxisFromGroup.Done THEN
+				_Done := TRUE;
+			ELSIF mcRemoveAxisFromGroup.Error THEN
+				_Error := TRUE;
+			END_IF
+			_Busy := FALSE;
+			mcRemoveAxisFromGroup.Execute := FALSE;
+			State := 0;
+			Cycle := S_OK;
+		END_IF
+	ELSE
+		Cycle := E_FAIL;
+END_CASE
+
+mcRemoveAxisFromGroup(AxesGroup := _GroupRef.GroupRef);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Execute" Id="{efa5d448-3299-4d10-a02c-919548e37d2d}">
+      <Declaration><![CDATA[METHOD Execute : BOOL
+VAR_INPUT
+	AxisID : UDINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT _Leave THEN
+	Execute := _Leave := TRUE;
+	mcRemoveAxisFromGroup.IdentInGroup := UDINT_TO_IDENTINGROUP(id := AxisID);
+ELSE
+	Execute := false;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{603a2033-f770-4d8a-b85b-8ffc6acb4bdf}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	GroupRef : ICollisionGroup;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_GroupRef := GroupRef;
+]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="RemoveMoverFromGroup">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="RemoveMoverFromGroup.Cycle">
+      <LineId Id="6" Count="30" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="RemoveMoverFromGroup.Execute">
+      <LineId Id="7" Count="1" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="9" Count="1" />
+      <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="RemoveMoverFromGroup.FB_init">
+      <LineId Id="16" Count="0" />
+      <LineId Id="15" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

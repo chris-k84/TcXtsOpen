@@ -18,7 +18,7 @@ VAR
 	_MoverAbsMoveOptions : ST_MoveAbsoluteCAOptions;
 	_stTmsActPositions			: ST_PositionInfo;
 	_CurrentTrack : I_XtsTrack;
-	_MyCAGroup : REFERENCE TO AXES_GROUP_REF;
+	_MyCAGroup : ITF_CAMover;
 END_VAR
 VAR CONSTANT
 	_MaxMoverVelocity : MC_LREAL := 4000.0;
@@ -387,13 +387,13 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Property Name="MyCAGroup" Id="{ef4ebc28-e3bd-4e4a-8472-4104ad14ebae}" FolderPath="Administration\">
-      <Declaration><![CDATA[PROPERTY MyCAGroup : REFERENCE TO AXES_Group_REF]]></Declaration>
+      <Declaration><![CDATA[PROPERTY MyCAGroup : ITF_CAMover]]></Declaration>
       <Get Name="Get" Id="{d4b3e253-6981-43ac-859c-776f6b4fec7d}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[MyCAGroup REF= _MyCAGroup;]]></ST>
+          <ST><![CDATA[MyCAGroup := _MyCAGroup;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{54c77228-8f9c-4310-9bfc-ef466b7143ba}">
@@ -401,7 +401,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[_MyCAGroup REF= MyCAGroup;]]></ST>
+          <ST><![CDATA[_MyCAGroup := MyCAGroup;]]></ST>
         </Implementation>
       </Set>
     </Property>

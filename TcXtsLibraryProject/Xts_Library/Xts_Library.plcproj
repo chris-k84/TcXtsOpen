@@ -160,6 +160,9 @@
     <Compile Include="Tasks\RemoveAllMoverFromGroup.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tasks\RemoveMoverFromGroup.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Tasks\ResetGroup.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -201,6 +204,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="XTS Class\Xts Collision Group\ICollisionGroup.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XTS Class\Xts Collision Group\ITF_CAMover.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="XTS Class\Xts Hardware\ITF_XTSIOEnvVarWrapper.TcIO">
