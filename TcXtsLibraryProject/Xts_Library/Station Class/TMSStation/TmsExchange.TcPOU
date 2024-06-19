@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="TmsExchange" Id="{bbb0a31b-f62e-4332-abc9-0bed198282f3}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC TmsExchange EXTENDS Station
+    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC TmsExchange EXTENDS Process
 VAR
 	_StateMachine : IPmlStateMachine;
 	

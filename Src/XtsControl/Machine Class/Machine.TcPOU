@@ -11,34 +11,41 @@ VAR
 											Movers[5],Movers[6],
 											Movers[7],Movers[8],
 											Movers[9],Movers[10]];
-	Station1 : StationSample(XtsModuleRunner) := (Position := 1400.0, 
+	Station1 : StationSample := (Position := 1400.0, 
 									TempPropTime := T#1S,
-									MyStateMachine := xtsStateMachine);
-	Station2 : StationSample(XtsModuleRunner) := (Position := 2100.0, 
+									MyStateMachine := xtsStateMachine,
+									MyRunner := XtsModuleRunner);
+	Station2 : StationSample := (Position := 2100.0, 
 									TempPropTime := T#2S,
-									MyStateMachine := xtsStateMachine);
-	Station3 : StationSample(XtsModuleRunner) := (Position := 2500.0, 
+									MyStateMachine := xtsStateMachine,
+									MyRunner := XtsModuleRunner);
+	Station3 : StationSample := (Position := 2500.0, 
 									TempPropTime := T#2S,
-									MyStateMachine := xtsStateMachine);
-	Station4 : StationSample(XtsModuleRunner) := (Position := 2600.0, 
+									MyStateMachine := xtsStateMachine,
+									MyRunner := XtsModuleRunner);
+	Station4 : StationSample := (Position := 2600.0, 
 									TempPropTime := T#1S,
-									MyStateMachine := xtsStateMachine);
-	Station5 : StationSample(XtsModuleRunner) := (Position := 3100.0, 
+									MyStateMachine := xtsStateMachine,
+									MyRunner := XtsModuleRunner);
+	Station5 : StationSample := (Position := 3100.0, 
 									TempPropTime := T#1S,
-									MyStateMachine := xtsStateMachine);
-	Station6 : StationSample(XtsModuleRunner) := (Position := 200.0, 
+									MyStateMachine := xtsStateMachine,
+									MyRunner := XtsModuleRunner);
+	Station6 : StationSample := (Position := 200.0, 
 									TempPropTime := T#1S,
-									MyStateMachine := xtsStateMachine);
-	iStationArray : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess := [Station1,Station2,
+									MyStateMachine := xtsStateMachine,
+									MyRunner := XtsModuleRunner);
+	iStationArray : ARRAY[1..SystemParameters.NumberOfStations] OF IStation := [Station1,Station2,
 																					Station3,Station4,
 																					Station5,Station6];
 	Xts : Xts(XtsModuleRunner) := (HomePosition := 1000.0,
 										HomeSpeed := 1000.0, 
 										Tracks := 1,
 										MoverArray := iMovers);
-	MoverSequences : ARRAY[1..10] OF IndexMoverSequence(XtsModuleRunner) := [10((MyStateMachine := xtsStateMachine,
-																				MyStations := iStationArray,
-																				MyStartPosition := Xts.HomePosition))];	
+//	MoverSequences : ARRAY[1..10] OF IndexMoverSequence(XtsModuleRunner) := [10((MyStateMachine := xtsStateMachine,
+//																				MyStations := iStationArray,
+//																				MyStartPosition := Xts.HomePosition))];	
+	MoverSequences : ARRAY[1..10] OF SampleSequence(XtsModuleRunner);
 	i : INT;
 END_VAR]]></Declaration>
     <Implementation>
@@ -50,9 +57,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT Xts.IsXtsIdle() THEN
-	Xts.DisableXTS();
-ELSE
+        <ST><![CDATA[IF Xts.DisableXTS() THEN
 	ipackml.SetStateComplete();
 END_IF]]></ST>
       </Implementation>
@@ -134,7 +139,8 @@ ipackml.SetStateComplete();]]></ST>
       <LineId Id="72" Count="0" />
     </LineIds>
     <LineIds Name="Machine.Aborting">
-      <LineId Id="11" Count="4" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="14" Count="1" />
     </LineIds>
     <LineIds Name="Machine.Clearing">
       <LineId Id="5" Count="1" />

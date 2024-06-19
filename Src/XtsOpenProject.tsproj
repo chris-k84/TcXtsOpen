@@ -4181,7 +4181,7 @@ and will return to Group State Standby when the situation permits.
 	</ImageDatas>
 	<Project ProjectGUID="{00909E45-7EC7-43B9-B736-6F08E4D01D19}" TargetNetId="10.97.0.23.1.1" Target64Bit="true" ShowHideConfigurations="#x106">
 		<System>
-			<Settings MaxCpus="20">
+			<Settings MaxCpus="4" NonWinCpus="2">
 				<Cpu CpuId="2" BaseTime="2500"/>
 				<Cpu CpuId="3" BaseTime="2500"/>
 				<IoIdleTask Affinity="#x00000004"/>
@@ -4201,6 +4201,9 @@ and will return to Group State Standby when the situation permits.
 				<Task Id="7" Priority="32" AdtTasks="true" JobTask="true">
 					<Name>Job Task</Name>
 					<ImageId>327</ImageId>
+				</Task>
+				<Task Id="8" Priority="2" CycleTime="2500" AmsPort="352" Affinity="#x00000004" AdtTasks="true">
+					<Name>XtsAux</Name>
 				</Task>
 			</Tasks>
 			<Modules>
@@ -4852,11 +4855,11 @@ and will return to Group State Standby when the situation permits.
 							<Parameter OnlineParameter="true" ReadOnly="true" Group="Structure">
 								<Name>MoverObjectIDs</Name>
 								<Comment><![CDATA[Returns an array containing the object IDs of all movers.]]></Comment>
-								<BitSize>32</BitSize>
+								<BitSize>320</BitSize>
 								<BaseType GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</BaseType>
 								<ArrayInfo>
 									<LBound>0</LBound>
-									<Elements Min="1" Max="500">1</Elements>
+									<Elements Min="1" Max="500">10</Elements>
 								</ArrayInfo>
 								<PTCID>#x0308020b</PTCID>
 								<ContextId>1</ContextId>
@@ -5048,11 +5051,11 @@ and will return to Group State Standby when the situation permits.
 							<Parameter OnlineParameter="true" ReadOnly="true" Group="Mover Detection">
 								<Name>MoverPositions</Name>
 								<Comment><![CDATA[Returns an array containing the actual positions of all movers.]]></Comment>
-								<BitSize>128</BitSize>
+								<BitSize>1280</BitSize>
 								<BaseType GUID="{283AABF9-D69F-474D-96EC-640C4E757556}">MoverPosition</BaseType>
 								<ArrayInfo>
 									<LBound>0</LBound>
-									<Elements Min="1" Max="500">1</Elements>
+									<Elements Min="1" Max="500">10</Elements>
 								</ArrayInfo>
 								<PTCID>#x0308020d</PTCID>
 								<ContextId>1</ContextId>
@@ -5084,11 +5087,11 @@ and will return to Group State Standby when the situation permits.
 							<Parameter OnlineParameter="true" ReadOnly="true" Group="Mover ID Detection">
 								<Name>MoverIds</Name>
 								<Comment><![CDATA[Returns an array containing the IDs of all movers.]]></Comment>
-								<BitSize>32</BitSize>
+								<BitSize>320</BitSize>
 								<BaseType GUID="{18071995-0000-0000-0000-000100000003}">STRING(3)</BaseType>
 								<ArrayInfo>
 									<LBound>0</LBound>
-									<Elements Min="1" Max="500">1</Elements>
+									<Elements Min="1" Max="500">10</Elements>
 								</ArrayInfo>
 								<PTCID>#x0308027c</PTCID>
 								<ContextId>1</ContextId>
@@ -6147,6 +6150,42 @@ and will return to Group State Standby when the situation permits.
 								<Value>0</Value>
 							</Value>
 							<Value>
+								<Name>MoverObjectIDs[1]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverObjectIDs[2]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverObjectIDs[3]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverObjectIDs[4]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverObjectIDs[5]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverObjectIDs[6]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverObjectIDs[7]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverObjectIDs[8]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverObjectIDs[9]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
 								<Name>PartCount</Name>
 								<Value>0</Value>
 							</Value>
@@ -6243,6 +6282,114 @@ and will return to Group State Standby when the situation permits.
 								<Value>0</Value>
 							</Value>
 							<Value>
+								<Name>MoverPositions[1].partPosition</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[1].partObjectId</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[1].trackObjectId</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[2].partPosition</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[2].partObjectId</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[2].trackObjectId</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[3].partPosition</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[3].partObjectId</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[3].trackObjectId</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[4].partPosition</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[4].partObjectId</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[4].trackObjectId</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[5].partPosition</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[5].partObjectId</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[5].trackObjectId</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[6].partPosition</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[6].partObjectId</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[6].trackObjectId</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[7].partPosition</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[7].partObjectId</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[7].trackObjectId</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[8].partPosition</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[8].partObjectId</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[8].trackObjectId</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[9].partPosition</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[9].partObjectId</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MoverPositions[9].trackObjectId</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
 								<Name>HasIdDetectionError</Name>
 								<EnumText>FALSE</EnumText>
 							</Value>
@@ -6256,6 +6403,42 @@ and will return to Group State Standby when the situation permits.
 							</Value>
 							<Value>
 								<Name>MoverIds[0]</Name>
+								<String></String>
+							</Value>
+							<Value>
+								<Name>MoverIds[1]</Name>
+								<String></String>
+							</Value>
+							<Value>
+								<Name>MoverIds[2]</Name>
+								<String></String>
+							</Value>
+							<Value>
+								<Name>MoverIds[3]</Name>
+								<String></String>
+							</Value>
+							<Value>
+								<Name>MoverIds[4]</Name>
+								<String></String>
+							</Value>
+							<Value>
+								<Name>MoverIds[5]</Name>
+								<String></String>
+							</Value>
+							<Value>
+								<Name>MoverIds[6]</Name>
+								<String></String>
+							</Value>
+							<Value>
+								<Name>MoverIds[7]</Name>
+								<String></String>
+							</Value>
+							<Value>
+								<Name>MoverIds[8]</Name>
+								<String></String>
+							</Value>
+							<Value>
+								<Name>MoverIds[9]</Name>
 								<String></String>
 							</Value>
 							<Value>
@@ -31142,7 +31325,7 @@ and will return to Group State Standby when the situation permits.
 									<PTCID>#x030802b6</PTCID>
 									<ContextId>1</ContextId>
 								</Parameter>
-								<Parameter OnlineParameter="true" ReadOnly="true" Group="Mover Detection">
+								<Parameter OnlineParameter="true" ShowSubItems="true" ReadOnly="true" Group="Mover Detection">
 									<Name>PositionInfo</Name>
 									<Comment><![CDATA[Returns the part and track position as well as their object IDs.]]></Comment>
 									<BitSize>192</BitSize>
@@ -34358,7 +34541,7 @@ and will return to Group State Standby when the situation permits.
 									<PTCID>#x030802b6</PTCID>
 									<ContextId>1</ContextId>
 								</Parameter>
-								<Parameter OnlineParameter="true" ReadOnly="true" Group="Mover Detection">
+								<Parameter OnlineParameter="true" ShowSubItems="true" ReadOnly="true" Group="Mover Detection">
 									<Name>PositionInfo</Name>
 									<Comment><![CDATA[Returns the part and track position as well as their object IDs.]]></Comment>
 									<BitSize>192</BitSize>
