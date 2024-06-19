@@ -124,7 +124,10 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[DisableTrigger := true;]]></ST>
+        <ST><![CDATA[IF NOT _Busy THEN
+	DisableTrigger := Disable := true;
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_init" Id="{5c39a8d0-8d47-4b10-ae0c-53e63f445cbe}">
@@ -188,6 +191,7 @@ END_VAR
       <LineId Id="88" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.Disable">
+      <LineId Id="6" Count="2" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XtsDisableSequence.FB_init">
