@@ -323,10 +323,6 @@
       <DefaultResolution>Tc3_UnitTest, * (Zerlauth)</DefaultResolution>
       <Namespace>Tc3_UnitTest</Namespace>
     </PlaceholderReference>
-    <PlaceholderReference Include="Tc3_XTS_Utility">
-      <DefaultResolution>Tc3_XTS_Utility, * (Beckhoff Automation GmbH)</DefaultResolution>
-      <Namespace>Tc3_XTS_Utility</Namespace>
-    </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Xts_Library.tmc">
@@ -338,9 +334,9 @@
     <PinnedGlobalDataType Include="ST_XtsHardwareEvents" />
   </ItemGroup>
   <ItemGroup>
-    <PlaceholderResolution Include="Tc3_XTS_Utility">
-      <Resolution>Tc3_XTS_Utility, * (Beckhoff Automation GmbH)</Resolution>
-    </PlaceholderResolution>
+    <LibraryReference Include="Tc3_XTS_Utility,3.1.2210.8,Beckhoff Automation GmbH">
+      <Namespace>Tc3_XTS_Utility</Namespace>
+    </LibraryReference>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>
