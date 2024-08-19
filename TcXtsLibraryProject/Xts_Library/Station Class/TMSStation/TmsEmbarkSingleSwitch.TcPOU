@@ -13,16 +13,16 @@ VAR
 		Ready,                                 
         Waiting,
 		HasSwitch,
-		Call,
-		FindTarget,
 		Boarding,
 		BoardingComplete,
-		ActivateTrackForMover,
 		Moving,
+		ActivateTrackForMover,
+		CheckTrackActive,
+		ReturnHome,
 		Done,
 		Aborting); 
 	_switchPosition: MC_LREAL;
-	arrTrackIds : ARRAY[1..SystemParameters.NumberOfTracks] OF OTCID;
+	arrTrackIds : I_XtsTrack;
 	_BoardVelocity : MC_LREAL;
 	_SwitchVelocity : MC_LREAL;
 END_VAR
@@ -90,17 +90,11 @@ CASE State OF
 	
 	HasSwitch:
 		IF SwitchAxis.isAtPosition(position := _switchLoadPosition) THEN
-			
+			State := Boarding;
 		END_IF
 		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF	
-		
-	Call:
-		
-		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-			State := Aborting;
-		END_IF
 			
 	Boarding:
 		BoardMoverResult := DepartMover.MoveTo(RequiredPosition := _switchPosition, MoveVelocity := _BoardVelocity);
@@ -112,24 +106,34 @@ CASE State OF
 		END_IF
 		
 	BoardingComplete:
-
-		State := BoardingComplete;
+		IF SwitchAxis.MoveToPosition(Position := _switchUnloadPosition, Velocity := _SwitchVelocity) THEN
+			State := Moving;
+		END_IF
 		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF
 		
 	Moving:
-
+		IF NOT SwitchAxis.isStationary() THEN
+			State := ActivateTrackForMover;
+		END_IF
 		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF
 		
 	ActivateTrackForMover:
-
-		State := Moving;
-		_Complete := TRUE;
-		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-			State := Aborting;
+		DepartMover.ActivateTrack(NewTrack := arrTrackIds.MyOTCID,Track := arrTrackIds);
+		_Complete := TRUE;		
+		State := CheckTrackActive;
+		
+	CheckTrackActive:
+		IF DepartMover.MoversActiveTrack = arrTrackIds.MyOTCID THEN
+			State := ReturnHome;
+		END_IF
+	
+	ReturnHome:
+		IF SwitchAxis.MoveToPosition(Position := _switchLoadPosition, Velocity := _SwitchVelocity) THEN
+			State := Done;
 		END_IF
 			
 	Done:
@@ -209,6 +213,26 @@ METHOD SwitchMoveComplete : BOOL
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
+    <Property Name="SwitchTravelPosition" Id="{56005ce1-5a9a-45b9-af03-9875bac9d76b}">
+      <Declaration><![CDATA[PROPERTY SwitchTravelPosition : mc_lreal
+]]></Declaration>
+      <Get Name="Get" Id="{9d4f14ba-9356-4943-857d-bfbb12a15568}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[SwitchTravelPosition := _switchPosition;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{041c3047-5928-4394-9507-73b44fee711b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_switchPosition := SwitchTravelPosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="SwitchUnloadPosition" Id="{6faedafb-b954-46db-8550-5042a177e286}">
       <Declaration><![CDATA[PROPERTY SwitchUnloadPosition : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{8d3d0655-9fc3-4248-beaa-e60d661cc7f6}">
@@ -229,7 +253,7 @@ END_VAR
       </Set>
     </Property>
     <Property Name="TrackIds" Id="{60f84ea8-30a8-4877-b5ee-78b5070ad98e}">
-      <Declaration><![CDATA[PROPERTY TrackIds : ARRAY[0..1] of OTCID]]></Declaration>
+      <Declaration><![CDATA[PROPERTY TrackIds : I_XtsTrack]]></Declaration>
       <Get Name="Get" Id="{cbe6c8be-4cbe-4755-ac3d-aca3acacdfc2}">
         <Declaration><![CDATA[VAR
 END_VAR
