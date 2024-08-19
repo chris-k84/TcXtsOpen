@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
   <POU Name="TmsExchange" Id="{bbb0a31b-f62e-4332-abc9-0bed198282f3}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC TmsExchange EXTENDS Process
 VAR
@@ -124,14 +124,14 @@ holdingStation.MyStateMachine := MyStateMachine;]]></ST>
         </Implementation>
       </Set>
     </Property>
-    <Property Name="SwitchLowerPosition" Id="{50231232-5e8f-4e29-9828-1275ddad7c48}">
-      <Declaration><![CDATA[PROPERTY SwitchLowerPosition : MC_LREAL]]></Declaration>
+    <Property Name="SwitchLoadPosition" Id="{50231232-5e8f-4e29-9828-1275ddad7c48}">
+      <Declaration><![CDATA[PROPERTY SwitchLoadPosition : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{d161c959-ac3c-4c0a-be5a-a0c3a788007e}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[SwitchLowerPosition := embarkingStation.SwitchLowerPosition;]]></ST>
+          <ST><![CDATA[SwitchLoadPosition := embarkingStation.SwitchLowerPosition;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{3d8d0d38-3ebf-4444-be66-5a66307afeec}">
@@ -139,7 +139,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[embarkingStation.SwitchLowerPosition := SwitchLowerPosition;]]></ST>
+          <ST><![CDATA[embarkingStation.SwitchLowerPosition := SwitchLoadPosition;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -162,14 +162,14 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Property Name="SwitchUpperPosition" Id="{7e15bf8e-041e-40bd-9bf3-44ab86a54371}">
-      <Declaration><![CDATA[PROPERTY SwitchUpperPosition : MC_LREAL]]></Declaration>
+    <Property Name="SwitchUnloadPosition" Id="{7e15bf8e-041e-40bd-9bf3-44ab86a54371}">
+      <Declaration><![CDATA[PROPERTY SwitchUnloadPosition : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{fa23b4c1-696d-493f-8b44-0e0c75859dec}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[SwitchUpperPosition := embarkingStation.SwitchUpperPosition;]]></ST>
+          <ST><![CDATA[SwitchUnloadPosition := embarkingStation.SwitchUpperPosition;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{5d817073-52c5-42bb-88e6-aed9feec32b5}">
@@ -177,7 +177,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[embarkingStation.SwitchUpperPosition := SwitchUpperPosition;]]></ST>
+          <ST><![CDATA[embarkingStation.SwitchUpperPosition := SwitchUnloadPosition;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -200,68 +200,5 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <LineIds Name="TmsExchange">
-      <LineId Id="77" Count="0" />
-    </LineIds>
-    <LineIds Name="TmsExchange.BoardingVelocity.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="TmsExchange.BoardingVelocity.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="TmsExchange.Cycle">
-      <LineId Id="6" Count="1" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="TmsExchange.EmbarkStation.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="TmsExchange.ExchangePosition.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="TmsExchange.ExchangePosition.Set">
-      <LineId Id="2" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="TmsExchange.ExchangeTrackLevel.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="TmsExchange.ExchangeTrackLevel.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="TmsExchange.HoldStation.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="TmsExchange.MyStateMachine.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="TmsExchange.MyStateMachine.Set">
-      <LineId Id="2" Count="0" />
-      <LineId Id="5" Count="1" />
-    </LineIds>
-    <LineIds Name="TmsExchange.SwitchLowerPosition.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="TmsExchange.SwitchLowerPosition.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="TmsExchange.SwitchTravelPosition.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="TmsExchange.SwitchTravelPosition.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="TmsExchange.SwitchUpperPosition.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="TmsExchange.SwitchUpperPosition.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="TmsExchange.TrackIds.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="TmsExchange.TrackIds.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

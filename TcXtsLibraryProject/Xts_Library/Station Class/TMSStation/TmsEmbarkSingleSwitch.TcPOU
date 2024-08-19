@@ -6,8 +6,8 @@ VAR
 	DepartMover : I_XtsMoverAxis;
 	_StateMachine : IPmlStateMachine;
 	SwitchAxis : MC2_Axis_Base;
-	_switchUpperPosition : MC_LREAL;
-	_switchLowerPosition : MC_LREAL;
+	_switchLoadPosition : MC_LREAL;
+	_switchUnloadPosition : MC_LREAL;
 	State :(
 		Init,                                               
 		Ready,                                 
@@ -89,7 +89,9 @@ CASE State OF
 		END_IF
 	
 	HasSwitch:
-		
+		IF SwitchAxis.isAtPosition(position := _switchLoadPosition) THEN
+			
+		END_IF
 		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
 			State := Aborting;
 		END_IF	
@@ -180,14 +182,14 @@ MoverAway := TRUE;
 ]]></ST>
       </Implementation>
     </Method>
-    <Property Name="SwitchLowerPosition" Id="{8a954b15-9e2e-45e2-9983-586f0bb0d4ea}">
-      <Declaration><![CDATA[PROPERTY SwitchLowerPosition : MC_LREAL]]></Declaration>
+    <Property Name="SwitchLoadPosition" Id="{8a954b15-9e2e-45e2-9983-586f0bb0d4ea}">
+      <Declaration><![CDATA[PROPERTY SwitchLoadPosition : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{c7c8f444-a876-46f4-b0cb-0dad5a2a0e8f}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[SwitchLowerPosition := _switchLowerPosition;]]></ST>
+          <ST><![CDATA[SwitchLoadPosition := _switchUnloadPosition;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{53f3e315-b71d-472a-98ca-6f0d73523ae9}">
@@ -195,7 +197,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[_switchLowerPosition := SwitchLowerPosition;]]></ST>
+          <ST><![CDATA[_switchUnloadPosition := SwitchLoadPosition;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -207,14 +209,14 @@ METHOD SwitchMoveComplete : BOOL
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
-    <Property Name="SwitchUpperPosition" Id="{6faedafb-b954-46db-8550-5042a177e286}">
-      <Declaration><![CDATA[PROPERTY SwitchUpperPosition : MC_LREAL]]></Declaration>
+    <Property Name="SwitchUnloadPosition" Id="{6faedafb-b954-46db-8550-5042a177e286}">
+      <Declaration><![CDATA[PROPERTY SwitchUnloadPosition : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{8d3d0655-9fc3-4248-beaa-e60d661cc7f6}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[SwitchUpperPosition := _switchUpperPosition;]]></ST>
+          <ST><![CDATA[SwitchUnloadPosition := _switchLoadPosition;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{da277918-2a30-4cfc-8615-b9ef5ee09b08}">
@@ -222,7 +224,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[_switchUpperPosition := SwitchUpperPosition;]]></ST>
+          <ST><![CDATA[_switchLoadPosition := SwitchUnloadPosition;]]></ST>
         </Implementation>
       </Set>
     </Property>
