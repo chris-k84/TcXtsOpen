@@ -111,6 +111,9 @@
     <Compile Include="Station Class\TMSStation\ITF_SwitchStation.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Station Class\TMSStation\TmsEmbarkSingleSwitch.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Station Class\TMSStation\TmsEmbarkStation.TcPOU">
       <SubType>Code</SubType>
     </Compile>
