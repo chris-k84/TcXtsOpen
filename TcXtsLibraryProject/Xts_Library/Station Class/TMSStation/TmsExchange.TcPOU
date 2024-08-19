@@ -181,14 +181,14 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Property Name="TrackIds" Id="{31a30eda-833a-450a-89f7-9d9f22e2b4ec}">
-      <Declaration><![CDATA[PROPERTY PUBLIC TrackIds : I_XtsTrack]]></Declaration>
+    <Property Name="TargetTrackId" Id="{31a30eda-833a-450a-89f7-9d9f22e2b4ec}">
+      <Declaration><![CDATA[PROPERTY PUBLIC TargetTrackId : I_XtsTrack]]></Declaration>
       <Get Name="Get" Id="{a5973870-9ace-4fb7-8902-58880a368a69}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[TrackIds := embarkingStation.TrackIds;]]></ST>
+          <ST><![CDATA[TargetTrackId := embarkingStation.TargetTrackId;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{aaa19c3a-1ba5-4ce2-9f99-79124cbc0dbc}">
@@ -196,7 +196,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[embarkingStation.TrackIds := TrackIds;]]></ST>
+          <ST><![CDATA[embarkingStation.TargetTrackId := TargetTrackId;]]></ST>
         </Implementation>
       </Set>
     </Property>

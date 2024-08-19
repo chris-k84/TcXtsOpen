@@ -22,7 +22,7 @@ VAR
 		Done,
 		Aborting); 
 	_switchPosition: MC_LREAL;
-	arrTrackIds : I_XtsTrack;
+	_TargetTrackId : I_XtsTrack;
 	_BoardVelocity : MC_LREAL;
 	_SwitchVelocity : MC_LREAL;
 END_VAR
@@ -122,12 +122,12 @@ CASE State OF
 		END_IF
 		
 	ActivateTrackForMover:
-		DepartMover.ActivateTrack(NewTrack := arrTrackIds.MyOTCID,Track := arrTrackIds);
+		DepartMover.ActivateTrack(NewTrack := _TargetTrackId.MyOTCID,Track := _TargetTrackId);
 		_Complete := TRUE;		
 		State := CheckTrackActive;
 		
 	CheckTrackActive:
-		IF DepartMover.MoversActiveTrack = arrTrackIds.MyOTCID THEN
+		IF DepartMover.MoversActiveTrack = _TargetTrackId.MyOTCID THEN
 			State := ReturnHome;
 		END_IF
 	
@@ -252,14 +252,14 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Property Name="TrackIds" Id="{60f84ea8-30a8-4877-b5ee-78b5070ad98e}">
-      <Declaration><![CDATA[PROPERTY TrackIds : I_XtsTrack]]></Declaration>
+    <Property Name="TargetTrackId" Id="{60f84ea8-30a8-4877-b5ee-78b5070ad98e}">
+      <Declaration><![CDATA[PROPERTY TargetTrackId : I_XtsTrack]]></Declaration>
       <Get Name="Get" Id="{cbe6c8be-4cbe-4755-ac3d-aca3acacdfc2}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[TrackIds := arrTrackIds;]]></ST>
+          <ST><![CDATA[TargetTrackId := _TargetTrackId;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{1aa8ea54-81af-46d8-bdb2-7bd4b3a74fb9}">
@@ -267,7 +267,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[arrTrackIds := TrackIds;]]></ST>
+          <ST><![CDATA[_TargetTrackId := TargetTrackId;]]></ST>
         </Implementation>
       </Set>
     </Property>
