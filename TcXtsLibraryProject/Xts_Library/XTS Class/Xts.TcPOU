@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
   <POU Name="Xts" Id="{4538c683-94fc-49a1-b5ad-30ffec5e4eff}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK Xts IMPLEMENTS ICyclic, I_Initialise
 VAR
@@ -103,6 +103,16 @@ END_VAR]]></Declaration>
 FOR i := 1 TO SystemParameters.NumberOfMovers DO
 	_MoverArray[i].MoverXtsIoEnvInterface := XtsIoEnvVar.GetMoverInterface(i);
 END_FOR]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetTrackByOCTID" Id="{1d75e1be-3c32-4213-9fda-cb384fa7a069}" FolderPath="Operations\">
+      <Declaration><![CDATA[METHOD GetTrackByOCTID : I_XtsTrack
+VAR_INPUT
+	TrackId : OTCID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetTrackByOCTID := XtsHardware.GetTrackByOTCID(trackOTCID := TrackId);]]></ST>
       </Implementation>
     </Method>
     <Property Name="HomePosition" Id="{7488af26-181d-46aa-9621-c1c9bb1f6cd2}">
@@ -286,90 +296,5 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <LineIds Name="Xts">
-      <LineId Id="78" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.ActivateTracksInMovers">
-      <LineId Id="23" Count="0" />
-      <LineId Id="25" Count="0" />
-      <LineId Id="32" Count="0" />
-      <LineId Id="27" Count="0" />
-      <LineId Id="12" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.Cycle">
-      <LineId Id="17" Count="1" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="30" Count="0" />
-      <LineId Id="29" Count="0" />
-      <LineId Id="33" Count="3" />
-      <LineId Id="32" Count="0" />
-      <LineId Id="28" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.DisableXTS">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.EnableXTS">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.FB_init">
-      <LineId Id="7" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.GetTMSMoverInterface">
-      <LineId Id="29" Count="3" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="39" Count="0" />
-      <LineId Id="41" Count="0" />
-      <LineId Id="38" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.HomePosition.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.HomePosition.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.HomeSpeed.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.HomeSpeed.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.Initialise">
-      <LineId Id="6" Count="1" />
-      <LineId Id="53" Count="2" />
-      <LineId Id="65" Count="3" />
-      <LineId Id="56" Count="4" />
-      <LineId Id="51" Count="1" />
-      <LineId Id="8" Count="34" />
-      <LineId Id="44" Count="3" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.IsXtsIdle">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.IsXtsReady">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.MoverArray.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.MoverArray.Set">
-      <LineId Id="2" Count="0" />
-      <LineId Id="6" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.MoverHomeSequence">
-      <LineId Id="6" Count="1" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="8" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.StopXts">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.Tracks.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.Tracks.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

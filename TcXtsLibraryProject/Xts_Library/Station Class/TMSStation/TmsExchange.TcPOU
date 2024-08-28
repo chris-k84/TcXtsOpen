@@ -42,6 +42,17 @@ Cycle := embarkingStation.Cycle();
 ]]></ST>
       </Implementation>
     </Method>
+    <Property Name="EmbarkStation" Id="{14e2609e-3d23-45ff-aed3-b4056ea35385}">
+      <Declaration><![CDATA[PROPERTY EmbarkStation : IProcess]]></Declaration>
+      <Get Name="Get" Id="{9a770acb-911c-4d7b-bc24-20009272cc70}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[EmbarkStation := embarkingStation;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="ExchangePosition" Id="{72e7b26a-6207-46b0-b684-ab389b8f74bf}">
       <Declaration><![CDATA[PROPERTY ExchangePosition : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{42f393b6-25e0-471d-b60d-0c33ee8e8a32}">
@@ -61,6 +72,17 @@ END_VAR
 holdingStation.Position := ExchangePosition;]]></ST>
         </Implementation>
       </Set>
+    </Property>
+    <Property Name="HoldStation" Id="{455f45dc-3436-4fca-9801-be5d784dc59f}">
+      <Declaration><![CDATA[PROPERTY HoldStation : IProcess]]></Declaration>
+      <Get Name="Get" Id="{7adbe0fd-48f3-41da-8363-54bbe80b48eb}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[HoldStation := holdingStation;]]></ST>
+        </Implementation>
+      </Get>
     </Property>
     <Property Name="MyStateMachine" Id="{4196edef-498e-4d46-b5a7-e2b4ce4210df}">
       <Declaration><![CDATA[PROPERTY MyStateMachine : IPmlStateMachine]]></Declaration>

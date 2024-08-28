@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
   <POU Name="TmsEmbarkSingleSwitch" Id="{a1345a8f-d28a-4176-804e-11454f70b667}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK TmsEmbarkSingleSwitch EXTENDS Station IMPLEMENTS ITF_SwitchStation
+    <Declaration><![CDATA[FUNCTION_BLOCK TmsEmbarkSingleSwitch EXTENDS Process IMPLEMENTS ITF_SwitchStation
 VAR
 	DepartMover : I_XtsMoverAxis;
 	_StateMachine : IPmlStateMachine;
@@ -212,7 +212,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[SwitchLoadPosition := _switchUnloadPosition;]]></ST>
+          <ST><![CDATA[SwitchLoadPosition := _switchLoadPosition;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{53f3e315-b71d-472a-98ca-6f0d73523ae9}">
@@ -220,7 +220,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[_switchUnloadPosition := SwitchLoadPosition;]]></ST>
+          <ST><![CDATA[_switchLoadPosition := SwitchLoadPosition;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -259,7 +259,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[SwitchUnloadPosition := _switchLoadPosition;]]></ST>
+          <ST><![CDATA[SwitchUnloadPosition := _switchUnloadPosition;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{da277918-2a30-4cfc-8615-b9ef5ee09b08}">
@@ -267,7 +267,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[_switchLoadPosition := SwitchUnloadPosition;]]></ST>
+          <ST><![CDATA[_switchUnloadPosition := SwitchUnloadPosition;]]></ST>
         </Implementation>
       </Set>
     </Property>
