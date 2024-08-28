@@ -186,6 +186,25 @@ MoverAway := TRUE;
 ]]></ST>
       </Implementation>
     </Method>
+    <Property Name="MyStateMachine" Id="{38044f44-4136-4e2e-af4a-c892872f52b6}">
+      <Declaration><![CDATA[PROPERTY MyStateMachine : IPmlStateMachine]]></Declaration>
+      <Get Name="Get" Id="{c12ce44b-927c-4f1d-bdae-1b65c759c64e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MyStateMachine := _StateMachine;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{1cccd9bd-d62d-45a7-b194-42f3171197ed}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_StateMachine := MyStateMachine;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="SwitchLoadPosition" Id="{8a954b15-9e2e-45e2-9983-586f0bb0d4ea}">
       <Declaration><![CDATA[PROPERTY SwitchLoadPosition : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{c7c8f444-a876-46f4-b0cb-0dad5a2a0e8f}">

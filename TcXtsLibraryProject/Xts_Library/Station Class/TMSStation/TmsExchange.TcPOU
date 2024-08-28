@@ -5,7 +5,7 @@
 VAR
 	_StateMachine : IPmlStateMachine;
 	
-	embarkingStation : TmsEmbarkStation := (BoardVelocity := 100.0);
+	embarkingStation : TmsEmbarkSingleSwitch := (BoardVelocity := 100.0);
 	holdingStation : TmsHoldStation := (MyEmbarkStation := embarkingStation);
 END_VAR
 ]]></Declaration>
@@ -42,17 +42,6 @@ Cycle := embarkingStation.Cycle();
 ]]></ST>
       </Implementation>
     </Method>
-    <Property Name="EmbarkStation" Id="{508d1299-8885-4c14-a332-b33475d26bfa}">
-      <Declaration><![CDATA[PROPERTY EmbarkStation : IStation]]></Declaration>
-      <Get Name="Get" Id="{ba314324-3359-4a1a-8fb3-9807e1185edd}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[EmbarkStation := embarkingStation;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Property Name="ExchangePosition" Id="{72e7b26a-6207-46b0-b684-ab389b8f74bf}">
       <Declaration><![CDATA[PROPERTY ExchangePosition : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{42f393b6-25e0-471d-b60d-0c33ee8e8a32}">
@@ -72,36 +61,6 @@ END_VAR
 holdingStation.Position := ExchangePosition;]]></ST>
         </Implementation>
       </Set>
-    </Property>
-    <Property Name="ExchangeTrackLevel" Id="{416bdb5b-acd9-4922-a121-e2d3d8d0274e}">
-      <Declaration><![CDATA[PROPERTY ExchangeTrackLevel : int]]></Declaration>
-      <Get Name="Get" Id="{7ed999f7-41f4-4d02-9f01-a951336030fa}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[ExchangeTrackLevel := embarkingStation.TrackLevel;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{8abbf63f-29fc-48f1-952c-afd65680f071}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[embarkingStation.TrackLevel := ExchangeTrackLevel;]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
-    <Property Name="HoldStation" Id="{4d40e862-480a-426f-89ed-edc013bb8c8d}">
-      <Declaration><![CDATA[PROPERTY HoldStation : IStation]]></Declaration>
-      <Get Name="Get" Id="{7b1202a4-917f-403c-b005-ec2e639cb9d8}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[HoldStation := holdingStation;]]></ST>
-        </Implementation>
-      </Get>
     </Property>
     <Property Name="MyStateMachine" Id="{4196edef-498e-4d46-b5a7-e2b4ce4210df}">
       <Declaration><![CDATA[PROPERTY MyStateMachine : IPmlStateMachine]]></Declaration>
@@ -131,7 +90,7 @@ holdingStation.MyStateMachine := MyStateMachine;]]></ST>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[SwitchLoadPosition := embarkingStation.SwitchLowerPosition;]]></ST>
+          <ST><![CDATA[SwitchLoadPosition := embarkingStation.SwitchLoadPosition;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{3d8d0d38-3ebf-4444-be66-5a66307afeec}">
@@ -139,7 +98,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[embarkingStation.SwitchLowerPosition := SwitchLoadPosition;]]></ST>
+          <ST><![CDATA[embarkingStation.SwitchLoadPosition := SwitchLoadPosition;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -169,7 +128,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[SwitchUnloadPosition := embarkingStation.SwitchUpperPosition;]]></ST>
+          <ST><![CDATA[SwitchUnloadPosition := embarkingStation.SwitchUnloadPosition;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{5d817073-52c5-42bb-88e6-aed9feec32b5}">
@@ -177,7 +136,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[embarkingStation.SwitchUpperPosition := SwitchUnloadPosition;]]></ST>
+          <ST><![CDATA[embarkingStation.SwitchUnloadPosition := SwitchUnloadPosition;]]></ST>
         </Implementation>
       </Set>
     </Property>
