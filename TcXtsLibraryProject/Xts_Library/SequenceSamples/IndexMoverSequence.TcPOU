@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
   <POU Name="IndexMoverSequence" Id="{50af290e-a0d7-45b3-a647-c8828b096bd1}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK IndexMoverSequence EXTENDS CyclicBase
 VAR
@@ -12,6 +12,7 @@ VAR
 	ThisMover : I_XtsMoverAxis;
 	StateMachine : IPmlStateMachine;
 	_startPosition : MC_LREAL;
+	_XtsNoHome : BOOL;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
@@ -56,7 +57,7 @@ CASE State OF
 		END_IF
 		
 	IndexSequenceState.MovingToStart:
-		IF ThisMover.isMoverAtPosition(position := _startPosition) THEN
+		IF ThisMover.isMoverAtPosition(position := _startPosition) OR _XtsNoHome THEN
 			State := IndexSequenceState.AtStart;
 		END_IF
 			
@@ -259,59 +260,24 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <LineIds Name="IndexMoverSequence">
-      <LineId Id="1006" Count="0" />
-    </LineIds>
-    <LineIds Name="IndexMoverSequence.Abort">
-      <LineId Id="6" Count="1" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="9" Count="2" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="15" Count="0" />
-    </LineIds>
-    <LineIds Name="IndexMoverSequence.Cycle">
-      <LineId Id="6" Count="4" />
-      <LineId Id="120" Count="0" />
-      <LineId Id="11" Count="47" />
-      <LineId Id="60" Count="12" />
-      <LineId Id="74" Count="15" />
-      <LineId Id="91" Count="19" />
-      <LineId Id="121" Count="1" />
-      <LineId Id="111" Count="5" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="IndexMoverSequence.FB_init">
-      <LineId Id="7" Count="0" />
-    </LineIds>
-    <LineIds Name="IndexMoverSequence.MoverVelocity.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="IndexMoverSequence.MoverVelocity.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="IndexMoverSequence.MyMover.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="IndexMoverSequence.MyMover.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="IndexMoverSequence.MyStartPosition.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="IndexMoverSequence.MyStartPosition.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="IndexMoverSequence.MyStateMachine.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="IndexMoverSequence.MyStateMachine.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="IndexMoverSequence.MyStations.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="IndexMoverSequence.MyStations.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
+    <Property Name="XtsNoHome" Id="{7aad9af3-71dc-4b8d-9a2b-19016c2a644b}">
+      <Declaration><![CDATA[PROPERTY XtsNoHome : BOOL]]></Declaration>
+      <Get Name="Get" Id="{d3413585-01ef-4909-a612-e4cda3a7b8e0}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[XtsNoHome := _XtsNoHome;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{ca6f67d3-9265-4c0f-849c-5e4c98f82e9b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_XtsNoHome := XtsNoHome;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
   </POU>
 </TcPlcObject>

@@ -157,6 +157,24 @@ BaseCallResult := SUPER^.Cycle();
 SwitchAxis.Cycle();]]></ST>
       </Implementation>
     </Method>
+    <Method Name="DisableLift" Id="{48178ec4-8b43-421e-9fb5-b7445276f569}">
+      <Declaration><![CDATA[METHOD DisableLift : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SwitchAxis.DisableAxis();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="EnableLift" Id="{50ffe6bd-500f-4895-ac7f-2f448330de69}">
+      <Declaration><![CDATA[METHOD EnableLift : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SwitchAxis.EnableAxis();]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="HasMover" Id="{3dfbfe5d-88fb-42cd-8ef4-33bfd88b9fd1}">
       <Declaration><![CDATA[METHOD HasMover : BOOL
 VAR_INPUT
@@ -205,6 +223,15 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Method Name="ResetLift" Id="{e01d8d04-17e3-496e-b671-f1b1ca8fff28}">
+      <Declaration><![CDATA[METHOD ResetLift : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SwitchAxis.ResetAxis();]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="SwitchLoadPosition" Id="{8a954b15-9e2e-45e2-9983-586f0bb0d4ea}">
       <Declaration><![CDATA[PROPERTY SwitchLoadPosition : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{c7c8f444-a876-46f4-b0cb-0dad5a2a0e8f}">
@@ -268,6 +295,25 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[_switchUnloadPosition := SwitchUnloadPosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="SwitchVelocity" Id="{5bee5216-580a-4c92-a98e-135910f268ec}">
+      <Declaration><![CDATA[PROPERTY SwitchVelocity : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{5f6d59ad-16e2-4d95-8537-c0fe3c94515a}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[SwitchVelocity := _SwitchVelocity;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{9a50fe25-bba9-43bc-969b-72a95486a8df}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_SwitchVelocity := SwitchVelocity;]]></ST>
         </Implementation>
       </Set>
     </Property>

@@ -5,7 +5,7 @@
 VAR
 	_StateMachine : IPmlStateMachine;
 	
-	embarkingStation : TmsEmbarkSingleSwitch := (BoardVelocity := 100.0);
+	embarkingStation : TmsEmbarkSingleSwitch := (BoardVelocity := 100.0, SwitchVelocity := 400.0);
 	holdingStation : TmsHoldStation := (MyEmbarkStation := embarkingStation);
 END_VAR
 ]]></Declaration>
@@ -42,6 +42,15 @@ Cycle := embarkingStation.Cycle();
 ]]></ST>
       </Implementation>
     </Method>
+    <Method Name="DisableExchange" Id="{0bac5bc5-8df5-4317-a3e1-2d2a57bd0c09}">
+      <Declaration><![CDATA[METHOD DisableExchange : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[embarkingStation.DisableLift();]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="EmbarkStation" Id="{14e2609e-3d23-45ff-aed3-b4056ea35385}">
       <Declaration><![CDATA[PROPERTY EmbarkStation : IProcess]]></Declaration>
       <Get Name="Get" Id="{9a770acb-911c-4d7b-bc24-20009272cc70}">
@@ -53,6 +62,15 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Method Name="EnableExchange" Id="{a1468077-245c-433f-bded-f2cbfb072960}">
+      <Declaration><![CDATA[METHOD EnableExchange : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[embarkingStation.EnableLift();]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="ExchangePosition" Id="{72e7b26a-6207-46b0-b684-ab389b8f74bf}">
       <Declaration><![CDATA[PROPERTY ExchangePosition : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{42f393b6-25e0-471d-b60d-0c33ee8e8a32}">
@@ -105,6 +123,15 @@ holdingStation.MyStateMachine := MyStateMachine;]]></ST>
         </Implementation>
       </Set>
     </Property>
+    <Method Name="ResertExchange" Id="{24c77bcb-aa1a-4931-b9c9-4ce41793c505}">
+      <Declaration><![CDATA[METHOD ResertExchange : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[embarkingStation.ResetLift();]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="SwitchLoadPosition" Id="{50231232-5e8f-4e29-9828-1275ddad7c48}">
       <Declaration><![CDATA[PROPERTY SwitchLoadPosition : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{d161c959-ac3c-4c0a-be5a-a0c3a788007e}">
@@ -159,6 +186,25 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[embarkingStation.SwitchUnloadPosition := SwitchUnloadPosition;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="SwitchVelocity" Id="{da27ced7-4e7d-4f91-9cf5-ec905d9a3b19}">
+      <Declaration><![CDATA[PROPERTY SwitchVelocity : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{62342141-c495-4565-ad72-56951b97bb48}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[SwitchVelocity := embarkingStation.SwitchVelocity;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{dfd4f6ce-877b-4b7c-960c-d590836172be}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[embarkingStation.SwitchVelocity := SwitchVelocity;]]></ST>
         </Implementation>
       </Set>
     </Property>
