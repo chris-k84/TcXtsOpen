@@ -3,8 +3,8 @@
   <POU Name="XTSHardware_V2" Id="{2082c175-1a19-4a3f-b920-8dbd46477756}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XTSHardware_V2 EXTENDS CyclicBase IMPLEMENTS I_Initialise
 VAR
-	XtsParts : ARRAY[1..SystemParameters.NumberOfParts] OF XtsPart;
-	XtsTracks : ARRAY[1..SystemParameters.NumberOfTracks] OF XtsTrack;
+	XtsParts : ARRAY[0..SystemParameters.NumberOfParts-1] OF XtsPart;
+	XtsTracks : ARRAY[0..SystemParameters.NumberOfTracks-1] OF XtsTrack;
 	TrackOTCIDs: ARRAY [1..Tc3_XTS_Utility.TcIoXtsEnvironmentParameterList.MaxXtsTracksPerXpu] OF Tc3_XTS_Utility.OTCID;
 	MyXPUInterface : Tc3_XTS_Utility.I_TcIoXtsProcessingUnit;
 	MyXtsIoEnvVarRef : ITF_XTSIOEnvVarWrapper;
@@ -28,10 +28,10 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR i := 1 TO UDINT_TO_INT(MyPartCount) DO
+        <ST><![CDATA[FOR i := 0 TO UDINT_TO_INT(MyPartCount-1) DO
 	XtsParts[i].Cycle();
 END_FOR
-FOR i := 1 TO UDINT_TO_INT(MyTrackCount) DO
+FOR i := 0 TO UDINT_TO_INT(MyTrackCount-1) DO
 	XtsTracks[i].Cycle();
 END_FOR]]></ST>
       </Implementation>
@@ -70,7 +70,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR i := 1 TO SystemParameters.NumberOfTracks DO
+        <ST><![CDATA[FOR i := 0 TO SystemParameters.NumberOfTracks - 1 DO
 	IF trackOTCID = XtsTracks[i].MyOTCID THEN
 		GetTrackByOTCID := XtsTracks[i];
 	END_IF
@@ -97,8 +97,8 @@ END_VAR]]></Declaration>
 	1:
 		MyPartCount := MyXPUInterface.GetPartCount();
 		IF MyPartCount = SystemParameters.NumberOfParts THEN
-			FOR i := 1 TO UDINT_TO_INT(MyPartCount) DO
-				XtsParts[i].MyXtsIoEnvInterface := MyXPUInterface.PartTcIo(UDINT_TO_UINT(i));
+			FOR i := 0 TO UDINT_TO_INT(MyPartCount - 1) DO
+				XtsParts[i].MyXtsIoEnvInterface := MyXPUInterface.PartTcIo(UDINT_TO_UINT(i + 1));
 				IF THIS^.IsInSim() THEN
 					XtsParts[i].SetInSim();
 				END_IF
@@ -112,9 +112,9 @@ END_VAR]]></Declaration>
 		MyXPUInterface.GetTrackOids();
 		TrackOTCIDs := MyXPUInterface.P_TrackOids;
 		IF MyTrackCount = SystemParameters.NumberOfTracks THEN
-			FOR i := 1 TO UDINT_TO_INT(MyTrackCount) DO
-				XtsTracks[i].MyXtsIoEnvInterface := MyXPUInterface.TrackTcIo(UDINT_TO_UINT(i));
-				XtsTracks[i].MyOTCID := TrackOTCIDs[i];
+			FOR i := 0 TO UDINT_TO_INT(MyTrackCount - 1) DO
+				XtsTracks[i].MyXtsIoEnvInterface := MyXPUInterface.TrackTcIo(UDINT_TO_UINT(i + 1));
+				XtsTracks[i].MyOTCID := TrackOTCIDs[i + 1];
 			END_FOR
 			XtsIoEnvInitialiseState := 4;
 		ELSE
@@ -122,14 +122,14 @@ END_VAR]]></Declaration>
 		END_IF
 	4:
 		XtsIoEnvInitialiseState := 5;
-		FOR i := 1 TO UDINT_TO_INT(MyPartCount) DO
+		FOR i := 0 TO UDINT_TO_INT(MyPartCount - 1) DO
 			IF XtsParts[i].Initialise() <> 2 THEN
 				XtsIoEnvInitialiseState := 4;
 			END_IF
 		END_FOR
 	5:
 		XtsIoEnvInitialiseState := 6;
-		FOR i := 1 TO UDINT_TO_INT(MyTrackCount) DO
+		FOR i := 0 TO UDINT_TO_INT(MyTrackCount - 1) DO
 			IF XtsTracks[i].Initialise() <> 2 THEN
 				XtsIoEnvInitialiseState := 5;
 			END_IF
@@ -147,7 +147,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Is24VdcOK := 2;
-FOR i := 1 TO MyXPUInterface.GetPartCount() DO
+FOR i := 0 TO MyXPUInterface.GetPartCount() DO
 	IF XtsParts[i].Is24VBusOK() = 1 THEN
 		Is24VdcOK := 1;
 	END_IF
@@ -161,7 +161,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Is48VdcOK := 2;
-FOR i := 1 TO MyXPUInterface.GetPartCount() DO
+FOR i := 0 TO MyXPUInterface.GetPartCount() DO
 	IF XtsParts[i].Is48VBusOK() = 1 THEN
 		Is48VdcOK := 1;
 	END_IF
