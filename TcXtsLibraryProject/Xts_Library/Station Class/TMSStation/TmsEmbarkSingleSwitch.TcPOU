@@ -98,7 +98,7 @@ CASE State OF
 		END_IF	
 			
 	Boarding:
-		BoardMoverResult := DepartMover.MoveTo(RequiredPosition := _switchPosition, MoveVelocity := _BoardVelocity);
+		BoardMoverResult := DepartMover.MoveTo(RequiredPosition := _switchPosition, MoveVelocity := _BoardVelocity, NonModuloMove := FALSE);
 		IF DepartMover.isMoverAtPosition(position := _switchPosition) THEN
 			State := BoardingComplete;
 		END_IF
@@ -123,8 +123,12 @@ CASE State OF
 		END_IF
 		
 	ActivateTrackForMover:
-		DepartMover.ActivateTrack(NewTrack := _TargetTrackId.MyOTCID,Track := _TargetTrackId);		
-		State := CheckTrackActive;
+		IF TestInout THEN
+			TestInout := FALSE;
+			DepartMover.ActivateTrack(NewTrack := _TargetTrackId.MyOTCID,Track := _TargetTrackId);		
+			State := CheckTrackActive;
+		END_IF
+		
 		
 	CheckTrackActive:
 		IF TestInout (*DepartMover.MoversActiveTrack = _TargetTrackId.MyOTCID AND SwitchAxis.isAtPosition(position := _switchUnloadPosition) *)THEN

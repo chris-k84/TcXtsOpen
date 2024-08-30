@@ -263,7 +263,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR i := 1 TO SystemParameters.NumberOfMovers DO
-	_MoverArray[i].MoveTo(RequiredPosition := _homePosition, MoveVelocity := _HomeSpeed);
+	_MoverArray[i].MoveTo(RequiredPosition := _homePosition, MoveVelocity := _HomeSpeed,NonModuloMove := false);
 END_FOR 
 MoverHomeSequence := TRUE;]]></ST>
       </Implementation>

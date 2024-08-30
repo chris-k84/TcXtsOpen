@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
   <Itf Name="I_XtsMoverAxis" Id="{3dcfc709-5ede-408c-bb46-9ff1ab7ba3a2}">
     <Declaration><![CDATA[INTERFACE I_XtsMoverAxis
 ]]></Declaration>
@@ -140,6 +140,7 @@ END_VAR
 VAR_INPUT
 	RequiredPosition : MC_LREAL;
 	MoveVelocity : MC_LREAL;
+	NonModuloMove : BOOL;
 END_VAR
 ]]></Declaration>
     </Method>

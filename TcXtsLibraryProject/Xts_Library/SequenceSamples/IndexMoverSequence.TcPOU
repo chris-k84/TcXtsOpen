@@ -13,6 +13,7 @@ VAR
 	StateMachine : IPmlStateMachine;
 	_startPosition : MC_LREAL;
 	_XtsNoHome : BOOL;
+	_NonModuloMoves : BOOL := false;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
@@ -92,7 +93,8 @@ CASE State OF
 
 	IndexSequenceState.AtProcess:
 		ThisMover.MoveTo(RequiredPosition := StationArray[CurrentStation].EndPosition,
-								MoveVelocity := StationArray[CurrentStation].ProcessVelocity);
+								MoveVelocity := StationArray[CurrentStation].ProcessVelocity,
+								NonModuloMove := _NonModuloMoves);
 		State := IndexSequenceState.InProcess;
 								
 	IndexSequenceState.InProcess:
@@ -105,7 +107,8 @@ CASE State OF
 	IndexSequenceState.GetNextMove:
 		IF CurrentStation = SystemParameters.NumberOfStations THEN
 			IF ThisMover.MoveTo(RequiredPosition := _startPosition,
-							MoveVelocity := _MoverVelocity) = 1 THEN
+							MoveVelocity := _MoverVelocity,
+							NonModuloMove := _NonModuloMoves) = 1 THEN
 				State := IndexSequenceState.MovingToStart;
 				StationArray[CurrentStation].MoverAway();
 				CurrentStation := 0; 
@@ -121,7 +124,8 @@ CASE State OF
 			TargetStationPosition := StationArray[CurrentStation + 1].Position;
 		END_IF
 		IF 	ThisMover.MoveTo(RequiredPosition := TargetStationPosition,
-							MoveVelocity := _MoverVelocity) = 1 THEN
+							MoveVelocity := _MoverVelocity,
+							NonModuloMove := _NonModuloMoves) = 1 THEN
 			IF CurrentStation <> 0 THEN
 				StationArray[CurrentStation].MoverAway();	
 			END_IF		

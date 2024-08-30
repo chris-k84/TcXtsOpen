@@ -152,7 +152,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF (NOT MoverPowerCommand.Busy) AND NOT THIS^.isMoverEnabled() AND _CurrentTrack <> 0 THEN
+        <ST><![CDATA[IF (NOT MoverPowerCommand.Busy) AND NOT THIS^.isMoverEnabled() THEN // AND _CurrentTrack <> 0 THEN
 	MoverPowerCommand.Enable();
 	EnableMover := 1;
 ELSE
@@ -370,26 +370,37 @@ END_VAR
 VAR_INPUT
 	RequiredPosition : MC_LREAL;
 	MoveVelocity : MC_LREAL;
+	NonModuloMove : BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT MoverMoveCommand.Busy AND MoveVelocity < _MaxMoverVelocity AND RequiredPosition < _ActiveTrackLength AND Gap >= 50.0 THEN
-	IF RequiredPosition > MyAxisRef.NcToPlc.ModuloActPos THEN
+        <ST><![CDATA[IF NOT MoverMoveCommand.Busy AND MoveVelocity < _MaxMoverVelocity AND (*RequiredPosition < _ActiveTrackLength AND*) Gap >= 50.0 THEN
+	IF NonModuloMove THEN
 		IF THIS^.MoverMoveCommand.MoveTo(Position := RequiredPosition, 
-									Velocity := MoveVelocity, 
-									Direction := Tc3_Mc3Definitions.MC_DIRECTION.mcDirectionPositive, 
-									Turns := 0) THEN
-									
+										Velocity := MoveVelocity, 
+										Direction := Tc3_Mc3Definitions.MC_DIRECTION.mcDirectionNonModulo, 
+										Turns := 0) THEN
+										
 			MoveTo := 1;
 		END_IF
 	ELSE
-		IF THIS^.MoverMoveCommand.MoveTo(Position := RequiredPosition, 
-									Velocity := MoveVelocity, 
-									Direction := Tc3_Mc3Definitions.MC_DIRECTION.mcDirectionNegative, 
-									Turns := 0) THEN
-									
-			MoveTo := 1;
-		END_IF	
+		IF RequiredPosition > MyAxisRef.NcToPlc.ModuloActPos THEN
+			IF THIS^.MoverMoveCommand.MoveTo(Position := RequiredPosition, 
+										Velocity := MoveVelocity, 
+										Direction := Tc3_Mc3Definitions.MC_DIRECTION.mcDirectionPositive, 
+										Turns := 0) THEN
+										
+				MoveTo := 1;
+			END_IF
+		ELSE
+			IF THIS^.MoverMoveCommand.MoveTo(Position := RequiredPosition, 
+										Velocity := MoveVelocity, 
+										Direction := Tc3_Mc3Definitions.MC_DIRECTION.mcDirectionNegative, 
+										Turns := 0) THEN
+										
+				MoveTo := 1;
+			END_IF	
+		END_IF
 	END_IF
 ELSE
 	MoveTo := -1;
