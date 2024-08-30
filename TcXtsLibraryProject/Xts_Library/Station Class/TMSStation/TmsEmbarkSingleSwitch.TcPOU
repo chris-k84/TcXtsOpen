@@ -97,7 +97,7 @@ CASE State OF
 		END_IF	
 			
 	Boarding:
-		BoardMoverResult := DepartMover.MoveTo(RequiredPosition := _switchPosition, MoveVelocity := _BoardVelocity, NonModuloMove := FALSE);
+		BoardMoverResult := DepartMover.MoveTo(RequiredPosition := _switchPosition, MoveVelocity := _BoardVelocity, NonModuloMove := TRUE);
 		IF DepartMover.isMoverAtPosition(position := _switchPosition) THEN
 			State := BoardingComplete;
 		END_IF
