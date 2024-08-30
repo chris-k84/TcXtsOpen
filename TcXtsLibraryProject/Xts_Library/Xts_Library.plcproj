@@ -117,9 +117,6 @@
     <Compile Include="Station Class\TMSStation\TmsEmbarkStation.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Station Class\TMSStation\TmsExchange.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Station Class\TMSStation\TmsHoldStation.TcPOU">
       <SubType>Code</SubType>
     </Compile>
