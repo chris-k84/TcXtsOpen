@@ -5,6 +5,7 @@
 VAR
 	_homePosition : MC_LREAL;
 	_HomeSpeed : MC_LREAL;
+	_XtsEnabled : BOOL;
 	XtsIoEnvVar : XTSIOEnvVarWrapper;
 	mcCollisionGroup : CollisionGroup;
 	XtsHardware : XTSHardware_V2 := (XtsIoEnvVarWrapper := XtsIoEnvVar);
@@ -16,6 +17,8 @@ VAR
 	AtHome: BOOL;
 	_tracks : UINT;
 	_MoverArray : ARRAY[1..SystemParameters.NumberOfMovers] OF I_XtsMoverAxis;
+	EnabledTrigger : R_TRIG;
+	DisabledTrigger : R_TRIG;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
@@ -47,7 +50,14 @@ END_VAR
         <ST><![CDATA[EnableResult := EnableSequence.Cycle();
 DisableResult := DisableSequence.Cycle();
 CollisionResult := mcCollisionGroup.Cycle();
-
+EnabledTrigger(CLK := EnableSequence.Done);
+DisabledTrigger(CLK := DisableSequence.Done);
+IF EnabledTrigger.Q THEN
+	_XtsEnabled := TRUE;
+END_IF
+IF DisabledTrigger.Q THEN
+	_XtsEnabled := false;
+END_IF
 IF EnableResult = E_FAIL OR
 	DisableResult = E_FAIL OR
 	GrpStopResult = E_FAIL OR
@@ -232,7 +242,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IsXtsReady := EnableSequence.Done;]]></ST>
+        <ST><![CDATA[IsXtsReady := _XtsEnabled;]]></ST>
       </Implementation>
     </Method>
     <Property Name="MoverArray" Id="{5c1cfa9c-be49-4324-bcf5-1be968bfce44}">
