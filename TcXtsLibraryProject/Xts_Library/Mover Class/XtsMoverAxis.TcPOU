@@ -394,22 +394,30 @@ END_VAR
 			MoveTo := 1;
 		END_IF
 	ELSE
-		IF RequiredPosition > MyAxisRef.NcToPlc.ModuloActPos THEN
-			IF THIS^.MoverMoveCommand.MoveTo(Position := RequiredPosition, 
+		IF _ForwardOnly THEN
+			THIS^.MoverMoveCommand.MoveTo(Position := RequiredPosition, 
 										Velocity := MoveVelocity, 
 										Direction := Tc3_Mc3Definitions.MC_DIRECTION.mcDirectionPositive, 
-										Turns := 0) THEN
-										
-				MoveTo := 1;
+										Turns := 0);
+			MoveTo := 1;
+		ELSE
+			IF RequiredPosition > MyAxisRef.NcToPlc.ModuloActPos THEN
+				IF THIS^.MoverMoveCommand.MoveTo(Position := RequiredPosition, 
+											Velocity := MoveVelocity, 
+											Direction := Tc3_Mc3Definitions.MC_DIRECTION.mcDirectionPositive, 
+											Turns := 0) THEN
+											
+					MoveTo := 1;
+				END_IF
+			ELSE
+				IF THIS^.MoverMoveCommand.MoveTo(Position := RequiredPosition, 
+											Velocity := MoveVelocity, 
+											Direction := Tc3_Mc3Definitions.MC_DIRECTION.mcDirectionNegative, 
+											Turns := 0) THEN
+											
+					MoveTo := 1;
+				END_IF	
 			END_IF
-		ELSIF NOT _ForwardOnly THEN
-			IF THIS^.MoverMoveCommand.MoveTo(Position := RequiredPosition, 
-										Velocity := MoveVelocity, 
-										Direction := Tc3_Mc3Definitions.MC_DIRECTION.mcDirectionNegative, 
-										Turns := 0) THEN
-										
-				MoveTo := 1;
-			END_IF	
 		END_IF
 	END_IF
 ELSE
