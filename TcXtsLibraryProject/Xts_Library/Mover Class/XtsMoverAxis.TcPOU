@@ -223,7 +223,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT MoverHaltCommand.Busy AND NOT THIS^.isMoverStationary() THEN
+        <ST><![CDATA[IF NOT MoverHaltCommand.Busy THEN// AND NOT THIS^.isMoverStationary() THEN
 	IF MoverHaltCommand.Execute() THEN
 		HaltAxis := 1;
 	ELSE
@@ -252,6 +252,15 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[inGear := axesGear.GearInPosCA.InSync;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="IsActive" Id="{4093fe18-48a9-45f2-9701-210b5183f8f4}" FolderPath="Status\">
+      <Declaration><![CDATA[METHOD IsActive : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IsActive := _ipTcIoXtsMover.GetIsActive();]]></ST>
       </Implementation>
     </Method>
     <Method Name="isMoverAtPosition" Id="{f1a74560-cd92-4fa6-83a2-3bacea608337}" FolderPath="Status\">

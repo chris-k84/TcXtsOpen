@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
   <POU Name="MC2_Axis_Base" Id="{6091fbf5-8563-4c3d-a46f-a871d52562e9}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK MC2_Axis_Base EXTENDS CyclicBase
 VAR_INPUT
@@ -146,54 +146,5 @@ HaltAbortResult := axesHaltCommand.Abort();
 ResetAxis := ResetResult AND MoveAbortResult AND HaltAbortResult;]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="MC2_Axis_Base">
-      <LineId Id="30" Count="0" />
-    </LineIds>
-    <LineIds Name="MC2_Axis_Base.Cycle">
-      <LineId Id="9" Count="4" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="MC2_Axis_Base.DisableAxis">
-      <LineId Id="31" Count="0" />
-      <LineId Id="20" Count="0" />
-    </LineIds>
-    <LineIds Name="MC2_Axis_Base.EnableAxis">
-      <LineId Id="13" Count="0" />
-    </LineIds>
-    <LineIds Name="MC2_Axis_Base.HaltAxis">
-      <LineId Id="5" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="15" Count="0" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="19" Count="1" />
-      <LineId Id="10" Count="0" />
-    </LineIds>
-    <LineIds Name="MC2_Axis_Base.hasError">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="MC2_Axis_Base.isAtPosition">
-      <LineId Id="11" Count="1" />
-      <LineId Id="18" Count="1" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="8" Count="0" />
-    </LineIds>
-    <LineIds Name="MC2_Axis_Base.isEnabled">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="MC2_Axis_Base.isStationary">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="MC2_Axis_Base.MoveToPosition">
-      <LineId Id="122" Count="4" />
-      <LineId Id="133" Count="1" />
-      <LineId Id="127" Count="0" />
-      <LineId Id="64" Count="0" />
-    </LineIds>
-    <LineIds Name="MC2_Axis_Base.ResetAxis">
-      <LineId Id="6" Count="1" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="11" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

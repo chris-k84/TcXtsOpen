@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
   <POU Name="XTSIOEnvVarWrapper" Id="{03c3c931-6ee3-4ab9-88b9-320f3e1d8e15}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XTSIOEnvVarWrapper IMPLEMENTS ITF_XTSIOEnvVarWrapper
 VAR
@@ -105,39 +105,14 @@ END_VAR
         <ST><![CDATA[IsInitialised := Initialised;]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="XTSIOEnvVarWrapper">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="XTSIOEnvVarWrapper.FB_init">
-      <LineId Id="8" Count="0" />
-      <LineId Id="7" Count="0" />
-    </LineIds>
-    <LineIds Name="XTSIOEnvVarWrapper.GetCaGroupInterface">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="XTSIOEnvVarWrapper.GetMotorModuleInterface">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="XTSIOEnvVarWrapper.GetMoverInterface">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="XTSIOEnvVarWrapper.GetPartInterface">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="XTSIOEnvVarWrapper.GetTrackInterface">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="XTSIOEnvVarWrapper.GetXPUInterface">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="XTSIOEnvVarWrapper.Initialise">
-      <LineId Id="7" Count="1" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="XTSIOEnvVarWrapper.IsInitialised">
-      <LineId Id="5" Count="0" />
-    </LineIds>
+    <Method Name="TriggerRedetection" Id="{ae4a38c2-59c8-4f6f-9609-030adeda16ad}">
+      <Declaration><![CDATA[METHOD TriggerRedetection : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TriggerRedetection := XPU.TriggerRedetection();]]></ST>
+      </Implementation>
+    </Method>
   </POU>
 </TcPlcObject>

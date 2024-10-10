@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
   <POU Name="XtsTrack" Id="{0ed646c8-24dd-40d8-b451-d6e6a88b90d3}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XtsTrack EXTENDS CyclicBase IMPLEMENTS I_XtsTrack
 VAR
@@ -95,6 +95,24 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Method Name="RemoveFromDetection" Id="{19fc9c17-6e83-4583-8661-ca0f3d7fbe00}">
+      <Declaration><![CDATA[METHOD RemoveFromDetection : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[RemoveFromDetection := _MyInterface.SetIsIncludedInDetection(False);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetForDetection" Id="{2a4c4b2d-af72-4d4f-81aa-5409f825db3c}">
+      <Declaration><![CDATA[METHOD SetForDetection : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SetForDetection := _MyInterface.SetIsIncludedInDetection(TRUE);]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="TrackLength" Id="{f63b8800-afc4-4a64-a819-7bbd5ce82fd4}">
       <Declaration><![CDATA[PROPERTY TrackLength : MC_Lreal]]></Declaration>
       <Get Name="Get" Id="{8c76ee9b-64b1-4933-b3fe-20fbe5dcfddc}">
@@ -106,38 +124,5 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <LineIds Name="XtsTrack">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsTrack.Cycle">
-      <LineId Id="13" Count="0" />
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsTrack.Initialise">
-      <LineId Id="6" Count="7" />
-      <LineId Id="18" Count="3" />
-      <LineId Id="30" Count="1" />
-      <LineId Id="26" Count="0" />
-      <LineId Id="32" Count="0" />
-      <LineId Id="38" Count="1" />
-      <LineId Id="33" Count="1" />
-      <LineId Id="27" Count="2" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsTrack.MyOTCID.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsTrack.MyOTCID.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsTrack.MyXtsIoEnvInterface.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsTrack.MyXtsIoEnvInterface.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsTrack.TrackLength.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>
