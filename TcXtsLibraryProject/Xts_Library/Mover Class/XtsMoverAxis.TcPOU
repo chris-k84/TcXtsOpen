@@ -19,6 +19,7 @@ VAR
 	_stTmsActPositions			: ST_PositionInfo;
 	_CurrentTrack : I_XtsTrack;
 	_MyCAGroup : ITF_CAMover;
+	_ForwardOnly : BOOL := TRUE;
 END_VAR
 VAR CONSTANT
 	_MaxMoverVelocity : MC_LREAL := 4000.0;
@@ -401,7 +402,7 @@ END_VAR
 										
 				MoveTo := 1;
 			END_IF
-		ELSE
+		ELSIF NOT _ForwardOnly THEN
 			IF THIS^.MoverMoveCommand.MoveTo(Position := RequiredPosition, 
 										Velocity := MoveVelocity, 
 										Direction := Tc3_Mc3Definitions.MC_DIRECTION.mcDirectionNegative, 
@@ -451,6 +452,25 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[axesGear.MyGearMaster REF= MyMasterRef;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="PositiveDirectionOnly" Id="{993fe16b-05a5-4eca-a38c-6463f3e7295c}" FolderPath="Administration\">
+      <Declaration><![CDATA[PROPERTY PositiveDirectionOnly : BOOL]]></Declaration>
+      <Get Name="Get" Id="{581a1e54-141a-440c-9d85-39be9d6e8e36}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[PositiveDirectionOnly := _ForwardOnly;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{aede2ad8-809d-4697-b667-b49152253954}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_ForwardOnly := PositiveDirectionOnly;]]></ST>
         </Implementation>
       </Set>
     </Property>

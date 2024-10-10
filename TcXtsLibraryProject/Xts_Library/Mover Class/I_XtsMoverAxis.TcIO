@@ -162,6 +162,15 @@ END_VAR
         <Declaration><![CDATA[]]></Declaration>
       </Set>
     </Property>
+    <Property Name="PositiveDirectionOnly" Id="{ed0ab13d-fd6f-4b8b-a5b2-30d977b85665}" FolderPath="Administration\">
+      <Declaration><![CDATA[PROPERTY PositiveDirectionOnly : BOOL]]></Declaration>
+      <Get Name="Get" Id="{ca7928e2-abd0-4257-bca9-4dcae3e4cfec}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{89d703fe-11d9-4067-a762-3ca15c65b604}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
     <Method Name="ResetAxis" Id="{6858a2d4-c501-4639-b0f6-64db9416c8f9}" FolderPath="Commands\">
       <Declaration><![CDATA[METHOD ResetAxis : HRESULT
 VAR_INPUT
