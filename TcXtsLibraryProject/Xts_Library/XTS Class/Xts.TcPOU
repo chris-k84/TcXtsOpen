@@ -209,6 +209,7 @@ END_VAR
 			XtsHwState := XtsSystemInitialisation.MoverIdDetection;
 		ELSE
 			XtsHwState := XtsSystemInitialisation.CheckModuleVoltages;
+			//XtsHwState := XtsSystemInitialisation.MoverIdDetection;
 		END_IF
 		
 	XtsSystemInitialisation.CheckModuleVoltages:

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
   <POU Name="XtsMotorModule" Id="{447db564-ab24-433c-b078-4cedd1c7411e}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XtsMotorModule EXTENDS CyclicBase
 VAR
@@ -78,7 +78,7 @@ END_IF]]></ST>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[MyModuleCoEInterface := MyCoEInterface;]]></ST>
+          <ST><![CDATA[MyCoEInterface := MyModuleCoEInterface;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{e0b2dbb9-69f1-4a7b-955f-87ac0078a8d2}">
@@ -86,7 +86,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[MyCoEInterface := MyModuleCoEInterface;]]></ST>
+          <ST><![CDATA[MyModuleCoEInterface := MyCoEInterface;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -97,7 +97,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[MyModuleIoInterface := MyModuleInterface;]]></ST>
+          <ST><![CDATA[MyModuleInterface := MyModuleIoInterface;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{c9ca3467-a5fd-4003-89ce-a9baa660bd96}">
@@ -105,7 +105,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[MyModuleInterface := MyModuleIoInterface;]]></ST>
+          <ST><![CDATA[MyModuleIoInterface := MyModuleInterface;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -118,42 +118,5 @@ END_VAR
         <ST><![CDATA[InSim := true;]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="XtsMotorModule">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsMotorModule.Cycle">
-      <LineId Id="16" Count="0" />
-      <LineId Id="19" Count="0" />
-      <LineId Id="27" Count="1" />
-      <LineId Id="20" Count="1" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="15" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsMotorModule.Initialise">
-      <LineId Id="5" Count="0" />
-      <LineId Id="9" Count="1" />
-    </LineIds>
-    <LineIds Name="XtsMotorModule.Is24VOK">
-      <LineId Id="13" Count="5" />
-    </LineIds>
-    <LineIds Name="XtsMotorModule.Is48VOK">
-      <LineId Id="8" Count="5" />
-    </LineIds>
-    <LineIds Name="XtsMotorModule.MyCoEInterface.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsMotorModule.MyCoEInterface.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsMotorModule.MyModuleInterface.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsMotorModule.MyModuleInterface.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XtsMotorModule.SetInSim">
-      <LineId Id="5" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

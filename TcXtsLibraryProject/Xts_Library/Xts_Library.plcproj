@@ -251,7 +251,9 @@
     <Folder Include="Base Types\Task_Base" />
     <Folder Include="EventLoggerClass" />
     <Folder Include="Mover Class" />
-    <Folder Include="Tests" />
+    <Folder Include="Tests">
+      <ExcludeFromBuild>true</ExcludeFromBuild>
+    </Folder>
     <Folder Include="XtsRunner" />
     <Folder Include="POU" />
     <Folder Include="PackML" />
