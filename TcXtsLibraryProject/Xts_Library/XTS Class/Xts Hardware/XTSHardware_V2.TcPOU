@@ -12,7 +12,6 @@ VAR
 	i: UDINT;
 	MyPartCount: UDINT;
 	MyTrackCount: UDINT;
-	//_TmsSwitch : ITF_TmsSwitch;
 	bMoverIdDetectionActive: BOOL;
 	bTriggerDetect: BOOL;
 	bMoverIdDetectionError: BOOL;

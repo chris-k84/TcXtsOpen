@@ -10,6 +10,8 @@ VAR
 	Nominal24Vdc : LREAL := 24000;
 	Nominal48Vdc : LREAL := 48000;
 	InSim : BOOL;
+	Module24Vdc: UINT;
+	Module48Vdc: UINT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -27,6 +29,8 @@ END_VAR
 	//MyModuleCoEInterface.AllCoE.UpdateAllCoEData();
 	CurrentLive:=MyModuleCoEInterface.InfoData.OverallCurrent;
 	MaxCurrent:=MyModuleCoEInterface.InfoData.MaxOverallCurrentLast500ms;
+	Module24Vdc := MyModuleCoEInterface.InfoData.AuxiliaryVoltage24V;
+	Module48Vdc := MyModuleCoEInterface.InfoData.DcLinkVoltage;
 END_IF
 
 ]]></ST>

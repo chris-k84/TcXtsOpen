@@ -52,6 +52,7 @@ DisableResult := DisableSequence.Cycle();
 CollisionResult := mcCollisionGroup.Cycle();
 EnabledTrigger(CLK := EnableSequence.Done);
 DisabledTrigger(CLK := DisableSequence.Done);
+XtsHardware.Cycle();
 IF EnabledTrigger.Q THEN
 	_XtsEnabled := TRUE;
 END_IF
