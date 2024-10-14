@@ -72,6 +72,25 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="ActivateZeroReferenceSystem" Id="{f593e12a-c440-483d-8309-49c5dc48d5f1}" FolderPath="Commands\">
+      <Declaration><![CDATA[METHOD ActivateZeroReferenceSystem : HRESULT
+VAR_INPUT
+	NewTrack : OTCID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT MoverActivateTrackCommand.Busy AND THIS^.isMoverStationary() THEN // AND NewTrack <> 0  THEN
+	IF MoverActivateTrackCommand.Execute(Track := NewTrack) THEN
+		_CurrentTrack := 0;
+		ActivateZeroReferenceSystem := 1;
+	ELSE
+		ActivateZeroReferenceSystem := -1;
+	END_IF
+ELSE
+	ActivateZeroReferenceSystem := -1;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="AxisRef" Id="{a7d5ea1d-51bb-4c87-90b3-db66fd196d20}" FolderPath="Administration\">
       <Declaration><![CDATA[PROPERTY AxisRef : Reference to Axis_ref]]></Declaration>
       <Get Name="Get" Id="{8c3b00e4-86fb-42e3-b0e0-5789e5045419}">
@@ -99,6 +118,7 @@ END_VAR
 	TrackChangeTrigger(CLK := MoverActivateTrackCommand.Done);
 	IF TrackChangeTrigger.Q THEN
 		_MoverAbsMoveOptions.PositionReferenceSystem :=  MoverActivateTrackCommand.NewTrackId;
+		_MoverAbsMoveOptions.DynamicsReferenceSystem := MoverActivateTrackCommand.NewTrackId;
 		MoverMoveCommand.Options := _MoverAbsMoveOptions;	
 	END_IF
 	IF _ipTcIoXtsMover <> 0 THEN
