@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
   <POU Name="GearInCA" Id="{4eabfc6f-0e0b-4cf2-8798-42f7d613e2e0}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC GearInCA EXTENDS TaskBase
 VAR
@@ -8,6 +8,7 @@ VAR
 	_SlaveAxis : REFERENCE TO Tc2_MC2.AXIS_REF;
 	_MasterAxis : REFERENCE TO Tc2_MC2.AXIS_REF;
 	_GearMover: BOOL;
+	_ErrorID: UDINT;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
@@ -54,7 +55,8 @@ CASE State OF
 	ELSE
 		Cycle := E_FAIL;
 END_CASE
-
+_Error := GearInPosCA.Error;
+_ErrorID := GearInPosCA.ErrorId;
 IF __ISVALIDREF(_MasterAxis) AND __ISVALIDREF(_SlaveAxis) THEN
 	GearInPosCA(Master := _MasterAxis, Slave := _SlaveAxis, SyncStrategy := _syncStrategy, Velocity := 2000.0, RatioNumerator := 1, Gap := 60.0);
 END_IF ]]></ST>
@@ -123,42 +125,5 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <LineIds Name="GearInCA">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="GearInCA.Abort">
-      <LineId Id="3" Count="3" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="GearInCA.Cycle">
-      <LineId Id="39" Count="0" />
-      <LineId Id="6" Count="2" />
-      <LineId Id="34" Count="0" />
-      <LineId Id="9" Count="15" />
-      <LineId Id="35" Count="0" />
-      <LineId Id="25" Count="1" />
-      <LineId Id="40" Count="0" />
-      <LineId Id="27" Count="3" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="GearInCA.FB_init">
-      <LineId Id="7" Count="0" />
-    </LineIds>
-    <LineIds Name="GearInCA.MyGearMaster.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="GearInCA.MyGearMaster.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="GearInCA.Sync">
-      <LineId Id="5" Count="0" />
-      <LineId Id="8" Count="1" />
-    </LineIds>
-    <LineIds Name="GearInCA.SyncStrategy.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="GearInCA.SyncStrategy.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>
