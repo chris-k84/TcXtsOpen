@@ -105,6 +105,15 @@ END_VAR
         <ST><![CDATA[IsInitialised := Initialised;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="TriggerDetection" Id="{1bac5fa5-b8a9-4a64-8a15-4af89462d3b7}">
+      <Declaration><![CDATA[METHOD TriggerDetection : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TriggerDetection := XPU.TriggerDetection();]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="TriggerRedetection" Id="{ae4a38c2-59c8-4f6f-9609-030adeda16ad}">
       <Declaration><![CDATA[METHOD TriggerRedetection : BOOL
 VAR_INPUT
