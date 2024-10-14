@@ -534,7 +534,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_ipTcIoXtsMover.TriggerLeave();
+        <ST><![CDATA[TriggerMoverLeave := _ipTcIoXtsMover.TriggerLeave();
 ]]></ST>
       </Implementation>
     </Method>
