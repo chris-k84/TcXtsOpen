@@ -75,7 +75,7 @@ END_VAR
 		MyModuleCount := _MyInterface.GetModuleCount();
 		IF InSim THEN
 			XtsIoEnvInitialiseState := 3;
-			FOR i := 1 TO UDINT_TO_UINT(MyModuleCount) DO
+			FOR i := 0 TO UDINT_TO_UINT(MyModuleCount - 1) DO
 				MyModules[i].SetInSim();
 			END_FOR
 			InSim := true;
