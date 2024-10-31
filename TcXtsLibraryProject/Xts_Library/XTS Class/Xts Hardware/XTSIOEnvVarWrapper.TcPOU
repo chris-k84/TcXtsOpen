@@ -105,13 +105,25 @@ END_VAR
         <ST><![CDATA[IsInitialised := Initialised;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="IsInSim" Id="{4972b79f-8f9e-49c6-8407-5f314a09a94a}">
+      <Declaration><![CDATA[METHOD IsInSim : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF  XPU.GetOperationMode() = OperationMode.Simulation THEN
+	IsInSim := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="TriggerDetection" Id="{1bac5fa5-b8a9-4a64-8a15-4af89462d3b7}">
       <Declaration><![CDATA[METHOD TriggerDetection : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TriggerDetection := XPU.TriggerDetection();]]></ST>
+        <ST><![CDATA[XPU.TriggerDetection();
+TriggerDetection := true;]]></ST>
       </Implementation>
     </Method>
     <Method Name="TriggerRedetection" Id="{ae4a38c2-59c8-4f6f-9609-030adeda16ad}">

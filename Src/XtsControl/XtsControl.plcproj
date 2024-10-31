@@ -45,6 +45,32 @@
     <PlaceholderReference Include="Tc2_System">
       <DefaultResolution>Tc2_System, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_System</Namespace>
+      <Parameters>
+        <Parameter ListName="PARAM" xmlns="">
+          <Key>TABLE_UPPER_BOUND</Key>
+          <Value>15</Value>
+        </Parameter>
+        <Parameter ListName="PARAM" xmlns="">
+          <Key>STRING_LENGTH_EXP</Key>
+          <Value>255</Value>
+        </Parameter>
+        <Parameter ListName="PARAM" xmlns="">
+          <Key>STRING_LENGTH_ADDRESS</Key>
+          <Value>20</Value>
+        </Parameter>
+        <Parameter ListName="PARAM" xmlns="">
+          <Key>STRING_LENGTH_COMMENT</Key>
+          <Value>255</Value>
+        </Parameter>
+        <Parameter ListName="PARAM" xmlns="">
+          <Key>STRING_LENGTH_OUTSTRING</Key>
+          <Value>255</Value>
+        </Parameter>
+        <Parameter ListName="PARAM" xmlns="">
+          <Key>TABLE_SHOW_VALID_ITEMS</Key>
+          <Value>FALSE</Value>
+        </Parameter>
+      </Parameters>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_Module">
       <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>
@@ -53,6 +79,76 @@
     <PlaceholderReference Include="Tc3_PackML_V2">
       <DefaultResolution>Tc3_PackML_V2, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_PackML_V2</Namespace>
+      <Parameters>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXINTERFACEPARAMETERS</Key>
+          <Value>5</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXPRODUCTPROCESSVARIABLES</Key>
+          <Value>10</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXINGREDIENTS</Key>
+          <Value>10</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXINGREDIENTPARAMETERS</Key>
+          <Value>10</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXCOMMANDREMOTEINTERFACES</Key>
+          <Value>2</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXCOMMANDPARAMETERS</Key>
+          <Value>10</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXCOMMANDPRODUCTS</Key>
+          <Value>5</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXSTATUSREMOTEINTERFACES</Key>
+          <Value>2</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXSTATUSPARAMETERS</Key>
+          <Value>10</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXSTATUSPRODUCTS</Key>
+          <Value>5</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXADMINPARAMETERS</Key>
+          <Value>10</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXALARMS</Key>
+          <Value>10</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXHISTORYALARMS</Key>
+          <Value>10</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXSTOPREASONS</Key>
+          <Value>10</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXWARNINGS</Key>
+          <Value>10</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXCONSUMEDCOUNTS</Key>
+          <Value>10</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXPRODUCTCOUNTS</Key>
+          <Value>10</Value>
+        </Parameter>
+      </Parameters>
     </PlaceholderReference>
     <PlaceholderReference Include="Xts Library">
       <DefaultResolution>Xts Library, * (BeckhoffUK)</DefaultResolution>
@@ -68,6 +164,18 @@
         </Parameter>
         <Parameter ListName="SYSTEMPARAMETERS">
           <Key>NUMBEROFTRACKS</Key>
+          <Value>1</Value>
+        </Parameter>
+        <Parameter ListName="SYSTEMPARAMETERS">
+          <Key>NUMBEROFMOVERS</Key>
+          <Value>12</Value>
+        </Parameter>
+        <Parameter ListName="SYSTEMPARAMETERS">
+          <Key>NUMBEROFSTATIONS</Key>
+          <Value>5</Value>
+        </Parameter>
+        <Parameter ListName="SYSTEMPARAMETERS">
+          <Key>NUMBEROFPARTS</Key>
           <Value>1</Value>
         </Parameter>
       </Parameters>

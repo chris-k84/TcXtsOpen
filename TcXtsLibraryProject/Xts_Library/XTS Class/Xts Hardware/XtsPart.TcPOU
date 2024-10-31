@@ -67,11 +67,7 @@ END_VAR
         <ST><![CDATA[CASE XtsIoEnvInitialiseState OF
 	0:
 		IF _MyInterface <> 0 THEN
-			IF InSim THEN
-				XtsIoEnvInitialiseState := 3;
-			ELSE
-				XtsIoEnvInitialiseState := 1;
-			END_IF
+			XtsIoEnvInitialiseState := 1;
 		ELSE
 			XtsIoEnvInitialiseState := 999;
 		END_IF

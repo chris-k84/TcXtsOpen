@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
   <Itf Name="ITF_XTSIOEnvVarWrapper" Id="{30a06d50-ef59-4bfa-9dd3-f949d401bfcc}">
     <Declaration><![CDATA[INTERFACE ITF_XTSIOEnvVarWrapper
 ]]></Declaration>
@@ -46,6 +46,12 @@ END_VAR
     </Method>
     <Method Name="IsInitialised" Id="{2cbac030-77c4-4d36-9dea-9ce3d8292980}">
       <Declaration><![CDATA[METHOD IsInitialised : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="IsInSim" Id="{99a43894-e3d7-4159-bbc1-2893547f4c2e}">
+      <Declaration><![CDATA[METHOD IsInSim : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>

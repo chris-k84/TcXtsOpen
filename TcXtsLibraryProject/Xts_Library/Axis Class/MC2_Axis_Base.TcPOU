@@ -52,6 +52,15 @@ END_VAR
         <ST><![CDATA[EnableAxis := axesEnable.Enable();]]></ST>
       </Implementation>
     </Method>
+    <Method Name="getCurrentPosition" Id="{c887f268-1e61-4e9e-8941-aa0a7b360cf9}">
+      <Declaration><![CDATA[METHOD getCurrentPosition : LREAL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[getCurrentPosition := _axis.NcToPlc.ActPos;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="HaltAxis" Id="{b5b4d676-a559-4d25-8571-0c2ec9c3c015}">
       <Declaration><![CDATA[METHOD PUBLIC HaltAxis : BOOL
 VAR
