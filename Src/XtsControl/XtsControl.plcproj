@@ -168,7 +168,7 @@
         </Parameter>
         <Parameter ListName="SYSTEMPARAMETERS">
           <Key>NUMBEROFMOVERS</Key>
-          <Value>12</Value>
+          <Value>8</Value>
         </Parameter>
         <Parameter ListName="SYSTEMPARAMETERS">
           <Key>NUMBEROFSTATIONS</Key>

@@ -9,37 +9,35 @@ VAR
 	iMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF I_XtsMoverAxis := [Movers[1],Movers[2],
 											Movers[3],Movers[4],
 											Movers[5],Movers[6],
-											Movers[7],Movers[8],
-											Movers[9],Movers[10],
-											Movers[11],Movers[12]];
-	Station1 : StationSample := (Position := 600.0, 
+											Movers[7],Movers[8]];
+	Station1 : StationSample := (Position := 1300.0, 
 									TempPropTime := T#1500MS,
 									MyStateMachine := xtsStateMachine,
 									MyRunner := XtsModuleRunner);
-	Station2 : StationSample := (Position := 1300.0, 
+	Station2 : StationSample := (Position := 2000.0, 
 									TempPropTime := T#1500MS,
 									MyStateMachine := xtsStateMachine,
 									MyRunner := XtsModuleRunner);
-	Station3 : StationSample := (Position := 2000.0, 
+	Station3 : StationSample := (Position := 2700.0, 
 									TempPropTime := T#500MS,
 									MyStateMachine := xtsStateMachine,
 									MyRunner := XtsModuleRunner);
-	Station4 : StationSample := (Position := 2700.0, 
+	Station4 : StationSample := (Position := 3400.0, 
 									TempPropTime := T#1500MS,
 									MyStateMachine := xtsStateMachine,
 									MyRunner := XtsModuleRunner);
-	Station5 : StationSample := (Position := 3850.0, 
+	Station5 : StationSample := (Position := 600.0, 
 									TempPropTime := T#1500MS,
 									MyStateMachine := xtsStateMachine,
 									MyRunner := XtsModuleRunner);
 	iStationArray : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess := [Station1,Station2,
 																					Station3,Station4,
 																					Station5];//,Station6];
-	Xts : Xts(XtsModuleRunner) := (HomePosition := 100.0,
+	Xts : Xts(XtsModuleRunner) := (HomePosition := 1000.0,
 										HomeSpeed := 1000.0, 
 										Tracks := 1,
 										MoverArray := iMovers);
-	MoverSequences : ARRAY[1..12] OF IndexMoverSequence(XtsModuleRunner) := [12((MyStateMachine := xtsStateMachine,
+	MoverSequences : ARRAY[1..SystemParameters.NumberOfMovers] OF IndexMoverSequence(XtsModuleRunner) := [8((MyStateMachine := xtsStateMachine,
 																				MyStations := iStationArray,
 																				MyStartPosition := Xts.HomePosition))];	
 	//MoverSequences : ARRAY[1..10] OF SampleSequence(XtsModuleRunner);
