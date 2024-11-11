@@ -147,6 +147,15 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Method Name="ResetPart" Id="{a2c1bf74-a00f-4e37-abd0-e53201644a52}">
+      <Declaration><![CDATA[METHOD ResetPart : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ResetPart := _MyInterface.TriggerReset();]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="SetInSim" Id="{273102d0-bbf8-41a5-af45-2632119808d5}">
       <Declaration><![CDATA[METHOD SetInSim : HRESULT
 VAR_INPUT
