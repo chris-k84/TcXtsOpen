@@ -1305,11 +1305,23 @@ and will return to Group State Standby when the situation permits.
 		</DataType>
 	</DataTypes>
 	<Project GUID="{6CE98D97-B85B-476D-91E3-37ABB0FAE03C}" Name="XtsControl" PrjFilePath="..\..\XtsControl\XtsControl.plcproj" TmcFilePath="..\..\XtsControl\XtsControl.tmc" ReloadTmc="true" AmsPort="851" TargetArchiveSettings="#x0000" FileArchiveSettings="#x0000">
-		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="1" TmcPath="XtsControl\XtsControl.tmc" TmcHash="{8872C997-E31B-79F1-C70B-6362456DAC20}">
+		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="1" TmcPath="XtsControl\XtsControl.tmc" TmcHash="{4D6C62C3-AB02-D3E8-F189-CA37C39F4A2E}">
 			<Name>XtsControl Instance</Name>
 			<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 			<Vars VarGrpType="1">
 				<Name>PlcTask Inputs</Name>
+				<Var>
+					<Name>MAIN.DigIn1</Name>
+					<Comment><![CDATA[	Reset : BOOL;
+	Start : BOOL;
+	Clear : BOOL;
+	Abort : BOOL;]]></Comment>
+					<Type>BOOL</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.DigIn2</Name>
+					<Type>BOOL</Type>
+				</Var>
 				<Var>
 					<Name>MAIN.fbMachine.Movers[1].MyAxisRef.NcToPlc</Name>
 					<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
@@ -1343,8 +1355,16 @@ and will return to Group State Standby when the situation permits.
 					<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>MAIN.fbMachine.Xts.mcCollisionGroup._caGroup.NcToPlc</Name>
+					<Name>MAIN.fbMachine.MyXts.mcCollisionGroup._caGroup.NcToPlc</Name>
 					<Type GUID="{467F4325-10DF-4BC1-88DD-E8240EB4F8E3}" Namespace="MC">CDT_MCTOPLC_GROUP</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.DigIn3</Name>
+					<Type>BOOL</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.DigIn4</Name>
+					<Type>BOOL</Type>
 				</Var>
 			</Vars>
 			<Vars VarGrpType="2" AreaNo="1">
@@ -1382,7 +1402,7 @@ and will return to Group State Standby when the situation permits.
 					<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 				</Var>
 				<Var>
-					<Name>MAIN.fbMachine.Xts.mcCollisionGroup._caGroup.PlcToNc</Name>
+					<Name>MAIN.fbMachine.MyXts.mcCollisionGroup._caGroup.PlcToNc</Name>
 					<Type GUID="{0E2E3852-A98C-4AF3-81E2-209EE128940C}" Namespace="MC">CDT_PLCTOMC_GROUP</Type>
 				</Var>
 			</Vars>
@@ -1606,6 +1626,9 @@ and will return to Group State Standby when the situation permits.
 	</Project>
 	<Mappings>
 		<OwnerA Name="XtsControl Instance">
+			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 2 (EL1104)">
+				<Link VarA="PlcTask Inputs^MAIN.DigIn3" VarB="Channel 1^Input" Size="1"/>
+			</OwnerB>
 			<OwnerB Name="TINC^NC-Task 1^Axes^Mover Axis 1">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.Movers[1].MyAxisRef.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.Movers[1].MyAxisRef.PlcToNc" VarB="Inputs^FromPlc"/>
@@ -1639,8 +1662,8 @@ and will return to Group State Standby when the situation permits.
 				<Link VarA="PlcTask Outputs^MAIN.fbMachine.Movers[8].MyAxisRef.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
 			<OwnerB Name="TINC^NC-Task 1^Objects^Group1 (CA Group)">
-				<Link VarA="PlcTask Inputs^MAIN.fbMachine.Xts.mcCollisionGroup._caGroup.NcToPlc" VarB="Group Outputs^ToPLC"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbMachine.Xts.mcCollisionGroup._caGroup.PlcToNc" VarB="Group Inputs^FromPLC"/>
+				<Link VarA="PlcTask Inputs^MAIN.fbMachine.MyXts.mcCollisionGroup._caGroup.NcToPlc" VarB="Group Outputs^ToPLC"/>
+				<Link VarA="PlcTask Outputs^MAIN.fbMachine.MyXts.mcCollisionGroup._caGroup.PlcToNc" VarB="Group Inputs^FromPLC"/>
 			</OwnerB>
 		</OwnerA>
 	</Mappings>

@@ -1,14 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
   <POU Name="MAIN" Id="{c3798e48-78cc-4657-a79b-2d5c7d932da8}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
 	fbMachine : Machine;
 	State : INT;
-	Reset : BOOL;
-	Start : BOOL;
-	Clear : BOOL;
-	Abort : BOOL;
+//	Reset : BOOL;
+//	Start : BOOL;
+//	Clear : BOOL;
+//	Abort : BOOL;
+	DigIn1 AT%I* : BOOL;
+	DigIn2 AT%I* : BOOL;
+	DigIn3 AT%I* : BOOL;
+	DigIn4 AT%I* : BOOL;
+	resetTrig : R_TRIG;
+	startTrig : R_TRIG;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[CASE State OF
@@ -20,33 +26,51 @@ END_VAR]]></Declaration>
 		fbMachine.Cycle();
 END_CASE
 
-IF Reset THEN
+
+resetTrig(CLK := DigIn1 OR DigIn2);
+startTrig(CLK := DigIn3 OR DigIn4);
+
+IF startTrig.Q AND (fbMachine.GetPackML() = E_PMLState.ePMLState_Stopped) THEN
 	fbMachine.SetPackML(state := E_PMLCommand.ePMLCommand_Reset);
-	Reset := FALSE;
+	//Reset := FALSE;
 END_IF
-IF Abort THEN
-	fbMachine.SetPackML(state := E_PMLCommand.ePMLCommand_Abort);
-	Abort := FALSE;
-END_IF
-IF Clear THEN
+//IF Abort and startTrig.Q THEN
+//	fbMachine.SetPackML(state := E_PMLCommand.ePMLCommand_Abort);
+//	Abort := FALSE;
+//END_IF
+IF startTrig.Q AND (fbMachine.GetPackML() = E_PMLState.ePMLState_Aborted) THEN//IF resetTrig.Q AND (xtsStateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborted) THEN
 	fbMachine.SetPackML(state := E_PMLCommand.ePMLCommand_Clear);
-	Clear := FALSE;
+	//Clear := FALSE;
 END_IF
-IF Start THEN
+IF startTrig.Q AND (fbMachine.GetPackML() = E_PMLState.ePMLState_Idle) THEN
 	fbMachine.SetPackML(state := E_PMLCommand.ePMLCommand_Start);
-	Start := FALSE;
-END_IF]]></ST>
+	//MoveToSequence := FALSE;
+END_IF
+
+IF startTrig.Q AND (fbMachine.GetPackML() = E_PMLState.ePMLState_Execute) THEN
+	fbMachine.SetPackML(state := E_PMLCommand.ePMLCommand_Abort);
+END_IF
+
+//IF Reset THEN
+//	fbMachine.SetPackML(state := E_PMLCommand.ePMLCommand_Reset);
+//	Reset := FALSE;
+//END_IF
+//IF Abort THEN
+//	fbMachine.SetPackML(state := E_PMLCommand.ePMLCommand_Abort);
+//	Abort := FALSE;
+//END_IF
+//IF Clear THEN
+//	fbMachine.SetPackML(state := E_PMLCommand.ePMLCommand_Clear);
+//	Clear := FALSE;
+//END_IF
+//IF Start THEN
+//	fbMachine.SetPackML(state := E_PMLCommand.ePMLCommand_Start);
+//	Start := FALSE;
+//END_IF]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="43" Count="0" />
-      <LineId Id="45" Count="0" />
-      <LineId Id="48" Count="2" />
-      <LineId Id="47" Count="0" />
-      <LineId Id="51" Count="0" />
-      <LineId Id="46" Count="0" />
-      <LineId Id="33" Count="0" />
-      <LineId Id="18" Count="14" />
-      <LineId Id="17" Count="0" />
+      <LineId Id="3" Count="48" />
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

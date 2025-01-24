@@ -135,5 +135,48 @@ END_VAR
         <ST><![CDATA[TriggerRedetection := XPU.TriggerRedetection();]]></ST>
       </Implementation>
     </Method>
+    <LineIds Name="XTSIOEnvVarWrapper">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSIOEnvVarWrapper.FB_init">
+      <LineId Id="3" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSIOEnvVarWrapper.GetCaGroupInterface">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSIOEnvVarWrapper.GetMotorModuleInterface">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSIOEnvVarWrapper.GetMoverInterface">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSIOEnvVarWrapper.GetPartInterface">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSIOEnvVarWrapper.GetTrackInterface">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSIOEnvVarWrapper.GetXPUInterface">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSIOEnvVarWrapper.Initialise">
+      <LineId Id="3" Count="3" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSIOEnvVarWrapper.IsInitialised">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSIOEnvVarWrapper.IsInSim">
+      <LineId Id="3" Count="1" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSIOEnvVarWrapper.TriggerDetection">
+      <LineId Id="3" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSIOEnvVarWrapper.TriggerRedetection">
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

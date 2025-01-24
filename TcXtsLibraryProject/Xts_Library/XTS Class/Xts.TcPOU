@@ -308,5 +308,74 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <LineIds Name="Xts">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.ActivateTracksInMovers">
+      <LineId Id="3" Count="3" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.Cycle">
+      <LineId Id="3" Count="17" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.DisableXTS">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.EnableXTS">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.FB_init">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.GetTMSMoverInterface">
+      <LineId Id="3" Count="6" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.GetTrackByOCTID">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.HomePosition.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.HomePosition.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.HomeSpeed.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.HomeSpeed.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.Initialise">
+      <LineId Id="3" Count="55" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.IsXtsIdle">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.IsXtsReady">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.MoverArray.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.MoverArray.Set">
+      <LineId Id="3" Count="1" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.MoverHomeSequence">
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.StopXts">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.Tracks.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Xts.Tracks.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

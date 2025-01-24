@@ -286,5 +286,58 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <LineIds Name="XTSHardware_V2">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSHardware_V2.Cycle">
+      <LineId Id="3" Count="4" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSHardware_V2.getAllMoversValid">
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSHardware_V2.getMoversDetected">
+      <LineId Id="3" Count="5" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSHardware_V2.GetTrackByOTCID">
+      <LineId Id="3" Count="3" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSHardware_V2.Initialise">
+      <LineId Id="3" Count="50" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSHardware_V2.Is24VdcOK">
+      <LineId Id="3" Count="4" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSHardware_V2.Is48VdcOK">
+      <LineId Id="3" Count="4" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSHardware_V2.IsInSim">
+      <LineId Id="3" Count="4" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSHardware_V2.SetTracksForDetection">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSHardware_V2.TriggerMoverDetection">
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSHardware_V2.TriggerMoverID">
+      <LineId Id="3" Count="32" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSHardware_V2.XtsIoEnvVarWrapper.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSHardware_V2.XtsIoEnvVarWrapper.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

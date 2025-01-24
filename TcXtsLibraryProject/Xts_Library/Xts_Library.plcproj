@@ -8,7 +8,7 @@
     <WriteProductVersion>true</WriteProductVersion>
     <GenerateTpy>false</GenerateTpy>
     <Name>Xts_Library</Name>
-    <ProgramVersion>3.1.4023.0</ProgramVersion>
+    <ProgramVersion>3.1.4026.12</ProgramVersion>
     <Application>{758f83c0-e46d-44af-8cf0-a51199d56b24}</Application>
     <TypeSystem>{351448db-13f8-435a-a099-01b0f728f3d5}</TypeSystem>
     <Implicit_Task_Info>{e6af468f-c41f-4889-bef9-d83ba1759068}</Implicit_Task_Info>
@@ -33,49 +33,10 @@
     <Author>ChrisK</Author>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Axis Class\MC2_Axis_Base.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Base Types\Cyclic_Base\CyclicBase.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Base Types\Cyclic_Base\ICyclic.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Base Types\Initialise\I_Initialise.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Base Types\Task_Base\ITask.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Base Types\Task_Base\TaskBase.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="EventLoggerClass\ITcMessage_Ext.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="EventLoggerClass\TcMessage_Ext.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Mover Class\I_XtsMoverAxis.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mover Class\XtsMoverAxis.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="PackML\IPmlStateMachine.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="PackML\PMLStateMachine.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="PackML_Method_Pattern\PML_Method_Base.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="PlcTask.TcTTO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POU\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SequenceSamples\IndexMoverSequence.TcPOU">
@@ -236,28 +197,12 @@
     <Compile Include="XTS Class\Xts.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="XtsRunner\I_ObjectRunner.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="XtsRunner\ObjectRunner.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Axis Class" />
-    <Folder Include="Base Types" />
-    <Folder Include="Base Types\Cyclic_Base" />
-    <Folder Include="Base Types\Initialise" />
-    <Folder Include="Base Types\Task_Base" />
-    <Folder Include="EventLoggerClass" />
     <Folder Include="Mover Class" />
     <Folder Include="Tests">
       <ExcludeFromBuild>true</ExcludeFromBuild>
     </Folder>
-    <Folder Include="XtsRunner" />
-    <Folder Include="POU" />
-    <Folder Include="PackML" />
-    <Folder Include="PackML_Method_Pattern" />
     <Folder Include="SequenceSamples" />
     <Folder Include="Station Class" />
     <Folder Include="Station Class\Process" />
@@ -270,6 +215,22 @@
     <Folder Include="XTS Class\Xts Hardware" />
   </ItemGroup>
   <ItemGroup>
+    <PlaceholderReference Include="Base Library">
+      <DefaultResolution>Base Library, * (BAUK)</DefaultResolution>
+      <Namespace>Base_Library</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Eventlogger Library">
+      <DefaultResolution>Eventlogger Library, * (Beckhoff UK)</DefaultResolution>
+      <Namespace>Eventlogger_Library</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Motion Library">
+      <DefaultResolution>Motion Library, * (Beckhoff UK)</DefaultResolution>
+      <Namespace>Motion_Library</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Pack ML Library">
+      <DefaultResolution>Pack ML Library, * (Beckhoff UK)</DefaultResolution>
+      <Namespace>Pack_ML_Library</Namespace>
+    </PlaceholderReference>
     <PlaceholderReference Include="Tc2_MC2">
       <DefaultResolution>Tc2_MC2, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_MC2</Namespace>
@@ -282,39 +243,29 @@
       <DefaultResolution>Tc2_System, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_System</Namespace>
       <Parameters>
-        <Parameter ListName="PARAM" xmlns="">
-          <Key>TABLE_UPPER_BOUND</Key>
-          <Value>15</Value>
-        </Parameter>
-        <Parameter ListName="PARAM" xmlns="">
-          <Key>STRING_LENGTH_EXP</Key>
-          <Value>255</Value>
-        </Parameter>
-        <Parameter ListName="PARAM" xmlns="">
+        <Parameter ListName="PARAM">
           <Key>STRING_LENGTH_ADDRESS</Key>
           <Value>20</Value>
         </Parameter>
-        <Parameter ListName="PARAM" xmlns="">
+        <Parameter ListName="PARAM">
           <Key>STRING_LENGTH_COMMENT</Key>
           <Value>255</Value>
         </Parameter>
-        <Parameter ListName="PARAM" xmlns="">
+        <Parameter ListName="PARAM">
+          <Key>STRING_LENGTH_EXP</Key>
+          <Value>255</Value>
+        </Parameter>
+        <Parameter ListName="PARAM">
           <Key>STRING_LENGTH_OUTSTRING</Key>
           <Value>255</Value>
         </Parameter>
-        <Parameter ListName="PARAM" xmlns="">
+        <Parameter ListName="PARAM">
           <Key>TABLE_SHOW_VALID_ITEMS</Key>
           <Value>FALSE</Value>
         </Parameter>
-      </Parameters>
-    </PlaceholderReference>
-    <PlaceholderReference Include="Tc3_EventLogger">
-      <DefaultResolution>Tc3_EventLogger, * (Beckhoff Automation GmbH)</DefaultResolution>
-      <Namespace>Tc3_EventLogger</Namespace>
-      <Parameters>
-        <Parameter ListName="PARAMETERLIST" xmlns="">
-          <Key>CSOURCENAMESIZE</Key>
-          <Value>256</Value>
+        <Parameter ListName="PARAM">
+          <Key>TABLE_UPPER_BOUND</Key>
+          <Value>15</Value>
         </Parameter>
       </Parameters>
     </PlaceholderReference>
@@ -339,24 +290,12 @@
       <Namespace>Tc3_PackML_V2</Namespace>
       <Parameters>
         <Parameter ListName="GLOBALPARAMETERS" xmlns="">
-          <Key>MAXINTERFACEPARAMETERS</Key>
-          <Value>5</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
-          <Key>MAXPRODUCTPROCESSVARIABLES</Key>
+          <Key>MAXADMINPARAMETERS</Key>
           <Value>10</Value>
         </Parameter>
         <Parameter ListName="GLOBALPARAMETERS" xmlns="">
-          <Key>MAXINGREDIENTS</Key>
+          <Key>MAXALARMS</Key>
           <Value>10</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
-          <Key>MAXINGREDIENTPARAMETERS</Key>
-          <Value>10</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
-          <Key>MAXCOMMANDREMOTEINTERFACES</Key>
-          <Value>2</Value>
         </Parameter>
         <Parameter ListName="GLOBALPARAMETERS" xmlns="">
           <Key>MAXCOMMANDPARAMETERS</Key>
@@ -367,8 +306,36 @@
           <Value>5</Value>
         </Parameter>
         <Parameter ListName="GLOBALPARAMETERS" xmlns="">
-          <Key>MAXSTATUSREMOTEINTERFACES</Key>
+          <Key>MAXCOMMANDREMOTEINTERFACES</Key>
           <Value>2</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXCONSUMEDCOUNTS</Key>
+          <Value>10</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXHISTORYALARMS</Key>
+          <Value>10</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXINGREDIENTPARAMETERS</Key>
+          <Value>10</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXINGREDIENTS</Key>
+          <Value>10</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXINTERFACEPARAMETERS</Key>
+          <Value>5</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXPRODUCTCOUNTS</Key>
+          <Value>10</Value>
+        </Parameter>
+        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
+          <Key>MAXPRODUCTPROCESSVARIABLES</Key>
+          <Value>10</Value>
         </Parameter>
         <Parameter ListName="GLOBALPARAMETERS" xmlns="">
           <Key>MAXSTATUSPARAMETERS</Key>
@@ -379,16 +346,8 @@
           <Value>5</Value>
         </Parameter>
         <Parameter ListName="GLOBALPARAMETERS" xmlns="">
-          <Key>MAXADMINPARAMETERS</Key>
-          <Value>10</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
-          <Key>MAXALARMS</Key>
-          <Value>10</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
-          <Key>MAXHISTORYALARMS</Key>
-          <Value>10</Value>
+          <Key>MAXSTATUSREMOTEINTERFACES</Key>
+          <Value>2</Value>
         </Parameter>
         <Parameter ListName="GLOBALPARAMETERS" xmlns="">
           <Key>MAXSTOPREASONS</Key>
@@ -396,14 +355,6 @@
         </Parameter>
         <Parameter ListName="GLOBALPARAMETERS" xmlns="">
           <Key>MAXWARNINGS</Key>
-          <Value>10</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
-          <Key>MAXCONSUMEDCOUNTS</Key>
-          <Value>10</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS" xmlns="">
-          <Key>MAXPRODUCTCOUNTS</Key>
           <Value>10</Value>
         </Parameter>
       </Parameters>
@@ -416,44 +367,36 @@
       <DefaultResolution>Tc3_XTS_Utility, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_XTS_Utility</Namespace>
       <Parameters>
-        <Parameter ListName="XTSVISUPARAM">
-          <Key>MAX_XTS_SYSTEM</Key>
-          <Value>5</Value>
+        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
+          <Key>BDISABLEHIDDENWARNINGS</Key>
+          <Value>FALSE</Value>
         </Parameter>
-        <Parameter ListName="XTSVISUPARAM">
-          <Key>MAX_CA_GROUP</Key>
-          <Value>5</Value>
+        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
+          <Key>MAXADDEDCOMMANDLOGSIZE</Key>
+          <Value>16</Value>
         </Parameter>
-        <Parameter ListName="XTSPARAM">
-          <Key>MAX_MOVER_NUMBER</Key>
-          <Value>70</Value>
-        </Parameter>
-        <Parameter ListName="XTSPARAM">
-          <Key>MAX_MODULE_NUMBER</Key>
-          <Value>70</Value>
-        </Parameter>
-        <Parameter ListName="XTSPARAM">
-          <Key>MAX_NUM_MOVERS_ON_MODULE</Key>
-          <Value>5</Value>
-        </Parameter>
-        <Parameter ListName="XTSPARAM">
-          <Key>MAX_EC_MASTER_PER_XTS</Key>
-          <Value>10</Value>
-        </Parameter>
-        <Parameter ListName="XTSPARAM">
-          <Key>MAX_LAST_MESSAGE</Key>
+        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
+          <Key>MAXAREASPERPART</Key>
           <Value>25</Value>
+        </Parameter>
+        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
+          <Key>MAXASYNCCOMMANDQUEUESIZE</Key>
+          <Value>8</Value>
+        </Parameter>
+        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
+          <Key>MAXCOMMANDBUFFERENTRYDATASIZE</Key>
+          <Value>256</Value>
+        </Parameter>
+        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
+          <Key>MAXCOMMANDSTORAGEBUFFERCOUNT</Key>
+          <Value>4</Value>
         </Parameter>
         <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
           <Key>MAXETHERCATMASTER</Key>
           <Value>80</Value>
         </Parameter>
         <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
-          <Key>MAXXTSPROCESSINGUNITS</Key>
-          <Value>5</Value>
-        </Parameter>
-        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
-          <Key>MAXXTSPARTSPERXPU</Key>
+          <Key>MAXMESSAGECOMMANDHISTORY</Key>
           <Value>25</Value>
         </Parameter>
         <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
@@ -461,60 +404,8 @@
           <Value>250</Value>
         </Parameter>
         <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
-          <Key>MAXAREASPERPART</Key>
-          <Value>25</Value>
-        </Parameter>
-        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
-          <Key>MAXXTSTRACKSPERXPU</Key>
-          <Value>50</Value>
-        </Parameter>
-        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
           <Key>MAXPARTSPERTRACK</Key>
           <Value>10</Value>
-        </Parameter>
-        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
-          <Key>MAXXTSMOVERSPERXPU</Key>
-          <Value>200</Value>
-        </Parameter>
-        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
-          <Key>MAXXTSTASKSPERXPU</Key>
-          <Value>8</Value>
-        </Parameter>
-        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
-          <Key>MAXMESSAGECOMMANDHISTORY</Key>
-          <Value>25</Value>
-        </Parameter>
-        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
-          <Key>MAXXTSCAGROUP</Key>
-          <Value>5</Value>
-        </Parameter>
-        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
-          <Key>MAXXTSINFOSERVER</Key>
-          <Value>1</Value>
-        </Parameter>
-        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
-          <Key>MAXXTSINFOSTATION</Key>
-          <Value>50</Value>
-        </Parameter>
-        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
-          <Key>MAXXTSSTOPPOSITIONSPERSTATION</Key>
-          <Value>25</Value>
-        </Parameter>
-        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
-          <Key>MAXXTSPARAMETERSET</Key>
-          <Value>10</Value>
-        </Parameter>
-        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
-          <Key>MAXXTSFILTERPARAMETERSET</Key>
-          <Value>2</Value>
-        </Parameter>
-        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
-          <Key>MAXXTSNCTBASEUNITINTERFACES</Key>
-          <Value>200</Value>
-        </Parameter>
-        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
-          <Key>MAXADDEDCOMMANDLOGSIZE</Key>
-          <Value>16</Value>
         </Parameter>
         <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
           <Key>MAXPROCESSEDCOMMANDLOGSIZE</Key>
@@ -525,12 +416,80 @@
           <Value>8</Value>
         </Parameter>
         <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
-          <Key>MAXASYNCCOMMANDQUEUESIZE</Key>
+          <Key>MAXXTSCAGROUP</Key>
+          <Value>5</Value>
+        </Parameter>
+        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
+          <Key>MAXXTSFILTERPARAMETERSET</Key>
+          <Value>2</Value>
+        </Parameter>
+        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
+          <Key>MAXXTSINFOSERVER</Key>
+          <Value>1</Value>
+        </Parameter>
+        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
+          <Key>MAXXTSINFOSTATION</Key>
+          <Value>50</Value>
+        </Parameter>
+        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
+          <Key>MAXXTSMOVERSPERXPU</Key>
+          <Value>200</Value>
+        </Parameter>
+        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
+          <Key>MAXXTSNCTBASEUNITINTERFACES</Key>
+          <Value>200</Value>
+        </Parameter>
+        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
+          <Key>MAXXTSPARAMETERSET</Key>
+          <Value>10</Value>
+        </Parameter>
+        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
+          <Key>MAXXTSPARTSPERXPU</Key>
+          <Value>25</Value>
+        </Parameter>
+        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
+          <Key>MAXXTSPROCESSINGUNITS</Key>
+          <Value>5</Value>
+        </Parameter>
+        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
+          <Key>MAXXTSSTOPPOSITIONSPERSTATION</Key>
+          <Value>25</Value>
+        </Parameter>
+        <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
+          <Key>MAXXTSTASKSPERXPU</Key>
           <Value>8</Value>
         </Parameter>
         <Parameter ListName="TCIOXTSENVIRONMENTPARAMETERLIST">
-          <Key>MAXCOMMANDSTORAGEBUFFERCOUNT</Key>
-          <Value>4</Value>
+          <Key>MAXXTSTRACKSPERXPU</Key>
+          <Value>50</Value>
+        </Parameter>
+        <Parameter ListName="XTSPARAM">
+          <Key>MAX_EC_MASTER_PER_XTS</Key>
+          <Value>10</Value>
+        </Parameter>
+        <Parameter ListName="XTSPARAM">
+          <Key>MAX_LAST_MESSAGE</Key>
+          <Value>25</Value>
+        </Parameter>
+        <Parameter ListName="XTSPARAM">
+          <Key>MAX_MODULE_NUMBER</Key>
+          <Value>70</Value>
+        </Parameter>
+        <Parameter ListName="XTSPARAM">
+          <Key>MAX_MOVER_NUMBER</Key>
+          <Value>70</Value>
+        </Parameter>
+        <Parameter ListName="XTSPARAM">
+          <Key>MAX_NUM_MOVERS_ON_MODULE</Key>
+          <Value>5</Value>
+        </Parameter>
+        <Parameter ListName="XTSVISUPARAM">
+          <Key>MAX_CA_GROUP</Key>
+          <Value>5</Value>
+        </Parameter>
+        <Parameter ListName="XTSVISUPARAM">
+          <Key>MAX_XTS_SYSTEM</Key>
+          <Value>5</Value>
         </Parameter>
       </Parameters>
     </PlaceholderReference>
@@ -541,13 +500,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PinnedGlobalDataType Include="ST_XtsCaGroupEvents" />
-    <PinnedGlobalDataType Include="ST_XtsHardwareEvents" />
-  </ItemGroup>
-  <ItemGroup>
-    <PlaceholderResolution Include="Tc3_XTS_Utility">
-      <Resolution>Tc3_XTS_Utility, * (Beckhoff Automation GmbH)</Resolution>
-    </PlaceholderResolution>
+    <None Include="ExternalTypes.tmc">
+      <SubType>Content</SubType>
+    </None>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>

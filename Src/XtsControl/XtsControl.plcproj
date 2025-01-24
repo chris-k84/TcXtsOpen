@@ -9,7 +9,7 @@
     <WriteProductVersion>true</WriteProductVersion>
     <GenerateTpy>false</GenerateTpy>
     <Name>XtsControl</Name>
-    <ProgramVersion>3.1.4024.12</ProgramVersion>
+    <ProgramVersion>3.1.4026.12</ProgramVersion>
     <Application>{76b5c7e3-5e01-4c60-82fd-836a1581bde6}</Application>
     <TypeSystem>{58bbbd95-fcda-425e-beb9-5ba1f7af41c4}</TypeSystem>
     <Implicit_Task_Info>{d3be959d-141b-4591-896f-1edca68eee24}</Implicit_Task_Info>
@@ -188,7 +188,7 @@
   </ItemGroup>
   <ItemGroup>
     <PlaceholderResolution Include="Tc2_Standard">
-      <Resolution>Tc2_Standard, 3.3.3.0 (Beckhoff Automation GmbH)</Resolution>
+      <Resolution>Tc2_Standard, * (Beckhoff Automation GmbH)</Resolution>
     </PlaceholderResolution>
     <PlaceholderResolution Include="Tc2_System">
       <Resolution>Tc2_System, * (Beckhoff Automation GmbH)</Resolution>
@@ -197,7 +197,7 @@
       <Resolution>Tc3_Module, * (Beckhoff Automation GmbH)</Resolution>
     </PlaceholderResolution>
     <PlaceholderResolution Include="Xts Library">
-      <Resolution>Xts Library, * (BeckhoffUK)</Resolution>
+      <Resolution>Xts Library, 6.0.1.0 (BeckhoffUK)</Resolution>
     </PlaceholderResolution>
   </ItemGroup>
   <ProjectExtensions>

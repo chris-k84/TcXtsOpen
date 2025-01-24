@@ -156,5 +156,32 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <LineIds Name="TmsHoldStation">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsHoldStation.Cycle">
+      <LineId Id="3" Count="59" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsHoldStation.HasMover">
+      <LineId Id="3" Count="6" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsHoldStation.MoverAway">
+      <LineId Id="3" Count="4" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsHoldStation.MyEmbarkStation.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsHoldStation.MyEmbarkStation.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsHoldStation.MyStateMachine.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsHoldStation.MyStateMachine.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>
