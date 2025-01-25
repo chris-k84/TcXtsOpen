@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
-  <POU Name="XtsTrackStub" Id="{03c15466-6090-4765-816b-ccda66b9b333}" SpecialFunc="None">
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="XtsTrackStub" Id="{9bbdc397-a1f7-4a22-bd28-c8ebf47c132d}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XtsTrackStub IMPLEMENTS I_XtsTrack
 VAR_INPUT
 END_VAR
@@ -13,11 +13,11 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Property Name="MyOTCID" Id="{58d1505c-0536-4521-b091-1fd2d7ec90a0}">
+    <Property Name="MyOTCID" Id="{82e92a1c-ecd4-4993-863a-3adb035740db}">
       <Declaration><![CDATA[{warning 'add property implementation'}
 PROPERTY MyOTCID : OTCID
 ]]></Declaration>
-      <Get Name="Get" Id="{942d4dc2-14a4-4bef-a1f1-3c53554951f2}">
+      <Get Name="Get" Id="{d8839110-2373-4ef4-848a-6531a30d1bca}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
@@ -25,7 +25,7 @@ END_VAR
           <ST><![CDATA[]]></ST>
         </Implementation>
       </Get>
-      <Set Name="Set" Id="{3cae8b1f-6357-4ce3-be2f-9aa0e3e4f6bb}">
+      <Set Name="Set" Id="{2a4232e3-ad71-45d8-9e93-375892f77c94}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
@@ -34,11 +34,11 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Property Name="TrackLength" Id="{6b606c91-c693-4cef-8de3-8222ee49a6d2}">
+    <Property Name="TrackLength" Id="{fa20ce29-545f-440e-8f6d-875dc2b61ead}">
       <Declaration><![CDATA[{warning 'add property implementation'}
 PROPERTY TrackLength : MC_Lreal
 ]]></Declaration>
-      <Get Name="Get" Id="{2e912149-8443-4ed1-8754-35c8863e5c66}">
+      <Get Name="Get" Id="{24c356d3-cb16-44c5-8eb7-15f581e09659}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
@@ -48,16 +48,16 @@ END_VAR
       </Get>
     </Property>
     <LineIds Name="XtsTrackStub">
-      <LineId Id="9" Count="0" />
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrackStub.MyOTCID.Get">
-      <LineId Id="2" Count="0" />
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrackStub.MyOTCID.Set">
-      <LineId Id="2" Count="0" />
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="XtsTrackStub.TrackLength.Get">
-      <LineId Id="2" Count="0" />
+      <LineId Id="1" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

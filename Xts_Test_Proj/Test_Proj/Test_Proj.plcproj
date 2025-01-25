@@ -1,47 +1,54 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <FileVersion>1.0.0.0</FileVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6ce98d97-b85b-476d-91e3-37abb0fae03c}</ProjectGuid>
-    <SubObjectsSortedByName>True</SubObjectsSortedByName>
+    <ProjectGuid>{9d834261-4541-48f3-87b7-1f0dd96da306}</ProjectGuid>
+    <SubObjectsSortedByName>true</SubObjectsSortedByName>
     <DownloadApplicationInfo>true</DownloadApplicationInfo>
-    <WriteProductVersion>true</WriteProductVersion>
+    <WriteProductVersion>false</WriteProductVersion>
     <GenerateTpy>false</GenerateTpy>
-    <Name>XtsControl</Name>
+    <Name>Test_Proj</Name>
     <ProgramVersion>3.1.4026.12</ProgramVersion>
-    <Application>{76b5c7e3-5e01-4c60-82fd-836a1581bde6}</Application>
-    <TypeSystem>{58bbbd95-fcda-425e-beb9-5ba1f7af41c4}</TypeSystem>
-    <Implicit_Task_Info>{d3be959d-141b-4591-896f-1edca68eee24}</Implicit_Task_Info>
-    <Implicit_KindOfTask>{bf908b3e-fed4-4893-8a3b-8e475b0946a1}</Implicit_KindOfTask>
-    <Implicit_Jitter_Distribution>{00f1c187-ce26-4c8d-a045-194473879630}</Implicit_Jitter_Distribution>
-    <LibraryReferences>{3f6e0c75-4a9c-4b5f-8039-17a6f22e412c}</LibraryReferences>
-    <Released>false</Released>
+    <Application>{56674ee5-8672-4fd4-b19a-62387b91d2ba}</Application>
+    <TypeSystem>{40a4ffca-0f21-4a8c-8173-46c800ad8548}</TypeSystem>
+    <Implicit_Task_Info>{8924a4be-ed2d-4d48-ba1f-e86b233d39ad}</Implicit_Task_Info>
+    <Implicit_KindOfTask>{a16fa2bc-4550-4dc6-b7da-35ac1de241bd}</Implicit_KindOfTask>
+    <Implicit_Jitter_Distribution>{8cb804e8-b6e8-41aa-a310-50d414c73ef8}</Implicit_Jitter_Distribution>
+    <LibraryReferences>{1328b05a-0bdf-423b-b6de-3360645ab602}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Machine Class\Machine.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Machine Class\SampleSequence.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tests\TestSuiteGVL.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
+    </Compile>
+    <Compile Include="Tests\XtsCaGroupTestSuite.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tests\XtsHardwareTesting.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tests\XtsMoverTestSuite.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tests\XtsRunnerTesting.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tests\XtsTrackStub.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Machine Class" />
-    <Folder Include="VISUs" />
     <Folder Include="POUs" />
+    <Folder Include="Tests" />
   </ItemGroup>
   <ItemGroup>
-    <PlaceholderReference Include="Pack ML Library">
-      <DefaultResolution>Pack ML Library, * (Beckhoff UK)</DefaultResolution>
-      <Namespace>Pack_ML_Library</Namespace>
-    </PlaceholderReference>
     <PlaceholderReference Include="Tc2_Standard">
       <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_Standard</Namespace>
@@ -49,151 +56,17 @@
     <PlaceholderReference Include="Tc2_System">
       <DefaultResolution>Tc2_System, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_System</Namespace>
-      <Parameters>
-        <Parameter ListName="PARAM">
-          <Key>STRING_LENGTH_ADDRESS</Key>
-          <Value>20</Value>
-        </Parameter>
-        <Parameter ListName="PARAM">
-          <Key>STRING_LENGTH_COMMENT</Key>
-          <Value>255</Value>
-        </Parameter>
-        <Parameter ListName="PARAM">
-          <Key>STRING_LENGTH_EXP</Key>
-          <Value>255</Value>
-        </Parameter>
-        <Parameter ListName="PARAM">
-          <Key>STRING_LENGTH_OUTSTRING</Key>
-          <Value>255</Value>
-        </Parameter>
-        <Parameter ListName="PARAM">
-          <Key>TABLE_SHOW_VALID_ITEMS</Key>
-          <Value>FALSE</Value>
-        </Parameter>
-        <Parameter ListName="PARAM">
-          <Key>TABLE_UPPER_BOUND</Key>
-          <Value>15</Value>
-        </Parameter>
-      </Parameters>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_Module">
       <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_Module</Namespace>
-    </PlaceholderReference>
-    <PlaceholderReference Include="Tc3_PackML_V2">
-      <DefaultResolution>Tc3_PackML_V2, * (Beckhoff Automation GmbH)</DefaultResolution>
-      <Namespace>Tc3_PackML_V2</Namespace>
-      <Parameters>
-        <Parameter ListName="GLOBALPARAMETERS">
-          <Key>MAXADMINPARAMETERS</Key>
-          <Value>10</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS">
-          <Key>MAXALARMS</Key>
-          <Value>10</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS">
-          <Key>MAXCOMMANDPARAMETERS</Key>
-          <Value>10</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS">
-          <Key>MAXCOMMANDPRODUCTS</Key>
-          <Value>5</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS">
-          <Key>MAXCOMMANDREMOTEINTERFACES</Key>
-          <Value>2</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS">
-          <Key>MAXCONSUMEDCOUNTS</Key>
-          <Value>10</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS">
-          <Key>MAXHISTORYALARMS</Key>
-          <Value>10</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS">
-          <Key>MAXINGREDIENTPARAMETERS</Key>
-          <Value>10</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS">
-          <Key>MAXINGREDIENTS</Key>
-          <Value>10</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS">
-          <Key>MAXINTERFACEPARAMETERS</Key>
-          <Value>5</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS">
-          <Key>MAXPRODUCTCOUNTS</Key>
-          <Value>10</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS">
-          <Key>MAXPRODUCTPROCESSVARIABLES</Key>
-          <Value>10</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS">
-          <Key>MAXSTATUSPARAMETERS</Key>
-          <Value>10</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS">
-          <Key>MAXSTATUSPRODUCTS</Key>
-          <Value>5</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS">
-          <Key>MAXSTATUSREMOTEINTERFACES</Key>
-          <Value>2</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS">
-          <Key>MAXSTOPREASONS</Key>
-          <Value>10</Value>
-        </Parameter>
-        <Parameter ListName="GLOBALPARAMETERS">
-          <Key>MAXWARNINGS</Key>
-          <Value>10</Value>
-        </Parameter>
-      </Parameters>
-    </PlaceholderReference>
-    <PlaceholderReference Include="Xts Library">
-      <DefaultResolution>Xts Library, * (BeckhoffUK)</DefaultResolution>
-      <Namespace>Xts_Library</Namespace>
-      <Parameters>
-        <Parameter ListName="SYSTEMPARAMETERS">
-          <Key>MAXMODULESINPART</Key>
-          <Value>16</Value>
-        </Parameter>
-        <Parameter ListName="SYSTEMPARAMETERS">
-          <Key>MAXPARTSINTRACK</Key>
-          <Value>1</Value>
-        </Parameter>
-        <Parameter ListName="SYSTEMPARAMETERS">
-          <Key>NUMBEROFMOVERS</Key>
-          <Value>8</Value>
-        </Parameter>
-        <Parameter ListName="SYSTEMPARAMETERS">
-          <Key>NUMBEROFPARTS</Key>
-          <Value>1</Value>
-        </Parameter>
-        <Parameter ListName="SYSTEMPARAMETERS">
-          <Key>NUMBEROFSTATIONS</Key>
-          <Value>5</Value>
-        </Parameter>
-        <Parameter ListName="SYSTEMPARAMETERS">
-          <Key>NUMBEROFTRACKS</Key>
-          <Value>1</Value>
-        </Parameter>
-      </Parameters>
+      <SystemLibrary>true</SystemLibrary>
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="XtsControl.tmc">
+    <None Include="Test_Proj.tmc">
       <SubType>Content</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <PlaceholderResolution Include="Xts Library">
-      <Resolution>Xts Library, 6.0.1.0 (BeckhoffUK)</Resolution>
-    </PlaceholderResolution>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>
@@ -2499,7 +2372,10 @@
         <o>
           <v n="Name">"{8F99A816-E488-41E4-9FA3-846536012284}"</v>
           <d n="SubKeys" t="Hashtable" />
-          <d n="Values" t="Hashtable" />
+          <d n="Values" t="Hashtable" ckt="String" cvt="String">
+            <v>DisabledWarningIds</v>
+            <v>410,5410</v>
+          </d>
         </o>
         <v>{F66C7017-BDD8-4114-926C-81D6D687E35F}</v>
         <o>

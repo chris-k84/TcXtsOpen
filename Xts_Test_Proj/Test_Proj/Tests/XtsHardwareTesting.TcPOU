@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
-  <POU Name="XtsHardwareTesting" Id="{7afd002c-75a0-46c4-9267-fe0bdcc43af0}" SpecialFunc="None">
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="XtsHardwareTesting" Id="{7100db8f-968b-4aaa-80b2-46e14ba4bdc1}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XtsHardwareTesting EXTENDS XTSHardware_V2
 VAR
 	bExecute:		BOOL;
@@ -50,19 +50,7 @@ END_CASE
 {endregion}]]></ST>
     </Implementation>
     <LineIds Name="XtsHardwareTesting">
-      <LineId Id="43" Count="12" />
-      <LineId Id="57" Count="2" />
-      <LineId Id="72" Count="2" />
-      <LineId Id="70" Count="1" />
-      <LineId Id="84" Count="0" />
-      <LineId Id="86" Count="1" />
-      <LineId Id="85" Count="0" />
-      <LineId Id="88" Count="1" />
-      <LineId Id="95" Count="0" />
-      <LineId Id="141" Count="1" />
-      <LineId Id="111" Count="0" />
-      <LineId Id="64" Count="3" />
-      <LineId Id="9" Count="0" />
+      <LineId Id="1" Count="35" />
     </LineIds>
   </POU>
 </TcPlcObject>

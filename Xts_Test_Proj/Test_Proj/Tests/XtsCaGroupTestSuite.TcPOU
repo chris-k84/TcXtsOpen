@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
-  <POU Name="XtsCaGroupTestSuite" Id="{2eaaf776-65bd-4255-8c9b-d74a2ff9abd7}" SpecialFunc="None">
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="XtsCaGroupTestSuite" Id="{136b9f37-13c3-40d8-adf9-d2fba64dd482}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XtsCaGroupTestSuite EXTENDS CollisionGroup
 VAR
 	fbTestSuites : FB_Testsuites;
@@ -24,7 +24,7 @@ CASE fbTestSuite.P_Testcase OF
 	E_Testcase.Done:;	 
 END_CASE]]></ST>
     </Implementation>
-    <Method Name="FB_init" Id="{da707272-400d-49d5-9b07-a89bdade97bb}">
+    <Method Name="FB_init" Id="{58462602-8e2c-450c-911b-b907dd2255de}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
@@ -39,17 +39,10 @@ TestSuiteGVL.fbTestsuites.P_Options.sFilePathName:= 'C:\test\report.xml';]]></ST
       </Implementation>
     </Method>
     <LineIds Name="XtsCaGroupTestSuite">
-      <LineId Id="12" Count="3" />
-      <LineId Id="152" Count="0" />
-      <LineId Id="17" Count="3" />
-      <LineId Id="153" Count="0" />
-      <LineId Id="22" Count="2" />
-      <LineId Id="151" Count="0" />
-      <LineId Id="9" Count="0" />
+      <LineId Id="1" Count="14" />
     </LineIds>
     <LineIds Name="XtsCaGroupTestSuite.FB_init">
-      <LineId Id="8" Count="1" />
-      <LineId Id="7" Count="0" />
+      <LineId Id="1" Count="2" />
     </LineIds>
   </POU>
 </TcPlcObject>
