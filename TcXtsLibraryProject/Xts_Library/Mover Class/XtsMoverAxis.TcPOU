@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <POU Name="XtsMoverAxis" Id="{f9a43ed2-0578-4aed-857c-1a3adef0c7f6}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XtsMoverAxis EXTENDS CyclicBase IMPLEMENTS I_XtsMoverAxis
 VAR
@@ -190,7 +190,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[XtsRunner.AddComponent(THIS^);]]></ST>
+        <ST><![CDATA[XtsRunner.RegisterModule(THIS^);]]></ST>
       </Implementation>
     </Method>
     <Property Name="Gap" Id="{dd72da9d-fc94-421a-8ee7-a84a721dd20c}" FolderPath="Dynamics\">
@@ -235,6 +235,25 @@ END_VAR
 ELSE
 	Gear := -1;
 END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetMoverCtrlOTCID" Id="{6852d0c0-13fb-4a6d-9e8b-5d538e770d2f}" FolderPath="Administration\">
+      <Declaration><![CDATA[METHOD GetMoverCtrlOTCID : XtsMoverControllerOTCID
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetMoverCtrlOTCID := _ipTcIoXtsMover.P_MoverControllerOid;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetMoverOTCID" Id="{0ee3ade7-076c-46ec-8833-0ad2fc45f400}" FolderPath="Administration\">
+      <Declaration><![CDATA[METHOD GetMoverOTCID : OTCID
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[//GetMoverCtrlOTCID := _ipTcIoXtsMover.P_AxisOid;
 ]]></ST>
       </Implementation>
     </Method>
@@ -509,7 +528,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT MoverResetCommand.Busy AND _MyAxisStatus.Error THEN
-	IF MoverResetCommand.Execute() THEN
+	IF MoverResetCommand.Execute() = S_OK THEN
 		ResetAxis := 1;
 	ELSE
 		ResetAxis := -1;
@@ -517,6 +536,28 @@ END_VAR
 ELSE
 	ResetAxis := -1;
 END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetForceCouple" Id="{655fe1cd-78c7-4097-b5c7-b05e68cd5f7e}" FolderPath="Administration\">
+      <Declaration><![CDATA[METHOD SetForceCouple : HRESULT
+VAR_INPUT
+	XtsMoverCtrlOTCID : Tc3_XTS_Utility.XtsMoverControllerOTCID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_ipTcIoXtsMover.MoverController.SetForceCouple(nForceCouple := XtsMoverCtrlOTCID);
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SwapMover" Id="{075d081f-a4ad-470f-95aa-ced1f28cc5a8}" FolderPath="Administration\">
+      <Declaration><![CDATA[METHOD SwapMover : HRESULT
+VAR_INPUT
+    MoverToSwapWith : MoverOTCID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_ipTcIoXtsMover.swapmover(nSwapMoverObjectId := MoverToSwapWith);
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="TriggerMoverArrive" Id="{9bb7f072-ab21-4ec2-9434-ad1366cf5fb7}" FolderPath="Administration\">
@@ -591,6 +632,12 @@ END_VAR
       <LineId Id="3" Count="8" />
       <LineId Id="2" Count="0" />
     </LineIds>
+    <LineIds Name="XtsMoverAxis.GetMoverCtrlOTCID">
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMoverAxis.GetMoverOTCID">
+      <LineId Id="1" Count="1" />
+    </LineIds>
     <LineIds Name="XtsMoverAxis.HaltAxis">
       <LineId Id="3" Count="7" />
       <LineId Id="2" Count="0" />
@@ -661,6 +708,12 @@ END_VAR
     <LineIds Name="XtsMoverAxis.ResetAxis">
       <LineId Id="3" Count="7" />
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XtsMoverAxis.SetForceCouple">
+      <LineId Id="1" Count="1" />
+    </LineIds>
+    <LineIds Name="XtsMoverAxis.SwapMover">
+      <LineId Id="1" Count="1" />
     </LineIds>
     <LineIds Name="XtsMoverAxis.TriggerMoverArrive">
       <LineId Id="2" Count="0" />

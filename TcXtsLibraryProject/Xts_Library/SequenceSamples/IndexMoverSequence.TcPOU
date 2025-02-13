@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <POU Name="IndexMoverSequence" Id="{50af290e-a0d7-45b3-a647-c8828b096bd1}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK IndexMoverSequence EXTENDS CyclicBase
 VAR
@@ -166,7 +166,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[XtsRunner.AddComponent(THIS^);]]></ST>
+        <ST><![CDATA[XtsRunner.RegisterModule(THIS^);]]></ST>
       </Implementation>
     </Method>
     <Property Name="MoverVelocity" Id="{4f2224ad-0534-4bd9-a8e4-5b63b7e53b5c}">
