@@ -52,7 +52,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[GetMoverInterface := XPU.MoverTcIo(MoverID);]]></ST>
+        <ST><![CDATA[GetMoverInterface := XPU.MoverTcIo(MoverID);
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetPartInterface" Id="{a60c8186-f31f-4591-b959-ebb1bad32c7a}">
@@ -150,6 +151,7 @@ END_VAR
     </LineIds>
     <LineIds Name="XTSIOEnvVarWrapper.GetMoverInterface">
       <LineId Id="2" Count="0" />
+      <LineId Id="4" Count="0" />
     </LineIds>
     <LineIds Name="XTSIOEnvVarWrapper.GetPartInterface">
       <LineId Id="2" Count="0" />

@@ -157,18 +157,6 @@ stSequenceInfo.State := State;
 stSequenceInfo.Velocity := ThisMover.AxisRef.NcToPlc.ActVelo;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="FB_init" Id="{b89bce77-cfe9-4671-96f6-b6944812f4ae}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	XtsRunner : I_ObjectRunner;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[XtsRunner.RegisterModule(THIS^);]]></ST>
-      </Implementation>
-    </Method>
     <Property Name="MoverVelocity" Id="{4f2224ad-0534-4bd9-a8e4-5b63b7e53b5c}">
       <Declaration><![CDATA[PROPERTY MoverVelocity : mc_lreal]]></Declaration>
       <Get Name="Get" Id="{0bf3cfa6-cc44-4232-989f-70bced017a55}">
@@ -292,9 +280,6 @@ END_VAR
     </LineIds>
     <LineIds Name="IndexMoverSequence.Cycle">
       <LineId Id="3" Count="113" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="IndexMoverSequence.FB_init">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="IndexMoverSequence.MoverVelocity.Get">
