@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <Itf Name="ICollisionGroup" Id="{3fc566cf-3f15-4187-97a8-f8d156c2ea05}">
     <Declaration><![CDATA[INTERFACE ICollisionGroup
 ]]></Declaration>
     <Method Name="AddMoverToThisGroup" Id="{e0521e35-3414-4dd6-b2e7-4ac92ca8a051}">
       <Declaration><![CDATA[METHOD AddMoverToThisGroup : HRESULT
 VAR_INPUT
-	MoverToAdd : I_XtsMoverAxis;
+	MoverToAdd : ITF_XtsMoverAxis;
 END_VAR
 ]]></Declaration>
     </Method>

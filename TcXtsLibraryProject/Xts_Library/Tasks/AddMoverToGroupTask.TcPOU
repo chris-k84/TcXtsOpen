@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <POU Name="AddMoverToGroupTask" Id="{8561ba4a-bbc2-4a4c-8d8e-313f70a4cd47}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK AddMoverToGroupTask EXTENDS TaskBase
 VAR_INPUT
@@ -29,7 +29,7 @@ State := 0;]]></ST>
     <Method Name="AddMover" Id="{481f5339-50ec-48c8-9b4c-100ecb265f94}">
       <Declaration><![CDATA[METHOD AddMover : BOOL
 VAR_INPUT
-	MoverToAdd : I_XtsMoverAxis;
+	MoverToAdd : ITF_XtsMoverAxis;
 END_VAR
 ]]></Declaration>
       <Implementation>

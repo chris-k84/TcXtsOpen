@@ -16,7 +16,7 @@ VAR
 	i : UINT;
 	AtHome: BOOL;
 	_tracks : UINT;
-	_MoverArray : ARRAY[1..SystemParameters.NumberOfMovers] OF I_XtsMoverAxis;
+	_MoverArray : ARRAY[1..SystemParameters.NumberOfMovers] OF ITF_XtsMoverAxis;
 	EnabledTrigger : R_TRIG;
 	DisabledTrigger : R_TRIG;
 END_VAR]]></Declaration>
@@ -236,7 +236,7 @@ END_VAR
       </Implementation>
     </Method>
     <Property Name="MoverArray" Id="{5c1cfa9c-be49-4324-bcf5-1be968bfce44}">
-      <Declaration><![CDATA[PROPERTY MoverArray : array[1..SystemParameters.NumberOfMovers] of I_XtsMoverAxis]]></Declaration>
+      <Declaration><![CDATA[PROPERTY MoverArray : array[1..SystemParameters.NumberOfMovers] of ITF_XtsMoverAxis]]></Declaration>
       <Get Name="Get" Id="{2b512b99-b3b1-44cb-bf62-7cd45f8e95a6}">
         <Declaration><![CDATA[VAR
 END_VAR

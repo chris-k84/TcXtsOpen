@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <POU Name="HaltMover" Id="{16fe934f-2b92-45c5-becd-cbf7a242dbb1}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK HaltMover EXTENDS TaskBase
 VAR_INPUT
@@ -7,7 +7,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	haltMover : Tc3_McCollisionAvoidance.MC_HaltCA;
+	haltMoverCA : Tc3_McCollisionAvoidance.MC_HaltCA;
 	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;
 	_HaltMover : BOOL;
 END_VAR
@@ -18,7 +18,7 @@ END_VAR
     <Method Name="Abort" Id="{48a4c415-0254-4332-8d1a-2734e5dda505}">
       <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
       <Implementation>
-        <ST><![CDATA[haltMover.Execute := FALSE;
+        <ST><![CDATA[haltMoverCA.Execute := FALSE;
 _Busy := FALSE;
 _HaltMover := FALSE;
 Abort := TRUE;
@@ -39,22 +39,22 @@ CASE State OF
 			_Done := FALSE;
 			_Error := FALSE;
 			_Busy := TRUE;
-			haltMover.Execute := TRUE;
-			IF haltMover.Busy THEN
+			haltMoverCA.Execute := TRUE;
+			IF haltMoverCA.Busy THEN
 				State := 10;
 				_HaltMover := FALSE;
 			END_IF
 		END_IF
 	
 	10:
-		IF NOT haltMover.Busy THEN
-			IF haltMover.Done THEN
+		IF NOT haltMoverCA.Busy THEN
+			IF haltMoverCA.Done THEN
 				_Done := TRUE;
-			ELSIF haltMover.Error THEN
+			ELSIF haltMoverCA.Error THEN
 				_Error := TRUE;
 			END_IF
 			_Busy := FALSE;
-			haltMover.Execute := FALSE;
+			haltMoverCA.Execute := FALSE;
 			State := 0;
 			Cycle := S_OK;
 		END_IF
@@ -62,7 +62,7 @@ CASE State OF
 		Cycle := E_FAIL;
 END_CASE
 
-haltMover(Axis := _Axis);]]></ST>
+haltMoverCA(Axis := _Axis);]]></ST>
       </Implementation>
     </Method>
     <Property Name="Deceleration" Id="{c87d7270-1a2e-466f-a142-6139e2eda06f}">
@@ -72,7 +72,7 @@ haltMover(Axis := _Axis);]]></ST>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Deceleration := haltMover.Deceleration;]]></ST>
+          <ST><![CDATA[Deceleration := haltMoverCA.Deceleration;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{ae2611d3-59b2-4268-a7c2-500b25ff0ec0}">
@@ -80,7 +80,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[haltMover.Deceleration := Deceleration;]]></ST>
+          <ST><![CDATA[haltMoverCA.Deceleration := Deceleration;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -117,7 +117,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Gap := haltMover.Gap;]]></ST>
+          <ST><![CDATA[Gap := haltMoverCA.Gap;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{43b68502-e2f4-4b37-a3be-43a3ab3afcec}">
@@ -125,7 +125,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[haltMover.Gap := Gap;]]></ST>
+          <ST><![CDATA[haltMoverCA.Gap := Gap;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -136,7 +136,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Jerk := haltMover.Jerk;]]></ST>
+          <ST><![CDATA[Jerk := haltMoverCA.Jerk;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{356145f4-af65-48cf-aa74-d0bf709b5382}">
@@ -144,7 +144,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[haltMover.Jerk := Jerk;]]></ST>
+          <ST><![CDATA[haltMoverCA.Jerk := Jerk;]]></ST>
         </Implementation>
       </Set>
     </Property>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <POU Name="XtsEnableSequence" Id="{b7e7ab09-3a30-4ddb-a242-e0b5aa00cbc9}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XtsEnableSequence EXTENDS TaskBase
 VAR_INPUT
@@ -11,7 +11,7 @@ VAR
 	moverNumbers : UINT;
 	AllMoversEnabled: BOOL;
 	EnableTrigger : BOOL;	
-	arrMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF I_XtsMoverAxis;
+	arrMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF ITF_XtsMoverAxis;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
@@ -129,7 +129,7 @@ END_VAR
       </Implementation>
     </Method>
     <Property Name="MoverArray" Id="{2acddb92-7228-4ce1-abf4-c52047e8db87}">
-      <Declaration><![CDATA[PROPERTY MoverArray : array[1..SystemParameters.NumberOfMovers] of I_XtsMoverAxis]]></Declaration>
+      <Declaration><![CDATA[PROPERTY MoverArray : array[1..SystemParameters.NumberOfMovers] of ITF_XtsMoverAxis]]></Declaration>
       <Get Name="Get" Id="{45d4b80a-6470-4599-bc0b-107c251d2b9f}">
         <Declaration><![CDATA[VAR
 END_VAR

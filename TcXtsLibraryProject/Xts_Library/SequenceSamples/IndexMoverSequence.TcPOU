@@ -9,7 +9,7 @@ VAR
 	_MoverVelocity : MC_LREAL := 1000.0;
 	stSequenceInfo : MoverSequenceInfo;
 	StationArray : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess;
-	ThisMover : I_XtsMoverAxis;
+	ThisMover : ITF_XtsMoverAxis;
 	StateMachine : IPmlStateMachine;
 	_startPosition : MC_LREAL;
 	_XtsNoHome : BOOL;
