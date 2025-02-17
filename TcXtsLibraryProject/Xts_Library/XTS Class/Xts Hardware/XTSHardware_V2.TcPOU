@@ -212,9 +212,11 @@ END_VAR
 	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(MyXPUInterface.GetTrackCount()));
 	SetTrackForDetection := TRUE;
 ELSE
-	SetTrackForDetection := TRUE;
-	MyXPUInterface.TrackTcIo(TrackToDetect).SetIsIncludedInDetection(TRUE);
-	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(MyXPUInterface.GetTrackCount()));
+	IF TrackToDetect <= MyTrackCount THEN 
+		SetTrackForDetection := TRUE;
+		MyXPUInterface.TrackTcIo(TrackToDetect).SetIsIncludedInDetection(TRUE);
+		Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(MyXPUInterface.GetTrackCount()));
+	END_IF
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -313,7 +315,10 @@ END_IF]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XTSHardware_V2.SetTrackForDetection">
-      <LineId Id="31" Count="7" />
+      <LineId Id="31" Count="4" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="36" Count="2" />
+      <LineId Id="40" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XTSHardware_V2.TriggerMoverDetection">
