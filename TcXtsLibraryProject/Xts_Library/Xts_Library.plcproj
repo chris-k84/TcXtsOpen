@@ -42,7 +42,7 @@
     <VirtualLibrary>true</VirtualLibrary>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Mover Class\I_XtsMoverAxis.TcIO">
+    <Compile Include="Mover Class\ITF_XtsMoverAxis.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mover Class\XtsMoverAxis.TcPOU">

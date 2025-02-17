@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <POU Name="XTSHardware_V2" Id="{2082c175-1a19-4a3f-b920-8dbd46477756}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XTSHardware_V2 EXTENDS CyclicBase IMPLEMENTS I_Initialise
 VAR
@@ -181,6 +181,25 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Property Name="MyXtsIoEnvVarWrapper" Id="{9f0e6f27-b8f0-452c-b07d-d4d2a7ed1b3b}">
+      <Declaration><![CDATA[PROPERTY MyXtsIoEnvVarWrapper : itf_xtsioenvvarwrapper]]></Declaration>
+      <Get Name="Get" Id="{ef18a883-259a-46c5-ac1a-fd1d0138159b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MyXtsIoEnvVarWrapper := MyXtsIoEnvVarRef;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{3f18a9fd-c75b-45a9-b0a5-a4cb82b21b6b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MyXtsIoEnvVarRef := MyXtsIoEnvVarWrapper;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Method Name="SetTracksForDetection" Id="{33a6fd5d-a8a8-4e54-be38-eeae850dd3e9}">
       <Declaration><![CDATA[METHOD SetTracksForDetection : BOOL
 VAR_INPUT
@@ -267,25 +286,6 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Property Name="XtsIoEnvVarWrapper" Id="{9f0e6f27-b8f0-452c-b07d-d4d2a7ed1b3b}">
-      <Declaration><![CDATA[PROPERTY XtsIoEnvVarWrapper : itf_xtsioenvvarwrapper]]></Declaration>
-      <Get Name="Get" Id="{ef18a883-259a-46c5-ac1a-fd1d0138159b}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[XtsIoEnvVarWrapper := MyXtsIoEnvVarRef;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{3f18a9fd-c75b-45a9-b0a5-a4cb82b21b6b}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[MyXtsIoEnvVarRef := XtsIoEnvVarWrapper;]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
     <LineIds Name="XTSHardware_V2">
       <LineId Id="2" Count="0" />
     </LineIds>
@@ -321,6 +321,12 @@ END_VAR
       <LineId Id="3" Count="4" />
       <LineId Id="2" Count="0" />
     </LineIds>
+    <LineIds Name="XTSHardware_V2.MyXtsIoEnvVarWrapper.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="XTSHardware_V2.MyXtsIoEnvVarWrapper.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
     <LineIds Name="XTSHardware_V2.SetTracksForDetection">
       <LineId Id="3" Count="23" />
       <LineId Id="2" Count="0" />
@@ -331,12 +337,6 @@ END_VAR
     </LineIds>
     <LineIds Name="XTSHardware_V2.TriggerMoverID">
       <LineId Id="3" Count="32" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XTSHardware_V2.XtsIoEnvVarWrapper.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="XTSHardware_V2.XtsIoEnvVarWrapper.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

@@ -8,7 +8,7 @@ VAR
 	_XtsEnabled : BOOL;
 	XtsIoEnvVar : XTSIOEnvVarWrapper;
 	mcCollisionGroup : CollisionGroup;
-	XtsHardware : XTSHardware_V2 := (XtsIoEnvVarWrapper := XtsIoEnvVar);
+	XtsHardware : XTSHardware_V2 := (MyXtsIoEnvVarWrapper := XtsIoEnvVar);
 	XtsHwState : XtsSystemInitialisation;
 	EnableSequence : XtsEnableSequence(mcCollisionGroup);
 	DisableSequence : XtsDisableSequence(mcCollisionGroup);
