@@ -200,36 +200,21 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Method Name="SetTracksForDetection" Id="{33a6fd5d-a8a8-4e54-be38-eeae850dd3e9}">
-      <Declaration><![CDATA[METHOD SetTracksForDetection : BOOL
+    <Method Name="SetTrackForDetection" Id="{33a6fd5d-a8a8-4e54-be38-eeae850dd3e9}">
+      <Declaration><![CDATA[METHOD SetTrackForDetection : BOOL
 VAR_INPUT
+	TrackToDetect : INT;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR i:=1 TO MyXPUInterface.GetTrackCount() DO
-	MyXPUInterface.TrackTcIo(UDINT_TO_UINT(i)).SetIsIncludedInDetection(FALSE);
-END_FOR
-
-IF MyXPUInterface.GetTrackCount() = 1 THEN
+        <ST><![CDATA[IF MyTrackCount = 1 THEN
 	MyXPUInterface.TrackTcIo(1).SetIsIncludedInDetection(TRUE);
 	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(MyXPUInterface.GetTrackCount()));
-	SetTracksForDetection := TRUE;
+	SetTrackForDetection := TRUE;
 ELSE
-	SetTracksForDetection := TRUE;
-	MyXPUInterface.TrackTcIo(1).SetIsIncludedInDetection(TRUE);
+	SetTrackForDetection := TRUE;
+	MyXPUInterface.TrackTcIo(TrackToDetect).SetIsIncludedInDetection(TRUE);
 	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(MyXPUInterface.GetTrackCount()));
-//	CASE _TmsSwitch.Switch OF
-//		TmsSwitchPosition.Up: 
-//			MyXPUInterface.TrackTcIo(3).SetIsIncludedInDetection(TRUE);
-//		TmsSwitchPosition.Middle:
-//			MyXPUInterface.TrackTcIo(1).SetIsIncludedInDetection(TRUE);
-//			MyXPUInterface.TrackTcIo(2).SetIsIncludedInDetection(TRUE);
-//		TmsSwitchPosition.Down:
-//			MyXPUInterface.TrackTcIo(4).SetIsIncludedInDetection(TRUE);
-//		ELSE
-//			SetTracksForDetection := FALSE;
-//	END_CASE
-//	Logger.Send(TC_EVENTS.XtsHardwareEvents.ActiveTracksAddedForDetection, UDINT_TO_STRING(MyXPUInterface.GetTrackCount()));
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -327,8 +312,8 @@ END_IF]]></ST>
     <LineIds Name="XTSHardware_V2.MyXtsIoEnvVarWrapper.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="XTSHardware_V2.SetTracksForDetection">
-      <LineId Id="3" Count="23" />
+    <LineIds Name="XTSHardware_V2.SetTrackForDetection">
+      <LineId Id="31" Count="7" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="XTSHardware_V2.TriggerMoverDetection">

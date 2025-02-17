@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <POU Name="Xts" Id="{4538c683-94fc-49a1-b5ad-30ffec5e4eff}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK Xts IMPLEMENTS ICyclic, I_Initialise
+    <Declaration><![CDATA[FUNCTION_BLOCK ABSTRACT Xts IMPLEMENTS ICyclic, I_Initialise
 VAR
 	_homePosition : MC_LREAL;
 	_HomeSpeed : MC_LREAL;
@@ -15,7 +15,6 @@ VAR
 	State : UINT;	
 	i : UINT;
 	AtHome: BOOL;
-	_tracks : UINT;
 	_MoverArray : ARRAY[1..SystemParameters.NumberOfMovers] OF ITF_XtsMoverAxis;
 	EnabledTrigger : R_TRIG;
 	DisabledTrigger : R_TRIG;
@@ -114,44 +113,6 @@ END_VAR
         <ST><![CDATA[GetTrackByOCTID := XtsHardware.GetTrackByOTCID(trackOTCID := TrackId);]]></ST>
       </Implementation>
     </Method>
-    <Property Name="HomePosition" Id="{7488af26-181d-46aa-9621-c1c9bb1f6cd2}">
-      <Declaration><![CDATA[PROPERTY PUBLIC HomePosition : mc_lreal]]></Declaration>
-      <Get Name="Get" Id="{204400f9-e0e2-4b38-927a-449ec513969c}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[HomePosition := _homePosition;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{21b02a35-3878-4951-a8db-c2a9a5cebc6f}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[_homePosition := HomePosition;]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
-    <Property Name="HomeSpeed" Id="{1d1b8038-88e9-4101-981d-99bed1ba5b18}">
-      <Declaration><![CDATA[PROPERTY HomeSpeed : mc_lreal]]></Declaration>
-      <Get Name="Get" Id="{0a3ad8ef-2031-4e74-8b6e-8a654900fd7a}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[HomeSpeed := _HomeSpeed;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{ddb9be5e-d4fd-4d3d-a099-37476a9afab3}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[_HomeSpeed := HomeSpeed;]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
     <Method Name="Initialise" Id="{3c52ae7d-89c5-4979-a1bd-5023a279947c}">
       <Declaration><![CDATA[METHOD Initialise : HRESULT
 VAR_INPUT
@@ -174,7 +135,7 @@ END_VAR
 		END_IF
 	
 	XtsSystemInitialisation.SetDetection:
-		IF XtsHardware.SetTracksForDetection() THEN
+		IF XtsHardware.SetTrackForDetection(1) THEN
 			XtsHwState := XtsSystemInitialisation.Redetect;
 		END_IF
 		
@@ -198,7 +159,6 @@ END_VAR
 			XtsHwState := XtsSystemInitialisation.MoverIdDetection;
 		ELSE
 			XtsHwState := XtsSystemInitialisation.CheckModuleVoltages;
-			//XtsHwState := XtsSystemInitialisation.MoverIdDetection;
 		END_IF
 		
 	XtsSystemInitialisation.CheckModuleVoltages:
@@ -257,15 +217,12 @@ DisableSequence.MoverArray := MoverArray;]]></ST>
       </Set>
     </Property>
     <Method Name="MoverHomeSequence" Id="{5c2deb91-ebd0-4a93-99ec-6a6bbbd5e076}" FolderPath="Operations\">
-      <Declaration><![CDATA[METHOD PUBLIC MoverHomeSequence : BOOL
+      <Declaration><![CDATA[METHOD PUBLIC Abstract MoverHomeSequence : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR i := 1 TO SystemParameters.NumberOfMovers DO
-	_MoverArray[i].MoveTo(RequiredPosition := _homePosition, MoveVelocity := _HomeSpeed,NonModuloMove := false);
-END_FOR 
-MoverHomeSequence := TRUE;]]></ST>
+        <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
     <Method Name="StopXts" Id="{4b648283-f5f4-4d47-a58f-be53e519365d}" FolderPath="Operations\">
@@ -277,25 +234,6 @@ END_VAR
         <ST><![CDATA[mcCollisionGroup.GroupStop();]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Tracks" Id="{8eb8f4ad-907d-4ff8-9789-8832cf169bda}">
-      <Declaration><![CDATA[PROPERTY PUBLIC Tracks : UINT]]></Declaration>
-      <Get Name="Get" Id="{92aead6c-a657-4c6b-8c96-d2980dde0d91}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Tracks := _tracks;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{a91cec47-6d8c-44af-ab33-578bdff8cace}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[_tracks := Tracks;]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
     <LineIds Name="Xts">
       <LineId Id="2" Count="0" />
     </LineIds>
@@ -320,20 +258,9 @@ END_VAR
     <LineIds Name="Xts.GetTrackByOCTID">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="Xts.HomePosition.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.HomePosition.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.HomeSpeed.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.HomeSpeed.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
     <LineIds Name="Xts.Initialise">
-      <LineId Id="3" Count="55" />
+      <LineId Id="3" Count="39" />
+      <LineId Id="44" Count="14" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="Xts.IsXtsIdle">
@@ -350,16 +277,9 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="Xts.MoverHomeSequence">
-      <LineId Id="3" Count="2" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="Xts.StopXts">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.Tracks.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="Xts.Tracks.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
