@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <POU Name="Machine" Id="{e8d4edde-6e68-4e80-9f5b-2e9346044142}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK Machine EXTENDS PML_Method_Base
 VAR
 	XtsModuleRunner : ObjectRunner;
 	xtsStateMachine : PMLStateMachine;
-	Movers : ARRAY[1..SystemParameters.NumberOfMovers] OF XtsMoverAxis(XtsModuleRunner);
+	Movers : ARRAY[1..SystemParameters.NumberOfMovers] OF XtsMoverAxis;
 	iMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF I_XtsMoverAxis := [Movers[1],Movers[2],
 											Movers[3],Movers[4],
 											Movers[5],Movers[6],
@@ -33,11 +33,11 @@ VAR
 	iStationArray : ARRAY[1..SystemParameters.NumberOfStations] OF IProcess := [Station1,Station2,
 																					Station3,Station4,
 																					Station5];//,Station6];
-	MyXts : Xts(XtsModuleRunner) := (HomePosition := 750.0,
+	MyXts : Xts := (HomePosition := 750.0,
 										HomeSpeed := 1000.0, 
 										Tracks := 1,
 										MoverArray := iMovers);
-	MoverSequences : ARRAY[1..SystemParameters.NumberOfMovers] OF IndexMoverSequence(XtsModuleRunner) := [8((MyStateMachine := xtsStateMachine,
+	MoverSequences : ARRAY[1..SystemParameters.NumberOfMovers] OF IndexMoverSequence := [8((MyStateMachine := xtsStateMachine,
 																				MyStations := iStationArray,
 																				MyStartPosition := MyXts.HomePosition))];	
 	//MoverSequences : ARRAY[1..10] OF SampleSequence(XtsModuleRunner);
@@ -94,8 +94,11 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF XtsModuleRunner.Initialise() = 2 THEN
 	FOR i := 1 TO Xts_Library.SystemParameters.NumberOfMovers DO
+		XtsModuleRunner.RegisterModule(Movers[i]);
+		XtsModuleRunner.RegisterModule(MoverSequences[i]);
 		MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyMover := Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i]; 
 	END_FOR
+	XtsModuleRunner.RegisterModule(MyXts);
 	THIS^.PackMLStateMachine := xtsStateMachine;
 	xtsStateMachine.PmlModeCommand(Mode := E_PMLProtectedUnitMode.ePMLProtUnitMode_Production);
 	xtsStateMachine.PmlStateCommand(Command := E_PMLCommand.ePMLCommand_Abort);
@@ -158,7 +161,11 @@ ipackml.SetStateComplete();]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="Machine.Initialise">
-      <LineId Id="3" Count="8" />
+      <LineId Id="3" Count="0" />
+      <LineId Id="13" Count="2" />
+      <LineId Id="5" Count="1" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="7" Count="4" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="Machine.Resetting">

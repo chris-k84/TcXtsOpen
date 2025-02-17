@@ -38,6 +38,11 @@
     <Folder Include="POUs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="XtsControl.tmc">
+      <SubType>Content</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <PlaceholderReference Include="Pack ML Library">
       <DefaultResolution>Pack ML Library, * (Beckhoff UK)</DefaultResolution>
       <Namespace>Pack_ML_Library</Namespace>
@@ -62,41 +67,10 @@
       <DefaultResolution>Tc3_PackML_V2, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_PackML_V2</Namespace>
     </PlaceholderReference>
-    <PlaceholderReference Include="[Xts Library]">
-      <DefaultResolution>[Xts Library], * (BeckhoffUK)</DefaultResolution>
+    <PlaceholderReference Include="Xts Library">
+      <DefaultResolution>Xts Library, * (BeckhoffUK)</DefaultResolution>
       <Namespace>Xts_Library</Namespace>
     </PlaceholderReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="XtsControl.tmc">
-      <SubType>Content</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <PlaceholderResolution Include="System_VisuElemMeter">
-      <Resolution>VisuElemMeter, * (System)</Resolution>
-    </PlaceholderResolution>
-    <PlaceholderResolution Include="System_VisuElems">
-      <Resolution>VisuElems, * (System)</Resolution>
-    </PlaceholderResolution>
-    <PlaceholderResolution Include="System_VisuElemsSpecialControls">
-      <Resolution>VisuElemsSpecialControls, * (System)</Resolution>
-    </PlaceholderResolution>
-    <PlaceholderResolution Include="System_VisuElemsWinControls">
-      <Resolution>VisuElemsWinControls, * (System)</Resolution>
-    </PlaceholderResolution>
-    <PlaceholderResolution Include="System_VisuElemTextEditor">
-      <Resolution>VisuElemTextEditor, * (System)</Resolution>
-    </PlaceholderResolution>
-    <PlaceholderResolution Include="System_VisuElemXYChart">
-      <Resolution>VisuElemXYChart, * (System)</Resolution>
-    </PlaceholderResolution>
-    <PlaceholderResolution Include="System_VisuInputs">
-      <Resolution>VisuInputs, * (System)</Resolution>
-    </PlaceholderResolution>
-    <PlaceholderResolution Include="System_VisuNativeControl">
-      <Resolution>VisuNativeControl, * (System)</Resolution>
-    </PlaceholderResolution>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>
