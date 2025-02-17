@@ -6,7 +6,7 @@ VAR
 	XtsModuleRunner : ObjectRunner;
 	xtsStateMachine : PMLStateMachine;
 	Movers : ARRAY[1..SystemParameters.NumberOfMovers] OF XtsMoverAxis;
-	iMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF I_XtsMoverAxis := [Movers[1],Movers[2],
+	iMovers : ARRAY[1..SystemParameters.NumberOfMovers] OF ITF_XtsMoverAxis := [Movers[1],Movers[2],
 											Movers[3],Movers[4],
 											Movers[5],Movers[6],
 											Movers[7],Movers[8]];
@@ -67,10 +67,9 @@ END_VAR
 ipackml.SetStateComplete();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Cycle" Id="{a8675662-99c5-487a-bbe7-b5e32c1c2bf4}">
-      <Declaration><![CDATA[METHOD PUBLIC  Cycle : HRESULT
-VAR_INPUT
-END_VAR]]></Declaration>
+    <Method Name="Cycle" Id="{800ade8f-bb7c-4681-a005-35c2c0ff3879}">
+      <Declaration><![CDATA[METHOD Cycle : HRESULT
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.Cycle();
 xtsStateMachine.Cycle();
@@ -154,8 +153,7 @@ ipackml.SetStateComplete();]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="Machine.Cycle">
-      <LineId Id="3" Count="1" />
-      <LineId Id="2" Count="0" />
+      <LineId Id="1" Count="2" />
     </LineIds>
     <LineIds Name="Machine.GetPackML">
       <LineId Id="2" Count="0" />
