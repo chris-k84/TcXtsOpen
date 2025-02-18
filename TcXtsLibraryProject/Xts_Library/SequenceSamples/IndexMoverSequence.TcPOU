@@ -48,7 +48,7 @@ CASE State OF
 		END_IF
 		
 	IndexSequenceState.Available:
-		IF StartIndexing THEN
+		IF ExecuteSequence THEN
 			State := IndexSequenceState.MovingToStart;
 		END_IF
 		
@@ -244,7 +244,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[StartIndexing := true;]]></ST>
+        <ST><![CDATA[ExecuteSequence := true;]]></ST>
       </Implementation>
     </Method>
     <Method Name="StopIndexing" Id="{900759f2-3678-4971-bb8e-5ef12e59dcf0}">
@@ -253,7 +253,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[StartIndexing := false;]]></ST>
+        <ST><![CDATA[ExecuteSequence := false;]]></ST>
       </Implementation>
     </Method>
     <Property Name="XtsNoHome" Id="{7aad9af3-71dc-4b8d-9a2b-19016c2a644b}">

@@ -210,10 +210,6 @@
       <DefaultResolution>Motion Library, * (Beckhoff UK)</DefaultResolution>
       <Namespace>Motion_Library</Namespace>
     </PlaceholderReference>
-    <PlaceholderReference Include="Pack ML Library">
-      <DefaultResolution>Pack ML Library, * (Beckhoff UK)</DefaultResolution>
-      <Namespace>Pack_ML_Library</Namespace>
-    </PlaceholderReference>
     <PlaceholderReference Include="Tc2_MC2">
       <DefaultResolution>Tc2_MC2, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_MC2</Namespace>
