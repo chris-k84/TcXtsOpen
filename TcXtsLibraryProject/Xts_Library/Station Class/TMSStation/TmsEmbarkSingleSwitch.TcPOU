@@ -4,7 +4,7 @@
     <Declaration><![CDATA[FUNCTION_BLOCK TmsEmbarkSingleSwitch EXTENDS Process IMPLEMENTS ITF_SwitchStation
 VAR
 	DepartMover : ITF_XtsMoverAxis;
-	_StateMachine : IPmlStateMachine;
+	ExecuteSequence : BOOL;
 	SwitchAxis : MC2_Axis_Base;
 	_switchLoadPosition : MC_LREAL;
 	_switchUnloadPosition : MC_LREAL;
@@ -66,14 +66,11 @@ CASE State OF
 		State := Ready;
 	
 	Ready:	
-		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Clearing THEN
+		IF ExecuteSequence THEN
 			_Operating := _Complete := _HasMover := FALSE;
 			_Empty := _Ready := TRUE;
 			StationMovers := 0;
 			State := Waiting;
-		END_IF
-		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-			State := Aborting;
 		END_IF
 	
 	Waiting:
@@ -84,41 +81,26 @@ CASE State OF
 			_Ready := FALSE;
 			_Complete := FALSE;
 		END_IF
-		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-			State := Aborting;
-		END_IF
 	
 	HasSwitch:
 		IF SwitchAxis.isAtPosition(position := _switchLoadPosition) THEN
 			State := Boarding;
 		END_IF
-		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-			State := Aborting;
-		END_IF	
 			
 	Boarding:
 		BoardMoverResult := DepartMover.MoveTo(RequiredPosition := _switchPosition, MoveVelocity := _BoardVelocity, NonModuloMove := TRUE);
 		IF DepartMover.isMoverAtPosition(position := _switchPosition) THEN
 			State := BoardingComplete;
 		END_IF
-		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-			State := Aborting;
-		END_IF
 		
 	BoardingComplete:
 		IF SwitchAxis.MoveToPosition(Position := _switchUnloadPosition, Velocity := _SwitchVelocity) THEN
 			State := Moving;
 		END_IF
-		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-			State := Aborting;
-		END_IF
 		
 	Moving:
 		IF NOT SwitchAxis.isStationary() THEN
 			State := ActivateTrackForMover;
-		END_IF
-		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-			State := Aborting;
 		END_IF
 		
 	ActivateTrackForMover:
@@ -143,9 +125,6 @@ CASE State OF
 			_Ready := TRUE;
 			State := Waiting;
 		END_IF
-		IF _StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborting THEN
-			State := Aborting;
-		END_IF	
 
 	Aborting:
 		State := Ready;	
@@ -204,25 +183,6 @@ MoverAway := TRUE;
 ]]></ST>
       </Implementation>
     </Method>
-    <Property Name="MyStateMachine" Id="{38044f44-4136-4e2e-af4a-c892872f52b6}">
-      <Declaration><![CDATA[PROPERTY MyStateMachine : IPmlStateMachine]]></Declaration>
-      <Get Name="Get" Id="{c12ce44b-927c-4f1d-bdae-1b65c759c64e}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[MyStateMachine := _StateMachine;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{1cccd9bd-d62d-45a7-b194-42f3171197ed}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[_StateMachine := MyStateMachine;]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
     <Method Name="ResetLift" Id="{e01d8d04-17e3-496e-b671-f1b1ca8fff28}">
       <Declaration><![CDATA[METHOD ResetLift : HRESULT
 VAR_INPUT
@@ -230,6 +190,25 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[SwitchAxis.ResetAxis();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StartSwitch" Id="{ae2b2fa3-2884-439d-8324-d04aeee3d2a6}">
+      <Declaration><![CDATA[METHOD StartSwitch : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ExecuteSequence := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StopSwitch" Id="{cac109d7-36fe-4bcd-8860-a58bd7cdbe98}">
+      <Declaration><![CDATA[METHOD StopSwitch : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ExecuteSequence := FALSE;
+State := Aborting;]]></ST>
       </Implementation>
     </Method>
     <Property Name="SwitchLoadPosition" Id="{8a954b15-9e2e-45e2-9983-586f0bb0d4ea}">
@@ -346,7 +325,14 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkSingleSwitch.Cycle">
-      <LineId Id="3" Count="95" />
+      <LineId Id="3" Count="13" />
+      <LineId Id="20" Count="8" />
+      <LineId Id="32" Count="4" />
+      <LineId Id="40" Count="5" />
+      <LineId Id="49" Count="4" />
+      <LineId Id="57" Count="4" />
+      <LineId Id="65" Count="22" />
+      <LineId Id="91" Count="7" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="TmsEmbarkSingleSwitch.DisableLift">
@@ -363,14 +349,14 @@ END_VAR
       <LineId Id="3" Count="5" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="TmsEmbarkSingleSwitch.MyStateMachine.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="TmsEmbarkSingleSwitch.MyStateMachine.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
     <LineIds Name="TmsEmbarkSingleSwitch.ResetLift">
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkSingleSwitch.StartSwitch">
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="TmsEmbarkSingleSwitch.StopSwitch">
+      <LineId Id="1" Count="1" />
     </LineIds>
     <LineIds Name="TmsEmbarkSingleSwitch.SwitchLoadPosition.Get">
       <LineId Id="2" Count="0" />

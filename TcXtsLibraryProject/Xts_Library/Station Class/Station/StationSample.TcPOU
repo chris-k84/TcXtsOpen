@@ -1,12 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <POU Name="StationSample" Id="{5d12cef2-4f81-4470-ba05-8f124fe21580}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK StationSample EXTENDS Process
 VAR
 	_OperationTime : TIME := T#1S;
 	Operation : TON;
 	State: INT;
-	StateMachine : IPmlStateMachine;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -19,8 +18,13 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^();
-StationMovers := State := 0;
-Abort := TRUE;]]></ST>
+
+Abort := TRUE;
+_Complete := FALSE;
+_Empty := TRUE;
+_Operating := FALSE;
+_Ready := TRUE;
+StationMovers := State := 0;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Cycle" Id="{b831bddf-8042-4785-99f9-40cdea1773f4}">
@@ -68,15 +72,6 @@ END_IF
 
 Operation(PT := _OperationTime);
 
-IF StateMachine.GetCurrentState() = E_PMLState.ePMLState_Aborted 
-	OR StateMachine.GetCurrentState() = E_PMLState.ePMLState_Stopping THEN
-	_Complete := FALSE;
-	_Empty := TRUE;
-	_Operating := FALSE;
-	_Ready := TRUE;
-	StationMovers := State := 0;
-END_IF
-
 CycleResult := SUPER^.Cycle();
 stInfo.StationProcessTime := _OperationTime;
 
@@ -85,25 +80,6 @@ IF CycleResult = E_FAIL THEN
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Property Name="MyStateMachine" Id="{d366101e-f161-43e4-b621-5f0379710a8f}">
-      <Declaration><![CDATA[PROPERTY MyStateMachine : IPmlStateMachine]]></Declaration>
-      <Get Name="Get" Id="{f168997d-e551-4178-ab83-0bc790585c46}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[MyStateMachine := StateMachine;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{807f3fcf-1e00-46f0-8a7b-28cffe156af8}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[StateMachine := MyStateMachine;]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
     <Property Name="TempPropTime" Id="{4928f043-1047-466d-92d5-fb5212ce41c4}">
       <Declaration><![CDATA[PROPERTY TempPropTime : time]]></Declaration>
       <Get Name="Get" Id="{73c0c3b5-10dd-44f7-bbc4-d091c37d6ab8}">
@@ -129,6 +105,8 @@ END_VAR
     <LineIds Name="StationSample.Abort">
       <LineId Id="5" Count="1" />
       <LineId Id="10" Count="0" />
+      <LineId Id="12" Count="3" />
+      <LineId Id="11" Count="0" />
     </LineIds>
     <LineIds Name="StationSample.Cycle">
       <LineId Id="54" Count="0" />
@@ -140,18 +118,11 @@ END_VAR
       <LineId Id="35" Count="0" />
       <LineId Id="57" Count="0" />
       <LineId Id="36" Count="0" />
-      <LineId Id="58" Count="0" />
-      <LineId Id="37" Count="9" />
+      <LineId Id="45" Count="1" />
       <LineId Id="5" Count="0" />
       <LineId Id="67" Count="0" />
       <LineId Id="66" Count="0" />
       <LineId Id="68" Count="1" />
-    </LineIds>
-    <LineIds Name="StationSample.MyStateMachine.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="StationSample.MyStateMachine.Set">
-      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="StationSample.TempPropTime.Get">
       <LineId Id="2" Count="0" />
