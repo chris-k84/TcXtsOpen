@@ -133,6 +133,12 @@
     <Compile Include="Tasks\XtsEnableSequence.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="XTS Class\XPU\ITF_XTSIOEnvVarWrapper.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XTS Class\XPU\XTSIOEnvVarWrapper.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="XTS Class\Xts Collision Group\CAGroupInfo.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -148,9 +154,6 @@
     <Compile Include="XTS Class\Xts Collision Group\ITF_CAMover.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="XTS Class\Xts Hardware\ITF_XTSIOEnvVarWrapper.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="XTS Class\Xts Hardware\I_XtsTrack.TcIO">
       <SubType>Code</SubType>
     </Compile>
@@ -158,9 +161,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="XTS Class\Xts Hardware\XTSHardware_V2.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="XTS Class\Xts Hardware\XTSIOEnvVarWrapper.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="XTS Class\Xts Hardware\XtsMotorModule.TcPOU">
@@ -188,6 +188,7 @@
     <Folder Include="Tasks" />
     <Folder Include="VISUs" />
     <Folder Include="XTS Class" />
+    <Folder Include="XTS Class\XPU" />
     <Folder Include="XTS Class\Xts Collision Group" />
     <Folder Include="XTS Class\Xts Hardware" />
   </ItemGroup>
