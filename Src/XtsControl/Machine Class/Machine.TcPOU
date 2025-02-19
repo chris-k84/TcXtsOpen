@@ -90,6 +90,11 @@ END_VAR
 		MoverSequences[(Xts_Library.SystemParameters.NumberOfMovers+1)-i].MyMover := Movers[(Xts_Library.SystemParameters.NumberOfMovers+1)-i]; 
 	END_FOR
 	XtsModuleRunner.RegisterModule(MyXts);
+	XtsModuleRunner.RegisterModule(Station1);
+	XtsModuleRunner.RegisterModule(Station2);
+	XtsModuleRunner.RegisterModule(Station3);
+	XtsModuleRunner.RegisterModule(Station4);
+	XtsModuleRunner.RegisterModule(Station5);
 	THIS^.PackMLStateMachine := xtsStateMachine;
 	xtsStateMachine.PmlModeCommand(Mode := E_PMLProtectedUnitMode.ePMLProtUnitMode_Production);
 	xtsStateMachine.PmlStateCommand(Command := E_PMLCommand.ePMLCommand_Abort);
@@ -154,7 +159,7 @@ ipackml.SetStateComplete();]]></ST>
       <LineId Id="3" Count="0" />
       <LineId Id="13" Count="2" />
       <LineId Id="5" Count="1" />
-      <LineId Id="16" Count="0" />
+      <LineId Id="16" Count="5" />
       <LineId Id="7" Count="4" />
       <LineId Id="2" Count="0" />
     </LineIds>
